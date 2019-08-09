@@ -1,16 +1,8 @@
-import { Component } from 'react';
 import './App.css';
+import StatBlock from './Components/StatBlock';
 
-export default class App extends Component {
-  state = {
-    name: 'zephyrus-app',
-  };
+const App = () => (
+    <StatBlock />
+);
 
-  render() {
-    return (
-      <div className="App">
-        <h1>Welcome to {this.state.name}</h1>
-      </div>
-    );
-  }
-}
+export default App;

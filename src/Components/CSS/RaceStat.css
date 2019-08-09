@@ -1,0 +1,24 @@
+.stat-block__race-stat {
+    display: grid;
+    grid-template: min-content min-content / 1fr 1fr;
+    grid-template-areas: 
+    'winrate matchup'
+    'winrate games';
+    grid-column-gap: 5px;
+}
+
+.stat-block__winrate {
+    margin: 0;
+    grid-area: winrate;
+    align-self: center;
+}
+
+.stat-block__matchup {
+    margin: 0;
+    grid-area: matchup;
+}
+
+.stat-block__games {
+    margin: 0;
+    grid-area: games;
+}

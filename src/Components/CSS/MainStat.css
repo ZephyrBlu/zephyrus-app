@@ -1,0 +1,16 @@
+.stat-block__main-stat {
+    display: grid;
+    grid-template-columns: max-content max-content;
+    grid-template-areas: 'title race-stat';
+    grid-column-gap: 10px;
+    align-items: center;
+}
+
+.stat-block__title {
+    margin: 0;
+    grid-area: title;
+}
+
+.stat-block__race-stat--main {
+    grid-area: race-stat;
+}

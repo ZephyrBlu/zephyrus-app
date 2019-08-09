@@ -1,0 +1,23 @@
+.stat-block {
+    display: grid;
+    grid-template: min-content min-content / repeat(3, max-content);
+    grid-template-areas:
+    'main-stat main-stat main-stat'
+    'race-stat1 race-stat2 race-stat3';
+}
+
+.stat-block__main-stat {
+    grid-area: main-stat;
+}
+
+.stat-block__race-stat--position-1 {
+    grid-area: race-stat1;
+}
+
+.stat-block__race-stat--position-2 {
+    grid-area: race-stat2;
+}
+
+.stat-block__race-stat--position-3 {
+    grid-area: race-stat3;
+}
