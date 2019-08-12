@@ -1,0 +1,20 @@
+.Replays {
+    display: grid;
+    grid-template: min-content 1fr / 1fr min-content;
+    grid-template-areas:
+    'header replay-info'
+    'replay-list replay-info';
+    margin: 0;
+    height: 100vh;
+}
+
+.replay-info {
+    grid-area: replay-info;
+    align-self: center;
+    height: 100%;
+    border-left: 1px solid hsl(0, 0%, 47%);
+}
+
+.replay-info__title {
+    font-family: 'Raleway', sans-serif;
+}
