@@ -21,7 +21,7 @@ const ProfileNav = (props) => {
                 <Link
                     key={pageName}
                     getProps={isActive}
-                    to={`${pageName.toLowerCase()}`}
+                    to={`/${pageName.toLowerCase()}`}
                 >
                     {pageName}
                 </Link>
