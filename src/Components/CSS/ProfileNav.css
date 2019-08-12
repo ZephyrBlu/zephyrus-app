@@ -1,0 +1,40 @@
+.ProfileNav {
+    grid-area: nav;
+    border-radius: 25px;
+    transition: 0.8s;
+}
+
+.ProfileNav__link {
+    font-family: Roboto, sans-serif;
+    font-size: 14px;
+    text-decoration: none;
+    padding: 15px 30px;
+    border: 1px solid hsl(0, 0%, 47%);
+    border-left: none;
+    border-right: none;
+    background-color: hsl(240, 80%, 5%);
+    color: hsl(0, 0%, 85%);
+    transition: .3s;
+}
+
+.ProfileNav__link:hover, .ProfileNav__link:focus {
+    background-color: hsl(210, 68%, 47%);
+    cursor: pointer;
+    outline: none;
+}
+
+.ProfileNav__link--active {
+    background-color: #2678c9;
+}
+
+.ProfileNav__link:first-child {
+    border-radius: 25px 0 0 25px;
+    border-left: 1px solid hsl(0, 0%, 47%);
+    padding-left: 30px;
+}
+
+.ProfileNav__link:last-child {
+    border-radius: 0 25px 25px 0;
+    border-right: 1px solid hsl(0, 0%, 47%);
+    padding-right: 30px;
+}
