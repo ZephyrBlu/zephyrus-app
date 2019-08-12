@@ -1,4 +1,4 @@
-import ProfileSection from '../Components/ProfileSection';
+import ProfileSection from '../General/ProfileSection';
 import './CSS/Analysis.css';
 
 const Analysis = () => {

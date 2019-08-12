@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
-import ProfileSection from '../Components/ProfileSection';
-import StatBlock from '../Components/StatBlock';
+import ProfileSection from '../General/ProfileSection';
+import StatBlock from './StatBlock';
 import './CSS/Overview.css';
 
 const Overview = () => {

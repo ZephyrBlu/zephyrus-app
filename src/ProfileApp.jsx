@@ -1,7 +1,7 @@
 import { Router } from '@reach/router';
-import Overview from './Tabs/Overview';
-import Replays from './Tabs/Replays';
-import Analysis from './Tabs/Analysis';
+import Overview from './Components/Overview/Overview';
+import Replays from './Components/Replays/Replays';
+import Analysis from './Components/Analysis/Analysis';
 import './ProfileApp.css';
 
 const ProfileApp = () => (

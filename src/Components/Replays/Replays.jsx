@@ -1,5 +1,5 @@
-import ProfileSection from '../Components/ProfileSection';
-import ReplayList from '../Components/ReplayList';
+import ProfileSection from '../General/ProfileSection';
+import ReplayList from './ReplayList';
 import './CSS/Replays.css';
 
 const Replays = () => {
