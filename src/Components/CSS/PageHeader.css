@@ -1,0 +1,22 @@
+.PageHeader {
+    grid-area: header;
+    background-color: hsl(240, 80%, 5%);
+    height: 120px;
+    display: grid;
+    grid-template-areas: 'page-info page-title nav';
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-items: center;
+    align-items: center;
+    border-bottom: 1px solid hsl(0, 0%, 47%);
+}
+
+.PageHeader__page-title {
+    grid-area: page-title;
+    font-size: 36px;
+    font-weight: normal;
+    margin: 0;
+    color: hsl(0, 0%, 85%);
+    font-family: 'Raleway', sans-serif;
+    width: max-content;
+    display: inline-block;
+}
