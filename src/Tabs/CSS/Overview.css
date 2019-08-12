@@ -1,0 +1,49 @@
+.Overview {
+    display: grid;
+    grid-template: min-content 1fr / min-content 1fr min-content;
+    grid-template-areas:
+    'header header maps'
+    'summary analysis maps';
+    margin: 0;
+    height: 100vh;
+}
+
+.summary-stats {
+    grid-area: summary;
+    margin: 10px;
+}
+
+.analysis-stats {
+    grid-area: analysis;
+    margin: 10px 0 0;
+}
+
+.analysis-stats__stat-type {
+    margin: 20px auto;
+    width: max-content;
+    display: grid;
+    grid-template: 1fr / max-content min-content;
+    grid-template-areas: 'content chart';
+}
+
+.analysis-stats__content {
+    grid-area: content;
+}
+
+.analysis-stats__title {
+    margin: 0;
+}
+
+.analysis-stats__chart {
+    grid-area: chart;
+    width: 400px;
+    height: 100%;
+    background-color: grey;
+}
+
+.map-winrate {
+    grid-area: maps;
+    align-self: center;
+    height: 100%;
+    border-left: 1px solid hsl(0, 0%, 47%);
+}
