@@ -1,0 +1,27 @@
+.ProfileSection {
+    display: grid;
+    grid-template: min-content 1fr / 1fr min-content;
+    grid-template-areas:
+    'header side-bar'
+    'main-content side-bar';
+    margin: 0;
+    height: 100vh;
+}
+
+.ProfileSection--Overview .main-content {
+    display: grid;
+    grid-template: 1fr / min-content 1fr;
+    grid-template-areas: 'summary analysis';
+}
+
+.header {
+    grid-area: header;
+}
+
+.main-content {
+    grid-area: main-content;
+}
+
+.side-bar {
+    grid-area: side-bar;
+}
