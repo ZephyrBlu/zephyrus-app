@@ -1,10 +1,11 @@
-import PageHeader from '../Components/PageHeader';
+import ProfileSection from '../Components/ProfileSection';
 import ReplayList from '../Components/ReplayList';
 import './CSS/Replays.css';
 
-const Replays = () => (
-    <div className="Replays">
-        <PageHeader pageTitle="Profile Overview" />
+const Replays = () => {
+    const pageTitle = 'Replays';
+
+    const mainContent = (
         <ReplayList
             replayList={[
                 {
@@ -41,11 +42,25 @@ const Replays = () => (
                 },
             ]}
         />
-        <section className="replay-info">
+    );
+
+    const sideBar = (
+        <div className="replay-info">
             <h1 className="replay-info__title">Match Summary</h1>
-        </section>
-    </div>
-);
+        </div>
+    );
+
+    return (
+        <div className="Replays">
+            <ProfileSection
+                section="Replays"
+                pageTitle={pageTitle}
+                mainContent={mainContent}
+                sideBar={sideBar}
+            />
+        </div>
+    );
+};
 
 
 export default Replays;
