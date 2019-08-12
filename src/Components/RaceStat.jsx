@@ -1,20 +1,24 @@
 import './CSS/RaceStat.css';
 
 const RaceStat = (props) => {
-    let modifierClass;
+    let classModifier;
     if (props.classModifier) {
-        modifierClass = `stat-block__race-stat--${props.classModifier}`;
+        classModifier = `RaceStat--${props.classModifier}`;
     } else {
-        modifierClass = '';
+        classModifier = '';
     }
 
     return (
         <div
-            className={`stat-block__race-stat ${modifierClass}`}
+            className={`RaceStat ${classModifier}`}
         >
-            <h1 className="stat-block__winrate">{props.winrate}%</h1>
-            <h5 className="stat-block__matchup">{props.matchup}</h5>
-            <h5 className="stat-block__games">{props.games.win}-{props.games.loss}</h5>
+            {classModifier ?
+                <h2 className="RaceStat__winrate">{props.winrate}%</h2>
+                :
+                <h3 className="RaceStat__winrate">{props.winrate}%</h3>
+            }
+            <h5 className="RaceStat__matchup">{props.matchup}</h5>
+            <h5 className="RaceStat__games">{props.games.win}-{props.games.loss}</h5>
         </div>
     );
 };

@@ -2,19 +2,19 @@
 import RaceStat from './RaceStat';
 import './CSS/MainStat.css';
 
-const MainStat = () => {
+const MainStat = (props) => {
     const games = {
         win: 10,
         loss: 20,
     };
 
     return (
-        <div className="stat-block__main-stat">
-            <h1 className="stat-block__title">Main Stat Name</h1>
+        <div className="MainStat">
+            <h2 className="MainStat__title">{props.statName}</h2>
             <RaceStat
                 classModifier="main"
                 winrate={55}
-                matchup="PvP"
+                matchup="Protoss"
                 games={games}
             />
         </div>

@@ -1,23 +1,35 @@
-.stat-block {
+.StatBlock {
+    margin: 10px;
+    margin-bottom: 0;
+}
+
+.StatBlock__title {
+    margin: 0;
+}
+
+.StatBlock__content {
     display: grid;
     grid-template: min-content min-content / repeat(3, max-content);
     grid-template-areas:
     'main-stat main-stat main-stat'
     'race-stat1 race-stat2 race-stat3';
+    padding: 5px;
+    border: 1px solid white;
+    width: min-content;
 }
 
-.stat-block__main-stat {
+.StatBlock .MainStat {
     grid-area: main-stat;
 }
 
-.stat-block__race-stat--position-1 {
+.StatBlock .RaceStat--position-1 {
     grid-area: race-stat1;
 }
 
-.stat-block__race-stat--position-2 {
+.StatBlock .RaceStat--position-2 {
     grid-area: race-stat2;
 }
 
-.stat-block__race-stat--position-3 {
+.StatBlock .RaceStat--position-3 {
     grid-area: race-stat3;
 }
