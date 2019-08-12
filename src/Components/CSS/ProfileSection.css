@@ -24,4 +24,5 @@
 
 .side-bar {
     grid-area: side-bar;
+    width: 340px;
 }

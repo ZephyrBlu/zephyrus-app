@@ -1,6 +1,6 @@
 .StatBlock {
-    margin: 10px;
-    margin-bottom: 0;
+    margin: 0 10px;
+    padding-top: 10px;
 }
 
 .StatBlock__title {
@@ -13,6 +13,7 @@
     grid-template-areas:
     'main-stat main-stat main-stat'
     'race-stat1 race-stat2 race-stat3';
+    margin: 0 auto;
     padding: 5px;
     border: 1px solid white;
     width: min-content;
