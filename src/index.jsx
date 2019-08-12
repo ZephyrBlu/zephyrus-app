@@ -1,16 +1,16 @@
 import { render } from 'react-dom';
-import App from './App';
+import ProfileApp from './ProfileApp';
 
 const root = document.getElementById('root');
 const load = () => render(
     (
-        <App />
+        <ProfileApp />
     ), root,
 );
 
 // This is needed for Hot Module Replacement
 if (module.hot) {
-    module.hot.accept('./App', load);
+    module.hot.accept('./ProfileApp', load);
 }
 
 load();

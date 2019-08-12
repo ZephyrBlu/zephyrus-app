@@ -1,0 +1,21 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:400|Raleway:400|Major+Mono+Display&display=swap');
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: hsl(240, 80%, 7.5%);
+    color: hsl(0, 0%, 85%);
+    margin: 0;
+}
+
+.nav {
+    width: max-content;
+    margin: 0 auto;
+    padding-top: 25px;
+    border-radius: 25px;
+    transition: 0.8s;
+    position: relative;
+}
+
+h1, h2, h3, h4, h5 {
+    font-weight: 400;
+}
