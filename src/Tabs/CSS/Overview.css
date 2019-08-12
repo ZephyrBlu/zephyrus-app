@@ -32,8 +32,5 @@
 }
 
 .map-winrate {
-    grid-area: maps;
     align-self: center;
-    height: 100%;
-    border-left: 1px solid hsl(0, 0%, 47%);
 }
