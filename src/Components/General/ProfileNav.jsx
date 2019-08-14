@@ -1,4 +1,4 @@
-import { Link } from '@reach/router';
+import { Link, navigate } from '@reach/router';
 import './CSS/ProfileNav.css';
 
 const ProfileNav = (props) => {
@@ -8,6 +8,46 @@ const ProfileNav = (props) => {
             :
             { className: 'ProfileNav__link' }
     );
+
+    const handleApiCall = async () => {
+        const url = 'http://127.0.0.1:8000/api/all/';
+        // const token = `Token ${sessionStorage.token}`;
+        // console.log(token);
+        const data = { auth: sessionStorage.token };
+
+        let result;
+        fetch(url, {
+            method: 'POST',
+            headers: {
+
+            },
+            body: JSON.stringify(data),
+        }).then(response => (
+            response.json()
+        )).then((payload) => {
+            console.log(payload);
+            result = payload;
+        });
+
+        console.log(result);
+    };
+
+    const handleLogout = () => {
+        const url = 'http://127.0.0.1:8000/api/logout/';
+
+        const result = fetch(url, {
+            method: 'GET',
+        }).then(response => (
+            response.json()
+        )).then(payload => (
+            payload.response
+        ));
+
+        console.log(result);
+
+        sessionStorage.clear();
+        navigate('/login');
+    };
 
     return (
         <nav className={`ProfileNav ProfileNav--${props.pages[0]}`}>
@@ -26,6 +66,12 @@ const ProfileNav = (props) => {
                     {pageName}
                 </Link>
             ))}
+            <button onClick={handleApiCall}>
+                Send Request
+            </button>
+            <button onClick={handleLogout}>
+                Logout
+            </button>
         </nav>
     );
 };
