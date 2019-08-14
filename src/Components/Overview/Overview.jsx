@@ -3,7 +3,7 @@ import ProfileSection from '../General/ProfileSection';
 import StatBlock from './StatBlock';
 import './CSS/Overview.css';
 
-const Overview = () => {
+const Overview = (props) => {
     const pageTitle = 'Profile Overview';
 
     const mainContent = (
@@ -87,6 +87,7 @@ const Overview = () => {
                 pageTitle={pageTitle}
                 mainContent={mainContent}
                 sideBar={sideBar}
+                handleToken={props.handleToken}
             />
         </div>
     );

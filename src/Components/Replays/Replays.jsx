@@ -2,7 +2,7 @@ import ProfileSection from '../General/ProfileSection';
 import ReplayList from './ReplayList';
 import './CSS/Replays.css';
 
-const Replays = () => {
+const Replays = (props) => {
     const pageTitle = 'Replays';
 
     const mainContent = (
@@ -57,6 +57,7 @@ const Replays = () => {
                 pageTitle={pageTitle}
                 mainContent={mainContent}
                 sideBar={sideBar}
+                handleToken={props.handleToken}
             />
         </div>
     );

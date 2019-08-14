@@ -26,14 +26,17 @@ const ProfileApp = () => {
                 <Redirect from="/login" to="/" />
                 <Overview
                     pageTitle="Profile Overview"
+                    handleToken={updateToken}
                     path="/"
                 />
                 <Replays
                     pageTitle="Replays"
+                    handleToken={updateToken}
                     path="/replays"
                 />
                 <Analysis
                     pageTitle="Trend Analysis"
+                    handleToken={updateToken}
                     path="/analysis"
                 />
             </Router>
