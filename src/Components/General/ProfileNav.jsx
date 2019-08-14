@@ -1,4 +1,4 @@
-import { Link, navigate } from '@reach/router';
+import { Link } from '@reach/router';
 import './CSS/ProfileNav.css';
 
 const ProfileNav = (props) => {
@@ -15,8 +15,7 @@ const ProfileNav = (props) => {
         // console.log(token);
         const data = { auth: sessionStorage.token };
 
-        let result;
-        fetch(url, {
+        const result = await fetch(url, {
             method: 'POST',
             headers: {
 
@@ -24,29 +23,28 @@ const ProfileNav = (props) => {
             body: JSON.stringify(data),
         }).then(response => (
             response.json()
-        )).then((payload) => {
-            console.log(payload);
-            result = payload;
-        });
+        )).then(payload => (
+            payload
+        ));
 
         console.log(result);
     };
 
-    const handleLogout = () => {
+    const handleLogout = async () => {
         const url = 'http://127.0.0.1:8000/api/logout/';
 
-        const result = fetch(url, {
+        const result = await fetch(url, {
             method: 'GET',
         }).then(response => (
             response.json()
-        )).then(payload => (
-            payload.response
+        )).then(details => (
+            details.response
         ));
 
         console.log(result);
 
         sessionStorage.clear();
-        navigate('/login');
+        props.handleToken(null);
     };
 
     return (
