@@ -25,31 +25,29 @@ const LoginForm = (props) => {
 
         const loginUrl = 'http://127.0.0.1:8000/api/login/';
 
-        let error;
         const data = {
             username: usernameValue,
             password: passwordValue,
         };
 
-        const authToken = await fetch(loginUrl, {
+        const error = await fetch(loginUrl, {
             method: 'POST',
             headers: {
-                // 'Cache-Control': 'max-age=0, no-cache, no-store, must-revalidate',
-                // 'Content-Type': 'application/json',
+                'Cache-Control': 'max-age=0, no-cache, no-store, must-revalidate',
+                'Content-Type': 'application/json',
             },
             body: JSON.stringify(data),
-        }).then(response => (
-            response.json()
-        )).then(token => (
-            token.token
-        ));
+        }).then((response) => {
+            if (response.status !== 200) {
+                throw new Error(`${response.status} ${response.statusText}`);
+            }
+            return response.json();
+        }).then(responseBody => (
+            onGetToken(responseBody.token)
+        )).catch(requestError => (requestError));
 
-        if (authToken) {
-            onGetToken(authToken);
-        } else if (authToken === null) {
-            alert(`The request failed due to ${error}`);
-        } else {
-            alert('The username and/or password entered were invalid');
+        if (error) {
+            alert('Your username and/or password were incorrect');
         }
     };
 
