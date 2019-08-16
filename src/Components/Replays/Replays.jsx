@@ -1,11 +1,13 @@
-import { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
+import { setReplays } from '../../actions';
 import ProfileSection from '../General/ProfileSection';
 import ReplayList from './ReplayList';
 import './CSS/Replays.css';
 
-const Replays = (props) => {
-    const [userReplays, setUserReplays] = useState(null);
-    const token = `Token ${sessionStorage.token}`;
+const Replays = () => {
+    let token;
+    useSelector((state) => { token = `Token ${state.token}`; });
 
     useEffect(() => {
         const getUserReplays = async () => {
@@ -23,7 +25,7 @@ const Replays = (props) => {
             )).catch(() => (null));
 
             if (data) {
-                setUserReplays(data);
+                useDispatch(setReplays(data));
             } else {
                 alert('Something went wrong. Try again');
             }
@@ -31,7 +33,7 @@ const Replays = (props) => {
         getUserReplays();
     }, []);
 
-    console.log(userReplays);
+    useSelector(state => console.log(state.replayList));
 
     const pageTitle = 'Replays';
 
@@ -87,7 +89,6 @@ const Replays = (props) => {
                 pageTitle={pageTitle}
                 mainContent={mainContent}
                 sideBar={sideBar}
-                handleToken={props.handleToken}
             />
         </div>
     );

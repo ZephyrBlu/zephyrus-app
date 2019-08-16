@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { Router, Redirect } from '@reach/router';
 import LoginForm from './Components/LoginForm';
 import Overview from './Components/Overview/Overview';
@@ -7,36 +7,24 @@ import Analysis from './Components/Analysis/Analysis';
 import './ProfileApp.css';
 
 const ProfileApp = () => {
-    const [authorizationToken, setAuthorizationToken] = useState(null);
-
-    if (!sessionStorage.token && authorizationToken) {
-        sessionStorage.token = authorizationToken;
-    }
-
-    const updateToken = (newToken) => {
-        setAuthorizationToken(newToken);
-    };
-
-    const currentToken = sessionStorage.token;
+    let token;
+    useSelector((state) => { token = state.token; });
 
     let app;
-    if (currentToken) {
+    if (token) {
         app = (
             <Router>
                 <Redirect from="/login" to="/" />
                 <Overview
                     pageTitle="Profile Overview"
-                    handleToken={updateToken}
                     path="/"
                 />
                 <Replays
                     pageTitle="Replays"
-                    handleToken={updateToken}
                     path="/replays"
                 />
                 <Analysis
                     pageTitle="Trend Analysis"
-                    handleToken={updateToken}
                     path="/analysis"
                 />
             </Router>
@@ -46,8 +34,6 @@ const ProfileApp = () => {
             <Router>
                 <Redirect from="/*" to="/login" />
                 <LoginForm
-                    authToken={currentToken}
-                    handleToken={updateToken}
                     path="/login"
                 />
             </Router>

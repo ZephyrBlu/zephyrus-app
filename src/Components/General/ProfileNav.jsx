@@ -1,8 +1,11 @@
+import { useSelector, useDispatch } from 'react-redux';
 import { Link } from '@reach/router';
+import { setAuthToken } from '../../actions';
 import './CSS/ProfileNav.css';
 
 const ProfileNav = (props) => {
-    const token = `Token ${sessionStorage.token}`;
+    let token;
+    useSelector((state) => { token = `Token ${state.token}`; });
 
     const isActive = ({ isCurrent }) => (
         isCurrent ?
@@ -27,8 +30,7 @@ const ProfileNav = (props) => {
             alert('Something went wrong. Please try to logout again');
         }
 
-        sessionStorage.clear();
-        props.handleToken(null);
+        useDispatch(setAuthToken(null));
     };
 
     return (

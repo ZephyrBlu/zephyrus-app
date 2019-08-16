@@ -1,6 +1,8 @@
+import { useDispatch } from 'react-redux';
 import { useState } from 'react';
+import { setAuthToken } from '../actions';
 
-const LoginForm = (props) => {
+const LoginForm = () => {
     const [usernameValue, setUsernameValue] = useState('');
     const [passwordValue, setPasswordValue] = useState('');
 
@@ -12,12 +14,10 @@ const LoginForm = (props) => {
         setPasswordValue(event.target.value);
     };
 
+    // update redux store with auth token
     const onGetToken = (token) => {
-        props.handleToken(token);
-        props.navigate('/');
+        useDispatch(setAuthToken(token));
     };
-
-    console.log(props.authToken);
 
     const handleSubmit = async (event) => {
         // prevents form action to reload page
