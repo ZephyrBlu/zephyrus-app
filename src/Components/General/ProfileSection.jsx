@@ -5,7 +5,6 @@ const ProfileSection = props => (
     <div className={`ProfileSection ProfileSection--${props.section}`}>
         <PageHeader
             pageTitle={props.pageTitle}
-            handleToken={props.handleToken}
         />
         <section className="main-content">
             {props.mainContent}
