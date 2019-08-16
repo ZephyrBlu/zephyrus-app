@@ -1,10 +1,17 @@
 import { render } from 'react-dom';
+import { createStore } from 'redux';
+import { Provider } from 'react-redux';
+import profileInfo from './reducers';
 import ProfileApp from './ProfileApp';
+
+const store = createStore(profileInfo);
 
 const root = document.getElementById('root');
 const load = () => render(
     (
-        <ProfileApp />
+        <Provider store={store}>
+            <ProfileApp />
+        </Provider>
     ), root,
 );
 
