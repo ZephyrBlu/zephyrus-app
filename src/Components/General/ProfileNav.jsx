@@ -2,6 +2,8 @@ import { Link } from '@reach/router';
 import './CSS/ProfileNav.css';
 
 const ProfileNav = (props) => {
+    const token = `Token ${sessionStorage.token}`;
+
     const isActive = ({ isCurrent }) => (
         isCurrent ?
             { className: 'ProfileNav__link ProfileNav__link--active' }
@@ -9,39 +11,21 @@ const ProfileNav = (props) => {
             { className: 'ProfileNav__link' }
     );
 
-    const handleApiCall = async () => {
-        const url = 'http://127.0.0.1:8000/api/all/';
-        // const token = `Token ${sessionStorage.token}`;
-        // console.log(token);
-        const data = { auth: sessionStorage.token };
-
-        const result = await fetch(url, {
-            method: 'POST',
-            headers: {
-
-            },
-            body: JSON.stringify(data),
-        }).then(response => (
-            response.json()
-        )).then(payload => (
-            payload
-        ));
-
-        console.log(result);
-    };
-
     const handleLogout = async () => {
         const url = 'http://127.0.0.1:8000/api/logout/';
 
-        const result = await fetch(url, {
+        const error = await fetch(url, {
             method: 'GET',
+            headers: {
+                Authorization: token,
+            },
         }).then(response => (
-            response.json()
-        )).then(details => (
-            details.response
+            response.status === 200 ? null : `${response.status} ${response.statusText}`
         ));
 
-        console.log(result);
+        if (error) {
+            alert('Something went wrong. Please try to logout again');
+        }
 
         sessionStorage.clear();
         props.handleToken(null);
@@ -64,9 +48,6 @@ const ProfileNav = (props) => {
                     {pageName}
                 </Link>
             ))}
-            <button onClick={handleApiCall}>
-                Send Request
-            </button>
             <button onClick={handleLogout}>
                 Logout
             </button>

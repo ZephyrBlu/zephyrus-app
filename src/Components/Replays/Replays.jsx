@@ -1,8 +1,38 @@
+import { useState, useEffect } from 'react';
 import ProfileSection from '../General/ProfileSection';
 import ReplayList from './ReplayList';
 import './CSS/Replays.css';
 
 const Replays = (props) => {
+    const [userReplays, setUserReplays] = useState(null);
+    const token = `Token ${sessionStorage.token}`;
+
+    useEffect(() => {
+        const getUserReplays = async () => {
+            const url = 'http://127.0.0.1:8000/api/all/';
+
+            const data = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    Authorization: token,
+                },
+            }).then(response => (
+                response.json()
+            )).then(responseBody => (
+                responseBody
+            )).catch(() => (null));
+
+            if (data) {
+                setUserReplays(data);
+            } else {
+                alert('Something went wrong. Try again');
+            }
+        };
+        getUserReplays();
+    }, []);
+
+    console.log(userReplays);
+
     const pageTitle = 'Replays';
 
     const mainContent = (
