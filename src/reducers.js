@@ -1,12 +1,7 @@
 import { combineReducers } from 'redux';
 import { SET_REPLAYS, SET_AUTHENTICATION_TOKEN } from './actions';
 
-const initialState = {
-    replayList: [],
-    token: null,
-};
-
-const replayList = (state = initialState.replayList, action) => {
+const replayList = (state = [], action) => {
     switch (action.type) {
         case SET_REPLAYS:
             return {
@@ -21,7 +16,7 @@ const replayList = (state = initialState.replayList, action) => {
     }
 };
 
-const token = (state = initialState.token, action) => {
+const token = (state = null, action) => {
     switch (action.type) {
         case SET_AUTHENTICATION_TOKEN:
             return action.token;
