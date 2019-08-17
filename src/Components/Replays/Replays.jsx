@@ -6,8 +6,11 @@ import ReplayList from './ReplayList';
 import './CSS/Replays.css';
 
 const Replays = () => {
-    let token;
-    useSelector((state) => { token = `Token ${state.token}`; });
+    const dispatch = useDispatch();
+    const token = useSelector(state => `Token ${state.token}`);
+    const userReplays = useSelector(state => state.replayList);
+
+    console.log(userReplays);
 
     useEffect(() => {
         const getUserReplays = async () => {
@@ -25,15 +28,13 @@ const Replays = () => {
             )).catch(() => (null));
 
             if (data) {
-                useDispatch(setReplays(data));
+                dispatch(setReplays(data));
             } else {
                 alert('Something went wrong. Try again');
             }
         };
         getUserReplays();
     }, []);
-
-    useSelector(state => console.log(state.replayList));
 
     const pageTitle = 'Replays';
 

@@ -7,8 +7,10 @@ import Analysis from './Components/Analysis/Analysis';
 import './ProfileApp.css';
 
 const ProfileApp = () => {
-    let token;
-    useSelector((state) => { token = state.token; });
+    let token = useSelector(state => state.token);
+    if (sessionStorage.token && !token) {
+        token = sessionStorage;
+    }
 
     let app;
     if (token) {

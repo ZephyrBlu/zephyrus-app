@@ -4,8 +4,8 @@ import { setAuthToken } from '../../actions';
 import './CSS/ProfileNav.css';
 
 const ProfileNav = (props) => {
-    let token;
-    useSelector((state) => { token = `Token ${state.token}`; });
+    const dispatch = useDispatch();
+    const token = useSelector(state => `Token ${state.token}`);
 
     const isActive = ({ isCurrent }) => (
         isCurrent ?
@@ -29,8 +29,8 @@ const ProfileNav = (props) => {
         if (error) {
             alert('Something went wrong. Please try to logout again');
         }
-
-        useDispatch(setAuthToken(null));
+        sessionStorage.clear();
+        dispatch(setAuthToken(null));
     };
 
     return (

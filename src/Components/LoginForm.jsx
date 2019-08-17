@@ -5,6 +5,7 @@ import { setAuthToken } from '../actions';
 const LoginForm = () => {
     const [usernameValue, setUsernameValue] = useState('');
     const [passwordValue, setPasswordValue] = useState('');
+    const dispatch = useDispatch();
 
     const handleUsernameInput = (event) => {
         setUsernameValue(event.target.value);
@@ -15,8 +16,9 @@ const LoginForm = () => {
     };
 
     // update redux store with auth token
-    const onGetToken = (token) => {
-        useDispatch(setAuthToken(token));
+    const onGetToken = (newToken) => {
+        dispatch(setAuthToken(newToken));
+        sessionStorage.token = newToken;
     };
 
     const handleSubmit = async (event) => {
