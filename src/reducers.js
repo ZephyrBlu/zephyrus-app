@@ -1,20 +1,9 @@
 import { combineReducers } from 'redux';
-import { SET_REPLAYS, SET_AUTHENTICATION_TOKEN } from './actions';
-
-const replayList = (state = [], action) => {
-    switch (action.type) {
-        case SET_REPLAYS:
-            return {
-                ...state,
-                replayList: [
-                    ...action.replayList,
-                ],
-            };
-
-        default:
-            return state;
-    }
-};
+import {
+    SET_AUTHENTICATION_TOKEN,
+    SET_REPLAYS,
+    SET_SELECTED_REPLAY_HASH,
+} from './actions';
 
 const token = (state = null, action) => {
     switch (action.type) {
@@ -26,9 +15,33 @@ const token = (state = null, action) => {
     }
 };
 
+const replayList = (state = [], action) => {
+    switch (action.type) {
+        case SET_REPLAYS:
+            return [
+                ...state,
+                ...action.replayList,
+            ];
+
+        default:
+            return state;
+    }
+};
+
+const selectedReplayHash = (state = null, action) => {
+    switch (action.type) {
+        case SET_SELECTED_REPLAY_HASH:
+            return action.replayHash;
+
+        default:
+            return state;
+    }
+};
+
 const profileInfo = combineReducers({
-    replayList,
     token,
+    replayList,
+    selectedReplayHash,
 });
 
 export default profileInfo;
