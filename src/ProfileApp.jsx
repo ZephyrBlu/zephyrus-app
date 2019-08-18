@@ -1,5 +1,6 @@
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { Router, Redirect } from '@reach/router';
+import { setAuthToken } from './actions';
 import LoginForm from './Components/LoginForm';
 import Overview from './Components/Overview/Overview';
 import Replays from './Components/Replays/Replays';
@@ -7,9 +8,11 @@ import Analysis from './Components/Analysis/Analysis';
 import './ProfileApp.css';
 
 const ProfileApp = () => {
+    const dispatch = useDispatch();
     let token = useSelector(state => state.token);
     if (sessionStorage.token && !token) {
-        token = sessionStorage;
+        token = sessionStorage.token;
+        dispatch(setAuthToken(token));
     }
 
     let app;
