@@ -26,5 +26,37 @@
     grid-area: side-bar;
     height: 100%;
     border-left: 1px solid hsl(0, 0%, 47%);
-    width: 340px;
+    width: max-content;
+    display: grid;
+    grid-template: 1fr min-content / 1fr;
+    grid-template-areas:
+    'content'
+    'logout';
+}
+
+.side-bar__content {
+    grid-area: content;
+}
+
+.side-bar__logout {
+    grid-area: logout;
+    width: min-content;
+    justify-self: center;
+    margin-bottom: 20px;
+    font-family: Roboto, sans-serif;
+    font-size: 14px;
+    text-decoration: none;
+    padding: 15px 60px;
+    border: 1px solid hsl(0, 0%, 47%);
+    border-radius: 25px;
+    background-color: hsl(240, 80%, 5%);
+    color: hsl(0, 0%, 85%);
+    transition: .3s;
+    cursor: pointer;
+}
+
+.side-bar__logout:hover, .side-bar__logout:focus {
+    background-color: hsl(210, 68%, 47%);
+    cursor: pointer;
+    outline: none;
 }
