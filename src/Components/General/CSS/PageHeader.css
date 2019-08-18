@@ -4,7 +4,7 @@
     height: 120px;
     display: grid;
     grid-template-areas: 'page-info page-title nav';
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr max-content 1fr;
     justify-items: center;
     align-items: center;
     border-bottom: 1px solid hsl(0, 0%, 47%);
@@ -17,6 +17,5 @@
     margin: 0;
     color: hsl(0, 0%, 85%);
     font-family: 'Raleway', sans-serif;
-    width: max-content;
     display: inline-block;
 }

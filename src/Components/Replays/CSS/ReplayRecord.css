@@ -1,8 +1,8 @@
 .ReplayRecord {
     display: grid;
-    grid-template: 1fr / repeat(5, 1fr);
+    grid-template: 1fr / repeat(6, 1fr);
     grid-template-areas:
-    'matchup game-length result date players';
+    'matchup game-length result date player1 player2';
     align-items: center;
     justify-items: center;
     height: min-content;

@@ -1,6 +1,6 @@
 .ReplayList {
     grid-area: replay-list;
-    margin: 40px;
+    margin: 25px 25px 20px;
     padding: 20px;
     background-color: hsl(240, 50%, 10%);
     border-radius: 25px;
