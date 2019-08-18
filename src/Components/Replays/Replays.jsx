@@ -126,9 +126,75 @@ const Replays = () => {
         />
     );
 
+    console.log(selectedReplayInfo);
     const sideBar = (
         <div className="replay-info">
             <h1 className="replay-info__title">Match Summary</h1>
+            <div className="replay-info__stats">
+                {selectedReplay &&
+                    <Fragment>
+                        <h3 className="replay-info__result">
+                            {selectedReplay.win ?
+                                <span className="replay-info__result--win">Win</span>
+                                :
+                                <span className="replay-info__result--loss">Loss</span>
+                            }
+                            {`\xa0\xa0\xa0${selectedReplay.map}\xa0\xa0
+                            ${selectedReplay.players[1].race.slice(0, 1)}v${selectedReplay.players[2].race.slice(0, 1)}
+                            \xa0
+                            ${Math.ceil(selectedReplay.match_length / 60)} min`}
+                        </h3>
+                        <table className="replay-info__stats-summary">
+                            <thead>
+                                <tr>
+                                    <th className="replay-info__player-name" />
+                                    <th className="replay-info__player-name">
+                                        {`${selectedReplay.players[1].name.slice(clanTagIndex(selectedReplay.players[1].name))}
+                                        (${selectedReplay.players[1].race.slice(0, 1)})`}
+                                    </th>
+                                    <th className="replay-info__player-name">
+                                        {`${selectedReplay.players[2].name.slice(clanTagIndex(selectedReplay.players[2].name))}
+                                        (${selectedReplay.players[2].race.slice(0, 1)})`}
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {selectedReplayInfo !== null && Object.entries(selectedReplayInfo).map(([stat, values]) => (
+                                    <tr key={`${stat}${values[1]}${values[2]}`}>
+                                        <td key={stat}>{stat}</td>
+                                        <td key={values[1]}>
+                                            <span
+                                                key={`${values[1]}-span`}
+                                                className={`replay-info__stat replay-info__stat-${stat.split(' ').join('')} ${values[1] > values[2] ?
+                                                    `replay-info__stat--win replay-info__stat-${stat.split(' ').join('')}--win`
+                                                    :
+                                                    `replay-info__stat--loss replay-info__stat-${stat.split(' ').join('')}--loss`}
+                                                `}
+                                            >
+                                                {values[1]}
+                                            </span>
+                                        </td>
+                                        <td key={values[2]}>
+                                            <span
+                                                key={`${values[2]}-span`}
+                                                className={`replay-info__stat replay-info__stat-${stat.split(' ').join('')} ${values[2] > values[1] ?
+                                                    `replay-info__stat--win replay-info__stat-${stat.split(' ').join('')}--win`
+                                                    :
+                                                    `replay-info__stat--loss replay-info__stat-${stat.split(' ').join('')}--loss`}
+                                                `}
+                                            >
+                                                {values[2]}
+                                            </span>
+                                        </td>
+                                    </tr>
+                                ))}
+
+                            </tbody>
+                        </table>
+                    </Fragment>
+                }
+                {!selectedReplayInfo && <h2 className="replay-info__default">Select a replay to view</h2>}
+            </div>
         </div>
     );
 
