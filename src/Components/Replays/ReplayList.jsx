@@ -1,34 +1,21 @@
-import { useState } from 'react';
 import ReplayRecord from './ReplayRecord';
 import './CSS/ReplayList.css';
 
-const ReplayList = (props) => {
-    const [selectedReplay, setSelectedReplay] = useState(null);
+const ReplayList = props => (
+    <section className="ReplayList">
+        {props.replayList.map((replayInfo) => {
+            const stats = replayInfo;
+            const { fileHash, ...newStats } = stats;
 
-    const changeReplaySelection = (newReplaySelection) => {
-        setSelectedReplay(newReplaySelection);
-    };
-
-    const checkSelection = (mu) => {
-        if (selectedReplay === mu) {
-            return true;
-        }
-        return false;
-    };
-
-    return (
-        <section className="ReplayList">
-            {props.replayList.map((replayInfo, index) => (
+            return (
                 <ReplayRecord
-                    key={`replay-${index}`}
-                    identifier={selectedReplay}
-                    summary={{ ...replayInfo }}
-                    selected={checkSelection(replayInfo.matchup)}
-                    onReplaySelection={changeReplaySelection}
+                    key={fileHash}
+                    hash={fileHash}
+                    stats={newStats}
                 />
-            ))}
-        </section>
-    );
-};
+            );
+        })}
+    </section>
+);
 
 export default ReplayList;

@@ -1,8 +1,13 @@
+import { useDispatch, useSelector } from 'react-redux';
+import { setSelectedReplayHash } from '../../actions';
 import './CSS/ReplayRecord.css';
 
 const ReplayRecord = (props) => {
+    const dispatch = useDispatch();
+    const selectedReplayHash = useSelector(state => state.selectedReplayHash);
+
     const handleReplaySelection = () => {
-        props.onReplaySelection(props.summary.matchup);
+        dispatch(setSelectedReplayHash(props.hash));
     };
 
     const handleKeyDown = (key) => {
@@ -16,24 +21,21 @@ const ReplayRecord = (props) => {
             role="button"
             tabIndex={0}
             className={
-                props.selected ?
-                    `ReplayRecord ReplayRecord--${props.summary.result.toLowerCase()}-selected`
+                selectedReplayHash && selectedReplayHash === props.hash ?
+                    `ReplayRecord ReplayRecord--${props.stats.result.toLowerCase()}-selected`
                     :
-                    `ReplayRecord ReplayRecord--${props.summary.result.toLowerCase()}`
+                    `ReplayRecord ReplayRecord--${props.stats.result.toLowerCase()}`
             }
             onClick={() => handleReplaySelection()}
             onKeyDown={e => handleKeyDown(e.key)}
         >
-            {Object.keys(props.summary).map(replayInfoField => (
-                <span className={`ReplayRecord__${replayInfoField}`}>
-                    {typeof (props.summary[replayInfoField]) === 'object' ?
-                        Object.keys(props.summary[replayInfoField]).map(dataKey => (
-                            Object.values(props.summary[replayInfoField][dataKey]).map(value => (
-                                `${value} `
-                            ))
-                        ))
-                        :
-                        props.summary[replayInfoField]
+            {Object.keys(props.stats).map(replayInfoField => (
+                <span
+                    key={`${replayInfoField}`}
+                    className={`ReplayRecord__${replayInfoField}`}
+                >
+                    {replayInfoField === 'gameLength' ?
+                        `${props.stats[replayInfoField]} min` : props.stats[replayInfoField]
                     }
                 </span>
             ))}
