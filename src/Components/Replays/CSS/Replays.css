@@ -1,8 +1,76 @@
 .replay-info {
-    align-self: center; 
+    width: 475px;
+    font-weight: normal;
+    align-self: center;
+    display: grid;
+    grid-template: min-content 1fr / 1fr;
+    grid-template-areas:
+    'info-title'
+    'info-stats';
 }
 
 .replay-info__title {
-    font-family: 'Raleway', sans-serif;
+    grid-area: info-title;
+    margin: 20px 0;
+    justify-self: center;
+}
+
+.replay-info__stats {
+    grid-area: info-stats;
+    display: grid;
+    grid-template: min-content 1fr / max-content;
+    grid-template-areas:
+    'replay-info-result'
+    'replay-info-stats';
+    justify-self: center;
+}
+
+.replay-info__result {
+    grid-area: replay-info-result;
+    justify-self: center;
     margin: 0;
+}
+
+.replay-info__result--win {
+    color: hsl(120, 100%, 40%);
+}
+
+.replay-info__result--loss {
+    color: hsl(0, 100%, 40%);
+}
+
+.replay-info__stats-summary {
+    grid-area: replay-info-stats;
+    justify-self: center;
+    margin: 0;
+    border-spacing: 12px 22px;
+    table-layout:fixed;
+}
+
+.replay-info__stats-summary td {
+    width: min-content;
+    text-align: center;
+}
+
+.replay-info__stat {
+    padding: 8px 25px;
+    border-radius: 15px;
+}
+
+.replay-info__stat-WorkersLost, .replay-info__stat-AvgUnspentResources {
+    border: 1px solid hsla(120, 100%, 40%, 0.6);
+}
+
+td .replay-info__stat--win {
+    border: 1px solid hsla(120, 100%, 40%, 0.6);
+}
+
+td .replay-info__stat--win.replay-info__stat-WorkersLost--win,
+td .replay-info__stat-AvgUnspentResources--win {
+    border: 1px solid transparent;
+}
+
+.replay-info__player-name {
+    font-weight: 400;
+    background-color: transparent;
 }
