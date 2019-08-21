@@ -1,0 +1,51 @@
+.trends {
+    background-color: hsl(240, 50%, 10%);
+    width: max-content;
+    margin: 40px auto 0;
+    padding: 25px;
+    padding-bottom: 1px;
+    border-radius: 25px;
+}
+
+.trends__stat {
+    display: grid;
+    grid-template: min-content min-content / max-content max-content max-content;
+    grid-template-areas:
+    'stat-title stat-title stat-title'
+    'average win loss';
+    grid-column-gap: 20px;
+    margin-bottom: 30px;
+}
+
+.trends__stat-title-area {
+    grid-area: stat-title;
+}
+
+.trends__stat-title {
+    display: inline-block;
+    margin: 0 0 5px;
+}
+
+.trends__stat-tooltip {
+    grid-area: stat-tooltip;
+}
+
+.trends__average {
+    grid-area: average;
+}
+
+.trends__win {
+    grid-area: win;
+}
+
+.trends__loss {
+    grid-area: loss;
+}
+
+.trends__trend--positive {
+    color: hsl(120, 100%, 40%);
+}
+
+.trends__trend--negative {
+    color: hsl(0, 100%, 40%);
+}
