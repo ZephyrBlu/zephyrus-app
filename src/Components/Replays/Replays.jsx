@@ -31,8 +31,6 @@ const Replays = () => {
 
             if (data) {
                 dispatch(setReplays(data));
-            } else {
-                alert('Something went wrong. Try again');
             }
         };
 
