@@ -16,7 +16,7 @@ const Replays = () => {
 
     useEffect(() => {
         const getUserReplays = async () => {
-            const url = 'http://127.0.0.1:8000/api/all/';
+            const url = 'https://zephyrus.gg/api/all/';
 
             const data = await fetch(url, {
                 method: 'GET',

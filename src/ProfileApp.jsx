@@ -2,7 +2,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Router, Redirect } from '@reach/router';
 import { setAuthToken } from './actions';
 import Login from './Components/Login';
-import Overview from './Components/Overview/Overview';
 import Replays from './Components/Replays/Replays';
 import Analysis from './Components/Analysis/Analysis';
 import './ProfileApp.css';
@@ -19,11 +18,7 @@ const ProfileApp = () => {
     if (token) {
         app = (
             <Router>
-                <Redirect from="/login" to="/" />
-                <Overview
-                    pageTitle="Profile Overview"
-                    path="/"
-                />
+                <Redirect from="/login" to="/replays" />
                 <Replays
                     pageTitle="Replays"
                     path="/replays"

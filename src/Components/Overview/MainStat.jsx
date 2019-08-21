@@ -1,4 +1,3 @@
-// import { useState } from 'react';
 import RaceStat from './RaceStat';
 import './CSS/MainStat.css';
 

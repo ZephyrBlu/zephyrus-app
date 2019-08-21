@@ -8,7 +8,7 @@ const ProfileSection = (props) => {
     const token = useSelector(state => `Token ${state.token}`);
 
     const handleLogout = async () => {
-        const url = 'http://127.0.0.1:8000/api/logout/';
+        const url = 'https://zephyrus.gg/api/logout/';
 
         const error = await fetch(url, {
             method: 'GET',

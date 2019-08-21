@@ -10,7 +10,7 @@ const Analysis = () => {
 
     useEffect(() => {
         const getStats = async () => {
-            const url = 'http://127.0.0.1:8000/api/stats/';
+            const url = 'https://zephyrus.gg/api/stats/';
 
             const trends = await fetch(url, {
                 method: 'GET',
