@@ -10,6 +10,12 @@
     border-bottom: 1px solid hsl(0, 0%, 47%);
 }
 
+.PageHeader--Login {
+    display: grid;
+    grid-template-areas: 'page-info page-title filler';
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
 .PageHeader__page-title {
     grid-area: page-title;
     font-size: 36px;
