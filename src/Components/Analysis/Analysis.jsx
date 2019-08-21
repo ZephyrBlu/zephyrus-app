@@ -66,13 +66,13 @@ const Analysis = () => {
                                 <small>&#177;{playerTrends.win_MAD[statName].minerals}</small>
                                 /{playerTrends.win_median[statName].gas}
                                 <small>&#177;{playerTrends.win_MAD[statName].gas}</small>
-                                &#160;({playerTrends.win_diff[statName] >= 0 ?
+                                &#160;({playerTrends.win_diff[statName].minerals >= 0 ?
                                     <span key={`${statName}-win-diff`} className="trends__trend--positive">
-                                        +{playerTrends.win_diff[statName].minerals}/{playerTrends.win_diff[statName].gas}
+                                        +{playerTrends.win_diff[statName].minerals}/{playerTrends.win_diff[statName].gas}%
                                     </span>
                                     :
                                     <span key={`${statName}-win-diff`} className="trends__trend--positive">
-                                        {playerTrends.win_diff[statName].minerals}/{playerTrends.win_diff[statName].gas}
+                                        {playerTrends.win_diff[statName].minerals}/{playerTrends.win_diff[statName].gas}%
                                     </span>
                                 })
                             </span>
@@ -84,13 +84,13 @@ const Analysis = () => {
                                 <small>&#177;{playerTrends.loss_MAD[statName].minerals}</small>
                                 /{playerTrends.loss_median[statName].gas}
                                 <small>&#177;{playerTrends.loss_MAD[statName].gas}</small>
-                                &#160;({playerTrends.loss_diff[statName] >= 0 ?
+                                &#160;({playerTrends.loss_diff[statName].minerals >= 0 ?
                                     <span key={`${statName}-loss-diff`} className="trends__trend--negative">
-                                        +{playerTrends.loss_diff[statName].minerals}/{playerTrends.loss_diff[statName].gas}
+                                        +{playerTrends.loss_diff[statName].minerals}/{playerTrends.loss_diff[statName].gas}%
                                     </span>
                                     :
                                     <span key={`${statName}-loss-diff`} className="trends__trend--negative">
-                                        {playerTrends.loss_diff[statName].minerals}/{playerTrends.loss_diff[statName].gas}
+                                        {playerTrends.loss_diff[statName].minerals}/{playerTrends.loss_diff[statName].gas}%
                                     </span>
                                 })
                             </span>
@@ -115,11 +115,11 @@ const Analysis = () => {
                                 <small>&#177;{playerTrends.win_MAD[statName]}</small>
                                 &#160;({playerTrends.win_diff[statName] >= 0 ?
                                     <span key={`${statName}-win-diff`} className="trends__trend--positive">
-                                        +{playerTrends.win_diff[statName]}
+                                        +{playerTrends.win_diff[statName]}%
                                     </span>
                                     :
                                     <span key={`${statName}-win-diff`} className="trends__trend--positive">
-                                        {playerTrends.win_diff[statName]}
+                                        {playerTrends.win_diff[statName]}%
                                     </span>
                                 })
                             </span>
@@ -131,11 +131,11 @@ const Analysis = () => {
                                 <small>&#177;{playerTrends.loss_MAD[statName]}</small>
                                 &#160;({playerTrends.loss_diff[statName] >= 0 ?
                                     <span key={`${statName}-loss-diff`} className="trends__trend--negative">
-                                        +{playerTrends.loss_diff[statName]}
+                                        +{playerTrends.loss_diff[statName]}%
                                     </span>
                                     :
                                     <span key={`${statName}-loss-diff`} className="trends__trend--negative">
-                                        {playerTrends.loss_diff[statName]}
+                                        {playerTrends.loss_diff[statName]}%
                                     </span>
                                 })
                             </span>
