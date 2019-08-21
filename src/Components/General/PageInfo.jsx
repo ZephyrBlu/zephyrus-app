@@ -1,6 +1,6 @@
 import './CSS/PageInfo.css';
 
-const PageInfo = (props) => (
+const PageInfo = props => (
     <div className="PageInfo">
         <h2 className="PageInfo__site-name">zephyrus</h2>
         <h3 className="PageInfo__info">
