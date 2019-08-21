@@ -1,6 +1,8 @@
 .PageInfo {
     grid-area: page-info;
+    justify-self: flex-start;
     margin: 0;
+    margin-left: 80px;
 }
 
 .PageInfo__site-name {

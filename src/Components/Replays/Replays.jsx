@@ -89,10 +89,10 @@ const Replays = () => {
             workers_lost: 'Workers Lost',
             avg_unspent_resources: 'Avg Unspent Resources',
             avg_resource_collection_rate: 'Avg Collection Rate',
+            sq: 'SQ',
         };
 
         const filterSelectedReplayInfo = () => {
-            console.log(selectedReplay);
             const infoList = {};
             Object.entries(selectedReplay.match_data).forEach(([stat, values]) => {
                 if (stat in statNames) {
@@ -126,7 +126,6 @@ const Replays = () => {
         />
     );
 
-    console.log(selectedReplayInfo);
     const sideBar = (
         <div className="replay-info">
             <h1 className="replay-info__title">Match Summary</h1>

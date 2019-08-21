@@ -7,10 +7,10 @@
     justify-items: center;
     height: min-content;
     margin: 10px;
-    padding: 25px;
+    padding: 15px;
     border-radius: 15px;
     cursor: pointer;
-    transition: 0.3s;
+    transition: background-color 0.3s;
 }
 
 .ReplayRecord:focus {
@@ -26,19 +26,21 @@
 }
 
 .ReplayRecord--win:hover, .ReplayRecord--win:focus {
-    background-color: hsla(120, 100%, 50%, 0.4);
+    background-color: hsla(120, 100%, 50%, 0.5);
 }
 
 .ReplayRecord--loss:hover, .ReplayRecord--loss:focus {
-    background-color: hsla(0, 100%, 50%, 0.4);
+    background-color: hsla(0, 100%, 50%, 0.5);
 }
 
 .ReplayRecord--win-selected {
-    background-color: hsla(120, 100%, 50%, 0.4);
+    background-color: hsla(120, 100%, 50%, 0.5);
+    box-shadow: 0 0 0 2px hsl(210, 68%, 47%) inset;
 }
 
 .ReplayRecord--loss-selected {
-    background-color: hsla(0, 100%, 50%, 0.4);
+    background-color: hsla(0, 100%, 50%, 0.5);
+    box-shadow: 0 0 0 2px hsl(210, 68%, 47%) inset;
 }
 
 .ReplayRecord * {

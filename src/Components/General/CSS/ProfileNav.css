@@ -24,7 +24,7 @@
 }
 
 .ProfileNav__link--active {
-    background-color: #2678c9;
+    background-color: hsl(210, 68%, 47%);
 }
 
 .ProfileNav__link:first-child {

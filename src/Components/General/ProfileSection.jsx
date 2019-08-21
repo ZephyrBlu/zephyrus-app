@@ -30,11 +30,13 @@ const ProfileSection = (props) => {
         <div className={`ProfileSection ProfileSection--${props.section}`}>
             <PageHeader
                 pageTitle={props.pageTitle}
+                noNav={props.noNav}
             />
             <section className="main-content">
                 {props.mainContent}
             </section>
 
+            {props.sideBar &&
             <section className="side-bar">
                 <div className="side-bar__content">
                     {props.sideBar}
@@ -42,7 +44,7 @@ const ProfileSection = (props) => {
                 <button className="side-bar__logout" onClick={handleLogout}>
                     Logout
                 </button>
-            </section>
+            </section>}
         </div>
     );
 };
