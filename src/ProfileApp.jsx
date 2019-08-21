@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { Router, Redirect } from '@reach/router';
 import { setAuthToken } from './actions';
-import LoginForm from './Components/LoginForm';
+import Login from './Components/Login';
 import Overview from './Components/Overview/Overview';
 import Replays from './Components/Replays/Replays';
 import Analysis from './Components/Analysis/Analysis';
@@ -38,7 +38,7 @@ const ProfileApp = () => {
         app = (
             <Router>
                 <Redirect from="/*" to="/login" />
-                <LoginForm
+                <Login
                     path="/login"
                 />
             </Router>
