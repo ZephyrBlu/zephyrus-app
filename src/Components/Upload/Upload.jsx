@@ -19,7 +19,7 @@ const Upload = (props) => {
             }
         });
 
-        const url = 'http://127.0.0.1:8000/api/upload/';
+        const url = 'https://zephyrus/api/upload/';
 
         let success = 0;
         let fail = 0;
