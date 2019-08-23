@@ -1,4 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
+import { useState } from 'react';
 import { setReplayList } from '../../actions';
 import ProfileSection from '../General/ProfileSection';
 import './CSS/Upload.css';
@@ -6,6 +7,7 @@ import './CSS/Upload.css';
 const Upload = (props) => {
     const dispatch = useDispatch();
     const token = useSelector(state => `Token ${state.token}`);
+    const [uploadReponse, setUploadResponse] = useState(null);
 
     const uploadFiles = async (event) => {
         const files = event.target.files;
@@ -19,7 +21,8 @@ const Upload = (props) => {
 
         const url = 'http://127.0.0.1:8000/api/upload/';
 
-        const responses = [];
+        let success = 0;
+        let fail = 0;
         fileList.forEach((file) => {
             fetch(url, {
                 method: 'POST',
@@ -28,20 +31,18 @@ const Upload = (props) => {
                 },
                 body: file,
             }).then((response) => {
-                responses.push(response.status);
+                if (response.status === 200) {
+                    success += 1;
+                } else {
+                    fail += 1;
+                }
+                setUploadResponse(`${success}/${fileList.length} uploaded, ${fail} failed to process`);
                 return response.json();
             }).then(responseBody => (
                 responseBody
             )).catch(() => null);
         });
         dispatch(setReplayList([]));
-
-        let success = 0;
-        response.forEach((responseStatus) => {
-            if (responseStatus === 200) {
-                success += 1;
-            }
-        });
     };
 
     const mainContent = (
@@ -56,6 +57,9 @@ const Upload = (props) => {
                 <li className="Upload__info-item">
                     Each replay will take a few seconds to upload and process
                 </li>
+                <li className="Upload__info-item">
+                    Duplicate replays will be skipped automatically
+                </li>
             </ul>
             <form className="Upload__file-form" encType="multiple/form-data" onSubmit={uploadFiles}>
                 <input
@@ -69,6 +73,7 @@ const Upload = (props) => {
                     onChange={uploadFiles}
                 />
             </form>
+            <p className="Upload__success">{uploadReponse}</p>
         </div>
     );
 
