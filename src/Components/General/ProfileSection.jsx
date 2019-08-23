@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { setAuthToken, setReplays } from '../../actions';
+import { setAuthToken, setReplayList } from '../../actions';
 import PageHeader from './PageHeader';
 import './CSS/ProfileSection.css';
 
@@ -24,7 +24,7 @@ const ProfileSection = (props) => {
         }
         sessionStorage.clear();
         dispatch(setAuthToken(null));
-        dispatch(setReplays([]));
+        dispatch(setReplayList([]));
     };
 
     return (
