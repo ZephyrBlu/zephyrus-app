@@ -3,7 +3,7 @@
     width: max-content;
     margin: 80px auto 0;
     border-radius: 25px;
-    padding: 40px 40px 30px;
+    padding: 40px 40px 20px;
 }
 
 .Upload__info {
@@ -38,5 +38,10 @@
 .Upload__form-input:hover,
 .Upload__form-input::-webkit-file-upload-button:hover {
     cursor: pointer;
+}
+
+.Upload__success {
+    margin: 20px auto 0;
+    width: max-content;
 }
 
