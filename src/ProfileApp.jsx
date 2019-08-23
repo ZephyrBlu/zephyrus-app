@@ -5,6 +5,7 @@ import Login from './Components/Login';
 import Overview from './Components/Overview/Overview';
 import Replays from './Components/Replays/Replays';
 import Analysis from './Components/Analysis/Analysis';
+import Upload from './Components/Upload/Upload';
 import './ProfileApp.css';
 
 const ProfileApp = () => {
@@ -23,6 +24,10 @@ const ProfileApp = () => {
                 <Overview
                     pageTitle="Profile Overview"
                     path="/"
+                />
+                <Upload
+                    pageTitle="Upload Replays"
+                    path="/upload"
                 />
                 <Replays
                     pageTitle="Replays"
