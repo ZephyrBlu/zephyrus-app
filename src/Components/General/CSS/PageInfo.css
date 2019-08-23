@@ -3,6 +3,7 @@
     justify-self: flex-start;
     margin: 0;
     margin-left: 80px;
+    line-height: 1.4;
 }
 
 .PageInfo__site-name {
