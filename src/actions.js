@@ -6,7 +6,7 @@ export const setAuthToken = token => (
     { type: SET_AUTHENTICATION_TOKEN, token }
 );
 
-export const setReplays = replayList => (
+export const setReplayList = replayList => (
     { type: SET_REPLAYS, replayList }
 );
 

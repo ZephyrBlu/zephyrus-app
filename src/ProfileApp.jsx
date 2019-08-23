@@ -4,6 +4,7 @@ import { setAuthToken } from './actions';
 import Login from './Components/Login';
 import Replays from './Components/Replays/Replays';
 import Analysis from './Components/Analysis/Analysis';
+import Upload from './Components/Upload/Upload';
 import './ProfileApp.css';
 
 const ProfileApp = () => {
@@ -19,6 +20,10 @@ const ProfileApp = () => {
         app = (
             <Router>
                 <Redirect from="/login" to="/replays" />
+                <Upload
+                    pageTitle="Upload Replays"
+                    path="/upload"
+                />
                 <Replays
                     pageTitle="Replays"
                     path="/replays"

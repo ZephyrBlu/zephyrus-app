@@ -1,6 +1,7 @@
 .ProfileNav {
     grid-area: nav;
     border-radius: 25px;
+    margin-right: 20px;
     transition: 0.8s;
 }
 

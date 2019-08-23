@@ -1,0 +1,42 @@
+.Upload {
+    background-color: hsl(240, 50%, 10%);
+    width: max-content;
+    margin: 80px auto 0;
+    border-radius: 25px;
+    padding: 40px 40px 30px;
+}
+
+.Upload__info {
+    margin: 0;
+}
+
+.Upload__file-form {
+    margin: 20px auto 0;
+    width: 160px;
+    background: hsl(240, 80%, 5%);
+    border: 1px solid hsl(0, 0%, 47%);
+    border-radius: 8px;
+    transition: 0.3s;
+}
+
+.Upload__file-form:hover {
+    background: hsl(210, 68%, 47%);
+}
+
+.Upload__form-input {
+    width: 100%;
+}
+
+.Upload__form-input::-webkit-file-upload-button {
+    background: transparent;
+    color: hsl(0, 0%, 85%);
+    border: none;
+    padding: 15px 10px;
+    width: 100%;
+}
+
+.Upload__form-input:hover,
+.Upload__form-input::-webkit-file-upload-button:hover {
+    cursor: pointer;
+}
+

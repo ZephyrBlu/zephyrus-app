@@ -14,7 +14,7 @@
     grid-template-areas: 'summary analysis';
 }
 
-.ProfileSection--Login .main-content {
+.ProfileSection--Login .main-content, .ProfileSection--Upload .main-content {
     display: flex;
     flex-direction: column;
     justify-content: flex-start;

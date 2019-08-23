@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect, Fragment } from 'react';
-import { setReplays } from '../../actions';
+import { setReplayList } from '../../actions';
 import ProfileSection from '../General/ProfileSection';
 import ReplayList from './ReplayList';
 import './CSS/Replays.css';
@@ -27,10 +27,10 @@ const Replays = () => {
                 response.json()
             )).then(responseBody => (
                 responseBody
-            )).catch(() => (null));
+            )).catch(() => null);
 
             if (data) {
-                dispatch(setReplays(data));
+                dispatch(setReplayList(data));
             }
         };
 
