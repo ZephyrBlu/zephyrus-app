@@ -10,6 +10,29 @@
     margin: 0;
 }
 
+.Upload__battlenet-authorize {
+    background-color: transparent;
+    border: none;
+    color: hsl(0, 0%, 85%);
+    padding: 0;
+    font-size: 16px;
+    text-decoration: underline;
+}
+
+.Upload__battlenet-authorize:hover {
+    cursor: pointer;
+}
+
+.Upload__battlenet-authorize:visited {
+    color: hsl(0, 0%, 85%);
+}
+
+.Upload__authorize-tooltip {
+    position: relative;
+    top: 7px;
+    left: 5px;
+}
+
 .Upload__file-form {
     margin: 20px auto 0;
     width: 160px;
