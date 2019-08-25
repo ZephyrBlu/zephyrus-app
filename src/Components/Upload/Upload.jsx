@@ -13,7 +13,7 @@ const Upload = (props) => {
 
     useEffect(() => {
         const checkBattlenetAccount = async () => {
-            const url = 'http://127.0.0.1:8000/api/check/';
+            const url = 'https://zephyrus.gg/api/check/';
 
             const result = await fetch(url, {
                 method: 'GET',
@@ -32,7 +32,7 @@ const Upload = (props) => {
     }, []);
 
     const authorizeBattlenetAccount = async () => {
-        const url = 'http://127.0.0.1:8000/api/authorize/';
+        const url = 'https://zephyrus.gg/api/authorize/';
 
         const result = await fetch(url, {
             method: 'GET',
@@ -58,7 +58,7 @@ const Upload = (props) => {
             }
         });
 
-        const url = 'https://zephyrus/api/upload/';
+        const url = 'https://zephyrus.gg/api/upload/';
 
         let success = 0;
         let fail = 0;

@@ -28,7 +28,7 @@ const Login = () => {
         // prevents form action to reload page
         event.preventDefault();
 
-        const loginUrl = 'https://127.0.0.1:8000/api/login/';
+        const loginUrl = 'https://zephyrus.gg/api/login/';
 
         const data = {
             username: usernameValue,
