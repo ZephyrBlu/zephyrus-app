@@ -1,8 +1,23 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:400|Raleway:400|Major+Mono+Display&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400|Raleway:300|Major+Mono+Display&display=swap');
+
+:root {
+    --text: hsl(0, 0%, 85%);
+    --grey: hsl(0, 0%, 47%);
+    --light-blue: hsl(210, 68%, 47%);
+    --green: hsl(120, 100%, 40%);
+    --red: hsl(0, 100%, 40%);
+    --green-highlight: hsla(120, 80%, 25%, 0.6);
+    --red-highlight: hsla(0, 70%, 25%, 0.6);
+    --header-background: hsl(240, 80%, 3%);
+    --main-background: hsl(240, 80%, 5%);
+    --secondary-background: hsl(225, 70%, 9%);
+    --tertiary-background: hsl(209, 77%, 14%);
+}
 
 body {
     font-family: 'Roboto', sans-serif;
-    background-color: hsl(240, 80%, 7.5%);
+    font-weight: 300;
+    background-color: var(--main-background);
     color: hsl(0, 0%, 85%);
     margin: 0;
 }
@@ -17,5 +32,5 @@ body {
 }
 
 h1, h2, h3, h4, h5 {
-    font-weight: 400;
+    font-weight: 300;
 }
