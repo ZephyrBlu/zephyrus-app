@@ -1,4 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 import { Router, Redirect } from '@reach/router';
 import { setAuthToken } from './actions';
 import Login from './Components/Login';
@@ -15,6 +16,31 @@ const ProfileApp = () => {
         token = sessionStorage.token;
         dispatch(setAuthToken(token));
     }
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const authCode = urlParams.get('code');
+
+    useEffect(() => {
+        const setBattlenetAccount = async () => {
+            const url = 'http://127.0.0.1:8000/api/authorize/code/';
+
+            await fetch(url, {
+                method: 'POST',
+                headers: {
+                    Authorization: `Token ${token}`,
+                },
+                body: JSON.stringify({ authCode }),
+            }).then(response => (
+                response.status
+            )).catch(() => null);
+
+            window.location.replace('http://127.0.0.1:8000/replays');
+        };
+
+        if (authCode) {
+            setBattlenetAccount();
+        }
+    }, []);
 
     let app;
     if (token) {
