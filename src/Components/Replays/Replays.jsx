@@ -80,16 +80,22 @@ const Replays = () => {
         }
     }, [selectedReplayHash]);
 
-    useEffect(() => {
-        const statNames = {
-            apm: 'APM',
-            workers_produced: 'Workers Produced',
-            workers_lost: 'Workers Lost',
-            avg_unspent_resources: 'Avg Unspent Resources',
-            avg_resource_collection_rate: 'Avg Collection Rate',
-            sq: 'SQ',
-        };
+    const statNames = {
+        sq: 'SQ',
+        apm: 'APM',
+        avg_pac_action_latency: 'Avg PAC Action Latency (s)',
+        avg_pac_actions: 'Avg PAC Actions',
+        avg_pac_gap: 'Avg PAC Gap (s)',
+        avg_pac_per_min: 'Avg PAC Per Minute',
+        workers_produced: 'Workers Produced',
+        workers_lost: 'Workers Lost',
+        avg_unspent_resources: 'Avg Unspent Resources',
+        avg_resource_collection_rate: 'Avg Collection Rate',
+        resources_lost: 'Resources Lost',
+        inject_count: 'Inject Count',
+    };
 
+    useEffect(() => {
         const filterSelectedReplayInfo = () => {
             const infoList = {};
             Object.entries(selectedReplay.match_data).forEach(([stat, values]) => {
@@ -119,9 +125,26 @@ const Replays = () => {
     const pageTitle = 'Replays';
 
     const mainContent = (
-        <ReplayList
-            replayList={replayInfo}
-        />
+        replayInfo.length > 0 ?
+            (
+                <ReplayList
+                    replayList={replayInfo}
+                />
+            )
+            :
+            (
+                <ReplayList
+                    loading={(
+                        <div className="sk-wave">
+                            <div className="sk-rect sk-rect1" />
+                            <div className="sk-rect sk-rect2" />
+                            <div className="sk-rect sk-rect3" />
+                            <div className="sk-rect sk-rect4" />
+                            <div className="sk-rect sk-rect5" />
+                        </div>
+                    )}
+                />
+            )
     );
 
     const sideBar = (
@@ -156,31 +179,31 @@ const Replays = () => {
                                 </tr>
                             </thead>
                             <tbody>
-                                {selectedReplayInfo !== null && Object.entries(selectedReplayInfo).map(([stat, values]) => (
-                                    <tr key={`${stat}${values[1]}${values[2]}`}>
+                                {selectedReplayInfo !== null && Object.values(statNames).map(stat => (
+                                    <tr key={`${stat}${selectedReplayInfo[stat][1]}${selectedReplayInfo[stat][2]}`}>
                                         <td key={stat}>{stat}</td>
-                                        <td key={values[1]}>
+                                        <td key={selectedReplayInfo[stat][1]}>
                                             <span
-                                                key={`${values[1]}-span`}
-                                                className={`replay-info__stat replay-info__stat-${stat.split(' ').join('')} ${values[1] > values[2] ?
+                                                key={`${selectedReplayInfo[stat][1]}-span`}
+                                                className={`replay-info__stat replay-info__stat-${stat.split(' ').join('')} ${selectedReplayInfo[stat][1] > selectedReplayInfo[stat][2] ?
                                                     `replay-info__stat--win replay-info__stat-${stat.split(' ').join('')}--win`
                                                     :
                                                     `replay-info__stat--loss replay-info__stat-${stat.split(' ').join('')}--loss`}
                                                 `}
                                             >
-                                                {values[1]}
+                                                {selectedReplayInfo[stat][1]}
                                             </span>
                                         </td>
-                                        <td key={values[2]}>
+                                        <td key={selectedReplayInfo[stat][2]}>
                                             <span
-                                                key={`${values[2]}-span`}
-                                                className={`replay-info__stat replay-info__stat-${stat.split(' ').join('')} ${values[2] > values[1] ?
+                                                key={`${selectedReplayInfo[stat][2]}-span`}
+                                                className={`replay-info__stat replay-info__stat-${stat.split(' ').join('')} ${selectedReplayInfo[stat][2] > selectedReplayInfo[stat][1] ?
                                                     `replay-info__stat--win replay-info__stat-${stat.split(' ').join('')}--win`
                                                     :
                                                     `replay-info__stat--loss replay-info__stat-${stat.split(' ').join('')}--loss`}
                                                 `}
                                             >
-                                                {values[2]}
+                                                {selectedReplayInfo[stat][2]}
                                             </span>
                                         </td>
                                     </tr>
