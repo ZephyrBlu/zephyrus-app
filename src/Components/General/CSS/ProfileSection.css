@@ -27,6 +27,7 @@
 .main-content {
     grid-area: main-content;
     overflow-y: auto;
+    overflow-x: hidden;
     margin: 5px 0;
     margin-right: 5px;
 }
@@ -52,7 +53,7 @@
 .side-bar {
     grid-area: side-bar;
     height: 100%;
-    border-left: 1px solid hsl(0, 0%, 47%);
+    border-left: 1px solid var(--grey);
     width: max-content;
     display: grid;
     grid-template: 1fr min-content / 1fr;
@@ -74,9 +75,9 @@
     font-size: 14px;
     text-decoration: none;
     padding: 15px 60px;
-    border: 1px solid hsl(0, 0%, 47%);
+    border: 1px solid var(--grey);
     border-radius: 25px;
-    background-color: hsl(240, 80%, 5%);
+    background-color: var(--background);
     color: hsl(0, 0%, 85%);
     transition: .3s;
     cursor: pointer;

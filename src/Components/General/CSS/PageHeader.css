@@ -1,13 +1,13 @@
 .PageHeader {
     grid-area: header;
-    background-color: hsl(240, 80%, 5%);
+    background-color: var(--header-background);
     height: 120px;
     display: grid;
     grid-template-areas: 'page-info page-title nav';
     grid-template-columns: 1fr 1fr 1fr;
     justify-items: center;
     align-items: center;
-    border-bottom: 1px solid hsl(0, 0%, 47%);
+    border-bottom: 1px solid var(--grey);
 }
 
 .PageHeader--Login {
@@ -21,7 +21,7 @@
     font-size: 36px;
     font-weight: normal;
     margin: 0;
-    color: hsl(0, 0%, 85%);
+    color: var(--text);
     font-family: 'Raleway', sans-serif;
     display: inline-block;
 }

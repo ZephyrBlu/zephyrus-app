@@ -1,5 +1,5 @@
 .Upload {
-    background-color: hsl(240, 50%, 10%);
+    background-color: var(--secondary-background);
     width: max-content;
     margin: 80px auto 0;
     border-radius: 25px;
@@ -13,14 +13,14 @@
 .Upload__file-form {
     margin: 20px auto 0;
     width: 160px;
-    background: hsl(240, 80%, 5%);
-    border: 1px solid hsl(0, 0%, 47%);
+    background: var(--main-background);
+    border: 1px solid var(--grey);
     border-radius: 8px;
     transition: 0.3s;
 }
 
 .Upload__file-form:hover {
-    background: hsl(210, 68%, 47%);
+    background: var(--light-blue);
 }
 
 .Upload__form-input {
@@ -29,7 +29,7 @@
 
 .Upload__form-input::-webkit-file-upload-button {
     background: transparent;
-    color: hsl(0, 0%, 85%);
+    color: var(--text);
     border: none;
     padding: 15px 10px;
     width: 100%;
@@ -48,7 +48,7 @@
 .Upload__battlenet-authorize {
     background-color: transparent;
     border: none;
-    color: hsl(0, 0%, 85%);
+    color: var(--text);
     padding: 0;
     font-size: 16px;
     text-decoration: underline;
@@ -59,7 +59,7 @@
 }
 
 .Upload__battlenet-authorize:visited {
-    color: hsl(0, 0%, 85%);
+    color: var(--text);
 }
 
 .Upload__authorize-tooltip {
@@ -73,3 +73,48 @@
     width: max-content;
 }
 
+
+/* ----- Loading Indicator ----- */
+
+.lds-ring {
+    display: inline-block;
+    position: relative;
+    width: 36px;
+    height: 36px;
+    margin-left: 5px;
+    top: 10px;
+}
+
+.lds-ring div {
+    box-sizing: border-box;
+    display: block;
+    position: absolute;
+    width: 25px;
+    height: 25px;
+    margin: 6px;
+    border: 2px solid var(--text);
+    border-radius: 50%;
+    animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+    border-color: var(--text) transparent transparent transparent;
+}
+
+.lds-ring div:nth-child(1) {
+    animation-delay: -0.45s;
+}
+
+.lds-ring div:nth-child(2) {
+    animation-delay: -0.3s;
+}
+
+.lds-ring div:nth-child(3) {
+    animation-delay: -0.15s;
+}
+
+@keyframes lds-ring {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}

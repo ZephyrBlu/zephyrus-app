@@ -2,6 +2,6 @@
     grid-area: replay-list;
     margin: 25px 25px 20px;
     padding: 20px;
-    background-color: hsl(240, 50%, 10%);
+    background-color: var(--secondary-background);
     border-radius: 25px;
 }

@@ -35,12 +35,12 @@
 
 .ReplayRecord--win-selected {
     background-color: hsla(120, 100%, 50%, 0.5);
-    box-shadow: 0 0 0 2px hsl(210, 68%, 47%) inset;
+    box-shadow: 0 0 0 2px var(--light-blue) inset;
 }
 
 .ReplayRecord--loss-selected {
     background-color: hsla(0, 100%, 50%, 0.5);
-    box-shadow: 0 0 0 2px hsl(210, 68%, 47%) inset;
+    box-shadow: 0 0 0 2px var(--light-blue) inset;
 }
 
 .ReplayRecord * {

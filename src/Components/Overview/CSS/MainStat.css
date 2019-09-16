@@ -3,7 +3,6 @@
     grid-template-columns: max-content max-content;
     grid-template-areas: 'title race-stat';
     grid-column-gap: 15px;
-    #justify-self: center;
     align-items: center;
 }
 
