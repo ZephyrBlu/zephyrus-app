@@ -1,0 +1,92 @@
+.TrendStat__stat {
+    display: grid;
+    /*grid-template: min-content min-content / max-content max-content max-content;
+    grid-template-areas:
+    'stat-title stat-title stat-title'
+    'average win loss';*/
+    grid-template: repeat(2, min-content) / max-content max-content;
+    grid-template-areas:
+    'stat-title-area stat-info'
+    'stat-title-area stat-info';
+    grid-column-gap: 10px;
+    margin: 0;
+    margin-bottom: 30px;
+    width: min-content;
+}
+
+.TrendStat__stat--winrate {
+    margin-bottom: 10px;
+}
+
+.TrendStat__stat--last {
+    margin-bottom: 0;
+}
+
+.TrendStat__stat-title-area {
+    grid-area: stat-title-area;
+    align-self: flex-start;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    align-self: flex-start;
+}
+
+.TrendStat__stat-title {
+    width: 180px;
+    margin: 5px 0;
+    font-size: 20px;
+}
+
+.TrendStat__stat-trend {
+    grid-area: stat-trend;
+    font-size: 16px;
+}
+
+.TrendStat__stat-tooltip {
+    grid-area: stat-tooltip;
+}
+
+.TrendStat__stat-info {
+    grid-area: stat-info;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.TrendStat__average {
+    margin-bottom: 15px;
+    font-size: 28px;
+}
+
+.TrendStat__average-uncertainty {
+    font-size: 18px;
+}
+
+.TrendStat__win {
+    margin-bottom: 18px;
+    font-size: 16px;
+}
+
+.TrendStat__loss {
+    font-size: 16px;
+}
+
+.TrendStat__trend--positive {
+    color: var(--green);
+}
+
+.TrendStat__trend--negative {
+    color: var(--red);
+}
+
+.TrendStat__trend--positive-highlight {
+    background-color: var(--green-highlight);
+    border-radius: 15px;
+    padding: 5px 8px;
+}
+
+.TrendStat__trend--negative-highlight {
+    background-color: var(--red-highlight);
+    border-radius: 15px;
+    padding: 5px 8px;
+}

@@ -1,51 +1,184 @@
-.trends {
-    background-color: hsl(240, 50%, 10%);
-    width: max-content;
-    margin: 40px auto 0;
-    padding: 25px;
-    padding-bottom: 1px;
-    border-radius: 25px;
-}
-
-.trends__stat {
+.timeline {
+    margin: 20px 60px 0;
     display: grid;
-    grid-template: min-content min-content / max-content max-content max-content;
+    grid-template: min-content 1fr / 1fr 1fr;
     grid-template-areas:
-    'stat-title stat-title stat-title'
-    'average win loss';
-    grid-column-gap: 20px;
-    margin-bottom: 30px;
+    'timeline-title timeline-dropdown'
+    'timeline-chart timeline-chart';
 }
 
-.trends__stat-title-area {
-    grid-area: stat-title;
+.timeline__title {
+    grid-area: timeline-title;
+    font-family: 'Raleway', sans-serif;
+    justify-self: flex-start;
+    width: max-content;
+    height: max-content;
+    margin: 0 0 10px;
+    font-size: 28px;
 }
 
-.trends__stat-title {
+.timeline__stat-picker {
+    grid-area: timeline-dropdown;
+    width: max-content;
+    height: max-content;
+    align-self: flex-end;
+    margin: 0;
+    margin-right: 40px;
+    justify-self: flex-end;
+}
+
+.timeline__stat-picker-title {
+    font-family: 'Raleway', sans-serif;
+    margin: 0;
+    padding-bottom: 6px;
+    border: none;
+    border-bottom: 1px solid var(--grey);
+    background-color: transparent;
+    color: hsl(0, 0%, 85%);
+    font-size: 16px;
+}
+
+.timeline__stat-picker-title:hover,
+.timeline__stat-dropdown-button:hover {
+    cursor: pointer;
+}
+
+.timeline__stat-picker-title:focus,
+.timeline__stat-dropdown-button:focus {
+    outline: none;
+}
+
+.timeline__stat-dropdown {
+    position: absolute;
+    opacity: 1;
+    height: 0;
+    list-style: none;
+    margin: 0;
+    margin-top: 5px;
+    padding: 5px;
+    transition: height 0.5s;
+    overflow: hidden;
+    background-color: hsla(209, 77%, 14%, 0.9);
+    border-radius: 5px;
+}
+
+.timeline__stat-dropdown--open {
+    transition: height 0.5s, opacity 0.2s 0.4s, z-index 0.2s 0.4s;
+}
+
+.timeline__stat-dropdown-option {
+    width: max-content;
+}
+
+.timeline__stat-dropdown-button {
+    background-color: transparent;
+    border: none;
+    width: max-content;
+    color: hsl(0, 0%, 85%);
+}
+
+.timeline__stat-dropdown-indicator {
+    transition: 0.3s;
+}
+
+.chart-area {
+    grid-area: timeline-chart;
+    padding: 10px 0;
+}
+
+.recent-trends {
+    width: max-content;
+    margin: 30px auto 0;
+    padding-bottom: 1px;
+}
+
+.recent-trends__title {
+    grid-area: title;
+    margin: 0 0 10px;
+    width: max-content;
+    font-family: 'Raleway', sans-serif;
+    font-size: 28px;
+}
+
+.recent-trends__content {
+    display: grid;
+    grid-template: min-content repeat(1, max-content) / repeat(4, max-content);
+    grid-template-areas:
+    'title title title title'
+    'general economic PAC efficiency';
+    grid-gap: 0px 40px;
+}
+
+@media (max-width: 1600px) {
+    .recent-trends__content {
+        grid-template: min-content repeat(2, max-content) / repeat(2, max-content);
+        grid-template-areas:
+        'title title'
+        'general economic'
+        'PAC efficiency';
+        grid-gap: 0px 40px;
+    }
+}
+
+/* ----- Loading Animation ----- */
+
+.sk-wave {
+    margin: 40px auto;
+    width: 50px;
+    height: 40px;
+    border-radius: 8px;
+    text-align: center;
+    font-size: 10px;
+}
+
+.sk-wave .sk-rect {
+    background-color: var(--text);
+    height: 100%;
+    width: 6px;
+    margin-right: 3px;
+    border-radius: 8px;
     display: inline-block;
-    margin: 0 0 5px;
+    -webkit-animation: sk-waveStretchDelay 1.2s infinite ease-in-out;
+    animation: sk-waveStretchDelay 1.2s infinite ease-in-out;
 }
 
-.trends__stat-tooltip {
-    grid-area: stat-tooltip;
+.sk-wave .sk-rect1 {
+    -webkit-animation-delay: -1.2s;
+    animation-delay: -1.2s; 
 }
 
-.trends__average {
-    grid-area: average;
+.sk-wave .sk-rect2 {
+    -webkit-animation-delay: -1.1s;
+    animation-delay: -1.1s;
 }
 
-.trends__win {
-    grid-area: win;
+.sk-wave .sk-rect3 {
+    -webkit-animation-delay: -1s;
+    animation-delay: -1s;
 }
 
-.trends__loss {
-    grid-area: loss;
+.sk-wave .sk-rect4 {
+    -webkit-animation-delay: -0.9s;
+    animation-delay: -0.9s;
 }
 
-.trends__trend--positive {
-    color: hsl(120, 100%, 40%);
+.sk-wave .sk-rect5 {
+    -webkit-animation-delay: -0.8s;
+    animation-delay: -0.8s;
 }
 
-.trends__trend--negative {
-    color: hsl(0, 100%, 40%);
-}
+@-webkit-keyframes sk-waveStretchDelay {
+  0%, 40%, 100% {
+    -webkit-transform: scaleY(0.4);
+            transform: scaleY(0.4); }
+  20% {
+    -webkit-transform: scaleY(1);
+            transform: scaleY(1); } }
+
+@keyframes sk-waveStretchDelay {
+  0%, 40%, 100% {
+    -webkit-transform: scaleY(0.4);
+            transform: scaleY(0.4); }
+  20% {
+    -webkit-transform: scaleY(1);
+            transform: scaleY(1); } }
