@@ -1,15 +1,15 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import Tippy from '@tippy.js/react';
-import { setReplayList } from '../../actions';
+import { setReplayList, setBattlenetStatus, setTrends } from '../../actions';
 import ProfileSection from '../General/ProfileSection';
 import './CSS/Upload.css';
 
 const Upload = (props) => {
     const dispatch = useDispatch();
     const token = useSelector(state => `Token ${state.token}`);
+    const hasAuthenticatedBattlenet = useSelector(state => state.battlenetStatus);
     const [uploadReponse, setUploadResponse] = useState(null);
-    const [hasAuthenticatedBattlenet, setAuthenticatedBattlenet] = useState(null);
 
     useEffect(() => {
         const checkBattlenetAccount = async () => {
@@ -25,12 +25,14 @@ const Upload = (props) => {
             )).catch(() => null);
 
             if (result === 200) {
-                setAuthenticatedBattlenet(true);
+                dispatch(setBattlenetStatus(true));
             } else {
-                setAuthenticatedBattlenet(false);
+                dispatch(setBattlenetStatus(false));
             }
         };
-        checkBattlenetAccount();
+        if (!hasAuthenticatedBattlenet) {
+            checkBattlenetAccount();
+        }
     }, []);
 
     const authorizeBattlenetAccount = async () => {
@@ -46,7 +48,7 @@ const Upload = (props) => {
         )).catch(() => null);
 
         if (result === 200) {
-            setAuthenticatedBattlenet(true);
+            dispatch(setBattlenetStatus(true));
         }
     };
 
@@ -87,6 +89,7 @@ const Upload = (props) => {
             });
         });
         dispatch(setReplayList([]));
+        dispatch(setTrends(null));
     };
 
     const mainContent = (

@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect, Fragment } from 'react';
 import {
     ResponsiveContainer,
@@ -10,6 +10,7 @@ import {
     Line,
 } from 'recharts';
 // import Tippy from '@tippy.js/react';
+import { setTrends } from '../../actions';
 import ProfileSection from '../General/ProfileSection';
 import StatCategory from './StatCategory';
 import InfoTooltip from '../General/InfoTooltip';
@@ -17,7 +18,9 @@ import CustomTooltip from '../General/Tooltip';
 import './CSS/Analysis.css';
 
 const Analysis = () => {
+    const dispatch = useDispatch();
     const token = useSelector(state => `Token ${state.token}`);
+    const currentTrends = useSelector(state => state.trends);
     const [playerTrends, setPlayerTrends] = useState(null);
     const [statDropdownState, setStatDropdownState] = useState(0);
     const [lineState, setLineState] = useState({
@@ -72,10 +75,14 @@ const Analysis = () => {
                 JSON.parse(responseBody)
             )).catch(() => (null));
 
-            setPlayerTrends(trends.recent);
-            setTimelineData(trends.weekly);
+            await dispatch(setTrends(trends));
         };
-        getStats();
+        if (currentTrends) {
+            setPlayerTrends(currentTrends.recent);
+            setTimelineData(currentTrends.weekly);
+        } else {
+            getStats();
+        }
     }, []);
 
     const statColours = {
