@@ -75,7 +75,7 @@ const Analysis = () => {
                 JSON.parse(responseBody)
             )).catch(() => (null));
 
-            await dispatch(setTrends(trends));
+            dispatch(setTrends(trends));
         };
         if (currentTrends) {
             setPlayerTrends(currentTrends.recent);
@@ -83,7 +83,7 @@ const Analysis = () => {
         } else {
             getStats();
         }
-    }, []);
+    }, [currentTrends]);
 
     const statColours = {
         winrate: 'white',
