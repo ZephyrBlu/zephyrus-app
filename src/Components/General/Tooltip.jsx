@@ -51,7 +51,7 @@ const CustomTooltip = (props) => {
                     <Fragment>
                         <ul className="Tooltip__content">
                             <li className="Tooltip__title">
-                                Week Starting&nbsp;{props.label}
+                                {props.tickFormatter(props.label, 'chart')}
                             </li>
                             <li className="Tooltip__games">
                                 {props.payload[0].payload.count < 5 ?

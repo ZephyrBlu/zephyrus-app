@@ -120,6 +120,61 @@ const Analysis = () => {
 
     const pageTitle = 'Trend Analysis';
 
+    const formatTick = (content, type = 'tick') => {
+        const formatString = () => {
+            const strPieces = content.split('*');
+            const [start] = strPieces;
+            let fraction;
+
+            switch (strPieces[1].slice(0, 1)) {
+                case '1':
+                    fraction = '\xBC';
+                    break;
+
+                case '2':
+                    fraction = '\xBD';
+                    break;
+
+                case '3':
+                    fraction = '\xBE';
+                    break;
+
+                default:
+                    break;
+            }
+            return [start, fraction];
+        };
+
+        switch (type) {
+            case 'tick': {
+                if (content.indexOf('*') !== -1) {
+                    const [start, fraction] = formatString();
+                    return `${start.trim()}${fraction} mo ago`;
+                }
+
+                if (content.slice(1, 2) === 'm') {
+                    return `${content.slice(0, 1)}mo ago`;
+                }
+                return content;
+            }
+
+            case 'chart': {
+                if (content.indexOf('*') !== -1) {
+                    const [start, fraction] = formatString();
+                    return `${start.trim()}${fraction} Months Ago`;
+                }
+
+                if (content.slice(1, 2) === 'm') {
+                    return `${content.slice(0, 1)} Months Ago`;
+                }
+                return `${content.slice(0, 1)} Weeks Ago`;
+            }
+
+            default:
+                return content;
+        }
+    };
+
     const mainContent = (
         <Fragment>
             <div className="timeline">
@@ -192,13 +247,24 @@ const Analysis = () => {
                             height={300}
                         >
                             <LineChart data={timelineData}>
-                                <XAxis dataKey="date" dy={5} />
+                                <XAxis
+                                    tick={{ fontSize: 20 }}
+                                    tickFormatter={content => formatTick(content)}
+                                    dataKey="date"
+                                    dx={-9}
+                                    dy={3}
+                                />
                                 <YAxis
+                                    tick={{ fontSize: 20 }}
                                     label={{
-                                        value: 'Weekly Percentage Difference (%)', angle: -90, dx: -20, fill: 'hsl(0, 0%, 47%)',
+                                        value: 'Weekly Percentage Difference (%)',
+                                        fontSize: 18,
+                                        angle: -90,
+                                        dx: -25,
+                                        fill: 'hsl(0, 0%, 47%)',
                                     }}
                                     domain={[-50, 50]}
-                                    dx={-5}
+                                    dx={-3}
                                 />
                                 <CartesianGrid
                                     vertical={false}
@@ -206,7 +272,13 @@ const Analysis = () => {
                                     style={{ marginTop: '10px' }}
                                 />
                                 <Tooltip
-                                    content={<CustomTooltip chart="analysis" lineState={lineState} />}
+                                    content={
+                                        <CustomTooltip
+                                            chart="analysis"
+                                            lineState={lineState}
+                                            tickFormatter={formatTick}
+                                        />
+                                    }
                                     cursor={{ stroke: 'hsl(0, 0%, 85%)' }}
                                 />
                                 {Object.keys(statColours).map(stat => (
