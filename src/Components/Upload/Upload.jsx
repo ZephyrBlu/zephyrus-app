@@ -54,8 +54,8 @@ const Upload = (props) => {
         const files = event.target.files;
 
         const fileList = [];
-        Object.keys(files).forEach((fileNum) => {
-            if (fileNum !== 'length') {
+        Object.keys(files).forEach((fileNum, index) => {
+            if (index < 100 && fileNum !== 'length') {
                 fileList.push(files[fileNum]);
             }
         });
@@ -81,7 +81,10 @@ const Upload = (props) => {
                 return response.json();
             }).then(responseBody => (
                 responseBody
-            )).catch(() => null);
+            )).catch(() => {
+                fail += 1;
+                return null;
+            });
         });
         dispatch(setReplayList([]));
     };
@@ -90,7 +93,7 @@ const Upload = (props) => {
         <div className="Upload">
             <ul className="Upload__info">
                 <li className="Upload__info-item">
-                    You can upload multiple replays
+                    You can upload up to 100 replays at a time
                 </li>
                 <li className="Upload__info-item">
                     The selected replays will be uploaded automatically
