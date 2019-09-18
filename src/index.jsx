@@ -1,10 +1,11 @@
 import { render } from 'react-dom';
-import { createStore } from 'redux';
+import { createStore, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
+import thunk from 'redux-thunk';
 import profileInfo from './reducers';
 import ProfileApp from './ProfileApp';
 
-const store = createStore(profileInfo);
+const store = createStore(profileInfo, applyMiddleware(thunk));
 
 const root = document.getElementById('root');
 const load = () => render(

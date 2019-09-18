@@ -21,10 +21,7 @@ const token = (state = null, action) => {
 const replayList = (state = [], action) => {
     switch (action.type) {
         case SET_REPLAYS:
-            return [
-                ...state,
-                ...action.replayList,
-            ];
+            return action.replayList;
 
         default:
             return state;
@@ -34,10 +31,7 @@ const replayList = (state = [], action) => {
 const replayInfo = (state = [], action) => {
     switch (action.type) {
         case SET_REPLAY_INFO:
-            return [
-                ...state,
-                ...action.replayInfo,
-            ];
+            return action.replayInfo;
 
         default:
             return state;

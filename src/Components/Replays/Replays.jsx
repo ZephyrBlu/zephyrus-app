@@ -10,10 +10,9 @@ const Replays = () => {
     const dispatch = useDispatch();
     const [selectedReplay, setSelectedReplay] = useState(null);
     const [selectedReplayInfo, setSelectedReplayInfo] = useState(null);
-    const token = useSelector(state => `Token ${state.token}`);
-    const userReplays = useSelector(state => state.replayList);
-    const replayInfo = useSelector(state => state.replayInfo);
-    const selectedReplayHash = useSelector(state => state.selectedReplayHash);
+    const [token, userReplays, replayInfo, selectedReplayHash] = useSelector(state => (
+        [`Token ${state.token}`, state.replayList, state.replayInfo, state.selectedReplayHash]
+    ));
 
     useEffect(() => {
         const getUserReplays = async () => {
