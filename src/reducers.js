@@ -33,7 +33,10 @@ const replayList = (state = [], action) => {
 const trends = (state = null, action) => {
     switch (action.type) {
         case SET_TRENDS:
-            return { ...action.trends };
+            if (action.trends) {
+                return { ...action.trends };
+            }
+            return action.trends;
 
         default:
             return state;
