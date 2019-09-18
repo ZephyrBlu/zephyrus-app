@@ -40,6 +40,7 @@ const StatCategory = (props) => {
             <div className="StatCategory__stats">
                 {Object.keys(statOrder[props.category]).map((stat, index) => (
                     <TrendStat
+                        key={stat}
                         stat={stat}
                         statName={statOrder[props.category][stat]}
                         trends={props.trends}

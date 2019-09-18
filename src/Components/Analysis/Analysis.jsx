@@ -214,7 +214,7 @@ const Analysis = () => {
                             ${statDropdownState === 1 ? window.setTimeout(() => (''), 500) : 'timeline__stat-dropdown--open'}`}
                     >
                         {Object.entries(statNames).map(([stat, statName]) => (
-                            <li className="timeline__stat-dropdown-option">
+                            <li key={stat} className="timeline__stat-dropdown-option">
                                 <button
                                     onClick={() => (
                                         lineState[stat] === 1 ?
@@ -290,6 +290,7 @@ const Analysis = () => {
                                 />
                                 {Object.keys(statColours).map(stat => (
                                     <Line
+                                        key={stat}
                                         type="monotone"
                                         dataKey={`${stat}[1]`}
                                         stroke={statColours[stat]}
@@ -333,6 +334,7 @@ const Analysis = () => {
                         <div className="recent-trends__content">
                             {statCategories.map(category => (
                                 <StatCategory
+                                    key={category}
                                     category={category}
                                     trends={playerTrends}
                                     recentPercentDiff={timelineData.slice(-1)[0]}

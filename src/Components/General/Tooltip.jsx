@@ -64,7 +64,7 @@ const CustomTooltip = (props) => {
                                     props.lineState[payload.name.slice(0, -3)] === 0 ?
                                         null
                                         :
-                                        <li className="Tooltip__stat">
+                                        <li key={key} className="Tooltip__stat">
                                             <svg height="10" width="10">
                                                 <circle cx="5" cy="5" r="5" fill={colours[key]} />
                                             </svg>&nbsp;
