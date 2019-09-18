@@ -3,6 +3,7 @@ import { useState, useEffect, Fragment } from 'react';
 import { setReplayList } from '../../actions';
 import ProfileSection from '../General/ProfileSection';
 import ReplayList from './ReplayList';
+import WaveAnimation from '../General/WaveAnimation';
 import './CSS/Replays.css';
 
 const Replays = () => {
@@ -126,25 +127,9 @@ const Replays = () => {
 
     const mainContent = (
         replayInfo.length > 0 ?
-            (
-                <ReplayList
-                    replayList={replayInfo}
-                />
-            )
+            <ReplayList replayList={replayInfo} />
             :
-            (
-                <ReplayList
-                    loading={(
-                        <div className="sk-wave">
-                            <div className="sk-rect sk-rect1" />
-                            <div className="sk-rect sk-rect2" />
-                            <div className="sk-rect sk-rect3" />
-                            <div className="sk-rect sk-rect4" />
-                            <div className="sk-rect sk-rect5" />
-                        </div>
-                    )}
-                />
-            )
+            <WaveAnimation />
     );
 
     const sideBar = (

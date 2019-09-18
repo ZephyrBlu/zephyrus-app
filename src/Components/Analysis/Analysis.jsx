@@ -15,6 +15,8 @@ import ProfileSection from '../General/ProfileSection';
 import StatCategory from './StatCategory';
 import InfoTooltip from '../General/InfoTooltip';
 import CustomTooltip from '../General/Tooltip';
+import DefaultResponse from '../General/DefaultResponse';
+import WaveAnimation from '../General/WaveAnimation';
 import './CSS/Analysis.css';
 
 const Analysis = () => {
@@ -63,24 +65,30 @@ const Analysis = () => {
     useEffect(() => {
         const getStats = async () => {
             const url = 'http://127.0.0.1:8000/api/stats/';
+            let status;
 
             const trends = await fetch(url, {
                 method: 'GET',
                 headers: {
                     Authorization: token,
                 },
-            }).then(response => (
-                response.json()
-            )).then(responseBody => (
+            }).then((response) => {
+                status = response.status;
+                return response.json();
+            }).then(responseBody => (
                 JSON.parse(responseBody)
             )).catch(() => (null));
 
-            dispatch(setTrends(trends));
+            if (status === 200) {
+                dispatch(setTrends(trends));
+            } else {
+                dispatch(setTrends(false));
+            }
         };
         if (currentTrends) {
             setPlayerTrends(currentTrends.recent);
             setTimelineData(currentTrends.weekly);
-        } else {
+        } else if (currentTrends === null) {
             getStats();
         }
     }, [currentTrends]);
@@ -329,30 +337,21 @@ const Analysis = () => {
             </div>
             <div className="recent-trends">
                 <h2 className="recent-trends__title">Recent Performance</h2>
-                {playerTrends ?
-                    (
-                        <div className="recent-trends__content">
-                            {statCategories.map(category => (
-                                <StatCategory
-                                    key={category}
-                                    category={category}
-                                    trends={playerTrends}
-                                    recentPercentDiff={timelineData.slice(-1)[0]}
-                                />
-                            ))}
-                        </div>
-                    )
+                {playerTrends &&
+                    <div className="recent-trends__content">
+                        {statCategories.map(category => (
+                            <StatCategory
+                                key={category}
+                                category={category}
+                                trends={playerTrends}
+                                recentPercentDiff={timelineData.slice(-1)[0]}
+                            />
+                        ))}
+                    </div>}
+                {!playerTrends && (playerTrends === null ?
+                    <WaveAnimation />
                     :
-                    (
-                        <div className="sk-wave">
-                            <div className="sk-rect sk-rect1" />
-                            <div className="sk-rect sk-rect2" />
-                            <div className="sk-rect sk-rect3" />
-                            <div className="sk-rect sk-rect4" />
-                            <div className="sk-rect sk-rect5" />
-                        </div>
-                    )
-                }
+                    <DefaultResponse />)}
             </div>
         </Fragment>
     );
