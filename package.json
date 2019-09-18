@@ -1,6 +1,6 @@
 {
   "name": "zephyrus-app",
-  "version": "1.0.0",
+  "version": "1.17.3",
   "main": "index.js",
   "repository": "https://github.com/ZephyrBlu/zephyrus-app.git",
   "author": "ZephyrBlu <lukejholroyd@gmail.com>",
@@ -23,6 +23,7 @@
     "react-redux": "^7.1.0",
     "recharts": "^1.7.1",
     "redux": "^4.0.4",
+    "redux-thunk": "^2.3.0",
     "webpack": "^4.39.1"
   },
   "devDependencies": {
