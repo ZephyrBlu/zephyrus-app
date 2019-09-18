@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect, Fragment } from 'react';
-import { setReplayList } from '../../actions';
+import { setReplayList, setReplayInfo } from '../../actions';
 import ProfileSection from '../General/ProfileSection';
 import ReplayList from './ReplayList';
 import WaveAnimation from '../General/WaveAnimation';
@@ -8,11 +8,11 @@ import './CSS/Replays.css';
 
 const Replays = () => {
     const dispatch = useDispatch();
-    const [replayInfo, setReplayInfo] = useState([]);
     const [selectedReplay, setSelectedReplay] = useState(null);
     const [selectedReplayInfo, setSelectedReplayInfo] = useState(null);
     const token = useSelector(state => `Token ${state.token}`);
     const userReplays = useSelector(state => state.replayList);
+    const replayInfo = useSelector(state => state.replayInfo);
     const selectedReplayHash = useSelector(state => state.selectedReplayHash);
 
     useEffect(() => {
@@ -59,7 +59,7 @@ const Replays = () => {
                 };
                 newReplays.push(currentReplayInfo);
             });
-            setReplayInfo(newReplays);
+            dispatch(setReplayInfo(newReplays));
         };
 
         if (userReplays.length > 0) {
