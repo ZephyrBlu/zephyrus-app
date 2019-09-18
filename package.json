@@ -1,6 +1,6 @@
 {
   "name": "zephyrus-app",
-  "version": "1.17.3",
+  "version": "1.18.1",
   "main": "index.js",
   "repository": "https://github.com/ZephyrBlu/zephyrus-app.git",
   "author": "ZephyrBlu <lukejholroyd@gmail.com>",
