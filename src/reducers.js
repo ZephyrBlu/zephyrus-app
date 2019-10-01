@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
 import {
     SET_AUTHENTICATION_TOKEN,
+    SET_API_KEY,
     SET_REPLAYS,
     SET_REPLAY_INFO,
     SET_TRENDS,
@@ -12,6 +13,16 @@ const token = (state = null, action) => {
     switch (action.type) {
         case SET_AUTHENTICATION_TOKEN:
             return action.token;
+
+        default:
+            return state;
+    }
+};
+
+const apiKey = (state = null, action) => {
+    switch (action.type) {
+        case SET_API_KEY:
+            return action.apiKey;
 
         default:
             return state;
@@ -73,6 +84,7 @@ const battlenetStatus = (state = null, action) => {
 
 const profileInfo = combineReducers({
     token,
+    apiKey,
     replayList,
     replayInfo,
     trends,

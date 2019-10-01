@@ -2,9 +2,7 @@ import { Fragment } from 'react';
 import './CSS/Tooltip.css';
 
 const CustomTooltip = (props) => {
-    let content = (
-        <p className="Tooltip__default">Loading...</p>
-    );
+    let content = null;
 
     const statOrder = {
         winrate: 'Winrate',
@@ -101,11 +99,14 @@ const CustomTooltip = (props) => {
         }
     }
 
-    return (
-        <div id="tooltip">
-            {content}
-        </div>
-    );
+    if (content) {
+        return (
+            <div id="tooltip">
+                {content}
+            </div>
+        );
+    }
+    return null;
 };
 
 export default CustomTooltip;

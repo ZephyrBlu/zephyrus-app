@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { useState } from 'react';
-import { setAuthToken } from '../actions';
+import { setAuthToken, setApiKey } from '../actions';
 import ProfileSection from './General/ProfileSection';
 import './Login.css';
 
@@ -19,9 +19,11 @@ const Login = () => {
     };
 
     // update redux store with auth token
-    const onGetToken = (newToken) => {
+    const onGetCredentials = (newToken, apiKey) => {
         dispatch(setAuthToken(newToken));
+        dispatch(setApiKey(apiKey));
         sessionStorage.token = newToken;
+        sessionStorage.apiKey = apiKey;
     };
 
     const handleSubmit = async (event) => {
@@ -48,7 +50,7 @@ const Login = () => {
             }
             return response.json();
         }).then(responseBody => (
-            onGetToken(responseBody.token)
+            onGetCredentials(responseBody.token, responseBody.api_key)
         )).catch(requestError => (requestError));
 
         if (error) {

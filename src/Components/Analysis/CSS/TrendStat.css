@@ -90,3 +90,9 @@
     border-radius: 15px;
     padding: 5px 8px;
 }
+
+@media (max-width: 1550px) {
+    .TrendStat__stat-title {
+        width: 150px;
+    }
+}

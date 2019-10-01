@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { setAuthToken, setReplayList } from '../../actions';
+import { setAuthToken, setApiKey, setReplayList } from '../../actions';
 import PageHeader from './PageHeader';
 import './CSS/ProfileSection.css';
 
@@ -24,6 +24,7 @@ const ProfileSection = (props) => {
         }
         sessionStorage.clear();
         dispatch(setAuthToken(null));
+        dispatch(setApiKey(null));
         dispatch(setReplayList([]));
     };
 
@@ -33,16 +34,16 @@ const ProfileSection = (props) => {
                 pageTitle={props.pageTitle}
                 noNav={props.noNav}
             />
-            <section className="main-content">
+            <section className={`main-content main-content--${props.modifier}`}>
                 {props.mainContent}
             </section>
 
             {props.sideBar &&
-            <section className="side-bar">
-                <div className="side-bar__content">
+            <section className={`side-bar side-bar--${props.modifier}`}>
+                <div className={`side-bar__content side-bar__content--${props.modifier}`}>
                     {props.sideBar}
                 </div>
-                <button className="side-bar__logout" onClick={handleLogout}>
+                <button className={`side-bar__logout side-bar__logout--${props.modifier}`} onClick={handleLogout}>
                     Logout
                 </button>
             </section>}

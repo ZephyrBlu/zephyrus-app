@@ -1,36 +1,56 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useState, useEffect, Fragment } from 'react';
+import { createSelector } from 'reselect';
+import { useState, useEffect } from 'react';
 import { setReplayList, setReplayInfo } from '../../actions';
 import ProfileSection from '../General/ProfileSection';
 import ReplayList from './ReplayList';
+import StatCategory from '../General/StatCategory';
+import DefaultResponse from '../General/DefaultResponse';
 import WaveAnimation from '../General/WaveAnimation';
 import './CSS/Replays.css';
+
+const selectData = createSelector(
+    state => `Token ${state.token}`,
+    state => state.apiKey,
+    state => state.replayList,
+    state => state.replayInfo,
+    state => state.selectedReplayHash,
+    (token, apiKey, userReplays, replayInfo, selectedReplayHash) => (
+        [token, apiKey, userReplays, replayInfo, selectedReplayHash]
+    ),
+);
 
 const Replays = () => {
     const dispatch = useDispatch();
     const [selectedReplay, setSelectedReplay] = useState(null);
     const [selectedReplayInfo, setSelectedReplayInfo] = useState(null);
-    const [token, userReplays, replayInfo, selectedReplayHash] = useSelector(state => (
-        [`Token ${state.token}`, state.replayList, state.replayInfo, state.selectedReplayHash]
-    ));
+    const [token, apiKey, userReplays, replayInfo, selectedReplayHash] = useSelector(selectData);
+
+    const clanTagIndex = name => (
+        name.indexOf('>') === -1 ? 0 : name.indexOf('>') + 1
+    );
 
     useEffect(() => {
         const getUserReplays = async () => {
             const url = 'http://127.0.0.1:8000/api/all/';
+            let status;
 
             const data = await fetch(url, {
                 method: 'GET',
                 headers: {
                     Authorization: token,
                 },
-            }).then(response => (
-                response.json()
-            )).then(responseBody => (
+            }).then((response) => {
+                status = response.status;
+                return response.json();
+            }).then(responseBody => (
                 responseBody
             )).catch(() => null);
 
-            if (data) {
+            if (status === 200) {
                 dispatch(setReplayList(data));
+            } else {
+                dispatch(setReplayList(false));
             }
         };
 
@@ -46,14 +66,12 @@ const Replays = () => {
                 const currentReplayInfo = {
                     fileHash: replay.file_hash,
                     matchup: `${replay.players[1].race.slice(0, 1)}v${replay.players[2].race.slice(0, 1)}`,
-                    gameLength: Math.ceil(replay.match_length / 60),
-                    result: replay.win ? 'Win' : 'Loss',
+                    map: replay.map,
+                    result: `${replay.win ? 'Win' : 'Loss'},\xa0\xa0\xa0\xa0${Math.ceil(replay.match_length / 60)}`,
                     date: replay.played_at.slice(0, 10),
-                    player1: `${replay.players[1].name.slice(replay.players[1].name.indexOf('>') === -1 ?
-                        0 : replay.players[1].name.indexOf('>') + 1)},
+                    player1: `${replay.players[1].name.slice(clanTagIndex(replay.players[1].name))},
                     ${replay.match_data.mmr[1] === 0 ? '' : replay.match_data.mmr[1]}`,
-                    player2: `${replay.players[2].name.slice(replay.players[2].name.indexOf('>') === -1 ?
-                        0 : replay.players[2].name.indexOf('>') + 1)},
+                    player2: `${replay.players[2].name.slice(clanTagIndex(replay.players[2].name))},
                     ${replay.match_data.mmr[2] === 0 ? '' : replay.match_data.mmr[2]}`,
                 };
                 newReplays.push(currentReplayInfo);
@@ -61,7 +79,7 @@ const Replays = () => {
             dispatch(setReplayInfo(newReplays));
         };
 
-        if (userReplays.length > 0) {
+        if (userReplays && (userReplays.length > 0)) {
             filterReplayInfo();
         }
     }, [userReplays]);
@@ -75,41 +93,16 @@ const Replays = () => {
             });
         };
 
-        if (userReplays.length > 0) {
+        if (userReplays && (userReplays.length > 0)) {
             getSelectedReplay();
         }
     }, [selectedReplayHash]);
 
-    const statNames = {
-        sq: 'SQ',
-        apm: 'APM',
-        avg_pac_action_latency: 'Avg PAC Action Latency (s)',
-        avg_pac_actions: 'Avg PAC Actions',
-        avg_pac_gap: 'Avg PAC Gap (s)',
-        avg_pac_per_min: 'Avg PAC Per Minute',
-        workers_produced: 'Workers Produced',
-        workers_lost: 'Workers Lost',
-        avg_unspent_resources: 'Avg Unspent Resources',
-        avg_resource_collection_rate: 'Avg Collection Rate',
-        resources_lost: 'Resources Lost',
-        inject_count: 'Inject Count',
-    };
-
     useEffect(() => {
         const filterSelectedReplayInfo = () => {
-            const infoList = {};
+            const infoList = { user_match_id: selectedReplay.user_match_id };
             Object.entries(selectedReplay.match_data).forEach(([stat, values]) => {
-                if (stat in statNames) {
-                    if ('minerals' in values) {
-                        const newValues = {
-                            1: `${Math.ceil(values.minerals[1])}/${Math.ceil(values.gas[1])}`,
-                            2: `${Math.ceil(values.minerals[2])}/${Math.ceil(values.gas[2])}`,
-                        };
-                        infoList[statNames[stat]] = newValues;
-                    } else {
-                        infoList[statNames[stat]] = values;
-                    }
-                }
+                infoList[stat] = values;
             });
             setSelectedReplayInfo(infoList);
         };
@@ -118,89 +111,86 @@ const Replays = () => {
         }
     }, [selectedReplay]);
 
-    const clanTagIndex = name => (
-        name.indexOf('>') === -1 ? 0 : name.indexOf('>') + 1
-    );
+    const statCategories = ['general', 'economic', 'PAC', 'efficiency'];
 
     const pageTitle = 'Replays';
 
     const mainContent = (
-        replayInfo.length > 0 ?
-            <ReplayList replayList={replayInfo} />
-            :
-            <WaveAnimation />
-    );
-
-    const sideBar = (
-        <div className="replay-info">
-            <h1 className="replay-info__title">Match Summary</h1>
-            <div className="replay-info__stats">
-                {selectedReplay &&
-                    <Fragment>
-                        <h3 className="replay-info__result">
+        <div className={`replay-info${selectedReplayInfo ? '' : '--default'}`}>
+            {!selectedReplayInfo && <h2 className="replay-info__default">Select a replay to view</h2>}
+            {selectedReplayInfo &&
+                <div className="replay-info__stats">
+                    <div className="replay-info__title-area">
+                        <h2 className="replay-info__matchup">
+                            {`${selectedReplay.players[1].race.slice(0, 1)}v${selectedReplay.players[2].race.slice(0, 1)}`}
+                        </h2>
+                        <h2 className="replay-info__map">
+                            {selectedReplay.map}
+                        </h2>
+                        <span className="replay-info__date">
+                            {selectedReplay.played_at.slice(0, 1)} Months Ago
+                        </span>
+                        <span className="replay-info__result">
                             {selectedReplay.win ?
                                 <span className="replay-info__result--win">Win</span>
                                 :
                                 <span className="replay-info__result--loss">Loss</span>
                             }
-                            {`\xa0\xa0\xa0${selectedReplay.map}\xa0\xa0
-                            ${selectedReplay.players[1].race.slice(0, 1)}v${selectedReplay.players[2].race.slice(0, 1)}
-                            \xa0
-                            ${Math.ceil(selectedReplay.match_length / 60)} min`}
-                        </h3>
-                        <table className="replay-info__stats-summary">
-                            <thead>
-                                <tr>
-                                    <th className="replay-info__player-name" />
-                                    <th className="replay-info__player-name">
-                                        {`${selectedReplay.players[1].name.slice(clanTagIndex(selectedReplay.players[1].name))}
-                                        (${selectedReplay.players[1].race.slice(0, 1)})`}
-                                    </th>
-                                    <th className="replay-info__player-name">
-                                        {`${selectedReplay.players[2].name.slice(clanTagIndex(selectedReplay.players[2].name))}
-                                        (${selectedReplay.players[2].race.slice(0, 1)})`}
-                                    </th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {selectedReplayInfo !== null && Object.values(statNames).map(stat => (
-                                    <tr key={`${stat}${selectedReplayInfo[stat][1]}${selectedReplayInfo[stat][2]}`}>
-                                        <td key={stat}>{stat}</td>
-                                        <td key={selectedReplayInfo[stat][1]}>
-                                            <span
-                                                key={`${selectedReplayInfo[stat][1]}-span`}
-                                                className={`replay-info__stat replay-info__stat-${stat.split(' ').join('')} ${selectedReplayInfo[stat][1] > selectedReplayInfo[stat][2] ?
-                                                    `replay-info__stat--win replay-info__stat-${stat.split(' ').join('')}--win`
-                                                    :
-                                                    `replay-info__stat--loss replay-info__stat-${stat.split(' ').join('')}--loss`}
-                                                `}
-                                            >
-                                                {selectedReplayInfo[stat][1]}
-                                            </span>
-                                        </td>
-                                        <td key={selectedReplayInfo[stat][2]}>
-                                            <span
-                                                key={`${selectedReplayInfo[stat][2]}-span`}
-                                                className={`replay-info__stat replay-info__stat-${stat.split(' ').join('')} ${selectedReplayInfo[stat][2] > selectedReplayInfo[stat][1] ?
-                                                    `replay-info__stat--win replay-info__stat-${stat.split(' ').join('')}--win`
-                                                    :
-                                                    `replay-info__stat--loss replay-info__stat-${stat.split(' ').join('')}--loss`}
-                                                `}
-                                            >
-                                                {selectedReplayInfo[stat][2]}
-                                            </span>
-                                        </td>
-                                    </tr>
-                                ))}
-
-                            </tbody>
-                        </table>
-                    </Fragment>
-                }
-                {!selectedReplayInfo && <h2 className="replay-info__default">Select a replay to view</h2>}
-            </div>
+                            {`\xa0\xa0\xa0\xa0${Math.ceil(selectedReplay.match_length / 60)} min`}
+                        </span>
+                        <div className="replay-info__players">
+                            <div
+                                className={
+                                    `replay-info__player-info replay-info__player-info--player1
+                                    ${selectedReplay.user_match_id === 1 ? 'replay-info__player-info--user' : ''}`
+                                }
+                            >
+                                <h2 className="replay-info__player-name">
+                                    {selectedReplay.players[1].name.slice(clanTagIndex(selectedReplay.players[1].name))}
+                                </h2>
+                                <span className="replay-info__player-details">
+                                    {selectedReplay.match_data.mmr[1]}&nbsp;&nbsp;&nbsp;Player 1
+                                </span>
+                            </div>
+                            <div
+                                className={
+                                    `replay-info__player-info replay-info__player-info--player2
+                                    ${selectedReplay.user_match_id === 2 ? 'replay-info__player-info--user' : ''}`
+                                }
+                            >
+                                <h2 className="replay-info__player-name">
+                                    {selectedReplay.players[2].name.slice(clanTagIndex(selectedReplay.players[2].name))}
+                                </h2>
+                                <span className="replay-info__player-details">
+                                    {selectedReplay.match_data.mmr[2]}&nbsp;&nbsp;&nbsp;Player 2
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    {statCategories.map(category => (
+                        <StatCategory
+                            key={category}
+                            type="replays"
+                            category={category}
+                            replayInfo={selectedReplayInfo}
+                        />
+                    ))}
+                </div>}
         </div>
     );
+
+    let sideBar;
+
+    if (userReplays) {
+        sideBar = (
+            replayInfo.length > 0 ?
+                <ReplayList replayList={replayInfo} apiKey={apiKey} />
+                :
+                <WaveAnimation />
+        );
+    } else {
+        sideBar = (<DefaultResponse />);
+    }
 
     return (
         <div className="Replays">
@@ -209,6 +199,7 @@ const Replays = () => {
                 pageTitle={pageTitle}
                 mainContent={mainContent}
                 sideBar={sideBar}
+                modifier="replays"
             />
         </div>
     );

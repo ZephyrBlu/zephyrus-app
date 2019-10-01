@@ -12,7 +12,7 @@ import {
 // import Tippy from '@tippy.js/react';
 import { setTrends } from '../../actions';
 import ProfileSection from '../General/ProfileSection';
-import StatCategory from './StatCategory';
+import StatCategory from '../General/StatCategory';
 import InfoTooltip from '../General/InfoTooltip';
 import CustomTooltip from '../General/Tooltip';
 import DefaultResponse from '../General/DefaultResponse';
@@ -336,7 +336,31 @@ const Analysis = () => {
                 }
             </div>
             <div className="recent-trends">
-                <h2 className="recent-trends__title">Recent Performance</h2>
+                <span className="recent-trends__title-area">
+                    <h2 className="recent-trends__title">
+                        Recent Performance
+                    </h2>
+                    <h3 className="recent-trends__winrate">
+                        {playerTrends && (
+                            <Fragment>
+                                <span className={playerTrends.winrate >= 50 ?
+                                    'TrendStat__trend--positive' : 'TrendStat__trend--negative'}
+                                >
+                                    {playerTrends.winrate}
+                                </span>% over {timelineData.slice(-1)[0].count} games&#160;
+                                <small>
+                                    ({timelineData.slice(-1)[0].winrate[1] >= 0 ?
+                                        <span className="TrendStat__trend--positive">
+                                            +{timelineData.slice(-1)[0].winrate[1]}
+                                        </span>
+                                        :
+                                        <span className="TrendStat__trend--negative">
+                                            {timelineData.slice(-1)[0].winrate[1]}
+                                        </span>}% this week)
+                                </small>
+                            </Fragment>)}
+                    </h3>
+                </span>
                 {playerTrends &&
                     <div className="recent-trends__content">
                         {statCategories.map(category => (

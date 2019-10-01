@@ -1,68 +1,107 @@
 .ReplayRecord {
     display: grid;
-    grid-template: 1fr / repeat(6, 1fr);
+    /*grid-template: 1fr / repeat(6, 1fr);
     grid-template-areas:
     'matchup game-length result date player1 player2';
     align-items: center;
-    justify-items: center;
+    justify-items: center;*/
+
+    grid-template: min-content min-content / repeat(4, max-content);
+    grid-template-areas:
+    'matchup map map player1'
+    'date result result player2';
+    grid-gap: 5px 20px;
+
     height: min-content;
-    margin: 10px;
+    width: 450px;
+    margin: 10px auto;
+    margin-right: 11.5px;
     padding: 15px;
     border-radius: 15px;
     cursor: pointer;
     transition: background-color 0.3s;
+    background-color: var(--secondary-background);
 }
 
 .ReplayRecord:focus {
     outline: none;
+    box-shadow: 0 0 0 1px var(--grey);
 }
 
 .ReplayRecord--win {
-    background-color: hsla(120, 100%, 40%, 0.3);
+    #box-shadow: 0 0 0 2px hsla(120, 100%, 40%, 0.3) inset;
 }
 
 .ReplayRecord--loss {
-    background-color: hsla(0, 100%, 40%, 0.3);
+    #box-shadow: 0 0 0 2px hsla(0, 100%, 40%, 0.3) inset;
 }
 
-.ReplayRecord--win:hover, .ReplayRecord--win:focus {
+.ReplayRecord__stat--win {
+    background-color: var(--green-highlight);
+    border-radius: 15px;
+    padding: 4px 10px;
+}
+
+.ReplayRecord__stat--loss {
+    background-color: var(--red-highlight);
+    border-radius: 15px;
+    padding: 4px 10px;
+}
+
+/*.ReplayRecord--win:hover, .ReplayRecord--win:focus {
     background-color: hsla(120, 100%, 50%, 0.5);
 }
 
 .ReplayRecord--loss:hover, .ReplayRecord--loss:focus {
     background-color: hsla(0, 100%, 50%, 0.5);
-}
+}*/
 
 .ReplayRecord--win-selected {
-    background-color: hsla(120, 100%, 50%, 0.5);
-    box-shadow: 0 0 0 2px var(--light-blue) inset;
+    background-color: var(--tertiary-background);
+    box-shadow: 0 0 0 1px var(--grey);
 }
 
 .ReplayRecord--loss-selected {
-    background-color: hsla(0, 100%, 50%, 0.5);
-    box-shadow: 0 0 0 2px var(--light-blue) inset;
-}
-
-.ReplayRecord * {
-    height: min-content;
+    background-color: var(--tertiary-background);
+    box-shadow: 0 0 0 1px var(--grey);
 }
 
 .ReplayRecord__matchup {
     grid-area: matchup;
+    font-size: 24px;
 }
 
-.ReplayRecord__game-length {
+.ReplayRecord__map {
+    grid-area: map;
+    font-size: 20px;
+}
+
+.ReplayRecord__gameLength {
     grid-area: game-length;
+    font-size: 16px;
 }
 
 .ReplayRecord__result {
     grid-area: result;
+    font-size: 16px;
 }
 
 .ReplayRecord__date {
     grid-area: date;
+    font-size: 14px;
+    align-self: flex-end;
+    color: var(--grey);
 }
 
-.ReplayRecord__players {
-    grid-area: players;
+.ReplayRecord__player1 {
+    grid-area: player1;
+    align-self: flex-start;
+    justify-self: flex-end;
+    margin-top: 3px;
+}
+
+.ReplayRecord__player2 {
+    grid-area: player2;
+    align-self: flex-end;
+    justify-self: flex-end;
 }

@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import { Router, Redirect } from '@reach/router';
-import { setAuthToken } from './actions';
+import { setAuthToken, setApiKey } from './actions';
 import Login from './Components/Login';
 import Overview from './Components/Overview/Overview';
 import Replays from './Components/Replays/Replays';
@@ -12,9 +12,15 @@ import './ProfileApp.css';
 const ProfileApp = () => {
     const dispatch = useDispatch();
     let token = useSelector(state => state.token);
+    let apiKey = useSelector(state => state.apiKey);
     if (sessionStorage.token && !token) {
         token = sessionStorage.token;
         dispatch(setAuthToken(token));
+    }
+
+    if (sessionStorage.apiKey && !apiKey) {
+        apiKey = sessionStorage.apiKey;
+        dispatch(setApiKey(apiKey));
     }
 
     const urlParams = new URLSearchParams(window.location.search);

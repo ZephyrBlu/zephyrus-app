@@ -24,6 +24,7 @@
     "recharts": "^1.7.1",
     "redux": "^4.0.4",
     "redux-thunk": "^2.3.0",
+    "reselect": "^4.0.0",
     "webpack": "^4.39.1"
   },
   "devDependencies": {

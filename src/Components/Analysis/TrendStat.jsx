@@ -1,41 +1,9 @@
 import './CSS/TrendStat.css';
 
-const TrendStat = (props) => {
-    if (props.stat === 'winrate') {
-        // return (
-        //     <div
-        //         key={props.stat}
-        //         className={`
-        //             TrendStat__stat
-        //             TrendStat__stat--winrate
-        //             ${props.modifier ? `TrendStat__stat--${props.modifier}` : ''}
-        //         `}
-        //     >
-        //         <span key={`${props.stat}-title`} className="TrendStat__stat-title-area">
-        //             <h2 className="TrendStat__stat-title">
-        //                 {props.statName}&#160;
-        //                 <span className={props.trends.winrate >= 50 ?
-        //                     'TrendStat__trend--positive' : 'TrendStat__trend--negative'}
-        //                 >
-        //                     {props.trends.winrate}
-        //                 </span>%&#160;
-        //                 <small>
-        //                     ({props.recentPercentDiff[props.stat][1] >= 0 ?
-        //                         <span className="TrendStat__trend--positive">
-        //                             +{props.recentPercentDiff[props.stat][1]}%
-        //                         </span>
-        //                         :
-        //                         <span className="TrendStat__trend--negative">
-        //                             {props.recentPercentDiff[props.stat][1]}%
-        //                         </span>} this week)
-        //                 </small>
-        //             </h2>
-        //         </span>
-        //     </div>
-        // );
-        return null;
-    }
-    return (
+const TrendStat = props => (
+    props.stat === 'winrate' ?
+        null
+        :
         <div
             key={props.stat}
             className={`
@@ -99,7 +67,6 @@ const TrendStat = (props) => {
                 </li>
             </ul>
         </div>
-    );
-};
+);
 
 export default TrendStat;

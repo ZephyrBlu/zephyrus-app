@@ -92,28 +92,37 @@
     padding-bottom: 1px;
 }
 
+.recent-trends__title-area {
+    grid-area: trends-title;
+}
+
 .recent-trends__title {
-    grid-area: title;
-    margin: 0 0 10px;
+    margin: 0 0 5px;
     width: max-content;
     font-family: 'Raleway', sans-serif;
     font-size: 28px;
+}
+
+.recent-trends__winrate {
+    width: max-content;
+    margin: 0 0 20px;
+    font-size: 20px;
 }
 
 .recent-trends__content {
     display: grid;
     grid-template: min-content repeat(1, max-content) / repeat(4, max-content);
     grid-template-areas:
-    'title title title title'
+    'trends-title trends-title trends-title trends-title'
     'general economic PAC efficiency';
-    grid-gap: 0px 40px;
+    grid-gap: 0px 30px;
 }
 
-@media (max-width: 1600px) {
+@media (max-width: 1450px) {
     .recent-trends__content {
         grid-template: min-content repeat(2, max-content) / repeat(2, max-content);
         grid-template-areas:
-        'title title'
+        'trends-title trends-title'
         'general economic'
         'PAC efficiency';
         grid-gap: 0px 40px;
