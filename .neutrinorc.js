@@ -1,5 +1,13 @@
 module.exports = {
   use: [
+    ['@neutrinojs/dev-server', {
+      publicPath: '/',
+      headers: {
+        stats: {
+          publicPath: true,
+        },
+      },
+    }],
     ['@neutrinojs/airbnb', {
       eslint: {
         rules: {

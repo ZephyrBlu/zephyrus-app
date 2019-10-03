@@ -9,29 +9,6 @@ const ReplayRecord = (props) => {
 
     const handleReplaySelection = async () => {
         dispatch(setSelectedReplayHash(props.hash));
-
-        let url = `https://www.googleapis.com/storage/v1/b/sc2-timelines-dev/o/${props.hash}.json.gz?key=${props.apiKey}`;
-
-        const metadata = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'Accept-Encoding': 'gzip',
-            },
-        }).then(response => (
-            response.json()
-        )).then(responseBody => (
-            responseBody
-        )).catch(() => null);
-
-        url = metadata.mediaLink;
-        const data = await fetch(url, {
-            method: 'GET',
-        }).then(response => (
-            response.json()
-        )).then(responseBody => (
-            responseBody
-        )).catch(() => null);
-        console.log(data);
     };
 
     const handleKeyDown = (key) => {
