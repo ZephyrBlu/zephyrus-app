@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
-import { setReplayList, setBattlenetStatus, setTrends } from '../../actions';
+import { setReplayList, setBattlenetStatus, setTrends, setSelectedReplayHash } from '../../actions';
 import InfoTooltip from '../General/InfoTooltip';
 import ProfileSection from '../General/ProfileSection';
 import './CSS/Upload.css';
@@ -86,6 +86,7 @@ const Upload = (props) => {
             )).catch(() => null);
         });
         dispatch(setReplayList([]));
+        dispatch(setSelectedReplayHash(null));
         dispatch(setTrends(null));
     };
 
