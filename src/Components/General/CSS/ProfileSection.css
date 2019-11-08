@@ -11,6 +11,7 @@
     'main-content side-bar';
 }
 
+.ProfileSection--Login,
 .ProfileSection--Upload,
 .ProfileSection--Analysis {
     grid-template: min-content 1fr / 1fr;
@@ -123,21 +124,11 @@
         'main-content side-bar';
     }
 
-    .PageHeader__page-title {
-        justify-self: flex-start;
-    }
-
     .ProfileNav {
         margin-right: 40px;
     }
 
     .side-bar {
         height: calc(100vh - 121px);
-    }
-}
-
-@media (max-width: 1100px) {
-    .PageHeader__page-title {
-        justify-self: center;
     }
 }

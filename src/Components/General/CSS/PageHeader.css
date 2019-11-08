@@ -1,7 +1,7 @@
 .PageHeader {
     grid-area: header;
     background-color: var(--header-background);
-    height: 120px;
+    height: 90px;
     display: grid;
     grid-template-areas: 'page-info page-title nav';
     grid-template-columns: 1fr 1fr 1fr;
@@ -24,4 +24,16 @@
     color: var(--text);
     font-family: 'Raleway', sans-serif;
     display: inline-block;
+}
+
+@media (max-width: 1400px) {
+    .PageHeader__page-title {
+        justify-self: flex-start;
+    }
+}
+
+@media (max-width: 1100px) {
+    .PageHeader__page-title {
+        justify-self: center;
+    }
 }

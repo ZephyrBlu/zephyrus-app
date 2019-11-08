@@ -1,3 +1,7 @@
+.Login .PageHeader__page-title {
+    justify-self: center;
+}
+
 .login-form {
     background-color: var(--secondary-background);
     width: max-content;
