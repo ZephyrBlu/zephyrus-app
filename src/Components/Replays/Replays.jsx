@@ -1,19 +1,10 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
 import { useState, useEffect, Fragment } from 'react';
-import {
-    ResponsiveContainer,
-    LineChart,
-    XAxis,
-    YAxis,
-    CartesianGrid,
-    Tooltip,
-    Line,
-} from 'recharts';
 import { setReplayList, setReplayInfo } from '../../actions';
 import ProfileSection from '../General/ProfileSection';
 import ReplayList from './ReplayList';
-// import TimelineArea from './TimelineArea';
+import TimelineArea from './TimelineArea';
 import StatCategory from '../General/StatCategory';
 import DefaultResponse from '../General/DefaultResponse';
 import WaveAnimation from '../General/WaveAnimation';
@@ -137,7 +128,6 @@ const Replays = () => {
             )).then(responseBody => (
                 responseBody
             )).catch(() => null);
-            console.log(data);
 
             setTimelineData(data.timeline);
 
@@ -174,19 +164,10 @@ const Replays = () => {
 
     const pageTitle = 'Replays';
 
-    const formatTick = (content) => {
-        const totalSeconds = Math.floor(Number(content) / 22.4);
-        const minutes = Math.floor(totalSeconds / 60);
-        const seconds = totalSeconds - (minutes * 60);
-        if (String(seconds).length === 1) {
-            return `${minutes}:0${seconds}`;
-        }
-        return `${minutes}:${seconds}`;
-    };
-
-    let timeout;
-    let prevGameloop = 0;
-    const currentTimelineState = cachedTimeline[currentGameloop];
+    const getPlayers = () => ({
+        1: selectedReplay.players[1].race,
+        2: selectedReplay.players[2].race,
+    });
 
     const mainContent = (
         <Fragment>
@@ -240,165 +221,17 @@ const Replays = () => {
                         </div>
                     </div>
                 </div>}
-            {selectedReplayHash && timelineData.length > 1 &&
-                <Fragment>
-                    <ResponsiveContainer width="100%" height={300}>
-                        <LineChart data={timelineData} margin={{ right: 25 }}>
-                            <XAxis
-                                dataKey="1.gameloop"
-                                tickFormatter={content => formatTick(content)}
-                            />
-                            <YAxis />
-                            <CartesianGrid horizontal={false} vertical={false} />
-                            <Tooltip
-                                formatter={(value, name, payload) => {
-                                    if (payload && payload.payload[1].gameloop !== prevGameloop) {
-                                        clearTimeout(timeout);
-                                        timeout = setTimeout(() => {
-                                            setCurrentGameloop(payload.payload[1].gameloop);
-                                        }, 10);
-                                        prevGameloop = payload.payload[1].gameloop;
-                                    }
-                                }}
-                                isAnimationActive={false}
-                                wrapperStyle={{ visibility: 'hidden' }}
-                            />
-                            <Line
-                                type="monotone"
-                                dataKey="1.resource_collection_rate.minerals"
-                                stroke="red"
-                                activeDot={false}
-                                dot={false}
-                            />
-                            <Line
-                                type="monotone"
-                                dataKey="2.resource_collection_rate.minerals"
-                                stroke="blue"
-                                activeDot={false}
-                                dot={false}
-                            />
-                        </LineChart>
-                    </ResponsiveContainer>
-                    {cachedTimeline[currentGameloop] &&
-                        <div className="timeline-state">
-                            <div className="timeline-state__units">
-                                <h2>Units</h2>
-                                <div className="timeline-state__info timeline-state__info--live">
-                                    {Object.keys(currentTimelineState).map(playerId => (
-                                        <div
-                                            key={`timeline-state__unit-info-player${playerId}`}
-                                            className={`timeline-state__info-player${playerId}`}
-                                        >
-                                            {currentTimelineState[playerId].unit &&
-                                                Object.entries(currentTimelineState[playerId].unit).map(([unitName, unitInfo]) => (
-                                                    unitInfo.live > 0 &&
-                                                        <Fragment>
-                                                            <img
-                                                                alt={unitName}
-                                                                title={unitName}
-                                                                className="timeline-state__image"
-                                                                src={`./images/units/${selectedReplay.players[playerId].race}/${unitName}.jpg`}
-                                                            />
-                                                            <div className="timeline-state__object-count timeline-state__object-count--live">{unitInfo.live}</div>
-                                                        </Fragment>
-                                                ))}
-                                        </div>
-                                    ))}
-                                </div>
-                                <div className="timeline-state__info timeline-state__info--died">
-                                    {Object.keys(currentTimelineState).map(playerId => (
-                                        <div
-                                            key={`timeline-state__info-player${playerId}`}
-                                            className={`timeline-state__info-player${playerId}`}
-                                        >
-                                            {currentTimelineState[playerId].unit &&
-                                                Object.entries(currentTimelineState[playerId].unit).map(([unitName, unitInfo]) => (
-                                                    unitInfo.died > 0 &&
-                                                        <Fragment>
-                                                            <img
-                                                                alt={unitName}
-                                                                title={unitName}
-                                                                className="timeline-state__image timeline-state__image--small"
-                                                                src={`./images/units/${selectedReplay.players[playerId].race}/${unitName}.jpg`}
-                                                            />
-                                                            <div className="timeline-state__object-count timeline-state__object-count--small timeline-state__object-count--died">{unitInfo.died}</div>
-                                                        </Fragment>
-                                                ))}
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                            <div className="timeline-state__buildings">
-                                <h2>Buildings</h2>
-                                <div className="timeline-state__info timeline-state__info--live">
-                                    {Object.keys(currentTimelineState).map(playerId => (
-                                        <div
-                                            key={`timeline-state__building-info-player${playerId}`}
-                                            className={`timeline-state__info-player${playerId}`}
-                                        >
-                                            {currentTimelineState[playerId].building &&
-                                                Object.entries(currentTimelineState[playerId].building).map(([buildingName, buildingInfo]) => (
-                                                    buildingInfo.live > 0 &&
-                                                        <Fragment>
-                                                            <img
-                                                                alt={buildingName}
-                                                                title={buildingName}
-                                                                className="timeline-state__image"
-                                                                src={`./images/buildings/${selectedReplay.players[playerId].race}/${buildingName}.jpg`}
-                                                            />
-                                                            <div className="timeline-state__object-count">{buildingInfo.live}</div>
-                                                        </Fragment>
-                                                ))}
-                                        </div>
-                                    ))}
-                                </div>
-                                <div className="timeline-state__info timeline-state__info--died">
-                                    {Object.keys(currentTimelineState).map(playerId => (
-                                        <div
-                                            key={`timeline-state__building-info-player${playerId}`}
-                                            className={`timeline-state__info-player${playerId}`}
-                                        >
-                                            {currentTimelineState[playerId].building &&
-                                                Object.entries(currentTimelineState[playerId].building).map(([buildingName, buildingInfo]) => (
-                                                    buildingInfo.died > 0 &&
-                                                        <Fragment>
-                                                            <img
-                                                                alt={buildingName}
-                                                                title={buildingName}
-                                                                className="timeline-state__image timeline-state__image--small"
-                                                                src={`./images/buildings/${selectedReplay.players[playerId].race}/${buildingName}.jpg`}
-                                                            />
-                                                            <div className="timeline-state__object-count timeline-state__object-count--small timeline-state__object-count--died">{buildingInfo.died}</div>
-                                                        </Fragment>
-                                                ))}
-                                        </div>
-                                    ))}
-                                </div>
-                                <div className="timeline-state__info timeline-state__info--in-progress">
-                                    {Object.keys(currentTimelineState).map(playerId => (
-                                        <div className={`timeline-state__info-player${playerId}`}>
-                                            {currentTimelineState[playerId].building &&
-                                                Object.entries(currentTimelineState[playerId].building).map(([buildingName, buildingInfo]) => (
-                                                    buildingInfo.in_progress > 0 &&
-                                                        <Fragment>
-                                                            <img
-                                                                alt={buildingName}
-                                                                title={buildingName}
-                                                                className="timeline-state__image timeline-state__image--small"
-                                                                src={`./images/buildings/${selectedReplay.players[playerId].race}/${buildingName}.jpg`}
-                                                            />
-                                                            <div className="timeline-state__object-count timeline-state__object-count--small timeline-state__object-count--in-progress">{buildingInfo.in_progress}</div>
-                                                        </Fragment>
-                                                ))}
-                                        </div>
-                                    ))}
-                                </div>
-                            </div>
-                        </div>}
-                </Fragment>}
-            {selectedReplayHash && timelineData.length === 1 && <WaveAnimation />}
+            {selectedReplayHash && (timelineData.length > 1 ?
+                <TimelineArea
+                    timelineData={timelineData}
+                    timeline={cachedTimeline}
+                    gameloop={currentGameloop}
+                    setGameloop={setCurrentGameloop}
+                    players={getPlayers()}
+                /> : <WaveAnimation />)}
             <div className={`replay-info${selectedReplayInfo ? '' : '--default'}`}>
-                {!selectedReplayInfo && <h2 className="replay-info__default">Select a replay to view</h2>}
+                {!selectedReplayInfo &&
+                    <h2 className="replay-info__default">Select a replay to view</h2>}
                 {selectedReplayInfo &&
                     <div className="replay-info__stats">
                         {statCategories.map(category => (
