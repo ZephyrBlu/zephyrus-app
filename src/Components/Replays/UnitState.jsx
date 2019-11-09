@@ -6,9 +6,10 @@ const UnitState = (props) => {
     const unitStates = ['live', 'died'];
     const ignoreUnits = ['LocustMP', 'BroodlingEscort'];
     let unitsRendered = 0;
+    const unitLimit = window.innerWidth > 1400 ? 10 : 6;
 
     const insertBreak = () => {
-        const isBreak = (unitsRendered >= 10 && unitsRendered % 10 === 0) ? <br /> : null;
+        const isBreak = (unitsRendered >= unitLimit && unitsRendered % unitLimit === 0) ? <br /> : null;
         unitsRendered += 1;
 
         return isBreak;

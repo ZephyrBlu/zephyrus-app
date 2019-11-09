@@ -6,9 +6,10 @@ const BuildingState = (props) => {
     const buildingStates = ['live', 'died', 'in_progress'];
     const ignoreBuildings = ['CreepTumor', 'CreepTumorQueen'];
     let unitsRendered = 0;
+    const unitLimit = window.innerWidth > 1400 ? 10 : 6;
 
     const insertBreak = () => {
-        const isBreak = (unitsRendered >= 10 && unitsRendered % 10 === 0) ? <br /> : null;
+        const isBreak = (unitsRendered >= unitLimit && unitsRendered % unitLimit === 0) ? <br /> : null;
         unitsRendered += 1;
 
         return isBreak;
