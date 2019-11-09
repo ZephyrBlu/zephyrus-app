@@ -9,7 +9,6 @@ import {
     Tooltip,
     Line,
 } from 'recharts';
-// import Tippy from '@tippy.js/react';
 import { setTrends } from '../../actions';
 import ProfileSection from '../General/ProfileSection';
 import StatCategory from '../General/StatCategory';
@@ -164,11 +163,11 @@ const Analysis = () => {
             case 'tick': {
                 if (content.indexOf('*') !== -1) {
                     const [start, fraction] = formatString();
-                    return `${start.trim()}${fraction} mo ago`;
+                    return `${start.trim()}${fraction} mo`;
                 }
 
                 if (content.slice(1, 2) === 'm') {
-                    return `${content.slice(0, 1)}mo ago`;
+                    return `${content.slice(0, 1)}mo`;
                 }
                 return content;
             }
@@ -176,13 +175,13 @@ const Analysis = () => {
             case 'chart': {
                 if (content.indexOf('*') !== -1) {
                     const [start, fraction] = formatString();
-                    return `${start.trim()}${fraction} Months Ago`;
+                    return `${start.trim()}${fraction} Month(s) Ago`;
                 }
 
                 if (content.slice(1, 2) === 'm') {
-                    return `${content.slice(0, 1)} Months Ago`;
+                    return `${content.slice(0, 1)} Month(s) Ago`;
                 }
-                return `${content.slice(0, 1)} Weeks Ago`;
+                return `${content.slice(0, 1)} Week(s) Ago`;
             }
 
             default:
