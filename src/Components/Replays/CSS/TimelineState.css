@@ -27,6 +27,10 @@
     height: 14px;
 }
 
+.timeline-state__info.timeline-state__info--current-selection {
+    grid-template-rows: 50px;
+}
+
 .timeline-state__object-count--died {
     background-color: hsl(0, 70%, 25%);
 }

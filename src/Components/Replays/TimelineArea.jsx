@@ -7,11 +7,13 @@ import {
     Tooltip,
     Line,
 } from 'recharts';
-import { Fragment } from 'react';
+import { Fragment, useState } from 'react';
 import UnitState from './UnitState';
 import BuildingState from './BuildingState';
+import CurrentSelectionState from './CurrentSelectionState';
 
 const TimelineArea = (props) => {
+    const [isTimelineFrozen, setTimelineState] = useState(false);
     let timeout;
     let prevGameloop = 0;
     const currentTimelineState = props.timeline[props.gameloop];
@@ -29,7 +31,15 @@ const TimelineArea = (props) => {
     return (
         <Fragment>
             <ResponsiveContainer width="100%" height={200}>
-                <LineChart data={props.timelineData} margin={{ right: 25 }}>
+                <LineChart
+                    data={props.timelineData}
+                    margin={{ right: 25 }}
+                    onClick={
+                        () => (
+                            isTimelineFrozen ? setTimelineState(false) : setTimelineState(true)
+                        )
+                    }
+                >
                     <XAxis
                         dataKey="1.gameloop"
                         tickFormatter={content => formatTick(content)}
@@ -38,7 +48,9 @@ const TimelineArea = (props) => {
                     <CartesianGrid horizontal={false} vertical={false} />
                     <Tooltip
                         formatter={(value, name, payload) => {
-                            if (payload && payload.payload[1].gameloop !== prevGameloop) {
+                            if (isTimelineFrozen) {
+                                // pass
+                            } else if (payload && payload.payload[1].gameloop !== prevGameloop) {
                                 clearTimeout(timeout);
                                 timeout = setTimeout(() => {
                                     props.setGameloop(payload.payload[1].gameloop);
@@ -51,14 +63,14 @@ const TimelineArea = (props) => {
                     />
                     <Line
                         type="monotone"
-                        dataKey="1.resource_collection_rate.minerals"
+                        dataKey={`1.${props.timelineStat}`}
                         stroke="red"
                         activeDot={false}
                         dot={false}
                     />
                     <Line
                         type="monotone"
-                        dataKey="2.resource_collection_rate.minerals"
+                        dataKey={`2.${props.timelineStat}`}
                         stroke="blue"
                         activeDot={false}
                         dot={false}
@@ -67,6 +79,10 @@ const TimelineArea = (props) => {
             </ResponsiveContainer>
             {currentTimelineState &&
                 <div className="timeline-state">
+                    <CurrentSelectionState
+                        timelineState={currentTimelineState}
+                        players={props.players}
+                    />
                     <UnitState
                         timelineState={currentTimelineState}
                         players={props.players}

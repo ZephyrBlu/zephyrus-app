@@ -10,14 +10,8 @@
 
 .replay-info__stats {
     display: grid;
-    /*grid-template: repeat(2, max-content) / repeat(4, max-content);
-    grid-template-areas:
-    'replay-info-result replay-info-result replay-info-result replay-info-result'
-    'general economic PAC efficiency';
-    grid-gap: 0px 40px;*/
     grid-template: repeat(2, max-content) / repeat(2, 1fr);
     grid-template-areas:
-    /*'replay-info-result replay-info-result'*/
     'general economic'
     'PAC efficiency';
     grid-column-gap: 80px;
@@ -31,27 +25,56 @@
     grid-template: max-content max-content / repeat(3, max-content) 1fr;
     grid-template-areas:
     'matchup map result players'
-    'date date date players';
+    'date date date stat-selection';
     grid-gap: 0 20px;
     margin: 20px 25px 40px 60px;
+}
+
+.replay-info__stat-select {
+    background: none;
+    border: none;
+    color: var(--text);
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    grid-area: stat-selection;
+    justify-self: flex-end;
+    font-size: 20px;
+    width: max-content;
+    margin-right: 20px;
+    margin-top: 15px;
+}
+
+.replay-info__stat-select:hover {
+    cursor: pointer;
+}
+
+.replay-info__selection-arrow {
+    transform: rotate(90deg);
+    height: 20px;
+    position: relative;
+    top: 4px;
+    left: 8px;
 }
 
 .replay-info__players {
     grid-area: players;
     justify-self: flex-end;
-    margin-right: 60px;
+    margin-right: 20px;
     margin-top: 5px;
 }
 
 .replay-info__player-info {
     display: inline-block;
+    /*border: 1px solid var(--grey);
+    border-radius: 15px;*/
+    padding: 4px 0;
 }
 
 .replay-info__player-info--user {
-    border-bottom: 1px solid var(--grey);
+    /*border-bottom: 1px solid var(--grey);
     #border-radius: 15px;
     padding: 10px;
-    padding-top: 0;
+    padding-top: 0;*/
 }
 
 .replay-info__player-info--player1 {
@@ -61,7 +84,14 @@
 .replay-info__player-name {
     margin: 0;
     margin-bottom: 10px;
-    font-size: 24px;
+    font-size: 16px;
+    display: inline;
+    padding: 4px;
+    padding-right: 8px;
+    border: 1px solid var(--grey);
+    border-left: none;
+    #box-shadow: 0 0 0 1px var(--grey) inset;
+    border-radius: 0 15px 15px 0;
 }
 
 .replay-info__player-details {
@@ -69,22 +99,19 @@
 }
 
 .replay-info__player {
-    border-radius: 15px;
-    padding: 4px 10px;
+    border-radius: 15px 0 0 15px;
+    padding: 5px 10px;
+    padding-right: 4px;
 }
 
 .replay-info__player--1 {
     background-color: hsla(0, 100%, 50%, 0.6);
     color: hsl(0, 0%, 85%);
-    border-radius: 15px;
-    padding: 4px 10px;
 }
 
 .replay-info__player--2 {
     background-color: hsla(240, 100%, 50%, 0.6);
     color: hsl(0, 0%, 85%);
-    border-radius: 15px;
-    padding: 4px 10px;
 }
 
 .replay-info__matchup {

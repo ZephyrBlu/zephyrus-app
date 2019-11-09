@@ -25,7 +25,7 @@ const Replays = () => {
     const dispatch = useDispatch();
     const [selectedReplay, setSelectedReplay] = useState(null);
     const [selectedReplayInfo, setSelectedReplayInfo] = useState(null);
-    // const [timelineStat, setTimelineStat] = useState('resource_collection_rate');
+    const [timelineStat, setTimelineStat] = useState('resource_collection_rate.minerals');
     const [token, apiKey, userReplays, replayInfo, selectedReplayHash] = useSelector(selectData);
     const [cachedTimeline, setCachedTimeline] = useState({ 0: { 1: {} } });
     const [currentGameloop, setCurrentGameloop] = useState(0);
@@ -197,13 +197,10 @@ const Replays = () => {
                                 ${selectedReplay.user_match_id === 1 ? 'replay-info__player-info--user' : ''}`
                             }
                         >
+                            <span className="replay-info__player replay-info__player--1">Player 1</span>
                             <h2 className="replay-info__player-name">
                                 {selectedReplay.players[1].name.slice(clanTagIndex(selectedReplay.players[1].name))}
                             </h2>
-                            <span className="replay-info__player-details">
-                                {selectedReplay.match_data.mmr[1]}&nbsp;&nbsp;&nbsp;
-                                <span className="replay-info__player replay-info__player--1">Player 1</span>
-                            </span>
                         </div>
                         <div
                             className={
@@ -211,20 +208,29 @@ const Replays = () => {
                                 ${selectedReplay.user_match_id === 2 ? 'replay-info__player-info--user' : ''}`
                             }
                         >
+                            <span className="replay-info__player replay-info__player--2">Player 2</span>
                             <h2 className="replay-info__player-name">
                                 {selectedReplay.players[2].name.slice(clanTagIndex(selectedReplay.players[2].name))}
                             </h2>
-                            <span className="replay-info__player-details">
-                                {selectedReplay.match_data.mmr[2]}&nbsp;&nbsp;&nbsp;
-                                <span className="replay-info__player replay-info__player--2">Player 2</span>
-                            </span>
                         </div>
                     </div>
+                    <button
+                        className="replay-info__stat-select"
+                        onClick={() => console.log('hello')}
+                    >
+                        Mineral Collection Rate
+                        <img
+                            className="replay-info__selection-arrow"
+                            src="../../icons/down-arrow.svg"
+                            alt=""
+                        />
+                    </button>
                 </div>}
             {selectedReplayHash && (timelineData.length > 1 ?
                 <TimelineArea
                     timelineData={timelineData}
                     timeline={cachedTimeline}
+                    timelineStat={timelineStat}
                     gameloop={currentGameloop}
                     setGameloop={setCurrentGameloop}
                     players={getPlayers()}
