@@ -129,6 +129,7 @@
     }
 
     .side-bar {
-        height: calc(100vh - 121px);
+        #height: calc(100vh - 121px);
+        height: calc(100vh - 91px);
     }
 }
