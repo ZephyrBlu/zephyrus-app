@@ -3,12 +3,14 @@ import { useState, useEffect } from 'react';
 import { setReplayList, setBattlenetStatus, setTrends, setSelectedReplayHash } from '../../actions';
 import InfoTooltip from '../General/InfoTooltip';
 import ProfileSection from '../General/ProfileSection';
+import SpinningRingAnimation from '../General/SpinningRingAnimation';
 import './CSS/Upload.css';
 
 const Upload = (props) => {
     const dispatch = useDispatch();
     const token = useSelector(state => `Token ${state.token}`);
     const hasAuthenticatedBattlenet = useSelector(state => state.battlenetStatus);
+    const [uploadInProgress, setUploadInProgress] = useState(false);
     const [uploadReponse, setUploadResponse] = useState(null);
 
     useEffect(() => {
@@ -62,6 +64,8 @@ const Upload = (props) => {
             }
         });
 
+        setUploadInProgress(true);
+
         const url = 'http://127.0.0.1:8000/api/upload/';
 
         let success = 0;
@@ -79,6 +83,7 @@ const Upload = (props) => {
                 } else {
                     fail += 1;
                 }
+                setUploadInProgress(false);
                 setUploadResponse(`${success}/${fileList.length} uploaded, ${fail} failed to process`);
                 return response.json();
             }).then(responseBody => (
@@ -104,6 +109,9 @@ const Upload = (props) => {
                 </li>
                 <li className="Upload__info-item">
                     Duplicate uploads will be skipped
+                </li>
+                <li className="Upload__info-item">
+                    Stay on this page during the upload
                 </li>
             </ul>
             {hasAuthenticatedBattlenet &&
@@ -154,16 +162,15 @@ const Upload = (props) => {
                     />
                 </p>
                 :
-                <span className="Upload__authorize-message">
+                <p className="Upload__authorize-message">
                     Verifying your Battlenet Account
-                    <div className="lds-ring">
-                        <div />
-                        <div />
-                        <div />
-                        <div />
-                    </div>
-                </span>)
+                    <SpinningRingAnimation />
+                </p>)
             }
+            {uploadInProgress &&
+                <p className="Upload__status">
+                    Uploading your replays now...
+                </p>}
             {uploadReponse && <p className="Upload__success">{uploadReponse}</p>}
         </div>
     );
