@@ -2,6 +2,7 @@ import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 import { setAuthToken, setApiKey } from '../actions';
 import ProfileSection from './General/ProfileSection';
+import SpinningRingAnimation from './General/SpinningRingAnimation';
 import './Login.css';
 
 const Login = () => {
@@ -9,6 +10,7 @@ const Login = () => {
     const [usernameValue, setUsernameValue] = useState('');
     const [passwordValue, setPasswordValue] = useState('');
     const [formError, setFormError] = useState(null);
+    const [isUserWaiting, setIsUserWaiting] = useState(false);
 
     const handleUsernameInput = (event) => {
         setUsernameValue(event.target.value);
@@ -29,6 +31,7 @@ const Login = () => {
     const handleSubmit = async (event) => {
         // prevents form action to reload page
         event.preventDefault();
+        setIsUserWaiting(true);
 
         const loginUrl = 'http://127.0.0.1:8000/api/login/';
 
@@ -93,6 +96,8 @@ const Login = () => {
                 </p>
                 <span className="login-form__flex-wrapper">
                     <input className="login-form__submit" type="submit" value="Log-in" />
+                    {isUserWaiting &&
+                        <SpinningRingAnimation />}
                 </span>
             </form>
         </div>
