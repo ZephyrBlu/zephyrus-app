@@ -215,7 +215,7 @@ const Analysis = () => {
                         style={{
                             opacity: statDropdownState,
                             zIndex: statDropdownState,
-                            height: statDropdownState === 0 ? '0px' : '285px',
+                            maxHeight: statDropdownState === 0 ? '0px' : '285px',
                         }}
                         className={`timeline__stat-dropdown 
                             ${statDropdownState === 1 ? window.setTimeout(() => (''), 500) : 'timeline__stat-dropdown--open'}`}
