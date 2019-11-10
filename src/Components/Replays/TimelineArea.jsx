@@ -28,6 +28,8 @@ const TimelineArea = (props) => {
         return `${minutes}:${seconds}`;
     };
 
+    console.log(props.timelineData);
+
     return (
         <Fragment>
             <ResponsiveContainer width="100%" height={200}>

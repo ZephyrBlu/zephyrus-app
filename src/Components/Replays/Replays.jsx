@@ -23,6 +23,7 @@ const selectData = createSelector(
 
 const Replays = () => {
     const dispatch = useDispatch();
+    const [timelineStatDropdown, setTimelineStatDropdown] = useState(0);
     const [selectedReplay, setSelectedReplay] = useState(null);
     const [selectedReplayInfo, setSelectedReplayInfo] = useState(null);
     const [timelineStat, setTimelineStat] = useState('resource_collection_rate.minerals');
@@ -160,6 +161,14 @@ const Replays = () => {
         }
     }, [selectedReplay]);
 
+    const timelineStatCategories = {
+        'resource_collection_rate.minerals': 'Mineral Collection Rate',
+        'resource_collection_rate.gas': 'Gas Collection Rate',
+        resource_collection_rate_all: 'Total Collection Rate',
+        army_value: 'Army Value',
+        workers_active: 'Workers Active',
+    };
+
     const statCategories = ['general', 'economic', 'PAC', 'efficiency'];
 
     const pageTitle = 'Replays';
@@ -214,17 +223,56 @@ const Replays = () => {
                             </h2>
                         </div>
                     </div>
-                    <button
-                        className="replay-info__stat-select"
-                        onClick={() => console.log('hello')}
-                    >
-                        Mineral Collection Rate
-                        <img
-                            className="replay-info__selection-arrow"
-                            src="../../icons/down-arrow.svg"
-                            alt=""
-                        />
-                    </button>
+                    <div className="replay-info__stat-select">
+                        <button
+                            className="replay-info__stat-toggle"
+                            onClick={() => (
+                                timelineStatDropdown === 1 ?
+                                    setTimelineStatDropdown(0) : setTimelineStatDropdown(1)
+                            )}
+                        >
+                            Mineral Collection Rate
+                            <img
+                                className="replay-info__selection-arrow"
+                                src="../../icons/down-arrow.svg"
+                                alt=""
+                            />
+                        </button>
+                        <ul
+                            style={{
+                                opacity: timelineStatDropdown,
+                                zIndex: timelineStatDropdown,
+                                maxHeight: timelineStatDropdown === 0 ? '0px' : '150px',
+                            }}
+                            className={`replay-info__stat-dropdown 
+                                ${timelineStatDropdown === 1 ? 'replay-info__stat-dropdown--open' : ''}`}
+                        >
+                            {Object.entries(timelineStatCategories).map(([statKey, statName]) => (
+                                <li key={statName} className="replay-info__dropdown-option">
+                                    <button
+                                        key={statName}
+                                        className="replay-info__dropdown-button"
+                                        onClick={() => (setTimelineStat(statKey))}
+                                    >
+                                        {statName}&nbsp;&nbsp;
+                                        <svg height="10" width="10">
+                                            <circle
+                                                className="replay-info__stat-dropdown-indicator"
+                                                cx="5"
+                                                cy="5"
+                                                r="5"
+                                                fill="hsl(210, 68%, 47%)"
+                                                opacity={
+                                                    statKey === timelineStat ?
+                                                        '1' : '0'
+                                                }
+                                            />
+                                        </svg>
+                                    </button>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
                 </div>}
             {selectedReplayHash && (timelineData.length > 1 ?
                 <TimelineArea

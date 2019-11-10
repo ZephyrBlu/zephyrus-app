@@ -20,7 +20,7 @@
 }
 
 .replay-info__title-area {
-    #grid-area: replay-info-result;
+    position:relative;
     display: grid;
     grid-template: max-content max-content / repeat(3, max-content) 1fr;
     grid-template-areas:
@@ -31,20 +31,24 @@
 }
 
 .replay-info__stat-select {
+    position: relative;
+    grid-area: stat-selection;
+    justify-self: flex-end;
+    margin-right: 20px;
+    margin-top: 15px;
+}
+
+.replay-info__stat-toggle {
     background: none;
     border: none;
     color: var(--text);
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
-    grid-area: stat-selection;
-    justify-self: flex-end;
     font-size: 20px;
     width: max-content;
-    margin-right: 20px;
-    margin-top: 15px;
 }
 
-.replay-info__stat-select:hover {
+.replay-info__stat-toggle:hover {
     cursor: pointer;
 }
 
@@ -54,6 +58,40 @@
     position: relative;
     top: 4px;
     left: 8px;
+}
+
+.replay-info__stat-dropdown {
+    position: absolute;
+    list-style: none;
+    max-height: 0;
+    width: 225px;
+    padding: 5px;
+    padding-bottom: 0;
+    background-color: var(--tertiary-background);
+    overflow: hidden;
+    border-radius: 5px;
+    transition: max-height 0.5s, opacity 0.2s 0.4s, z-index 0.2s 0.4s;
+}
+
+.replay-info__stat-dropdown--open {
+    transition: max-height 0.5s;
+}
+
+.replay-info__dropdown-option {
+    padding-bottom: 5px;
+}
+
+.replay-info__dropdown-button {
+    background: none;
+    border: none;
+    color: var(--text);
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    font-size: 16px;
+}
+
+.replay-info__dropdown-button:hover {
+    cursor: pointer;
 }
 
 .replay-info__players {
