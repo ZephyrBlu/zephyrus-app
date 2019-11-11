@@ -166,8 +166,14 @@ const Replays = () => {
     const pageTitle = 'Replays';
 
     const getPlayers = () => ({
-        1: selectedReplay.players[1].race,
-        2: selectedReplay.players[2].race,
+        1: {
+            name: selectedReplay.players[1].name.slice(clanTagIndex(selectedReplay.players[1].name)),
+            race: selectedReplay.players[1].race,
+        },
+        2: {
+            name: selectedReplay.players[2].name.slice(clanTagIndex(selectedReplay.players[2].name)),
+            race: selectedReplay.players[2].race,
+        },
     });
 
     const mainContent = (
