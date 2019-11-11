@@ -27,7 +27,8 @@
     height: 14px;
 }
 
-.timeline-state__info.timeline-state__info--current-selection {
+.timeline-state__info.timeline-state__info--current-selection,
+.timeline-state__info.timeline-state__info--upgrades {
     grid-template-rows: 50px;
 }
 

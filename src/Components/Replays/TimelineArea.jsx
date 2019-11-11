@@ -11,6 +11,7 @@ import { Fragment, useState } from 'react';
 import UnitState from './UnitState';
 import BuildingState from './BuildingState';
 import CurrentSelectionState from './CurrentSelectionState';
+import UpgradeState from './UpgradeState';
 import '../General/CSS/Tooltip.css';
 import './CSS/TimelineArea.css';
 
@@ -188,6 +189,10 @@ const TimelineArea = (props) => {
             {currentTimelineState &&
                 <div className="timeline-state">
                     <CurrentSelectionState
+                        timelineState={currentTimelineState}
+                        players={props.players}
+                    />
+                    <UpgradeState
                         timelineState={currentTimelineState}
                         players={props.players}
                     />
