@@ -4,6 +4,7 @@ import { useState, useEffect, Fragment } from 'react';
 import { setReplayList, setReplayInfo } from '../../actions';
 import ProfileSection from '../General/ProfileSection';
 import ReplayList from './ReplayList';
+import ReplayInfo from './ReplayInfo';
 import TimelineArea from './TimelineArea';
 import StatCategory from '../General/StatCategory';
 import DefaultResponse from '../General/DefaultResponse';
@@ -23,7 +24,6 @@ const selectData = createSelector(
 
 const Replays = () => {
     const dispatch = useDispatch();
-    const [timelineStatDropdown, setTimelineStatDropdown] = useState(0);
     const [selectedReplay, setSelectedReplay] = useState(null);
     const [selectedReplayInfo, setSelectedReplayInfo] = useState(null);
     const [timelineStat, setTimelineStat] = useState('resource_collection_rate.minerals');
@@ -161,14 +161,6 @@ const Replays = () => {
         }
     }, [selectedReplay]);
 
-    const timelineStatCategories = {
-        'resource_collection_rate.minerals': 'Mineral Collection Rate',
-        'resource_collection_rate.gas': 'Gas Collection Rate',
-        resource_collection_rate_all: 'Total Collection Rate',
-        army_value: 'Army Value',
-        workers_active: 'Workers Active',
-    };
-
     const statCategories = ['general', 'economic', 'PAC', 'efficiency'];
 
     const pageTitle = 'Replays';
@@ -181,99 +173,12 @@ const Replays = () => {
     const mainContent = (
         <Fragment>
             {selectedReplayInfo &&
-                <div className="replay-info__title-area">
-                    <h2 className="replay-info__matchup">
-                        {`${selectedReplay.players[1].race.slice(0, 1)}v${selectedReplay.players[2].race.slice(0, 1)}`}
-                    </h2>
-                    <h2 className="replay-info__map">
-                        {selectedReplay.map}
-                    </h2>
-                    <span className="replay-info__date">
-                        {selectedReplay.played_at.slice(0, 1)} Months Ago
-                    </span>
-                    <span className="replay-info__result">
-                        {selectedReplay.win ?
-                            <span className="replay-info__result--win">Win</span>
-                            :
-                            <span className="replay-info__result--loss">Loss</span>
-                        }
-                        {`\xa0\xa0\xa0\xa0${Math.ceil(selectedReplay.match_length / 60)} min`}
-                    </span>
-                    <div className="replay-info__players">
-                        <div
-                            className={
-                                `replay-info__player-info replay-info__player-info--player1
-                                ${selectedReplay.user_match_id === 1 ? 'replay-info__player-info--user' : ''}`
-                            }
-                        >
-                            <span className="replay-info__player replay-info__player--1">Player 1</span>
-                            <h2 className="replay-info__player-name">
-                                {selectedReplay.players[1].name.slice(clanTagIndex(selectedReplay.players[1].name))}
-                            </h2>
-                        </div>
-                        <div
-                            className={
-                                `replay-info__player-info replay-info__player-info--player2
-                                ${selectedReplay.user_match_id === 2 ? 'replay-info__player-info--user' : ''}`
-                            }
-                        >
-                            <span className="replay-info__player replay-info__player--2">Player 2</span>
-                            <h2 className="replay-info__player-name">
-                                {selectedReplay.players[2].name.slice(clanTagIndex(selectedReplay.players[2].name))}
-                            </h2>
-                        </div>
-                    </div>
-                    <div className="replay-info__stat-select">
-                        <button
-                            className="replay-info__stat-toggle"
-                            onClick={() => (
-                                timelineStatDropdown === 1 ?
-                                    setTimelineStatDropdown(0) : setTimelineStatDropdown(1)
-                            )}
-                        >
-                            Mineral Collection Rate
-                            <img
-                                className="replay-info__selection-arrow"
-                                src="../../icons/down-arrow.svg"
-                                alt=""
-                            />
-                        </button>
-                        <ul
-                            style={{
-                                opacity: timelineStatDropdown,
-                                zIndex: timelineStatDropdown,
-                                maxHeight: timelineStatDropdown === 0 ? '0px' : '150px',
-                            }}
-                            className={`replay-info__stat-dropdown 
-                                ${timelineStatDropdown === 1 ? 'replay-info__stat-dropdown--open' : ''}`}
-                        >
-                            {Object.entries(timelineStatCategories).map(([statKey, statName]) => (
-                                <li key={statName} className="replay-info__dropdown-option">
-                                    <button
-                                        key={statName}
-                                        className="replay-info__dropdown-button"
-                                        onClick={() => (setTimelineStat(statKey))}
-                                    >
-                                        {statName}&nbsp;&nbsp;
-                                        <svg height="10" width="10">
-                                            <circle
-                                                className="replay-info__stat-dropdown-indicator"
-                                                cx="5"
-                                                cy="5"
-                                                r="5"
-                                                fill="hsl(210, 68%, 47%)"
-                                                opacity={
-                                                    statKey === timelineStat ?
-                                                        '1' : '0'
-                                                }
-                                            />
-                                        </svg>
-                                    </button>
-                                </li>
-                            ))}
-                        </ul>
-                    </div>
-                </div>}
+                <ReplayInfo
+                    selectedReplay={selectedReplay}
+                    timelineStat={timelineStat}
+                    setTimelineStat={setTimelineStat}
+                    clanTagIndex={clanTagIndex}
+                />}
             {selectedReplayHash && (timelineData.length > 1 ?
                 <TimelineArea
                     timelineData={timelineData}
@@ -283,11 +188,9 @@ const Replays = () => {
                     setGameloop={setCurrentGameloop}
                     players={getPlayers()}
                 /> : <WaveAnimation />)}
-            <div className={`replay-info${selectedReplayInfo ? '' : '--default'}`}>
-                {!selectedReplayInfo &&
-                    <h2 className="replay-info__default">Select a replay to view</h2>}
-                {selectedReplayInfo &&
-                    <div className="replay-info__stats">
+            <div className={`replay-stats${selectedReplayInfo ? '' : '--default'}`}>
+                {selectedReplayInfo ?
+                    <div className="replay-stats__stats">
                         {statCategories.map(category => (
                             <StatCategory
                                 key={category}
@@ -296,7 +199,9 @@ const Replays = () => {
                                 replayInfo={selectedReplayInfo}
                             />
                         ))}
-                    </div>}
+                    </div>
+                    :
+                    <h2 className="replay-stats__default">Select a replay to view</h2>}
             </div>
         </Fragment>
     );

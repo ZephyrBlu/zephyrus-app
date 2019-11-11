@@ -1,14 +1,14 @@
-.replay-info {
+.replay-stats {
     width: max-content;
     margin: 20px auto 0;
 }
 
-.replay-info--default {
+.replay-stats--default {
     width: max-content;
     margin: 0 auto;
 }
 
-.replay-info__stats {
+.replay-stats__stats {
     display: grid;
     grid-template: repeat(2, max-content) / repeat(2, 1fr);
     grid-template-areas:
@@ -19,229 +19,21 @@
     margin: 0 auto;
 }
 
-.replay-info__title-area {
-    position:relative;
-    display: grid;
-    grid-template: max-content max-content / repeat(3, max-content) 1fr;
-    grid-template-areas:
-    'matchup map result players'
-    'date date date stat-selection';
-    grid-gap: 0 20px;
-    margin: 20px 25px 40px 60px;
-}
-
-.replay-info__stat-select {
-    position: relative;
-    grid-area: stat-selection;
-    justify-self: flex-end;
-    margin-right: 20px;
-    margin-top: 15px;
-}
-
-.replay-info__stat-toggle {
-    background: none;
-    border: none;
-    color: var(--text);
-    font-family: 'Roboto', sans-serif;
-    font-weight: 300;
-    font-size: 20px;
-    width: max-content;
-}
-
-.replay-info__stat-toggle:hover {
-    cursor: pointer;
-}
-
-.replay-info__selection-arrow {
-    transform: rotate(90deg);
-    height: 20px;
-    position: relative;
-    top: 4px;
-    left: 8px;
-}
-
-.replay-info__stat-dropdown {
-    position: absolute;
-    list-style: none;
-    max-height: 0;
-    width: 225px;
-    padding: 5px;
-    padding-bottom: 0;
-    background-color: var(--tertiary-background);
-    overflow: hidden;
-    border-radius: 5px;
-    transition: max-height 0.5s, opacity 0.2s 0.4s, z-index 0.2s 0.4s;
-}
-
-.replay-info__stat-dropdown--open {
-    transition: max-height 0.5s;
-}
-
-.replay-info__dropdown-option {
-    padding-bottom: 5px;
-}
-
-.replay-info__dropdown-button {
-    background: none;
-    border: none;
-    color: var(--text);
-    font-family: 'Roboto', sans-serif;
-    font-weight: 300;
-    font-size: 16px;
-}
-
-.replay-info__dropdown-button:hover {
-    cursor: pointer;
-}
-
-.replay-info__players {
-    grid-area: players;
-    justify-self: flex-end;
-    margin-right: 20px;
-    margin-top: 5px;
-}
-
-.replay-info__player-info {
-    display: inline-block;
-    /*border: 1px solid var(--grey);
-    border-radius: 15px;*/
-    padding: 4px 0;
-}
-
-.replay-info__player-info--user {
-    /*border-bottom: 1px solid var(--grey);
-    #border-radius: 15px;
-    padding: 10px;
-    padding-top: 0;*/
-}
-
-.replay-info__player-info--player1 {
-    margin-right: 20px;
-}
-
-.replay-info__player-name {
-    margin: 0;
-    margin-bottom: 10px;
-    font-size: 16px;
-    display: inline;
-    padding: 4px;
-    padding-right: 8px;
-    border: 1px solid var(--grey);
-    border-left: none;
-    #box-shadow: 0 0 0 1px var(--grey) inset;
-    border-radius: 0 15px 15px 0;
-}
-
-.replay-info__player-details {
-    color: var(--grey);
-}
-
-.replay-info__player {
-    border-radius: 15px 0 0 15px;
-    padding: 5px 10px;
-    padding-right: 4px;
-}
-
-.replay-info__player--1 {
-    background-color: hsla(0, 100%, 50%, 0.6);
-    color: hsl(0, 0%, 85%);
-}
-
-.replay-info__player--2 {
-    background-color: hsla(240, 100%, 50%, 0.6);
-    color: hsl(0, 0%, 85%);
-}
-
-.replay-info__matchup {
-    grid-area: matchup;
-    margin: 0;
-    font-size: 28px;
-    align-self: center;
-}
-
-.replay-info__map {
-    margin: 0;
-    grid-area: map;
-    align-self: center;
-    font-size: 28px;
-}
-
-.replay-info__gameLength {
-    grid-area: game-length;
-    align-self: center;
-    font-size: 18px;
-}
-
-.replay-info__result {
-    grid-area: result;
-    align-self: center;
-    font-size: 18px;
-}
-
-.replay-info__date {
-    grid-area: date;
-    font-size: 16px;
-    align-self: flex-start;
-    color: var(--grey);
-}
-
-.replay-info__result--win {
-    background-color: var(--green-highlight);
-    border-radius: 15px;
-    padding: 4px 10px;
-}
-
-.replay-info__result--loss {
-    background-color: var(--red-highlight);
-    border-radius: 15px;
-    padding: 4px 10px;
-}
-
-.replay-info__stat {
-    display: inline-block;
-    padding: 8px 25px;
-    border-radius: 15px;
-    width: 75px;
-}
-
-.replay-info__stat-WorkersLost, .replay-info__stat-AvgUnspentResources {
-    border: 1px solid hsla(120, 100%, 40%, 0.6);
-}
-
 @media (max-width: 1500px) {
-    .replay-info__stats {
+    .replay-stats__stats {
         grid-column-gap: 20px;
     }
 }
 
-@media (max-width: 1600px) {
-    /*.replay-info__stats {
-        grid-template: repeat(2, max-content) / repeat(2, 1fr);
-        grid-template-areas:
-        'replay-info-result replay-info-result'
-        'general economic'
-        'PAC efficiency';
-        grid-column-gap: 80px;
-    }*/
-}
-
 @media (max-width: 1400px) {
-    .replay-info {
-        margin-left: 20px;
-    }
-
-    .replay-info__stats {
+    .replay-stats__stats {
         grid-column-gap: 0;
     }
 }
 
 @media (max-width: 1350px) {
-    .replay-info__stats {
+    .replay-stats__stats {
         grid-template: repeat(2, max-content) / repeat(2, min-content);
         margin: 0 0 30px;
-    }
-
-    .replay-info__players {
-        margin-right: 0;
     }
 }
