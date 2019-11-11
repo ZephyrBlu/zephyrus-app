@@ -62,11 +62,11 @@ const CustomTooltip = (props) => {
                                     props.lineState[payload.name.slice(0, -3)] === 0 ?
                                         null
                                         :
-                                        <li key={key} className="Tooltip__stat">
-                                            <svg height="10" width="10">
-                                                <circle cx="5" cy="5" r="5" fill={colours[key]} />
+                                        <li key={`${key}-${index}-stat`} className="Tooltip__stat">
+                                            <svg key={`${key}-${index}-svg`} height="10" width="10">
+                                                <circle key={`${key}-circle`} cx="5" cy="5" r="5" fill={colours[key]} />
                                             </svg>&nbsp;
-                                            <span>
+                                            <span key={`${key}-${index}-span`}>
                                                 {statOrder[payload.name.slice(0, -3)]}
                                             </span>&nbsp;
                                             {payload.name.slice(0, -3) === 'winrate' ?
@@ -74,6 +74,7 @@ const CustomTooltip = (props) => {
                                                 :
                                                 payload.payload[key][0]} (
                                             <span
+                                                key={`${key}-${index}-value`}
                                                 className={
                                                     `Tooltip__value ${payload.payload[key][1] > 0 ?
                                                         `Tooltip__value--positive Tooltip__value--${key}-positive`

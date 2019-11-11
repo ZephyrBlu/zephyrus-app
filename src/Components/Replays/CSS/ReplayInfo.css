@@ -83,16 +83,7 @@
 
 .ReplayInfo__player-info {
     display: inline-block;
-    /*border: 1px solid var(--grey);
-    border-radius: 15px;*/
     padding: 4px 0;
-}
-
-.ReplayInfo__player-info--user {
-    /*border-bottom: 1px solid var(--grey);
-    #border-radius: 15px;
-    padding: 10px;
-    padding-top: 0;*/
 }
 
 .ReplayInfo__player-info--player1 {
@@ -104,11 +95,8 @@
     margin-bottom: 10px;
     font-size: 16px;
     display: inline;
-    padding: 4px;
-    padding-right: 8px;
-    border: 1px solid var(--grey);
-    border-left: none;
-    #box-shadow: 0 0 0 1px var(--grey) inset;
+    padding: 4px 8px;
+    background-color: var(--tertiary-background);
     border-radius: 0 15px 15px 0;
 }
 
@@ -118,8 +106,8 @@
 
 .ReplayInfo__player {
     border-radius: 15px 0 0 15px;
-    padding: 5px 10px;
-    padding-right: 4px;
+    padding: 4px 10px;
+    padding-right: 8px;
 }
 
 .ReplayInfo__player--1 {

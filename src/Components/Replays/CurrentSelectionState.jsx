@@ -3,11 +3,23 @@ import { Fragment } from 'react';
 const CurrentSelectionState = (props) => {
     const ignoreUnits = ['LocustMP', 'BroodlingEscort'];
     const ignoreBuildings = ['CreepTumor', 'CreepTumorQueen'];
-    const unitLimit = window.innerWidth > 1400 ? 10 : 6;
     let unitsRendered = 0;
+    const windowSize = window.innerWidth;
+    let unitLimit;
+
+    if (windowSize <= 1400) {
+        unitLimit = 6;
+    } else if (windowSize <= 1500) {
+        unitLimit = 7;
+    } else if (windowSize <= 1700) {
+        unitLimit = 8;
+    } else {
+        unitLimit = 10;
+    }
 
     const insertBreak = () => {
-        const isBreak = (unitsRendered >= unitLimit && unitsRendered % unitLimit === 0) ? <br /> : null;
+        const isBreak = (unitsRendered >= unitLimit && unitsRendered % unitLimit === 0) ?
+            <br key={unitsRendered} /> : null;
         unitsRendered += 1;
 
         return isBreak;
@@ -34,15 +46,17 @@ const CurrentSelectionState = (props) => {
                         {props.timelineState[playerId].current_selection &&
                             Object.entries(props.timelineState[playerId].current_selection).map(([objectName, objectCount]) => (
                                 !(ignoreUnits.includes(objectName)) && !(ignoreBuildings.includes(objectName)) &&
-                                    <Fragment>
+                                    <Fragment key={`${objectName}-${playerId}-frag`}>
                                         {insertBreak()}
                                         <img
+                                            key={`${objectName}-${playerId}-img`}
                                             alt={objectName}
                                             title={objectName}
                                             className="timeline-state__image"
-                                            src={`./images/${checkType(playerId, objectName)}/${props.players[playerId]}/${objectName}.jpg`}
+                                            src={`./images/${checkType(playerId, objectName)}/${props.players[playerId].race}/${objectName}.jpg`}
                                         />
                                         <div
+                                            key={`${objectName}-${playerId}-div`}
                                             className="timeline-state__object-count"
                                         >
                                             {objectCount}

@@ -4,7 +4,6 @@
     padding: 10px;
     border-radius: 15px;
     background-color: hsla(209, 77%, 14%, 0.9);
-    visibility: visible;
 }
 
 .Tooltip__content {
