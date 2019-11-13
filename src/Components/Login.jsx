@@ -58,6 +58,7 @@ const Login = () => {
 
         if (error) {
             setFormError('Incorrect details');
+            setIsUserWaiting(false);
         }
     };
 
