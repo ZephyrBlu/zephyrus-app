@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@reach/router": "^1.2.1",
+    "@sentry/browser": "^5.9.0",
     "@tippy.js/react": "^2.2.2",
     "autoprefixer": "^9.6.1",
     "postcss": "^7.0.17",

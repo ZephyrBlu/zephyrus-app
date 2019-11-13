@@ -33,7 +33,14 @@ const Login = () => {
         event.preventDefault();
         setIsUserWaiting(true);
 
-        const loginUrl = 'http://127.0.0.1:8000/api/login/';
+        let urlPrefix;
+        if (process.env.NODE_ENV === 'development') {
+            urlPrefix = 'http://127.0.0.1:8000/';
+        } else {
+            urlPrefix = 'https://zephyrus.gg/';
+        }
+
+        const loginUrl = `${urlPrefix}api/login/`;
 
         const data = {
             username: usernameValue,
@@ -58,6 +65,7 @@ const Login = () => {
 
         if (error) {
             setFormError('Incorrect details');
+            setIsUserWaiting(false);
         }
     };
 

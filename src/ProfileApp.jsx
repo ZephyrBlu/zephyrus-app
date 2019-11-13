@@ -28,7 +28,14 @@ const ProfileApp = () => {
 
     useEffect(() => {
         const setBattlenetAccount = async () => {
-            const url = 'http://127.0.0.1:8000/api/authorize/code/';
+            let urlPrefix;
+            if (process.env.NODE_ENV === 'development') {
+                urlPrefix = 'http://127.0.0.1:8000/';
+            } else {
+                urlPrefix = 'https://zephyrus.gg/';
+            }
+
+            const url = `${urlPrefix}api/authorize/code/`;
 
             await fetch(url, {
                 method: 'POST',
@@ -40,7 +47,7 @@ const ProfileApp = () => {
                 response.status
             )).catch(() => null);
 
-            window.location.replace('http://127.0.0.1:8000/replays');
+            window.location.replace(`${urlPrefix}replays`);
         };
 
         if (authCode) {
@@ -52,10 +59,11 @@ const ProfileApp = () => {
     if (token) {
         app = (
             <Router>
-                <Redirect from="/login" to="/" />
+                <Redirect from="/login" to="/replays" />
+                <Redirect from="/" to="/replays" />
                 <Overview
                     pageTitle="Profile Overview"
-                    path="/"
+                    path="/overview"
                 />
                 <Upload
                     pageTitle="Upload Replays"

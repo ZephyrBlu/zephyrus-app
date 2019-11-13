@@ -7,9 +7,9 @@ const PageHeader = props => (
         <PageInfo pageTitle={props.pageTitle} />
         <h1 className="PageHeader__page-title">{props.pageTitle}</h1>
         {!props.noNav &&
-        <ProfileNav
-            pages={['Overview', 'Upload', 'Replays', 'Analysis']}
-        />}
+            <ProfileNav
+                pages={['Overview', 'Upload', 'Replays', 'Analysis']}
+            />}
     </header>
 );
 

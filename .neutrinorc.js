@@ -32,7 +32,7 @@ module.exports = {
       {
         html: {
           title: 'Zephyrus | SC2 Replay Analysis'
-        }
+        },
       }
     ],
     (neutrino) => {

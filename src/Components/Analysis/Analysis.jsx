@@ -63,7 +63,14 @@ const Analysis = () => {
 
     useEffect(() => {
         const getStats = async () => {
-            const url = 'http://127.0.0.1:8000/api/stats/';
+            let urlPrefix;
+            if (process.env.NODE_ENV === 'development') {
+                urlPrefix = 'http://127.0.0.1:8000/';
+            } else {
+                urlPrefix = 'https://zephyrus.gg/';
+            }
+
+            const url = `${urlPrefix}api/stats/`;
             let status;
 
             const trends = await fetch(url, {

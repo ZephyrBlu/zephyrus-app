@@ -45,7 +45,14 @@ const Replays = () => {
 
     useEffect(() => {
         const getUserReplays = async () => {
-            const url = 'http://127.0.0.1:8000/api/all/';
+            let urlPrefix;
+            if (process.env.NODE_ENV === 'development') {
+                urlPrefix = 'http://127.0.0.1:8000/';
+            } else {
+                urlPrefix = 'https://zephyrus.gg/';
+            }
+
+            const url = `${urlPrefix}api/all/`;
             let status;
 
             const data = await fetch(url, {

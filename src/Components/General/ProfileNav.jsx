@@ -11,13 +11,7 @@ const ProfileNav = (props) => {
 
     return (
         <nav className={`ProfileNav ProfileNav--${props.pages[0]}`}>
-            <Link
-                getProps={isActive}
-                to="/"
-            >
-                {props.pages[0]}
-            </Link>
-            {props.pages.slice(1).map(pageName => (
+            {props.pages.map(pageName => (
                 <Link
                     key={pageName}
                     getProps={isActive}
