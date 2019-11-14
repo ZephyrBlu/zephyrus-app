@@ -15,7 +15,14 @@ const Upload = (props) => {
 
     useEffect(() => {
         const checkBattlenetAccount = async () => {
-            const url = 'http://127.0.0.1:8000/api/authorize/check/';
+            let urlPrefix;
+            if (process.env.NODE_ENV === 'development') {
+                urlPrefix = 'http://127.0.0.1:8000/';
+            } else {
+                urlPrefix = 'https://zephyrus.gg/';
+            }
+
+            const url = `${urlPrefix}api/authorize/check/`;
 
             const result = await fetch(url, {
                 method: 'GET',
@@ -38,7 +45,7 @@ const Upload = (props) => {
     }, []);
 
     const authorizeBattlenetAccount = async () => {
-        const url = 'http://127.0.0.1:8000/api/authorize/url/';
+        const url = `${process.env.BACKEND_URL}api/authorize/url/`;
 
         const result = await fetch(url, {
             method: 'GET',
@@ -66,7 +73,7 @@ const Upload = (props) => {
 
         setUploadInProgress(true);
 
-        const url = 'http://127.0.0.1:8000/api/upload/';
+        const url = `${process.env.BACKEND_URL}api/upload/`;
 
         let success = 0;
         let fail = 0;

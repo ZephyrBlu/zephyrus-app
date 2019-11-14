@@ -8,7 +8,14 @@ const ProfileSection = (props) => {
     const token = useSelector(state => `Token ${state.token}`);
 
     const handleLogout = async () => {
-        const url = 'http://127.0.0.1:8000/api/logout/';
+        let urlPrefix;
+        if (process.env.NODE_ENV === 'development') {
+            urlPrefix = 'http://127.0.0.1:8000/';
+        } else {
+            urlPrefix = 'https://zephyrus.gg/';
+        }
+
+        const url = `${urlPrefix}api/logout/`;
 
         const error = await fetch(url, {
             method: 'GET',
