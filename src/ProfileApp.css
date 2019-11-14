@@ -34,3 +34,21 @@ body {
 h1, h2, h3, h4, h5 {
     font-weight: 300;
 }
+
+::-webkit-scrollbar {
+    width: 8px;
+    visibility: hidden;
+    opacity: 1;
+}
+
+::-webkit-scrollbar-button,
+::-webkit-scrollbar-track,
+::-webkit-scrollbar-track-piece,
+::-webkit-scrollbar-resizer {
+    display: none;
+}
+
+::-webkit-scrollbar-thumb {
+    background: hsla(0, 0%, 20%, 0.6);
+    border-radius: 5px;
+}

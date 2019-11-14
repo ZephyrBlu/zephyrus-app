@@ -67,14 +67,14 @@ const Replays = () => {
                 responseBody
             )).catch(() => null);
 
-            if (status === 200) {
+            if (status === 200 && data.length > 0) {
                 dispatch(setReplayList(data));
             } else {
                 dispatch(setReplayList(false));
             }
         };
 
-        if (userReplays.length < 1) {
+        if (userReplays && userReplays.length < 1) {
             getUserReplays();
         }
     }, []);
@@ -99,7 +99,7 @@ const Replays = () => {
             dispatch(setReplayInfo(newReplays));
         };
 
-        if (userReplays && (userReplays.length > 0)) {
+        if (userReplays && userReplays.length > 0) {
             filterReplayInfo();
         }
     }, [userReplays]);
@@ -116,7 +116,13 @@ const Replays = () => {
         const getReplayTimeline = async () => {
             await setCurrentGameloop(0);
 
-            let url = `https://www.googleapis.com/storage/v1/b/sc2-timelines-dev/o/${selectedReplayHash}.json.gz?key=${apiKey}`;
+            let url;
+            if (process.env.NODE_ENV === 'development') {
+                url = `https://www.googleapis.com/storage/v1/b/sc2-timelines-dev/o/${selectedReplayHash}.json.gz?key=${apiKey}`;
+            } else {
+                url = `https://www.googleapis.com/storage/v1/b/sc2-timelines/o/${selectedReplayHash}.json.gz?key=${apiKey}`;
+            }
+
             const metadata = await fetch(url, {
                 method: 'GET',
                 headers: {

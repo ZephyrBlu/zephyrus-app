@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
-import { setReplayList, setBattlenetStatus, setTrends, setSelectedReplayHash } from '../../actions';
+import { setReplayList, setReplayInfo, setBattlenetStatus, setTrends, setSelectedReplayHash } from '../../actions';
 import InfoTooltip from '../General/InfoTooltip';
 import ProfileSection from '../General/ProfileSection';
 import SpinningRingAnimation from '../General/SpinningRingAnimation';
@@ -13,15 +13,15 @@ const Upload = (props) => {
     const [uploadInProgress, setUploadInProgress] = useState(false);
     const [uploadReponse, setUploadResponse] = useState(null);
 
+    let urlPrefix;
+    if (process.env.NODE_ENV === 'development') {
+        urlPrefix = 'http://127.0.0.1:8000/';
+    } else {
+        urlPrefix = 'https://zephyrus.gg/';
+    }
+
     useEffect(() => {
         const checkBattlenetAccount = async () => {
-            let urlPrefix;
-            if (process.env.NODE_ENV === 'development') {
-                urlPrefix = 'http://127.0.0.1:8000/';
-            } else {
-                urlPrefix = 'https://zephyrus.gg/';
-            }
-
             const url = `${urlPrefix}api/authorize/check/`;
 
             const result = await fetch(url, {
@@ -45,19 +45,24 @@ const Upload = (props) => {
     }, []);
 
     const authorizeBattlenetAccount = async () => {
-        const url = `${process.env.BACKEND_URL}api/authorize/url/`;
+        const url = `${urlPrefix}api/authorize/url/`;
 
         const result = await fetch(url, {
             method: 'GET',
             headers: {
                 Authorization: token,
             },
-        }).then(response => (
-            response.status
+        }).then((response) => {
+            if (response.status === 200) {
+                return response.json();
+            }
+            return null;
+        }).then(responseBody => (
+            responseBody
         )).catch(() => null);
 
-        if (result === 200) {
-            dispatch(setBattlenetStatus(true));
+        if (result) {
+            window.location.replace(result.url);
         }
     };
 
@@ -73,7 +78,7 @@ const Upload = (props) => {
 
         setUploadInProgress(true);
 
-        const url = `${process.env.BACKEND_URL}api/upload/`;
+        const url = `${urlPrefix}api/upload/`;
 
         let success = 0;
         let fail = 0;
@@ -98,6 +103,7 @@ const Upload = (props) => {
             )).catch(() => null);
         });
         dispatch(setReplayList([]));
+        dispatch(setReplayInfo([]));
         dispatch(setSelectedReplayHash(null));
         dispatch(setTrends(null));
     };

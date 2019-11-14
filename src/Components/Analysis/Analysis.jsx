@@ -378,7 +378,7 @@ const Analysis = () => {
                             />
                         ))}
                     </div>}
-                {!playerTrends && (playerTrends === null ?
+                {!currentTrends && (currentTrends === null ?
                     <WaveAnimation />
                     :
                     <DefaultResponse />)}

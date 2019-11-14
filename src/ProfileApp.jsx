@@ -47,7 +47,7 @@ const ProfileApp = () => {
                 response.status
             )).catch(() => null);
 
-            window.location.replace(`${urlPrefix}replays`);
+            window.location.replace('https://app.zephyrus.gg/replays');
         };
 
         if (authCode) {
