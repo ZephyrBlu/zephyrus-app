@@ -19,14 +19,14 @@ const TrendStat = props => (
                 </li>
                 <li>
                     <span className="TrendStat__stat-trend">
-                        {props.recentPercentDiff[props.stat][1] >= 0 ?
+                        {props.recentPercentDiff && (props.recentPercentDiff[props.stat][1] >= 0 ?
                             <span className={`TrendStat__trend--positive Tooltip__value--${props.stat}-positive`}>
                                 +{props.recentPercentDiff[props.stat][1]}%
                             </span>
                             :
                             <span className={`TrendStat__trend--negative Tooltip__value--${props.stat}-negative`}>
                                 {props.recentPercentDiff[props.stat][1]}%
-                            </span>} this week
+                            </span>)} this week
                     </span>
                 </li>
             </ul>

@@ -6,6 +6,17 @@
     padding: 40px 40px 20px;
 }
 
+.Upload__issues {
+    margin: 0;
+    margin-top: 5px;
+    text-align: center;
+}
+
+.Upload__issues a,
+.Upload__issues a:visited {
+    color: white;
+}
+
 .Upload__info {
     margin: 0;
 }

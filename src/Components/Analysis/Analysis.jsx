@@ -59,6 +59,7 @@ const Analysis = () => {
         resources_lost_minerals: 0,
         resources_lost_gas: 0,
         inject_count: 0,
+        count: 0,
     }]);
 
     useEffect(() => {
@@ -331,13 +332,11 @@ const Analysis = () => {
                     )
                     :
                     (
-                        <div className="sk-wave">
-                            <div className="sk-rect sk-rect1" />
-                            <div className="sk-rect sk-rect2" />
-                            <div className="sk-rect sk-rect3" />
-                            <div className="sk-rect sk-rect4" />
-                            <div className="sk-rect sk-rect5" />
-                        </div>
+                        <p className="recent-trends__one-week">
+                            We can&#39;t show any trends because all your
+                            replays are from 1 week. Upload more
+                            newer/older replays to see your trends.
+                        </p>
                     )
                 }
             </div>
@@ -353,17 +352,18 @@ const Analysis = () => {
                                     'TrendStat__trend--positive' : 'TrendStat__trend--negative'}
                                 >
                                     {playerTrends.winrate}
-                                </span>% over {timelineData.slice(-1)[0].count} games&#160;
-                                <small>
-                                    ({timelineData.slice(-1)[0].winrate[1] >= 0 ?
-                                        <span className="TrendStat__trend--positive">
-                                            +{timelineData.slice(-1)[0].winrate[1]}
-                                        </span>
-                                        :
-                                        <span className="TrendStat__trend--negative">
-                                            {timelineData.slice(-1)[0].winrate[1]}
-                                        </span>}% this week)
-                                </small>
+                                </span>% over {playerTrends.count} games&#160;
+                                {timelineData.length > 0 &&
+                                    <small>
+                                        ({playerTrends.winrate[1] >= 0 ?
+                                            <span className="TrendStat__trend--positive">
+                                                +{timelineData.slice(-1)[0].winrate[1]}
+                                            </span>
+                                            :
+                                            <span className="TrendStat__trend--negative">
+                                                {timelineData.slice(-1)[0].winrate[1]}
+                                            </span>}% this week)
+                                    </small>}
                             </Fragment>)}
                     </h3>
                 </span>

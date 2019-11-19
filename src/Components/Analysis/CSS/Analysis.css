@@ -92,6 +92,15 @@
     padding-bottom: 1px;
 }
 
+.recent-trends__one-week {
+    grid-area: timeline-chart;
+    width: max-content;
+    display: flex;
+    flex-direction: row;
+    align-self: center;
+    justify-self: center;
+}
+
 .recent-trends__title-area {
     grid-area: trends-title;
 }

@@ -185,6 +185,16 @@ const Upload = (props) => {
                     Uploading your replays now...
                 </p>}
             {uploadReponse && <p className="Upload__success">{uploadReponse}</p>}
+            <p className="Upload__issues">
+                Having issues?&nbsp;
+                <a
+                    href="https://blog.zephyrus.gg/replay-upload-issues/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Read this
+                </a>
+            </p>
         </div>
     );
 
