@@ -1,3 +1,9 @@
+.Overview .main-content {
+    display: grid;
+    grid-template: 1fr / min-content 1fr;
+    grid-template-areas: 'summary analysis';
+}
+
 .summary-stats {
     grid-area: summary;
     margin: 10px;

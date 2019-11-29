@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
-import { useState } from 'react';
+import { useState, Fragment } from 'react';
 import { setAuthToken, setApiKey } from '../actions';
-import ProfileSection from './General/ProfileSection';
+import PageTemplate from './General/PageTemplate';
 import SpinningRingAnimation from './General/SpinningRingAnimation';
 import './Login.css';
 
@@ -32,6 +32,7 @@ const Login = () => {
         // prevents form action to reload page
         event.preventDefault();
         setIsUserWaiting(true);
+        setFormError(false);
 
         let urlPrefix;
         if (process.env.NODE_ENV === 'development') {
@@ -72,54 +73,62 @@ const Login = () => {
     const pageTitle = 'Login';
 
     const mainContent = (
-        <div className="login-form">
-            <form className="login-form__form" onSubmit={handleSubmit} autoComplete="on">
-                {formError &&
-                <p className="login-form__error">
-                    {formError}
-                </p>}
-                <p className="login-form__email">
-                    <label className="login-form__email-label">
-                        Email
-                        <input
-                            className="login-form__email-input"
-                            type="email"
-                            name="username"
-                            value={usernameValue}
-                            onChange={handleUsernameInput}
-                        />
-                    </label>
-                </p>
-                <p className="login-form__password">
-                    <label className="login-form__password-label">
-                        Password
-                        <input
-                            className="login-form__password-input"
-                            type="password"
-                            name="password"
-                            value={passwordValue}
-                            onChange={handlePasswordInput}
-                        />
-                    </label>
-                </p>
-                <span className="login-form__flex-wrapper">
-                    <input className="login-form__submit" type="submit" value="Log-in" />
-                    {isUserWaiting &&
-                        <SpinningRingAnimation />}
-                </span>
-            </form>
-        </div>
+        <Fragment>
+            <div className="login-flex-wrapper">
+                <div className="login-form">
+                    <h1 className="login-form__title">Welcome Back!</h1>
+                    <form className="login-form__form" onSubmit={handleSubmit} autoComplete="on">
+                        <p className="login-form__email">
+                            <label className="login-form__label">
+                                Email
+                            </label>
+                            <input
+                                className="login-form__input login-form__input--email"
+                                type="email"
+                                name="username"
+                                value={usernameValue}
+                                onChange={handleUsernameInput}
+                            />
+                        </p>
+                        <p className="login-form__password">
+                            <label className="login-form__label">
+                                Password
+                            </label>
+                            <input
+                                className="login-form__input login-form__input--password"
+                                type="password"
+                                name="password"
+                                value={passwordValue}
+                                onChange={handlePasswordInput}
+                            />
+                        </p>
+                        <span className="login-form__flex-wrapper">
+                            <input className="login-form__submit" type="submit" value="LOG IN" />
+                            {isUserWaiting &&
+                                <SpinningRingAnimation style={{ top: '20px' }} />}
+                        </span>
+                        {formError &&
+                            <p className="login-form__error">
+                                {formError}
+                            </p>}
+                    </form>
+                    <img
+                        className="login-image"
+                        src="../images/login-background.png"
+                        alt="StarCraft Races"
+                    />
+                </div>
+            </div>
+        </Fragment>
     );
 
     return (
-        <div className="Login">
-            <ProfileSection
-                section="Login"
-                noNav
-                pageTitle={pageTitle}
-                mainContent={mainContent}
-            />
-        </div>
+        <PageTemplate
+            section="Login"
+            noNav
+            pageTitle={pageTitle}
+            mainContent={mainContent}
+        />
     );
 };
 

@@ -1,3 +1,20 @@
+.Replays {
+    grid-template: min-content 1fr / min-content 1fr 530px;
+    grid-template-areas:
+    'header header header'
+    'page-sidebar main-content content-sidebar';
+}
+
+.Replays .PageTemplate__main-content {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.PageTemplate__content-sidebar {
+    overflow-y: auto;
+    overflow-x: hidden;   
+}
+
 .replay-stats {
     width: max-content;
     margin: 20px auto 0;

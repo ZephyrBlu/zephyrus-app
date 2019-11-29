@@ -1,14 +1,18 @@
-.Upload {
+.Upload .PageTemplate__main-content {
     background-color: var(--secondary-background);
     width: max-content;
+    height: 160px;
     margin: 80px auto 0;
     border-radius: 25px;
     padding: 40px 40px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
 }
 
-.Upload__message{
-    margin: 0;
-    margin-top: 40px;
+.Upload__message {
+    position: absolute;
+    top: 375px;
     text-align: center;
     font-size: 14px;
 }
@@ -30,30 +34,41 @@
 .Upload__file-form {
     margin: 20px auto 0;
     width: 160px;
-    background: var(--main-background);
-    border: 1px solid var(--grey);
+    background: var(--light-blue);
+    border: none;
     border-radius: 8px;
     transition: 0.3s;
 }
 
-.Upload__file-form:hover {
-    background: var(--light-blue);
+.Upload__file-form:hover, .Upload__file-form:focus {
+    outline: none;
+    background: var(--light-blue-hover);
 }
 
 .Upload__form-input {
+    border: none;
+    border-radius: 8px;
+    transition: 0.3s;
     width: 100%;
 }
 
 .Upload__form-input::-webkit-file-upload-button {
     background: transparent;
-    color: var(--text);
+    color: black;
     border: none;
+    border-radius: 8px;
+    transition: 0.3s;
     padding: 15px 10px;
     width: 100%;
+    font-size: 18px;
 }
 
 .Upload__form-input:hover,
-.Upload__form-input::-webkit-file-upload-button:hover {
+.Upload__form-input:focus,
+.Upload__form-input::-webkit-file-upload-button:hover,
+.Upload__form-input::-webkit-file-upload-button:focus {
+    outline: none;
+    background: var(--light-blue-hover);
     cursor: pointer;
 }
 

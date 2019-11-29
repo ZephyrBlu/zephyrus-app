@@ -1,3 +1,8 @@
+.Analysis .PageTemplate__main-content {
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
 .timeline {
     margin: 20px 60px 0;
     display: grid;

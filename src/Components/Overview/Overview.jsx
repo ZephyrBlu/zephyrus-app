@@ -1,5 +1,5 @@
 import { Fragment } from 'react';
-import ProfileSection from '../General/ProfileSection';
+import PageTemplate from '../General/PageTemplate';
 import StatBlock from './StatBlock';
 import './CSS/Overview.css';
 
@@ -81,15 +81,13 @@ const Overview = (props) => {
     );
 
     return (
-        <div className="Overview">
-            <ProfileSection
-                section="Overview"
-                pageTitle={pageTitle}
-                mainContent={mainContent}
-                sideBar={sideBar}
-                handleToken={props.handleToken}
-            />
-        </div>
+        <PageTemplate
+            section="Overview"
+            pageTitle={pageTitle}
+            mainContent={mainContent}
+            sideBar={sideBar}
+            handleToken={props.handleToken}
+        />
     );
 };
 

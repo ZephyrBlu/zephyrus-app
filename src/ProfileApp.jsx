@@ -58,7 +58,7 @@ const ProfileApp = () => {
     let app;
     if (token) {
         app = (
-            <Router>
+            <Router className="ProfileApp__router">
                 <Redirect from="/login" to="/replays" />
                 <Redirect from="/" to="/replays" />
                 <Overview

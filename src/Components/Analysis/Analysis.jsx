@@ -10,7 +10,7 @@ import {
     Line,
 } from 'recharts';
 import { setTrends } from '../../actions';
-import ProfileSection from '../General/ProfileSection';
+import PageTemplate from '../General/PageTemplate';
 import StatCategory from '../General/StatCategory';
 import InfoTooltip from '../General/InfoTooltip';
 import CustomTooltip from '../General/Tooltip';
@@ -388,7 +388,7 @@ const Analysis = () => {
 
     return (
         <div className="Analysis">
-            <ProfileSection
+            <PageTemplate
                 section="Analysis"
                 pageTitle={pageTitle}
                 mainContent={mainContent}

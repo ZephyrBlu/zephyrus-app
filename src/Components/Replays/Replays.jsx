@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
 import { useState, useEffect, Fragment } from 'react';
 import { setReplayList, setReplayInfo } from '../../actions';
-import ProfileSection from '../General/ProfileSection';
+import PageTemplate from '../General/PageTemplate';
 import ReplayList from './ReplayList';
 import ReplayInfo from './ReplayInfo';
 import TimelineArea from './TimelineArea';
@@ -239,15 +239,12 @@ const Replays = () => {
     }
 
     return (
-        <div className="Replays">
-            <ProfileSection
-                section="Replays"
-                pageTitle={pageTitle}
-                mainContent={mainContent}
-                sideBar={sideBar}
-                modifier="replays"
-            />
-        </div>
+        <PageTemplate
+            section="Replays"
+            pageTitle={pageTitle}
+            mainContent={mainContent}
+            sideBar={sideBar}
+        />
     );
 };
 

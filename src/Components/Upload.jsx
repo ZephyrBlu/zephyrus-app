@@ -1,10 +1,16 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect, Fragment } from 'react';
-import { setReplayList, setReplayInfo, setBattlenetStatus, setTrends, setSelectedReplayHash } from '../../actions';
-import InfoTooltip from '../General/InfoTooltip';
-import ProfileSection from '../General/ProfileSection';
-import SpinningRingAnimation from '../General/SpinningRingAnimation';
-import './CSS/Upload.css';
+import {
+    setReplayList,
+    setReplayInfo,
+    setBattlenetStatus,
+    setTrends,
+    setSelectedReplayHash,
+} from '../actions';
+import InfoTooltip from './General/InfoTooltip';
+import PageTemplate from './General/PageTemplate';
+import SpinningRingAnimation from './General/SpinningRingAnimation';
+import './Upload.css';
 
 const Upload = (props) => {
     const dispatch = useDispatch();
@@ -110,83 +116,81 @@ const Upload = (props) => {
 
     const mainContent = (
         <Fragment>
-            <div className="Upload">
-                <ul className="Upload__info">
-                    <li className="Upload__info-item">
-                        You can upload up to 100 replays at a time
-                    </li>
-                    <li className="Upload__info-item">
-                        The selected replays will be uploaded automatically
-                    </li>
-                    <li className="Upload__info-item">
-                        Each replay will take a few seconds to upload and process
-                    </li>
-                    <li className="Upload__info-item">
-                        Duplicate uploads will be skipped
-                    </li>
-                    <li className="Upload__info-item">
-                        Stay on this page during the upload
-                    </li>
-                </ul>
-                {hasAuthenticatedBattlenet &&
-                <form className="Upload__file-form" encType="multiple/form-data" onSubmit={uploadFiles}>
-                    <input
-                        className="Upload__form-input"
-                        type="file"
-                        name="file"
-                        id="id_fileUpload"
-                        accept=".SC2Replay"
-                        multiple
-                        required
-                        onChange={uploadFiles}
-                    />
-                </form>}
-                {!hasAuthenticatedBattlenet && (hasAuthenticatedBattlenet === false ?
-                    <p className="Upload__authorize-message">
-                        Please&nbsp;
-                        <button
-                            className="Upload__battlenet-authorize"
-                            onClick={authorizeBattlenetAccount}
-                        >
-                            Link your Battlenet Account
-                        </button>
-                        <InfoTooltip
-                            content={
+            <ul className="Upload__info">
+                <li className="Upload__info-item">
+                    You can upload up to 100 replays at a time
+                </li>
+                <li className="Upload__info-item">
+                    The selected replays will be uploaded automatically
+                </li>
+                <li className="Upload__info-item">
+                    Each replay will take a few seconds to upload and process
+                </li>
+                <li className="Upload__info-item">
+                    Duplicate uploads will be skipped
+                </li>
+                <li className="Upload__info-item">
+                    Stay on this page during the upload
+                </li>
+            </ul>
+            {hasAuthenticatedBattlenet &&
+            <form className="Upload__file-form" encType="multiple/form-data" onSubmit={uploadFiles}>
+                <input
+                    className="Upload__form-input"
+                    type="file"
+                    name="file"
+                    id="id_fileUpload"
+                    accept=".SC2Replay"
+                    multiple
+                    required
+                    onChange={uploadFiles}
+                />
+            </form>}
+            {!hasAuthenticatedBattlenet && (hasAuthenticatedBattlenet === false ?
+                <p className="Upload__authorize-message">
+                    Please&nbsp;
+                    <button
+                        className="Upload__battlenet-authorize"
+                        onClick={authorizeBattlenetAccount}
+                    >
+                        Link your Battlenet Account
+                    </button>
+                    <InfoTooltip
+                        content={
+                            <span>
                                 <span>
-                                    <span>
-                                        {`Linking your Battlenet account lets us identify 
-                                        you in replays and associate replays with your account.`}
-                                    </span>
-                                    <br />
-                                    <br />
-                                    <span>
-                                        {`We use your Battletag to associate replays 
-                                        with your account and the Profile IDs 
-                                        of your account in each region to identify you 
-                                        in replays.`}
-                                    </span>
-                                    <br />
-                                    <br />
-                                    <span>
-                                        {`If you don't link your account we won't 
-                                        be able to display and analyze your replays.`}
-                                    </span>
+                                    {`Linking your Battlenet account lets us identify 
+                                    you in replays and associate replays with your account.`}
                                 </span>
-                            }
-                        />
-                    </p>
-                    :
-                    <p className="Upload__authorize-message">
-                        Verifying your Battlenet Account
-                        <SpinningRingAnimation />
-                    </p>)
-                }
-                {uploadInProgress &&
-                    <p className="Upload__status">
-                        Uploading your replays now...
-                    </p>}
-                {uploadReponse && <p className="Upload__success">{uploadReponse}</p>}
-            </div>
+                                <br />
+                                <br />
+                                <span>
+                                    {`We use your Battletag to associate replays 
+                                    with your account and the Profile IDs 
+                                    of your account in each region to identify you 
+                                    in replays.`}
+                                </span>
+                                <br />
+                                <br />
+                                <span>
+                                    {`If you don't link your account we won't 
+                                    be able to display and analyze your replays.`}
+                                </span>
+                            </span>
+                        }
+                    />
+                </p>
+                :
+                <p className="Upload__authorize-message">
+                    Verifying your Battlenet Account
+                    <SpinningRingAnimation />
+                </p>)
+            }
+            {uploadInProgress &&
+                <p className="Upload__status">
+                    Uploading your replays now...
+                </p>}
+            {uploadReponse && <p className="Upload__success">{uploadReponse}</p>}
             <p className="Upload__message">
                 Having trouble uploading replays?<br />
                 Contact me on&nbsp;
@@ -208,7 +212,7 @@ const Upload = (props) => {
     );
 
     return (
-        <ProfileSection
+        <PageTemplate
             section="Upload"
             pageTitle={props.pageTitle}
             mainContent={mainContent}

@@ -1,0 +1,70 @@
+.PageSidebar {
+    grid-area: page-sidebar;
+    display: grid;
+    grid-template: max-content 1fr min-content min-content / 1fr;
+    grid-template-areas:
+    'nav'
+    'blank'
+    'settings'
+    'logout';
+    height: 100%;
+    width: max-content;
+    #border-right: 1px solid var(--light-blue);
+    background-color: var(--secondary-background-dark);
+}
+
+.PageSidebar__settings-icon {
+    grid-area: settings;
+    height: 30px;
+    margin: 0 auto 20px;
+    margin-left: 26px;
+    justify-self: center;
+}
+
+.PageSidebar__settings-icon:hover {
+    cursor: pointer;
+}
+
+.PageSidebar__logout {
+    grid-area: logout;
+    justify-self: center;
+    display: flex;
+    flex-direction: row;
+    overflow: hidden;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background-color: var(--red-highlight);
+    height: 50px;
+    width: 50px;
+    padding: 15px;
+    transition: .3s;
+    margin: 0 auto;
+    margin-left: 16px;
+    margin-bottom: 20px;
+}
+
+.PageSidebar__logout:hover, .PageSidebar__logout:focus {
+    outline: none;
+    margin-right: 16px;
+    cursor: pointer;
+    width: 130px;
+    border-radius: 25px;
+    background-color: var(--red);
+}
+
+.PageSidebar__logout-icon {
+    width: 20px;
+    height: 20px;
+    margin: 0;
+}
+
+.PageSidebar__logout-text {
+    color: var(--text);
+    font-family: 'Roboto', sans-serif;
+    font-size: 18px;
+    font-weight: 300;
+    width: min-content;
+    align-self: center;
+    margin-left: 15px;
+}

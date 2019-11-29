@@ -6,7 +6,7 @@
     'matchup map result players'
     'date date date stat-selection';
     grid-gap: 0 20px;
-    margin: 20px 25px 40px 60px;
+    margin: 10px 25px 40px 60px;
 }
 
 .ReplayInfo__stat-select {
