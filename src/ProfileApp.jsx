@@ -6,7 +6,8 @@ import Login from './Components/Login';
 import Overview from './Components/Overview/Overview';
 import Replays from './Components/Replays/Replays';
 import Analysis from './Components/Analysis/Analysis';
-import Upload from './Components/Upload/Upload';
+import Upload from './Components/Upload';
+import Settings from './Components/Settings';
 import './ProfileApp.css';
 
 const ProfileApp = () => {
@@ -76,6 +77,10 @@ const ProfileApp = () => {
                 <Analysis
                     pageTitle="Trend Analysis"
                     path="/analysis"
+                />
+                <Settings
+                    pageTitle="Settings"
+                    path="/settings"
                 />
             </Router>
         );

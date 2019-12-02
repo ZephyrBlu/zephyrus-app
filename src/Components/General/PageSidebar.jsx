@@ -1,17 +1,35 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { setAuthToken, setApiKey, setReplayList, setSelectedReplayHash } from '../../actions';
-// import PageInfo from './PageInfo';
+import { Link } from '@reach/router';
+import {
+    setAuthToken,
+    setApiKey,
+    setReplayList,
+    setSelectedReplayHash,
+    setFixedHoverState,
+} from '../../actions';
 import PageNav from './PageNav';
 import './CSS/PageSidebar.css';
-
-// <PageInfo pageTitle={props.pageTitle} />
-//         <h1 className="PageSidebar__page-title">{props.pageTitle}</h1>
 
 const PageSidebar = (props) => {
     const dispatch = useDispatch();
     const token = useSelector(state => `Token ${state.token}`);
-    const [hoverState, setHoverState] = useState(false);
+    const isHoverStateFixed = useSelector(state => state.isHoverStateFixed);
+    // const [isHoverStateFixed, setFixedHoverState] = useState(false);
+
+    const pages = ['Overview', 'Replays', 'Analysis', 'Upload'];
+
+    const defaultHoverState = { Logout: false };
+    pages.forEach((pageName) => {
+        defaultHoverState[pageName] = false;
+    });
+
+    const fixedHoverState = { Logout: true };
+    pages.forEach((pageName) => {
+        fixedHoverState[pageName] = true;
+    });
+
+    const [hoverState, setHoverState] = useState(isHoverStateFixed ? fixedHoverState : defaultHoverState);
 
     const handleLogout = async () => {
         let urlPrefix;
@@ -42,32 +60,83 @@ const PageSidebar = (props) => {
         dispatch(setSelectedReplayHash(null));
     };
 
+    const handleHoverStateReset = () => {
+        setHoverState(defaultHoverState);
+    };
+
+    const isActive = ({ isCurrent }) => (
+        isCurrent ?
+            { className: 'PageSidebar__settings PageSidebar__settings--active' }
+            :
+            { className: 'PageSidebar__settings' }
+    );
+
     return (
         !props.noNav &&
             <section className="PageSidebar">
+                <button
+                    className="PageSidebar__show-hide"
+                    onClick={() => {
+                        if (isHoverStateFixed) {
+                            dispatch(setFixedHoverState(false));
+                            setHoverState(defaultHoverState);
+                        } else {
+                            dispatch(setFixedHoverState(true));
+                            setHoverState(fixedHoverState);
+                        }
+                    }}
+                    style={isHoverStateFixed ? { justifySelf: 'flex-end' } : {}}
+                >
+                    <img
+                        className="PageSidebar__show-hide-icon"
+                        src="../../icons/arrow-right.svg"
+                        alt="show-hide-button"
+                        style={isHoverStateFixed ? { transform: 'rotate(180deg)' } : {}}
+                    />
+                </button>
                 <PageNav
-                    pages={['Overview', 'Replays', 'Analysis', 'Upload']}
+                    pages={pages}
+                    resetHoverState={handleHoverStateReset}
+                    fixedHoverState={isHoverStateFixed}
+                    hoverState={hoverState}
+                    setHoverState={setHoverState}
                 />
-                <img
-                    className="PageSidebar__settings-icon"
-                    src="../../icons/settings.svg"
-                    alt="settings"
-                />
+                <Link
+                    getProps={isActive}
+                    to="/settings"
+                    style={isHoverStateFixed ? { margin: '0 auto 20px' } : {}}
+                >
+                    <img
+                        className="PageSidebar__settings-icon"
+                        src="../../icons/settings.svg"
+                        alt="settings"
+                    />
+                </Link>
                 <button
                     className="PageSidebar__logout"
-                    onMouseEnter={() => setHoverState(true)}
-                    onMouseLeave={() => setHoverState(false)}
-                    onMouseMove={() => (hoverState ? null : setHoverState(true))}
-                    onFocus={() => setHoverState(true)}
-                    onBlur={() => setHoverState(false)}
+                    onMouseEnter={() => setHoverState(prevState => ({ ...prevState, Logout: true }))}
+                    onMouseLeave={() => (isHoverStateFixed ?
+                        null : setHoverState(prevState => ({ ...prevState, Logout: false })))
+                    }
+                    // onMouseMove={() => (hoverState ? null : setHoverState(true))}
+                    onFocus={() => setHoverState(prevState => ({ ...prevState, Logout: true }))}
+                    onBlur={() => (isHoverStateFixed ?
+                        null : setHoverState(prevState => ({ ...prevState, Logout: false })))
+                    }
                     onClick={() => handleLogout()}
+                    style={hoverState.Logout ?
+                        {
+                            marginRight: '16px',
+                            width: '130px',
+                            borderRadius: '25px',
+                        } : {}}
                 >
                     <img
                         className="PageSidebar__logout-icon"
                         src="../../icons/logout.svg"
                         alt="logout"
                     />
-                    {hoverState && <span className="PageSidebar__logout-text">Logout</span>}
+                    {hoverState.Logout && <span className="PageSidebar__logout-text">Logout</span>}
                 </button>
             </section>
     );

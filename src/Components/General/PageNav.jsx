@@ -1,15 +1,7 @@
-import { useState } from 'react';
 import { Link } from '@reach/router';
 import './CSS/PageNav.css';
 
 const PageNav = (props) => {
-    const initialHoverState = {};
-    props.pages.forEach((pageName) => {
-        initialHoverState[pageName] = false;
-    });
-
-    const [hoverState, setHoverState] = useState(initialHoverState);
-
     const isActive = ({ isCurrent }) => (
         isCurrent ?
             { className: 'PageNav__link PageNav__link--active' }
@@ -24,7 +16,9 @@ const PageNav = (props) => {
             <ul
                 className="PageNav__link-list"
                 onMouseLeave={() => {
-                    setHoverState(initialHoverState);
+                    if (!props.fixedHoverState) {
+                        props.resetHoverState();
+                    }
 
                     hoverTimeouts.forEach((timeout) => {
                         clearTimeout(timeout);
@@ -42,17 +36,21 @@ const PageNav = (props) => {
                                 getProps={isActive}
                                 to={`/${pageName.toLowerCase()}`}
                                 onMouseEnter={() => {
-                                    clearTimeout(hoverTimeout);
+                                    if (!props.fixedHoverState) {
+                                        clearTimeout(hoverTimeout);
 
-                                    setHoverState(prevState => (
-                                        { ...prevState, [pageName]: true }
-                                    ));
+                                        props.setHoverState(prevState => (
+                                            { ...prevState, [pageName]: true }
+                                        ));
+                                    }
                                 }}
                                 onMouseLeave={() => {
-                                    hoverTimeout = setTimeout(() =>
-                                        setHoverState(prevState => (
-                                            { ...prevState, [pageName]: false }
-                                        )), 400);
+                                    if (!props.fixedHoverState) {
+                                        hoverTimeout = setTimeout(() =>
+                                            props.setHoverState(prevState => (
+                                                { ...prevState, [pageName]: false }
+                                            )), 400);
+                                    }
                                 }}
                                 // onMouseMove={() => (
                                 //     hoverState[pageName] ?
@@ -62,10 +60,10 @@ const PageNav = (props) => {
                                 //             { ...prevState, [pageName]: true }
                                 //         ))
                                 // )}
-                                style={hoverState[pageName] ?
+                                style={props.hoverState[pageName] ?
                                     { width: '100px', borderRadius: '27px' } : { width: '22px' }}
                             >
-                                {hoverState[pageName] ? pageName : pageName.slice(0, 1)}
+                                {props.hoverState[pageName] ? pageName : pageName.slice(0, 1)}
                             </Link>
                         </li>
                     );

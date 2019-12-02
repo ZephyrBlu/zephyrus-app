@@ -7,6 +7,7 @@ import {
     SET_TRENDS,
     SET_SELECTED_REPLAY_HASH,
     SET_BATTLENET_STATUS,
+    SET_FIXED_HOVER_STATE,
 } from './actions';
 
 const token = (state = null, action) => {
@@ -82,6 +83,16 @@ const battlenetStatus = (state = null, action) => {
     }
 };
 
+const isHoverStateFixed = (state = false, action) => {
+    switch (action.type) {
+        case SET_FIXED_HOVER_STATE:
+            return action.hoverState;
+
+        default:
+            return state;
+    }
+};
+
 const profileInfo = combineReducers({
     token,
     apiKey,
@@ -90,6 +101,7 @@ const profileInfo = combineReducers({
     trends,
     selectedReplayHash,
     battlenetStatus,
+    isHoverStateFixed,
 });
 
 export default profileInfo;

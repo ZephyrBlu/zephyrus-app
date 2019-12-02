@@ -5,6 +5,7 @@ export const SET_REPLAY_INFO = 'SET_REPLAY_INFO';
 export const SET_TRENDS = 'SET_TRENDS';
 export const SET_SELECTED_REPLAY_HASH = 'SET_SELECTED_REPLAY_HASH';
 export const SET_BATTLENET_STATUS = 'SET_BATTLENET_STATUS';
+export const SET_FIXED_HOVER_STATE = 'SET_FIXED_HOVER_STATE';
 
 export const setAuthToken = token => (
     { type: SET_AUTHENTICATION_TOKEN, token }
@@ -32,4 +33,8 @@ export const setSelectedReplayHash = replayHash => (
 
 export const setBattlenetStatus = status => (
     { type: SET_BATTLENET_STATUS, status }
+);
+
+export const setFixedHoverState = hoverState => (
+    { type: SET_FIXED_HOVER_STATE, hoverState }
 );
