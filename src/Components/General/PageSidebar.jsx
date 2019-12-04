@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from '@reach/router';
+// import { Link } from '@reach/router';
 import {
     setAuthToken,
     setApiKey,
@@ -61,13 +61,24 @@ const PageSidebar = (props) => {
         setHoverState(defaultHoverState);
     };
 
-    const isActive = ({ isCurrent }) => {
-        if (isCurrent) {
-            props.setCurrentPage('Settings');
-            return { className: 'PageSidebar__settings PageSidebar__settings--active' };
-        }
-        return { className: 'PageSidebar__settings' };
-    };
+    // const isActive = ({ isCurrent }) => {
+    //     if (isCurrent) {
+    //         return { className: 'PageSidebar__settings PageSidebar__settings--active' };
+    //     }
+    //     return { className: 'PageSidebar__settings' };
+    // };
+
+    // <Link
+    //     getProps={isActive}
+    //     to="/settings"
+    //     style={isHoverStateFixed ? { margin: '0 auto 20px' } : {}}
+    // >
+    //     <img
+    //         className="PageSidebar__settings-icon"
+    //         src="../../icons/settings.svg"
+    //         alt="settings"
+    //     />
+    // </Link>
 
     return (
         !props.noNav &&
@@ -99,17 +110,6 @@ const PageSidebar = (props) => {
                     hoverState={hoverState}
                     setHoverState={setHoverState}
                 />
-                <Link
-                    getProps={isActive}
-                    to="/settings"
-                    style={isHoverStateFixed ? { margin: '0 auto 20px' } : {}}
-                >
-                    <img
-                        className="PageSidebar__settings-icon"
-                        src="../../icons/settings.svg"
-                        alt="settings"
-                    />
-                </Link>
                 <button
                     className="PageSidebar__logout"
                     onMouseEnter={() => setHoverState(prevState => ({ ...prevState, Logout: true }))}

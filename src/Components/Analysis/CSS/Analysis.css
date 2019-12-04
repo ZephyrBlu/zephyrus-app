@@ -133,7 +133,7 @@
     grid-gap: 0px 30px;
 }
 
-@media (max-width: 1450px) {
+@media (max-width: 1525px) {
     .recent-trends__content {
         grid-template: min-content repeat(2, max-content) / repeat(2, max-content);
         grid-template-areas:

@@ -50,11 +50,9 @@ const ProfileApp = () => {
         }
     }, []);
 
-    const app = <PageTemplate defaultPage={token ? 'Replays' : 'Login'} />;
-
     return (
         <div className="ProfileApp">
-            {app}
+            <PageTemplate defaultPage={token ? 'Replays' : 'Login'} />
         </div>
     );
 };

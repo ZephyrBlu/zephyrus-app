@@ -18,18 +18,12 @@
     left: -12px;
     background-color: var(--tertiary-background);
     border-radius: 50%;
-    border: 1px solid var(--grey);
     padding: 4px;
     display: inline-block;
     text-align: center;
     font-size: 14px;
     width: 14px;
     height: 14px;
-}
-
-.timeline-state__info.timeline-state__info--current-selection,
-.timeline-state__info.timeline-state__info--upgrades {
-    grid-template-rows: 50px;
 }
 
 .timeline-state__object-count--died {
@@ -45,10 +39,10 @@
     margin-bottom: 10px;
     display: grid;
     grid-template-columns: 1fr max-content 1fr;
-    grid-template-rows: 90px;
+    grid-template-rows: 50px;
     grid-template-areas: 'unit-info-player1 state-info-title unit-info-player2';
-    background-color: var(--secondary-background);
     border-radius: 15px;
+    box-shadow: 0 0 0 1px var(--tertiary-background-light) inset;
 }
 
 .state-info-title {

@@ -1,3 +1,7 @@
+.recharts-surface:hover {
+    cursor: pointer;
+}
+
 .tooltip {
     display: grid;
 }
@@ -9,10 +13,6 @@
 
 .tooltip__current-time {
     font-size: 24px;
-}
-
-.tooltip__player {
-
 }
 
 .tooltip__player--player1 {

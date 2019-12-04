@@ -53,7 +53,7 @@ const PageNav = (props) => {
                                     }
                                 }}
                                 onMouseMove={() => {
-                                    if (!props.fixedHoverState && props.hoverState[pageName]) {
+                                    if (!props.fixedHoverState && !props.hoverState[pageName]) {
                                         props.setHoverState(prevState => (
                                             { ...prevState, [pageName]: true }
                                         ));

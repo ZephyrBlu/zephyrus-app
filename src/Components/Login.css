@@ -19,17 +19,17 @@
 .login-form {
     background-color: var(--secondary-background);
     height: 120px;
-    width: 1500px;
+    width: 100%;
     margin: 300px 0 0;
-    margin-left: 400px;
+    margin-left: calc(-580px + (100vw*.5));
     padding: 20px 60px 20px 20px;
-    border-radius: 15px;
+    border-radius: 15px 0 0 15px;
     border: 1px solid var(--tertiary-background-light);
 }
 
 .login-form__title {
     position: absolute;
-    top: 250px;
+    top: 255px;
     margin-left: -10px;
     font-family: 'Roboto', sans-serif;
     font-size: 48px;

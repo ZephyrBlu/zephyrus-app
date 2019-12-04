@@ -203,6 +203,7 @@ const Replays = (props) => {
                     gameloop={currentGameloop}
                     setGameloop={setCurrentGameloop}
                     players={getPlayers()}
+                    visibleState={props.visibleState}
                 /> : <WaveAnimation />)}
             <div className={`replay-stats${selectedReplayInfo ? '' : '--default'}`}>
                 {selectedReplayInfo ?
@@ -236,7 +237,10 @@ const Replays = (props) => {
     }
 
     return (
-        <div className="Replays" style={props.style}>
+        <div
+            className="Replays"
+            style={props.visibleState ? {} : { gridTemplateColumns: '1fr 0px' }}
+        >
             <div className="Replays__main-content">
                 {mainContent}
             </div>

@@ -12,8 +12,14 @@ import './CSS/PageTemplate.css';
 const PageTemplate = (props) => {
     const [visibleState, setVisibleState] = useState(true);
     const [selectedRace, setSelectedRace] = useState('Protoss');
+
+    // Set currentPage state as null for initial render
     const [currentPage, setCurrentPage] = useState(null);
 
+    // When the defaultPage prop changes, reset the state of currentPage
+    // to the new defaultPage prop.
+    //
+    // Occurs when a user logs in or out
     useEffect(() => {
         setCurrentPage(props.defaultPage);
     }, [props.defaultPage]);
@@ -107,22 +113,24 @@ const PageTemplate = (props) => {
                             </span>}
                     </Fragment>}
             </header>
-            {currentPage !== 'Login' &&
+            {currentPage && currentPage !== 'Login' &&
                 <PageSidebar pages={Object.keys(pages)} />}
             <section
                 className={`PageTemplate__page-content PageTemplate__page-content--${currentPage}`}
             >
-                {props.defaultPage === 'Replays' &&
+                {currentPage && currentPage !== 'Login' &&
                     <Location>
                         {({ location }) => {
                             let currentComponent = location.pathname.slice(1);
                             currentComponent = currentComponent.charAt(0).toUpperCase() + currentComponent.slice(1);
-                            setCurrentPage(currentComponent);
+                            if (currentComponent !== 'Login') {
+                                setCurrentPage(currentComponent);
+                            }
 
                             return (
                                 <Router className="Router">
-                                    <Redirect from="/login" to="/replays" />
-                                    <Redirect from="/" to="/replays" />
+                                    <Redirect from="/login" to="/replays" noThrow />
+                                    <Redirect from="/" to="/replays" noThrow />
                                     <Overview
                                         path="/overview"
                                     />
@@ -131,7 +139,7 @@ const PageTemplate = (props) => {
                                     />
                                     <Replays
                                         path="/replays"
-                                        style={visibleState ? {} : { gridTemplateColumns: '1fr 0px' }}
+                                        visibleState={visibleState}
                                     />
                                     <Analysis
                                         path="/analysis"
@@ -143,9 +151,9 @@ const PageTemplate = (props) => {
                             );
                         }}
                     </Location>}
-                {props.defaultPage === 'Login' &&
+                {currentPage && currentPage === 'Login' &&
                     <Router className="Router">
-                        <Redirect from="/*" to="/login" />
+                        <Redirect from="/*" to="/login" noThrow />
                         <Login
                             path="/login"
                         />
