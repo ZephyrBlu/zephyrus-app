@@ -10,7 +10,6 @@ import {
     Line,
 } from 'recharts';
 import { setTrends } from '../../actions';
-import PageTemplate from '../General/PageTemplate';
 import StatCategory from '../General/StatCategory';
 import InfoTooltip from '../General/InfoTooltip';
 import CustomTooltip from '../General/Tooltip';
@@ -140,8 +139,6 @@ const Analysis = () => {
 
     const statCategories = ['general', 'economic', 'PAC', 'efficiency'];
 
-    const pageTitle = 'Trend Analysis';
-
     const formatTick = (content, type = 'tick') => {
         const formatString = () => {
             const strPieces = content.split('*');
@@ -197,8 +194,8 @@ const Analysis = () => {
         }
     };
 
-    const mainContent = (
-        <Fragment>
+    return (
+        <div className="Analysis">
             <div className="timeline">
                 <h2 className="timeline__title">
                     Weekly Trends
@@ -383,16 +380,6 @@ const Analysis = () => {
                     :
                     <DefaultResponse />)}
             </div>
-        </Fragment>
-    );
-
-    return (
-        <div className="Analysis">
-            <PageTemplate
-                section="Analysis"
-                pageTitle={pageTitle}
-                mainContent={mainContent}
-            />
         </div>
     );
 };

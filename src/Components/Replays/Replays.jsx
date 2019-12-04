@@ -2,7 +2,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
 import { useState, useEffect, Fragment } from 'react';
 import { setReplayList, setReplayInfo } from '../../actions';
-import PageTemplate from '../General/PageTemplate';
 import ReplayList from './ReplayList';
 import ReplayInfo from './ReplayInfo';
 import TimelineArea from './TimelineArea';
@@ -22,7 +21,7 @@ const selectData = createSelector(
     ),
 );
 
-const Replays = () => {
+const Replays = (props) => {
     const dispatch = useDispatch();
     const [selectedReplay, setSelectedReplay] = useState(null);
     const [selectedReplayInfo, setSelectedReplayInfo] = useState(null);
@@ -176,8 +175,6 @@ const Replays = () => {
 
     const statCategories = ['general', 'economic', 'PAC', 'efficiency'];
 
-    const pageTitle = 'Replays';
-
     const getPlayers = () => ({
         1: {
             name: selectedReplay.players[1].name.slice(clanTagIndex(selectedReplay.players[1].name)),
@@ -239,12 +236,14 @@ const Replays = () => {
     }
 
     return (
-        <PageTemplate
-            section="Replays"
-            pageTitle={pageTitle}
-            mainContent={mainContent}
-            sideBar={sideBar}
-        />
+        <div className="Replays" style={props.style}>
+            <div className="Replays__main-content">
+                {mainContent}
+            </div>
+            <div className="Replays__sidebar">
+                {sideBar}
+            </div>
+        </div>
     );
 };
 

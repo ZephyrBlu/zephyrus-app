@@ -1,7 +1,6 @@
 import { useDispatch } from 'react-redux';
-import { useState, Fragment } from 'react';
+import { useState } from 'react';
 import { setAuthToken, setApiKey } from '../actions';
-import PageTemplate from './General/PageTemplate';
 import SpinningRingAnimation from './General/SpinningRingAnimation';
 import './Login.css';
 
@@ -70,13 +69,11 @@ const Login = () => {
         }
     };
 
-    const pageTitle = 'Login';
-
-    const mainContent = (
-        <Fragment>
+    return (
+        <div className="Login">
             <div className="login-flex-wrapper">
                 <div className="login-form">
-                    <h1 className="login-form__title">Welcome Back!</h1>
+                    <h1 className="login-form__title">Welcome Back</h1>
                     <form className="login-form__form" onSubmit={handleSubmit} autoComplete="on">
                         <p className="login-form__email">
                             <label className="login-form__label">
@@ -119,16 +116,7 @@ const Login = () => {
                     />
                 </div>
             </div>
-        </Fragment>
-    );
-
-    return (
-        <PageTemplate
-            section="Login"
-            noNav
-            pageTitle={pageTitle}
-            mainContent={mainContent}
-        />
+        </div>
     );
 };
 

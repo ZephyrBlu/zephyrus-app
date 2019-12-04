@@ -1,6 +1,7 @@
-.Analysis .PageTemplate__main-content {
-    overflow-y: auto;
+.Analysis {
+    overflow-y: scroll;
     overflow-x: hidden;
+    height: 100%;
 }
 
 .timeline {

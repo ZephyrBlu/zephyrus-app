@@ -1,10 +1,29 @@
-import { useState, Fragment } from 'react';
+import { useEffect, useState, Fragment } from 'react';
+import { Location, Router, Redirect } from '@reach/router';
+import Login from '../Login';
+import Overview from '../Overview/Overview';
+import Replays from '../Replays/Replays';
+import Analysis from '../Analysis/Analysis';
+import Upload from '../Upload';
+import Settings from '../Settings';
 import PageSidebar from './PageSidebar';
 import './CSS/PageTemplate.css';
 
 const PageTemplate = (props) => {
     const [visibleState, setVisibleState] = useState(true);
     const [selectedRace, setSelectedRace] = useState('Protoss');
+    const [currentPage, setCurrentPage] = useState(null);
+
+    useEffect(() => {
+        setCurrentPage(props.defaultPage);
+    }, [props.defaultPage]);
+
+    const pages = {
+        Overview: 'Profile Overview',
+        Replays: 'Replays',
+        Analysis: 'Trend Analysis',
+        Upload: 'Upload Replays',
+    };
 
     const raceToggleStyle = {
         Protoss: { marginLeft: '5px' },
@@ -13,20 +32,17 @@ const PageTemplate = (props) => {
     };
 
     return (
-        <div
-            className={`${props.section} PageTemplate`}
-            style={visibleState ? {} : { gridTemplate: 'min-content 1fr / min-content 1fr 0' }}
-        >
+        <div className="PageTemplate">
             <header className="PageTemplate__header">
                 <h1 className="PageTemplate__title">
-                    <div className="PageTemplate__logo">z</div>&nbsp;
+                    <a href="https://zephyrus.gg" className="PageTemplate__logo">z</a>&nbsp;
                     ZEPHYRUS <span className="PageTemplate__beta-icon">BETA</span>
                 </h1>
-                {props.section !== 'Login' &&
+                {currentPage && currentPage !== 'Login' &&
                     <Fragment>
-                        <div className="PageTemplate__page-info">
+                        <div className={`PageTemplate__page-info PageTemplate__page-info--${currentPage}`}>
                             <h1 className="PageTemplate__page-name">
-                                {props.pageTitle}
+                                {pages[currentPage]}
                             </h1>
                             <h2 className="PageTemplate__data-info">
                                 {selectedRace}
@@ -74,39 +90,67 @@ const PageTemplate = (props) => {
                                 />
                             </button>
                         </div>
+                        {currentPage === 'Replays' &&
+                            <span className="PageTemplate__hide-wrapper">
+                                {visibleState ? 'Hide Replays' : ''}
+                                <button
+                                    className="PageTemplate__hide-side-bar"
+                                    onClick={() => (visibleState ? setVisibleState(false) : setVisibleState(true))}
+                                >
+                                    <img
+                                        className="PageTemplate__hide-icon"
+                                        src="../../icons/arrow-right.svg"
+                                        alt="hide-button"
+                                        style={visibleState ? {} : { transform: 'rotate(180deg)' }}
+                                    />
+                                </button>
+                            </span>}
                     </Fragment>}
-                {props.section === 'Replays' &&
-                    <span className="PageTemplate__hide-wrapper">
-                        {visibleState ? 'Hide Replays' : ''}
-                        <button
-                            className="PageTemplate__hide-side-bar"
-                            onClick={() => (visibleState ? setVisibleState(false) : setVisibleState(true))}
-                        >
-                            <img
-                                className="PageTemplate__hide-icon"
-                                src="../../icons/arrow-right.svg"
-                                alt="hide-button"
-                                style={visibleState ? {} : { transform: 'rotate(180deg)' }}
-                            />
-                        </button>
-                    </span>}
             </header>
-            <PageSidebar
-                section={props.section}
-                noNav={props.noNav}
-            />
-            <section className="PageTemplate__main-content">
-                {props.mainContent}
-            </section>
+            {currentPage !== 'Login' &&
+                <PageSidebar pages={Object.keys(pages)} />}
+            <section
+                className={`PageTemplate__page-content PageTemplate__page-content--${currentPage}`}
+            >
+                {props.defaultPage === 'Replays' &&
+                    <Location>
+                        {({ location }) => {
+                            let currentComponent = location.pathname.slice(1);
+                            currentComponent = currentComponent.charAt(0).toUpperCase() + currentComponent.slice(1);
+                            setCurrentPage(currentComponent);
 
-            {props.sideBar &&
-                <section
-                    className="PageTemplate__content-sidebar"
-                    style={visibleState ?
-                        {} : { display: 'none' }}
-                >
-                    {props.sideBar}
-                </section>}
+                            return (
+                                <Router className="Router">
+                                    <Redirect from="/login" to="/replays" />
+                                    <Redirect from="/" to="/replays" />
+                                    <Overview
+                                        path="/overview"
+                                    />
+                                    <Upload
+                                        path="/upload"
+                                    />
+                                    <Replays
+                                        path="/replays"
+                                        style={visibleState ? {} : { gridTemplateColumns: '1fr 0px' }}
+                                    />
+                                    <Analysis
+                                        path="/analysis"
+                                    />
+                                    <Settings
+                                        path="/settings"
+                                    />
+                                </Router>
+                            );
+                        }}
+                    </Location>}
+                {props.defaultPage === 'Login' &&
+                    <Router className="Router">
+                        <Redirect from="/*" to="/login" />
+                        <Login
+                            path="/login"
+                        />
+                    </Router>}
+            </section>
         </div>
     );
 };

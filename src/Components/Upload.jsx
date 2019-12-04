@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useState, useEffect, Fragment } from 'react';
+import { useState, useEffect } from 'react';
 import {
     setReplayList,
     setReplayInfo,
@@ -8,11 +8,10 @@ import {
     setSelectedReplayHash,
 } from '../actions';
 import InfoTooltip from './General/InfoTooltip';
-import PageTemplate from './General/PageTemplate';
 import SpinningRingAnimation from './General/SpinningRingAnimation';
 import './Upload.css';
 
-const Upload = (props) => {
+const Upload = () => {
     const dispatch = useDispatch();
     const token = useSelector(state => `Token ${state.token}`);
     const hasAuthenticatedBattlenet = useSelector(state => state.battlenetStatus);
@@ -114,8 +113,8 @@ const Upload = (props) => {
         dispatch(setTrends(null));
     };
 
-    const mainContent = (
-        <Fragment>
+    return (
+        <div className="Upload">
             <ul className="Upload__info">
                 <li className="Upload__info-item">
                     You can upload up to 100 replays at a time
@@ -181,10 +180,10 @@ const Upload = (props) => {
                     />
                 </p>
                 :
-                <p className="Upload__authorize-message">
+                <div className="Upload__authorize-message">
                     Verifying your Battlenet Account
                     <SpinningRingAnimation />
-                </p>)
+                </div>)
             }
             {uploadInProgress &&
                 <p className="Upload__status">
@@ -208,15 +207,7 @@ const Upload = (props) => {
                     hello@zephyrus.gg
                 </a>
             </p>
-        </Fragment>
-    );
-
-    return (
-        <PageTemplate
-            section="Upload"
-            pageTitle={props.pageTitle}
-            mainContent={mainContent}
-        />
+        </div>
     );
 };
 

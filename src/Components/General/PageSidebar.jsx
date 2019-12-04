@@ -15,17 +15,14 @@ const PageSidebar = (props) => {
     const dispatch = useDispatch();
     const token = useSelector(state => `Token ${state.token}`);
     const isHoverStateFixed = useSelector(state => state.isHoverStateFixed);
-    // const [isHoverStateFixed, setFixedHoverState] = useState(false);
-
-    const pages = ['Overview', 'Replays', 'Analysis', 'Upload'];
 
     const defaultHoverState = { Logout: false };
-    pages.forEach((pageName) => {
+    props.pages.forEach((pageName) => {
         defaultHoverState[pageName] = false;
     });
 
     const fixedHoverState = { Logout: true };
-    pages.forEach((pageName) => {
+    props.pages.forEach((pageName) => {
         fixedHoverState[pageName] = true;
     });
 
@@ -64,12 +61,13 @@ const PageSidebar = (props) => {
         setHoverState(defaultHoverState);
     };
 
-    const isActive = ({ isCurrent }) => (
-        isCurrent ?
-            { className: 'PageSidebar__settings PageSidebar__settings--active' }
-            :
-            { className: 'PageSidebar__settings' }
-    );
+    const isActive = ({ isCurrent }) => {
+        if (isCurrent) {
+            props.setCurrentPage('Settings');
+            return { className: 'PageSidebar__settings PageSidebar__settings--active' };
+        }
+        return { className: 'PageSidebar__settings' };
+    };
 
     return (
         !props.noNav &&
@@ -95,7 +93,7 @@ const PageSidebar = (props) => {
                     />
                 </button>
                 <PageNav
-                    pages={pages}
+                    pages={props.pages}
                     resetHoverState={handleHoverStateReset}
                     fixedHoverState={isHoverStateFixed}
                     hoverState={hoverState}

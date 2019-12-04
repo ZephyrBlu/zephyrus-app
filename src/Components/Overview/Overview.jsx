@@ -1,11 +1,8 @@
 import { Fragment } from 'react';
-import PageTemplate from '../General/PageTemplate';
 import StatBlock from './StatBlock';
 import './CSS/Overview.css';
 
-const Overview = (props) => {
-    const pageTitle = 'Profile Overview';
-
+const Overview = () => {
     const mainContent = (
         <Fragment>
             <section className="summary-stats">
@@ -81,13 +78,10 @@ const Overview = (props) => {
     );
 
     return (
-        <PageTemplate
-            section="Overview"
-            pageTitle={pageTitle}
-            mainContent={mainContent}
-            sideBar={sideBar}
-            handleToken={props.handleToken}
-        />
+        <Fragment>
+            {mainContent}
+            {sideBar}
+        </Fragment>
     );
 };
 

@@ -2,17 +2,17 @@ import { Link } from '@reach/router';
 import './CSS/PageNav.css';
 
 const PageNav = (props) => {
-    const isActive = ({ isCurrent }) => (
-        isCurrent ?
-            { className: 'PageNav__link PageNav__link--active' }
-            :
-            { className: 'PageNav__link' }
-    );
+    const isActive = ({ isCurrent }) => {
+        if (isCurrent) {
+            return { className: 'PageNav__link PageNav__link--active' };
+        }
+        return { className: 'PageNav__link' };
+    };
 
     const hoverTimeouts = [];
 
     return (
-        <nav className={`PageNav PageNav--${props.pages[0]}`}>
+        <nav className="PageNav">
             <ul
                 className="PageNav__link-list"
                 onMouseLeave={() => {
@@ -52,14 +52,13 @@ const PageNav = (props) => {
                                             )), 400);
                                     }
                                 }}
-                                // onMouseMove={() => (
-                                //     hoverState[pageName] ?
-                                //         null
-                                //         :
-                                //         setHoverState(prevState => (
-                                //             { ...prevState, [pageName]: true }
-                                //         ))
-                                // )}
+                                onMouseMove={() => {
+                                    if (!props.fixedHoverState && props.hoverState[pageName]) {
+                                        props.setHoverState(prevState => (
+                                            { ...prevState, [pageName]: true }
+                                        ));
+                                    }
+                                }}
                                 style={props.hoverState[pageName] ?
                                     { width: '100px', borderRadius: '27px' } : { width: '22px' }}
                             >

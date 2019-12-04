@@ -1,18 +1,24 @@
 .Replays {
-    grid-template: min-content 1fr / min-content 1fr 530px;
-    grid-template-areas:
-    'header header header'
-    'page-sidebar main-content content-sidebar';
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 530px;
+    grid-template-areas: 'main-content sidebar';
 }
 
-.Replays .PageTemplate__main-content {
+.Replays__main-content {
+    grid-area: main-content;
     overflow-y: auto;
     overflow-x: hidden;
+    margin-top: 5px;
+    margin-right: 5px;
 }
 
-.PageTemplate__content-sidebar {
+.Replays__sidebar {
+    grid-area: sidebar;
     overflow-y: auto;
-    overflow-x: hidden;   
+    overflow-x: hidden;
+    border-left: 1px solid var(--tertiary-background-light);
+    padding-top: 5px; 
 }
 
 .replay-stats {

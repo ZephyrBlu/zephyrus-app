@@ -1,13 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { Router, Redirect } from '@reach/router';
 import { setAuthToken, setApiKey } from './actions';
-import Login from './Components/Login';
-import Overview from './Components/Overview/Overview';
-import Replays from './Components/Replays/Replays';
-import Analysis from './Components/Analysis/Analysis';
-import Upload from './Components/Upload';
-import Settings from './Components/Settings';
+import PageTemplate from './Components/General/PageTemplate';
 import './ProfileApp.css';
 
 const ProfileApp = () => {
@@ -56,44 +50,7 @@ const ProfileApp = () => {
         }
     }, []);
 
-    let app;
-    if (token) {
-        app = (
-            <Router className="ProfileApp__router">
-                <Redirect from="/login" to="/replays" />
-                <Redirect from="/" to="/replays" />
-                <Overview
-                    pageTitle="Profile Overview"
-                    path="/overview"
-                />
-                <Upload
-                    pageTitle="Upload Replays"
-                    path="/upload"
-                />
-                <Replays
-                    pageTitle="Replays"
-                    path="/replays"
-                />
-                <Analysis
-                    pageTitle="Trend Analysis"
-                    path="/analysis"
-                />
-                <Settings
-                    pageTitle="Settings"
-                    path="/settings"
-                />
-            </Router>
-        );
-    } else {
-        app = (
-            <Router>
-                <Redirect from="/*" to="/login" />
-                <Login
-                    path="/login"
-                />
-            </Router>
-        );
-    }
+    const app = <PageTemplate defaultPage={token ? 'Replays' : 'Login'} />;
 
     return (
         <div className="ProfileApp">

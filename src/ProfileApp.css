@@ -18,7 +18,7 @@
     --tertiary-background-light: hsl(209, 77%, 20%);
 }
 
-html, body, #root, .ProfileApp, .ProfileApp__router {
+html, body, #root, .ProfileApp {
     height: 100%;
 }
 
