@@ -3,7 +3,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Location, Router, Redirect } from '@reach/router';
 import { setSelectedRace, setSelectedReplayHash } from '../../actions';
 import Login from '../Login';
-import Overview from '../Overview/Overview';
 import Replays from '../Replays/Replays';
 import Analysis from '../Analysis/Analysis';
 import Upload from '../Upload';
@@ -28,7 +27,6 @@ const PageTemplate = (props) => {
     }, [props.defaultPage]);
 
     const pages = {
-        Overview: 'Profile Overview',
         Replays: 'Replays',
         Analysis: 'Trend Analysis',
         Upload: 'Upload Replays',
@@ -142,9 +140,6 @@ const PageTemplate = (props) => {
                                 <Router className="Router">
                                     <Redirect from="/login" to="/replays" noThrow />
                                     <Redirect from="/" to="/replays" noThrow />
-                                    <Overview
-                                        path="/overview"
-                                    />
                                     <Upload
                                         path="/upload"
                                     />

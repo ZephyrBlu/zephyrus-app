@@ -225,7 +225,7 @@ const Replays = (props) => {
 
     let sideBar;
 
-    if (userReplays) {
+    if (userReplays !== false) {
         sideBar = (
             replayInfo.length > 0 ?
                 <ReplayList replayList={replayInfo} />

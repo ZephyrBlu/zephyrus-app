@@ -1,6 +1,18 @@
+import { useEffect, useState } from 'react';
+
 const TimelineTooltip = (props) => {
-    let timeout;
-    let prevGameloop = 0;
+    const [currentTimeout, setCurrentTimeout] = useState(false);
+    const [prevGameloop, setPrevGameloop] = useState(0);
+
+    useEffect(() => {
+        setTimeout(async () => {
+            if (props.payload.length > 0) {
+                setPrevGameloop(props.gameloop);
+                props.setGameloop(props.payload[0].payload[1].gameloop);
+            }
+            setCurrentTimeout(false);
+        }, 100);
+    }, [currentTimeout]);
 
     const timelineStatCategories = {
         'Workers Active': ['workers_active'],
@@ -26,12 +38,11 @@ const TimelineTooltip = (props) => {
 
     if (props.isTimelineFrozen) {
         // pass
-    } else if (props.payload.length > 0 && props.payload[0].payload[1].gameloop !== prevGameloop) {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => {
-            props.setGameloop(props.payload[0].payload[1].gameloop);
-        }, 100);
-        prevGameloop = props.payload[0].payload[1].gameloop;
+    } else if (props.payload.length > 0) {
+        const gameloop = props.payload[0].payload[1].gameloop;
+        if (!currentTimeout && gameloop !== prevGameloop) {
+            setCurrentTimeout(true);
+        }
     }
 
     let content;

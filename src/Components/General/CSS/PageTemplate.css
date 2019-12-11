@@ -179,6 +179,11 @@
 
 .PageTemplate__page-content--Analysis {
     margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.PageTemplate__page-content--Replays {
+    margin-right: 0;
 }
 
 .PageTemplate__page-content--Replays .Router {

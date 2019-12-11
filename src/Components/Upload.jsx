@@ -117,16 +117,13 @@ const Upload = () => {
         <div className="Upload">
             <ul className="Upload__info">
                 <li className="Upload__info-item">
+                    Only ladder 1v1&#39;s are supported. Other replays will be skipped
+                </li>
+                <li className="Upload__info-item">
                     You can upload up to 100 replays at a time
                 </li>
                 <li className="Upload__info-item">
-                    The selected replays will be uploaded automatically
-                </li>
-                <li className="Upload__info-item">
                     Each replay will take a few seconds to upload and process
-                </li>
-                <li className="Upload__info-item">
-                    Duplicate uploads will be skipped
                 </li>
                 <li className="Upload__info-item">
                     Stay on this page during the upload
@@ -206,6 +203,12 @@ const Upload = () => {
                 >
                     hello@zephyrus.gg
                 </a>
+                <br />
+                <br />
+                Replays from new patches may not be supported for&nbsp;
+                <span style={{ textDecoration: 'underline' }}>1-2 days</span>
+                &nbsp;after the patch drops.<br /><br />
+                Please be patient until the site is updated.
             </p>
         </div>
     );

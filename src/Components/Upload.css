@@ -4,7 +4,7 @@
     height: 160px;
     margin: 80px auto 0;
     border-radius: 25px;
-    padding: 40px 40px 20px;
+    padding: 40px 40px 10px;
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -12,7 +12,8 @@
 
 .Upload__message {
     position: absolute;
-    top: 375px;
+    top: 390px;
+    margin-left: -30px;
     text-align: center;
     font-size: 14px;
 }
@@ -101,6 +102,6 @@
 }
 
 .Upload__success, .Upload__status {
-    margin: 20px auto 0;
+    margin: 30px auto 0;
     width: max-content;
 }

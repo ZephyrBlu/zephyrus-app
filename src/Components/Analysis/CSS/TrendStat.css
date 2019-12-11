@@ -91,6 +91,26 @@
     padding: 5px 8px;
 }
 
+.TrendStat__trend--workers_lost-positive,
+.TrendStat__trend--avg_unspent_resources_minerals-positive,
+.TrendStat__trend--avg_unspent_resources_gas-positive,
+.TrendStat__trend--resources_lost_minerals-positive,
+.TrendStat__trend--resources_lost_gas-positive,
+.TrendStat__trend--avg_pac_action_latency-positive,
+.TrendStat__trend--avg_pac_gap-positive {
+    color: var(--red);
+}
+
+.TrendStat__trend--workers_lost-negative,
+.TrendStat__trend--avg_unspent_resources_minerals-negative,
+.TrendStat__trend--avg_unspent_resources_gas-negative,
+.TrendStat__trend--resources_lost_minerals-negative,
+.TrendStat__trend--resources_lost_gas-negative,
+.TrendStat__trend--avg_pac_action_latency-negative,
+.TrendStat__trend--avg_pac_gap-negative {
+    color: var(--green);
+}
+
 @media (max-width: 1550px) {
     .TrendStat__stat-title {
         width: 150px;
