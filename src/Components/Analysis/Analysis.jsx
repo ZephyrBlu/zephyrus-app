@@ -20,7 +20,8 @@ import './CSS/Analysis.css';
 const Analysis = () => {
     const dispatch = useDispatch();
     const token = useSelector(state => `Token ${state.token}`);
-    const currentTrends = useSelector(state => state.trends);
+    const selectedRace = useSelector(state => state.selectedRace);
+    const currentTrends = useSelector(state => state.raceData[selectedRace].trends);
     const [playerTrends, setPlayerTrends] = useState(null);
     const [statDropdownState, setStatDropdownState] = useState(0);
     const [lineState, setLineState] = useState({
@@ -70,31 +71,40 @@ const Analysis = () => {
                 urlPrefix = 'https://zephyrus.gg/';
             }
 
-            const url = `${urlPrefix}api/stats/`;
-            let status;
+            const races = ['protoss', 'zerg', 'terran'];
+            await Promise.all(races.map(async (race) => {
+                const url = `${urlPrefix}api/stats/${race}/`;
+                let status;
 
-            const trends = await fetch(url, {
-                method: 'GET',
-                headers: {
-                    Authorization: token,
-                },
-            }).then((response) => {
-                status = response.status;
-                return response.json();
-            }).then(responseBody => (
-                JSON.parse(responseBody)
-            )).catch(() => (null));
+                const trends = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        Authorization: token,
+                    },
+                }).then((response) => {
+                    status = response.status;
+                    return response.json();
+                }).then(responseBody => (
+                    JSON.parse(responseBody)
+                )).catch(() => (null));
 
-            if (status === 200) {
-                dispatch(setTrends(trends));
-            } else {
-                dispatch(setTrends(false));
-            }
+                if (trends && status === 200) {
+                    dispatch(setTrends(trends, race));
+                } else {
+                    dispatch(setTrends(false, race));
+                }
+            }));
         };
-        if (currentTrends) {
-            setPlayerTrends(currentTrends.recent);
-            setTimelineData(currentTrends.weekly);
-        } else if (currentTrends === null) {
+
+        if (currentTrends !== null) {
+            if (currentTrends) {
+                setPlayerTrends(currentTrends.recent);
+                setTimelineData(currentTrends.weekly);
+            } else {
+                setPlayerTrends(null);
+                setTimelineData([]);
+            }
+        } else {
             getStats();
         }
     }, [currentTrends]);

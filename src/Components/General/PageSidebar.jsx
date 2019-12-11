@@ -3,8 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 // import { Link } from '@reach/router';
 import {
     setAuthToken,
-    setApiKey,
-    setReplayList,
+    setReplays,
     setSelectedReplayHash,
     setFixedHoverState,
 } from '../../actions';
@@ -52,8 +51,7 @@ const PageSidebar = (props) => {
         }
         sessionStorage.clear();
         dispatch(setAuthToken(null));
-        dispatch(setApiKey(null));
-        dispatch(setReplayList([]));
+        dispatch(setReplays([]));
         dispatch(setSelectedReplayHash(null));
     };
 

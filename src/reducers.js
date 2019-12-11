@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 import {
     SET_AUTHENTICATION_TOKEN,
-    SET_API_KEY,
+    SET_SELECTED_RACE,
     SET_REPLAYS,
     SET_REPLAY_INFO,
     SET_TRENDS,
@@ -9,6 +9,14 @@ import {
     SET_BATTLENET_STATUS,
     SET_FIXED_HOVER_STATE,
 } from './actions';
+
+const races = ['protoss', 'terran', 'zerg', 'null'];
+const raceDefaultState = { replays: null, trends: null };
+const raceDataDefaultState = {};
+
+races.forEach((race) => {
+    raceDataDefaultState[race] = raceDefaultState;
+});
 
 const token = (state = null, action) => {
     switch (action.type) {
@@ -20,20 +28,41 @@ const token = (state = null, action) => {
     }
 };
 
-const apiKey = (state = null, action) => {
+const selectedRace = (state = null, action) => {
     switch (action.type) {
-        case SET_API_KEY:
-            return action.apiKey;
+        case SET_SELECTED_RACE:
+            return action.currentRace;
 
         default:
             return state;
     }
 };
 
-const replayList = (state = [], action) => {
+const raceData = (state = raceDataDefaultState, action) => {
     switch (action.type) {
         case SET_REPLAYS:
-            return action.replayList;
+            if (races.includes(action.race)) {
+                return {
+                    ...state,
+                    [action.race]: {
+                        ...state[action.race],
+                        replays: action.replays,
+                    },
+                };
+            }
+            return state;
+
+        case SET_TRENDS:
+            if (races.includes(action.race)) {
+                return {
+                    ...state,
+                    [action.race]: {
+                        ...state[action.race],
+                        trends: action.trends,
+                    },
+                };
+            }
+            return state;
 
         default:
             return state;
@@ -44,19 +73,6 @@ const replayInfo = (state = [], action) => {
     switch (action.type) {
         case SET_REPLAY_INFO:
             return action.replayInfo;
-
-        default:
-            return state;
-    }
-};
-
-const trends = (state = null, action) => {
-    switch (action.type) {
-        case SET_TRENDS:
-            if (action.trends) {
-                return { ...action.trends };
-            }
-            return action.trends;
 
         default:
             return state;
@@ -95,10 +111,9 @@ const isHoverStateFixed = (state = false, action) => {
 
 const profileInfo = combineReducers({
     token,
-    apiKey,
-    replayList,
+    raceData,
+    selectedRace,
     replayInfo,
-    trends,
     selectedReplayHash,
     battlenetStatus,
     isHoverStateFixed,

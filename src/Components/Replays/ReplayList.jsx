@@ -10,7 +10,6 @@ const ReplayList = props => (
             return (
                 <ReplayRecord
                     key={fileHash}
-                    apiKey={props.apiKey}
                     hash={fileHash}
                     stats={newStats}
                 />

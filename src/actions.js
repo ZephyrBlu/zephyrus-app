@@ -1,5 +1,5 @@
 export const SET_AUTHENTICATION_TOKEN = 'SET_AUTHENTICATION_TOKEN';
-export const SET_API_KEY = 'SET_API_KEY';
+export const SET_SELECTED_RACE = 'SET_SELECTED_RACE';
 export const SET_REPLAYS = 'SET_REPLAYS';
 export const SET_REPLAY_INFO = 'SET_REPLAY_INFO';
 export const SET_TRENDS = 'SET_TRENDS';
@@ -11,20 +11,20 @@ export const setAuthToken = token => (
     { type: SET_AUTHENTICATION_TOKEN, token }
 );
 
-export const setApiKey = apiKey => (
-    { type: SET_API_KEY, apiKey }
+export const setSelectedRace = currentRace => (
+    { type: SET_SELECTED_RACE, currentRace }
 );
 
-export const setReplayList = replayList => (
-    { type: SET_REPLAYS, replayList }
+export const setReplays = (replays, race) => (
+    { type: SET_REPLAYS, replays, race }
 );
 
 export const setReplayInfo = replayInfo => (
     { type: SET_REPLAY_INFO, replayInfo }
 );
 
-export const setTrends = trends => (
-    { type: SET_TRENDS, trends }
+export const setTrends = (trends, race) => (
+    { type: SET_TRENDS, trends, race }
 );
 
 export const setSelectedReplayHash = replayHash => (

@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
 import {
-    setReplayList,
+    setReplays,
     setReplayInfo,
     setBattlenetStatus,
     setTrends,
@@ -107,7 +107,7 @@ const Upload = () => {
                 responseBody
             )).catch(() => null);
         });
-        dispatch(setReplayList([]));
+        dispatch(setReplays([]));
         dispatch(setReplayInfo([]));
         dispatch(setSelectedReplayHash(null));
         dispatch(setTrends(null));

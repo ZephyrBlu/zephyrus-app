@@ -1,6 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { useState } from 'react';
-import { setAuthToken, setApiKey } from '../actions';
+import { setAuthToken, setSelectedRace } from '../actions';
 import SpinningRingAnimation from './General/SpinningRingAnimation';
 import './Login.css';
 
@@ -20,11 +20,11 @@ const Login = () => {
     };
 
     // update redux store with auth token
-    const onGetCredentials = (newToken, apiKey) => {
+    const onGetCredentials = (newToken, mainRace) => {
         dispatch(setAuthToken(newToken));
-        dispatch(setApiKey(apiKey));
+        dispatch(setSelectedRace(mainRace));
         sessionStorage.token = newToken;
-        sessionStorage.apiKey = apiKey;
+        sessionStorage.mainRace = mainRace;
     };
 
     const handleSubmit = async (event) => {
@@ -60,7 +60,7 @@ const Login = () => {
             }
             return response.json();
         }).then(responseBody => (
-            onGetCredentials(responseBody.token, responseBody.api_key)
+            onGetCredentials(responseBody.token, responseBody.main_race)
         )).catch(requestError => (requestError));
 
         if (error) {

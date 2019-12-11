@@ -1,21 +1,21 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { setAuthToken, setApiKey } from './actions';
+import { setAuthToken, setSelectedRace } from './actions';
 import PageTemplate from './Components/General/PageTemplate';
 import './ProfileApp.css';
 
 const ProfileApp = () => {
     const dispatch = useDispatch();
     let token = useSelector(state => state.token);
-    let apiKey = useSelector(state => state.apiKey);
+    let mainRace = useSelector(state => state.mainRace);
     if (sessionStorage.token && !token) {
         token = sessionStorage.token;
         dispatch(setAuthToken(token));
     }
 
-    if (sessionStorage.apiKey && !apiKey) {
-        apiKey = sessionStorage.apiKey;
-        dispatch(setApiKey(apiKey));
+    if (sessionStorage.mainRace && !mainRace) {
+        mainRace = sessionStorage.mainRace;
+        dispatch(setSelectedRace(mainRace));
     }
 
     const urlParams = new URLSearchParams(window.location.search);

@@ -1,5 +1,7 @@
 import { useEffect, useState, Fragment } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { Location, Router, Redirect } from '@reach/router';
+import { setSelectedRace, setSelectedReplayHash } from '../../actions';
 import Login from '../Login';
 import Overview from '../Overview/Overview';
 import Replays from '../Replays/Replays';
@@ -10,8 +12,9 @@ import PageSidebar from './PageSidebar';
 import './CSS/PageTemplate.css';
 
 const PageTemplate = (props) => {
+    const dispatch = useDispatch();
+    const selectedRace = useSelector(state => state.selectedRace);
     const [visibleState, setVisibleState] = useState(true);
-    const [selectedRace, setSelectedRace] = useState('Protoss');
 
     // Set currentPage state as null for initial render
     const [currentPage, setCurrentPage] = useState(null);
@@ -32,10 +35,15 @@ const PageTemplate = (props) => {
     };
 
     const raceToggleStyle = {
-        Protoss: { marginLeft: '5px' },
-        Zerg: { marginLeft: '61px' },
-        Terran: { marginLeft: '117px' },
+        protoss: { marginLeft: '5px', opacity: '1' },
+        zerg: { marginLeft: '61px', opacity: '1' },
+        terran: { marginLeft: '117px', opacity: '1' },
+        null: { opacity: '0' },
     };
+
+    const capitalize = str => (
+        str.charAt(0).toUpperCase() + str.slice(1)
+    );
 
     return (
         <div className="PageTemplate">
@@ -51,7 +59,7 @@ const PageTemplate = (props) => {
                                 {pages[currentPage]}
                             </h1>
                             <h2 className="PageTemplate__data-info">
-                                {selectedRace}
+                                {selectedRace ? capitalize(selectedRace) : ''}
                             </h2>
                         </div>
                         <div className="PageTemplate__race-toggle">
@@ -62,7 +70,8 @@ const PageTemplate = (props) => {
                             <button
                                 className="PageTemplate__toggle-button"
                                 onClick={() => {
-                                    setSelectedRace('Protoss');
+                                    dispatch(setSelectedRace('protoss'));
+                                    dispatch(setSelectedReplayHash(null));
                                 }}
                             >
                                 <img
@@ -74,7 +83,8 @@ const PageTemplate = (props) => {
                             <button
                                 className="PageTemplate__toggle-button"
                                 onClick={() => {
-                                    setSelectedRace('Zerg');
+                                    dispatch(setSelectedRace('zerg'));
+                                    dispatch(setSelectedReplayHash(null));
                                 }}
                             >
                                 <img
@@ -86,7 +96,8 @@ const PageTemplate = (props) => {
                             <button
                                 className="PageTemplate__toggle-button"
                                 onClick={() => {
-                                    setSelectedRace('Terran');
+                                    dispatch(setSelectedRace('terran'));
+                                    dispatch(setSelectedReplayHash(null));
                                 }}
                             >
                                 <img
