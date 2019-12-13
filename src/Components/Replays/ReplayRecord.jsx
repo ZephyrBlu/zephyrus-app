@@ -61,9 +61,16 @@ const ReplayRecord = (props) => {
             tabIndex={0}
             className={
                 selectedReplayHash && selectedReplayHash === props.hash ?
-                    `ReplayRecord ReplayRecord--${props.stats.result.toLowerCase().split(',')[0]}-selected`
+                    `
+                        ReplayRecord
+                        ReplayRecord--${props.stats.result.toLowerCase().split(',')[0]}
+                        ReplayRecord--selected
+                    `
                     :
-                    `ReplayRecord ReplayRecord--${props.stats.result.toLowerCase().split(',')[0]}`
+                    `
+                        ReplayRecord
+                        ReplayRecord--${props.stats.result.toLowerCase().split(',')[0]}
+                    `
             }
             onClick={() => handleReplaySelection()}
             onKeyDown={e => handleKeyDown(e.key)}

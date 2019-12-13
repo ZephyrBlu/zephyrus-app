@@ -1,5 +1,5 @@
 .ReplayStat__stat {
-    margin: 0 0 20px;
+    margin: 0 0 2px;
     display: grid;
     grid-template-columns: max-content 1fr;
     grid-template-areas: 'replay-stat-title replay-stat-info';

@@ -1,7 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { useState } from 'react';
-import { setAuthToken, setApiKey } from '../actions';
-import ProfileSection from './General/ProfileSection';
+import { setAuthToken, setSelectedRace } from '../actions';
 import SpinningRingAnimation from './General/SpinningRingAnimation';
 import './Login.css';
 
@@ -21,17 +20,18 @@ const Login = () => {
     };
 
     // update redux store with auth token
-    const onGetCredentials = (newToken, apiKey) => {
+    const onGetCredentials = (newToken, mainRace) => {
         dispatch(setAuthToken(newToken));
-        dispatch(setApiKey(apiKey));
+        dispatch(setSelectedRace(mainRace));
         sessionStorage.token = newToken;
-        sessionStorage.apiKey = apiKey;
+        sessionStorage.mainRace = mainRace;
     };
 
     const handleSubmit = async (event) => {
         // prevents form action to reload page
         event.preventDefault();
         setIsUserWaiting(true);
+        setFormError(false);
 
         let urlPrefix;
         if (process.env.NODE_ENV === 'development') {
@@ -60,7 +60,7 @@ const Login = () => {
             }
             return response.json();
         }).then(responseBody => (
-            onGetCredentials(responseBody.token, responseBody.api_key)
+            onGetCredentials(responseBody.token, responseBody.main_race)
         )).catch(requestError => (requestError));
 
         if (error) {
@@ -69,56 +69,51 @@ const Login = () => {
         }
     };
 
-    const pageTitle = 'Login';
-
-    const mainContent = (
-        <div className="login-form">
-            <form className="login-form__form" onSubmit={handleSubmit} autoComplete="on">
-                {formError &&
-                <p className="login-form__error">
-                    {formError}
-                </p>}
-                <p className="login-form__email">
-                    <label className="login-form__email-label">
-                        Email
+    return (
+        <div className="Login">
+            <div className="login-form">
+                <h1 className="login-form__title">Welcome Back</h1>
+                <form className="login-form__form" onSubmit={handleSubmit} autoComplete="on">
+                    <p className="login-form__email">
+                        <label className="login-form__label">
+                            Email
+                        </label>
                         <input
-                            className="login-form__email-input"
+                            className="login-form__input login-form__input--email"
                             type="email"
                             name="username"
                             value={usernameValue}
                             onChange={handleUsernameInput}
                         />
-                    </label>
-                </p>
-                <p className="login-form__password">
-                    <label className="login-form__password-label">
-                        Password
+                    </p>
+                    <p className="login-form__password">
+                        <label className="login-form__label">
+                            Password
+                        </label>
                         <input
-                            className="login-form__password-input"
+                            className="login-form__input login-form__input--password"
                             type="password"
                             name="password"
                             value={passwordValue}
                             onChange={handlePasswordInput}
                         />
-                    </label>
-                </p>
-                <span className="login-form__flex-wrapper">
-                    <input className="login-form__submit" type="submit" value="Log-in" />
-                    {isUserWaiting &&
-                        <SpinningRingAnimation />}
-                </span>
-            </form>
-        </div>
-    );
-
-    return (
-        <div className="Login">
-            <ProfileSection
-                section="Login"
-                noNav
-                pageTitle={pageTitle}
-                mainContent={mainContent}
-            />
+                    </p>
+                    <span className="login-form__flex-wrapper">
+                        <input className="login-form__submit" type="submit" value="LOG IN" />
+                        {isUserWaiting &&
+                            <SpinningRingAnimation style={{ top: '20px' }} />}
+                    </span>
+                    {formError &&
+                        <p className="login-form__error">
+                            {formError}
+                        </p>}
+                </form>
+                <img
+                    className="login-image"
+                    src="../images/login-background.png"
+                    alt="StarCraft Races"
+                />
+            </div>
         </div>
     );
 };

@@ -1,12 +1,17 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useEffect } from 'react';
-import { setReplayList, setReplayInfo, setBattlenetStatus, setTrends, setSelectedReplayHash } from '../../actions';
-import InfoTooltip from '../General/InfoTooltip';
-import ProfileSection from '../General/ProfileSection';
-import SpinningRingAnimation from '../General/SpinningRingAnimation';
-import './CSS/Upload.css';
+import {
+    setReplays,
+    setReplayInfo,
+    setBattlenetStatus,
+    setTrends,
+    setSelectedReplayHash,
+} from '../actions';
+import InfoTooltip from './General/InfoTooltip';
+import SpinningRingAnimation from './General/SpinningRingAnimation';
+import './Upload.css';
 
-const Upload = (props) => {
+const Upload = () => {
     const dispatch = useDispatch();
     const token = useSelector(state => `Token ${state.token}`);
     const hasAuthenticatedBattlenet = useSelector(state => state.battlenetStatus);
@@ -102,26 +107,23 @@ const Upload = (props) => {
                 responseBody
             )).catch(() => null);
         });
-        dispatch(setReplayList([]));
+        dispatch(setReplays([]));
         dispatch(setReplayInfo([]));
         dispatch(setSelectedReplayHash(null));
         dispatch(setTrends(null));
     };
 
-    const mainContent = (
+    return (
         <div className="Upload">
             <ul className="Upload__info">
+                <li className="Upload__info-item">
+                    Only ladder 1v1&#39;s are supported. Other replays will be skipped
+                </li>
                 <li className="Upload__info-item">
                     You can upload up to 100 replays at a time
                 </li>
                 <li className="Upload__info-item">
-                    The selected replays will be uploaded automatically
-                </li>
-                <li className="Upload__info-item">
                     Each replay will take a few seconds to upload and process
-                </li>
-                <li className="Upload__info-item">
-                    Duplicate uploads will be skipped
                 </li>
                 <li className="Upload__info-item">
                     Stay on this page during the upload
@@ -175,35 +177,40 @@ const Upload = (props) => {
                     />
                 </p>
                 :
-                <p className="Upload__authorize-message">
+                <div className="Upload__authorize-message">
                     Verifying your Battlenet Account
                     <SpinningRingAnimation />
-                </p>)
+                </div>)
             }
             {uploadInProgress &&
                 <p className="Upload__status">
                     Uploading your replays now...
                 </p>}
             {uploadReponse && <p className="Upload__success">{uploadReponse}</p>}
-            <p className="Upload__issues">
-                Having issues?&nbsp;
+            <p className="Upload__message">
+                Having trouble uploading replays?<br />
+                Contact me on&nbsp;
                 <a
-                    href="https://blog.zephyrus.gg/replay-upload-issues/"
+                    href="https://www.reddit.com/user/ZephyrBluu/"
                     target="_blank"
                     rel="noopener noreferrer"
                 >
-                    Read this
+                    Reddit
+                </a>, Discord (ZephyrBlu#4524)
+                or at&nbsp;
+                <a
+                    href="mailto:hello@zephyrus.gg"
+                >
+                    hello@zephyrus.gg
                 </a>
+                <br />
+                <br />
+                Replays from new patches may not be supported for&nbsp;
+                <span style={{ textDecoration: 'underline' }}>1-2 days</span>
+                &nbsp;after the patch drops.<br /><br />
+                Please be patient until the site is updated.
             </p>
         </div>
-    );
-
-    return (
-        <ProfileSection
-            section="Upload"
-            pageTitle={props.pageTitle}
-            mainContent={mainContent}
-        />
     );
 };
 

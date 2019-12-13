@@ -1,3 +1,9 @@
+.Analysis {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 100%;
+}
+
 .timeline {
     margin: 20px 60px 0;
     display: grid;
@@ -9,7 +15,6 @@
 
 .timeline__title {
     grid-area: timeline-title;
-    font-family: 'Raleway', sans-serif;
     justify-self: flex-start;
     width: max-content;
     height: max-content;
@@ -28,11 +33,11 @@
 }
 
 .timeline__stat-picker-title {
-    font-family: 'Raleway', sans-serif;
     margin: 0;
-    padding-bottom: 6px;
+    padding-top: 2px;
+    padding-bottom: 2px;
     border: none;
-    border-bottom: 1px solid var(--grey);
+    border-radius: 15px;
     background-color: transparent;
     color: hsl(0, 0%, 85%);
     font-size: 16px;
@@ -46,6 +51,7 @@
 .timeline__stat-picker-title:focus,
 .timeline__stat-dropdown-button:focus {
     outline: none;
+    box-shadow: 0 0 0 1px var(--tertiary-background-light);
 }
 
 .timeline__stat-dropdown {
@@ -73,6 +79,7 @@
 .timeline__stat-dropdown-button {
     background-color: transparent;
     border: none;
+    border-radius: 15px;
     width: max-content;
     color: hsl(0, 0%, 85%);
 }
@@ -108,7 +115,6 @@
 .recent-trends__title {
     margin: 0 0 5px;
     width: max-content;
-    font-family: 'Raleway', sans-serif;
     font-size: 28px;
 }
 
@@ -127,13 +133,13 @@
     grid-gap: 0px 30px;
 }
 
-@media (max-width: 1450px) {
+@media (max-width: 1525px) {
     .recent-trends__content {
         grid-template: min-content repeat(2, max-content) / repeat(2, max-content);
         grid-template-areas:
         'trends-title trends-title'
         'general economic'
         'PAC efficiency';
-        grid-gap: 0px 40px;
+        grid-gap: 40px;
     }
 }

@@ -6,7 +6,7 @@
     'matchup map result players'
     'date date date stat-selection';
     grid-gap: 0 20px;
-    margin: 20px 25px 40px 60px;
+    margin: 10px 25px 40px 60px;
 }
 
 .ReplayInfo__stat-select {
@@ -19,13 +19,18 @@
 
 .ReplayInfo__stat-toggle {
     background: none;
+    border-radius: 15px;
     border: none;
     color: var(--text);
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
     font-size: 20px;
-    #width: max-content;
     width: 235px;
+}
+
+.ReplayInfo__stat-toggle:focus {
+    outline: none;
+    box-shadow: 0 0 0 1px var(--tertiary-background-light) inset;
 }
 
 .ReplayInfo__stat-toggle:hover {
@@ -68,10 +73,18 @@
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
     font-size: 16px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    border-radius: 15px;
 }
 
 .ReplayInfo__dropdown-button:hover {
     cursor: pointer;
+}
+
+.ReplayInfo__dropdown-button:focus {
+    outline: none;
+    box-shadow: 0 0 0 1px var(--tertiary-background-light) inset;
 }
 
 .ReplayInfo__players {
@@ -190,5 +203,17 @@
 
     .ReplayInfo__players {
         margin-right: 0;
+    }
+}
+
+@media (max-width: 1025px) {
+    .ReplayInfo__matchup,
+    .ReplayInfo__map {
+        font-size: 26px;
+    }
+
+    .ReplayInfo__player-info,
+    .ReplayInfo__player-name {
+        font-size: 14px;
     }
 }

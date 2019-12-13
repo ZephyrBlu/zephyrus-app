@@ -1,0 +1,222 @@
+.PageTemplate {
+    display: grid;
+    margin: 0;
+    height: 100vh;
+    grid-template: min-content 1fr / min-content 1fr;
+    grid-template-areas:
+    'header header'
+    'page-sidebar page-content';
+}
+
+.PageTemplate__header {
+    grid-area: header;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 60px;
+    width: 100%;
+    color: var(--text);
+    border-bottom: 1px solid var(--tertiary-background-light);
+}
+
+.PageTemplate__title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0;
+    margin-left: 10px;
+    width: max-content;
+    height: min-content;
+    color: var(--text);
+    font-weight: 300;
+    font-size: 18px;
+    letter-spacing: 2px;
+}
+
+.PageTemplate__logo {
+    font-family: 'Major Mono Display', monospace;
+    padding: 1px;
+    padding-left: 2px;
+    padding-bottom: 4px;
+    display: inline-block;
+    line-height: 30px;
+    text-align: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    border: 1px solid var(--light-blue);
+    background-color: transparent;
+    transition: .3s;
+    font-size: 30px;
+    font-weight: 500;
+    text-decoration: none;
+    color: var(--text);
+}
+
+.PageTemplate__logo:visited {
+    text-decoration: none;
+    color: var(--text);
+}
+
+.PageTemplate__beta-icon {
+    height: 14px;
+    margin-left: 5px;
+    padding: 2px 4px;
+    border-radius: 5px;
+    background-color: var(--light-blue);
+    font-size: 12px;
+    font-weight: bolder;
+    letter-spacing: 0;
+    color: black;
+}
+
+.PageTemplate__logo:hover,
+.PageTemplate__logo:focus {
+    outline: none;
+    cursor: pointer;
+    color: black;
+    background-color: var(--light-blue);
+}
+
+.PageTemplate__page-info {
+    height: min-content;
+    padding: 0 25px;
+    margin: 0 25px;
+    border-left: 2px solid var(--tertiary-background-light);
+    border-right: 2px solid var(--tertiary-background-light);
+}
+
+.PageTemplate__page-info--Replays {
+    width: 175px;
+}
+
+.PageTemplate__page-info--Analysis {
+    width: 245px;
+}
+
+.PageTemplate__page-info--Upload {
+    width: 255px;
+}
+
+.PageTemplate__page-name {
+    display: inline-block;
+    margin: 0;
+    font-size: 24px;
+    margin-right: 10px;
+}
+
+.PageTemplate__data-info {
+    margin: 0;
+    width: 81px;
+    text-align: center;
+    display: inline-block;
+    color: var(--grey);
+    font-size: 24px;
+}
+
+.PageTemplate__race-toggle {
+    height: min-content;
+    width: max-content;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.PageTemplate__toggle-indicator {
+    position: absolute;
+    z-index: -1;
+    box-shadow: 0 0 0 2px var(--light-blue) inset;
+    border-radius: 50%;
+    height: 46px;
+    width: 46px;
+    transition: .3s;
+}
+
+.PageTemplate__toggle-button {
+    height: 46px;
+    width: 46px;
+    padding: 0;
+    margin: 0 5px;
+    transition: .3s;
+    border: none;
+    border-radius: 50%;
+    background-color: transparent;
+}
+
+.PageTemplate__race-icon {
+    height: 30px;
+    width: 30px;
+    padding: 8px;
+    border-radius: 50%;
+    transition: .3s;
+}
+
+.PageTemplate__toggle-button:hover,
+.PageTemplate__toggle-button:focus,
+.PageTemplate__race-icon:hover,
+.PageTemplate__race-icon:focus {
+    outline: none;
+    cursor: pointer;
+}
+
+.PageTemplate__page-content {
+    grid-area: page-content;
+    display: inline-block;
+    margin: 0;
+    margin-right: 5px;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.PageTemplate__page-content--Login .Router {
+    height: 100%;
+}
+
+.PageTemplate__page-content--Login {
+    overflow-y: hidden;
+    margin-right: 0;
+}
+
+.PageTemplate__page-content--Analysis {
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
+
+.PageTemplate__page-content--Replays {
+    margin-right: 0;
+}
+
+.PageTemplate__page-content--Replays .Router {
+    height: 100%;
+}
+
+.PageTemplate__hide-wrapper {
+    width: max-content;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.PageTemplate__hide-side-bar {
+    padding: 0;
+    border: none;
+    height: 35px;
+    border-radius: 50% 0 0 50%;
+    background-color: var(--main-background);
+}
+
+.PageTemplate__hide-side-bar:hover,
+.PageTemplate__hide-side-bar:focus {
+    outline: none;
+    cursor: pointer;
+}
+
+.PageTemplate__hide-icon {
+    padding: 0;
+    background-color: var(--main-background);
+    border-radius: 50% 0 0 50%;
+    height: 35px;
+}

@@ -1,5 +1,6 @@
 .StatCategory {
-    margin: 0 auto 30px;
+    #margin: 0 auto 30px;
+    padding: 0 auto 30px;
 }
 
 .StatCategory--replays {
@@ -15,9 +16,7 @@
 }
 
 .StatCategory__stats--replays {
-    #width: 280px;
-    min-width: 350px;
-    max-width: 480px;
+    width: 380px;
 }
 
 .StatCategory__title {
@@ -29,11 +28,5 @@
 @media (max-width: 1400px) {
     .StatCategory__stats--replays {
         min-width: 0;
-    }
-}
-
-@media (max-width: 1350px) {
-    .StatCategory--replays {
-        margin: 0 10px 30px;
     }
 }

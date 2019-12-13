@@ -1,26 +1,21 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { Router, Redirect } from '@reach/router';
-import { setAuthToken, setApiKey } from './actions';
-import Login from './Components/Login';
-import Overview from './Components/Overview/Overview';
-import Replays from './Components/Replays/Replays';
-import Analysis from './Components/Analysis/Analysis';
-import Upload from './Components/Upload/Upload';
+import { setAuthToken, setSelectedRace } from './actions';
+import PageTemplate from './Components/General/PageTemplate';
 import './ProfileApp.css';
 
 const ProfileApp = () => {
     const dispatch = useDispatch();
     let token = useSelector(state => state.token);
-    let apiKey = useSelector(state => state.apiKey);
+    let mainRace = useSelector(state => state.mainRace);
     if (sessionStorage.token && !token) {
         token = sessionStorage.token;
         dispatch(setAuthToken(token));
     }
 
-    if (sessionStorage.apiKey && !apiKey) {
-        apiKey = sessionStorage.apiKey;
-        dispatch(setApiKey(apiKey));
+    if (sessionStorage.mainRace && !mainRace) {
+        mainRace = sessionStorage.mainRace;
+        dispatch(setSelectedRace(mainRace));
     }
 
     const urlParams = new URLSearchParams(window.location.search);
@@ -55,44 +50,9 @@ const ProfileApp = () => {
         }
     }, []);
 
-    let app;
-    if (token) {
-        app = (
-            <Router>
-                <Redirect from="/login" to="/replays" />
-                <Redirect from="/" to="/replays" />
-                <Overview
-                    pageTitle="Profile Overview"
-                    path="/overview"
-                />
-                <Upload
-                    pageTitle="Upload Replays"
-                    path="/upload"
-                />
-                <Replays
-                    pageTitle="Replays"
-                    path="/replays"
-                />
-                <Analysis
-                    pageTitle="Trend Analysis"
-                    path="/analysis"
-                />
-            </Router>
-        );
-    } else {
-        app = (
-            <Router>
-                <Redirect from="/*" to="/login" />
-                <Login
-                    path="/login"
-                />
-            </Router>
-        );
-    }
-
     return (
         <div className="ProfileApp">
-            {app}
+            <PageTemplate defaultPage={token ? 'Replays' : 'Login'} />
         </div>
     );
 };

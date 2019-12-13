@@ -1,8 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
 import { useState, useEffect, Fragment } from 'react';
-import { setReplayList, setReplayInfo } from '../../actions';
-import ProfileSection from '../General/ProfileSection';
+import { setReplays, setReplayInfo } from '../../actions';
 import ReplayList from './ReplayList';
 import ReplayInfo from './ReplayInfo';
 import TimelineArea from './TimelineArea';
@@ -13,21 +12,20 @@ import './CSS/Replays.css';
 
 const selectData = createSelector(
     state => `Token ${state.token}`,
-    state => state.apiKey,
-    state => state.replayList,
+    state => state.selectedRace,
     state => state.replayInfo,
     state => state.selectedReplayHash,
-    (token, apiKey, userReplays, replayInfo, selectedReplayHash) => (
-        [token, apiKey, userReplays, replayInfo, selectedReplayHash]
+    (token, selectedRace, replayInfo, selectedReplayHash) => (
+        [token, selectedRace, replayInfo, selectedReplayHash]
     ),
 );
 
-const Replays = () => {
+const Replays = (props) => {
     const dispatch = useDispatch();
     const [selectedReplay, setSelectedReplay] = useState(null);
     const [selectedReplayInfo, setSelectedReplayInfo] = useState(null);
-    const [timelineStat, setTimelineStat] = useState('resource_collection_rate.minerals');
-    const [token, apiKey, userReplays, replayInfo, selectedReplayHash] = useSelector(selectData);
+    const [timelineStat, setTimelineStat] = useState('resource_collection_rate_all');
+    const [token, selectedRace, replayInfo, selectedReplayHash] = useSelector(selectData);
     const [cachedTimeline, setCachedTimeline] = useState({ 0: { 1: {} } });
     const [currentGameloop, setCurrentGameloop] = useState(0);
     const [timelineData, setTimelineData] = useState([{
@@ -38,6 +36,8 @@ const Replays = () => {
         unit: {},
         unspent_resources: { minerals: 0, gas: 0 },
     }]);
+
+    const userReplays = useSelector(state => state.raceData[selectedRace].replays);
 
     const clanTagIndex = name => (
         name.indexOf('>') === -1 ? 0 : name.indexOf('>') + 1
@@ -52,29 +52,32 @@ const Replays = () => {
                 urlPrefix = 'https://zephyrus.gg/';
             }
 
-            const url = `${urlPrefix}api/all/`;
-            let status;
+            const races = ['protoss', 'zerg', 'terran'];
+            await Promise.all(races.map(async (race) => {
+                const url = `${urlPrefix}api/replays/${race}/`;
+                let status;
 
-            const data = await fetch(url, {
-                method: 'GET',
-                headers: {
-                    Authorization: token,
-                },
-            }).then((response) => {
-                status = response.status;
-                return response.json();
-            }).then(responseBody => (
-                responseBody
-            )).catch(() => null);
+                const data = await fetch(url, {
+                    method: 'GET',
+                    headers: {
+                        Authorization: token,
+                    },
+                }).then((response) => {
+                    status = response.status;
+                    return response.json();
+                }).then(responseBody => (
+                    responseBody
+                )).catch(() => null);
 
-            if (status === 200 && data.length > 0) {
-                dispatch(setReplayList(data));
-            } else {
-                dispatch(setReplayList(false));
-            }
+                if (status === 200 && data.length > 0) {
+                    dispatch(setReplays(data, race));
+                } else {
+                    dispatch(setReplays(false, race));
+                }
+            }));
         };
 
-        if (userReplays && userReplays.length < 1) {
+        if (userReplays === null) {
             getUserReplays();
         }
     }, []);
@@ -109,23 +112,30 @@ const Replays = () => {
             userReplays.forEach((replay) => {
                 if (replay.file_hash === selectedReplayHash) {
                     setSelectedReplay(replay);
+                    const infoList = { user_match_id: replay.user_match_id };
+                    Object.entries(replay.match_data).forEach(([stat, values]) => {
+                        infoList[stat] = values;
+                    });
+                    setSelectedReplayInfo(infoList);
                 }
             });
         };
 
         const getReplayTimeline = async () => {
-            await setCurrentGameloop(0);
+            setCurrentGameloop(0);
+            setTimelineData([]);
 
             let url;
             if (process.env.NODE_ENV === 'development') {
-                url = `https://www.googleapis.com/storage/v1/b/sc2-timelines-dev/o/${selectedReplayHash}.json.gz?key=${apiKey}`;
+                url = `http://127.0.0.1:8000/api/replays/timeline/${selectedReplayHash}/`;
             } else {
-                url = `https://www.googleapis.com/storage/v1/b/sc2-timelines/o/${selectedReplayHash}.json.gz?key=${apiKey}`;
+                url = `https://zephyrus.gg/api/replays/timeline/${selectedReplayHash}/`;
             }
 
-            const metadata = await fetch(url, {
+            const timelineUrl = await fetch(url, {
                 method: 'GET',
                 headers: {
+                    Authorization: token,
                     'Accept-Encoding': 'gzip',
                 },
             }).then(response => (
@@ -134,7 +144,7 @@ const Replays = () => {
                 responseBody
             )).catch(() => null);
 
-            url = metadata.mediaLink;
+            url = timelineUrl.timeline_url;
             const data = await fetch(url, {
                 method: 'GET',
             }).then(response => (
@@ -152,6 +162,8 @@ const Replays = () => {
             setCachedTimeline(timeline);
         };
 
+        setSelectedReplayInfo(null);
+
         if (userReplays && (userReplays.length > 0)) {
             getSelectedReplay();
         }
@@ -161,22 +173,7 @@ const Replays = () => {
         }
     }, [selectedReplayHash]);
 
-    useEffect(() => {
-        const filterSelectedReplayInfo = () => {
-            const infoList = { user_match_id: selectedReplay.user_match_id };
-            Object.entries(selectedReplay.match_data).forEach(([stat, values]) => {
-                infoList[stat] = values;
-            });
-            setSelectedReplayInfo(infoList);
-        };
-        if (selectedReplay) {
-            filterSelectedReplayInfo();
-        }
-    }, [selectedReplay]);
-
     const statCategories = ['general', 'economic', 'PAC', 'efficiency'];
-
-    const pageTitle = 'Replays';
 
     const getPlayers = () => ({
         1: {
@@ -206,6 +203,7 @@ const Replays = () => {
                     gameloop={currentGameloop}
                     setGameloop={setCurrentGameloop}
                     players={getPlayers()}
+                    visibleState={props.visibleState}
                 /> : <WaveAnimation />)}
             <div className={`replay-stats${selectedReplayInfo ? '' : '--default'}`}>
                 {selectedReplayInfo ?
@@ -227,10 +225,10 @@ const Replays = () => {
 
     let sideBar;
 
-    if (userReplays) {
+    if (userReplays !== false) {
         sideBar = (
             replayInfo.length > 0 ?
-                <ReplayList replayList={replayInfo} apiKey={apiKey} />
+                <ReplayList replayList={replayInfo} />
                 :
                 <WaveAnimation />
         );
@@ -239,14 +237,16 @@ const Replays = () => {
     }
 
     return (
-        <div className="Replays">
-            <ProfileSection
-                section="Replays"
-                pageTitle={pageTitle}
-                mainContent={mainContent}
-                sideBar={sideBar}
-                modifier="replays"
-            />
+        <div
+            className="Replays"
+            style={props.visibleState ? {} : { gridTemplateColumns: '1fr 0px' }}
+        >
+            <div className="Replays__main-content">
+                {mainContent}
+            </div>
+            <div className="Replays__sidebar">
+                {sideBar}
+            </div>
         </div>
     );
 };

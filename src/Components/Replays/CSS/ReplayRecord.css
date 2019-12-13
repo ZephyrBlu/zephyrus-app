@@ -1,11 +1,5 @@
 .ReplayRecord {
     display: grid;
-    /*grid-template: 1fr / repeat(6, 1fr);
-    grid-template-areas:
-    'matchup game-length result date player1 player2';
-    align-items: center;
-    justify-items: center;*/
-
     grid-template: min-content min-content / repeat(4, max-content);
     grid-template-areas:
     'matchup map map player1'
@@ -15,25 +9,16 @@
     height: min-content;
     width: 450px;
     margin: 10px auto;
-    margin-right: 11.5px;
     padding: 15px;
     border-radius: 15px;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: 0.3s;
     background-color: var(--secondary-background);
 }
 
 .ReplayRecord:focus {
     outline: none;
-    box-shadow: 0 0 0 1px var(--grey);
-}
-
-.ReplayRecord--win {
-    #box-shadow: 0 0 0 2px hsla(120, 100%, 40%, 0.3) inset;
-}
-
-.ReplayRecord--loss {
-    #box-shadow: 0 0 0 2px hsla(0, 100%, 40%, 0.3) inset;
+    box-shadow: 0 0 0 2px var(--tertiary-background) inset;
 }
 
 .ReplayRecord__stat--win {
@@ -48,22 +33,8 @@
     padding: 4px 10px;
 }
 
-/*.ReplayRecord--win:hover, .ReplayRecord--win:focus {
-    background-color: hsla(120, 100%, 50%, 0.5);
-}
-
-.ReplayRecord--loss:hover, .ReplayRecord--loss:focus {
-    background-color: hsla(0, 100%, 50%, 0.5);
-}*/
-
-.ReplayRecord--win-selected {
+.ReplayRecord--selected {
     background-color: var(--tertiary-background);
-    box-shadow: 0 0 0 1px var(--grey);
-}
-
-.ReplayRecord--loss-selected {
-    background-color: var(--tertiary-background);
-    box-shadow: 0 0 0 1px var(--grey);
 }
 
 .ReplayRecord__matchup {
