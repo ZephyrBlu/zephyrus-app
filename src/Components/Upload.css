@@ -73,34 +73,6 @@
     cursor: pointer;
 }
 
-.Upload__authorize-message {
-    margin: 10px auto;
-    width: max-content;
-}
-
-.Upload__battlenet-authorize {
-    background-color: transparent;
-    border: none;
-    color: var(--text);
-    padding: 0;
-    font-size: 16px;
-    text-decoration: underline;
-}
-
-.Upload__battlenet-authorize:hover {
-    cursor: pointer;
-}
-
-.Upload__battlenet-authorize:visited {
-    color: var(--text);
-}
-
-.Upload__authorize-tooltip {
-    position: relative;
-    top: 7px;
-    left: 5px;
-}
-
 .Upload__success, .Upload__status {
     margin: 30px auto 0;
     width: max-content;

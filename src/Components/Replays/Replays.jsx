@@ -11,12 +11,12 @@ import WaveAnimation from '../General/WaveAnimation';
 import './CSS/Replays.css';
 
 const selectData = createSelector(
-    state => `Token ${state.token}`,
+    state => state.user,
     state => state.selectedRace,
     state => state.replayInfo,
     state => state.selectedReplayHash,
-    (token, selectedRace, replayInfo, selectedReplayHash) => (
-        [token, selectedRace, replayInfo, selectedReplayHash]
+    (user, selectedRace, replayInfo, selectedReplayHash) => (
+        [user, selectedRace, replayInfo, selectedReplayHash]
     ),
 );
 
@@ -25,7 +25,7 @@ const Replays = (props) => {
     const [selectedReplay, setSelectedReplay] = useState(null);
     const [selectedReplayInfo, setSelectedReplayInfo] = useState(null);
     const [timelineStat, setTimelineStat] = useState('resource_collection_rate_all');
-    const [token, selectedRace, replayInfo, selectedReplayHash] = useSelector(selectData);
+    const [user, selectedRace, replayInfo, selectedReplayHash] = useSelector(selectData);
     const [cachedTimeline, setCachedTimeline] = useState({ 0: { 1: {} } });
     const [currentGameloop, setCurrentGameloop] = useState(0);
     const [timelineData, setTimelineData] = useState([{
@@ -60,7 +60,7 @@ const Replays = (props) => {
                 const data = await fetch(url, {
                     method: 'GET',
                     headers: {
-                        Authorization: token,
+                        Authorization: `Token ${user.token}`,
                     },
                 }).then((response) => {
                     status = response.status;
@@ -135,7 +135,7 @@ const Replays = (props) => {
             const timelineUrl = await fetch(url, {
                 method: 'GET',
                 headers: {
-                    Authorization: token,
+                    Authorization: `Token ${user.token}`,
                     'Accept-Encoding': 'gzip',
                 },
             }).then(response => (

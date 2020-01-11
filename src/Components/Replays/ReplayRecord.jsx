@@ -72,7 +72,7 @@ const ReplayRecord = (props) => {
                         ReplayRecord--${props.stats.result.toLowerCase().split(',')[0]}
                     `
             }
-            onClick={() => handleReplaySelection()}
+            onClick={handleReplaySelection}
             onKeyDown={e => handleKeyDown(e.key)}
         >
             {Object.keys(props.stats).map(replayInfoField => (
