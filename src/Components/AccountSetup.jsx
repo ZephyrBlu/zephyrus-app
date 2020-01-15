@@ -1,5 +1,5 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import { useEffect } from 'react';
 import { setUser } from '../actions';
 // import SpinningRingAnimation from './General/SpinningRingAnimation';
 // import InfoTooltip from './General/InfoTooltip';
@@ -8,8 +8,6 @@ import './AccountSetup.css';
 const AccountSetup = () => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.user);
-    const [authWindow, setAuthWindow] = useState(null);
-    const [battlenetAccountCheck, setBattlenetAccountCheck] = useState(null);
 
     let urlPrefix;
     if (process.env.NODE_ENV === 'development') {
@@ -18,43 +16,49 @@ const AccountSetup = () => {
         urlPrefix = 'https://zephyrus.gg/';
     }
 
-    const checkAccountStatus = async () => {
-        const url = `${urlPrefix}api/authorize/check/`;
+    useEffect(() => {
+        const checkAccountStatus = async () => {
+            const url = `${urlPrefix}api/authorize/check/`;
 
-        const updatedUser = await fetch(url, {
-            method: 'GET',
-            headers: {
-                Authorization: `Token ${user.token}`,
-            },
-        }).then(response => (
-            response.json()
-        )).catch(() => null);
+            const updatedUser = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    Authorization: `Token ${user.token}`,
+                },
+            }).then(response => (
+                response.json()
+            )).catch(() => null);
+            dispatch(setUser(updatedUser.user));
+        };
 
-        dispatch(setUser(updatedUser.user));
-        clearInterval(battlenetAccountCheck);
-        setBattlenetAccountCheck(null);
-    };
+        const setBattlenetAccount = async (authCode) => {
+            const url = `${urlPrefix}api/authorize/code/`;
 
-    const setBattlenetAccount = async (authCode) => {
-        const url = `${urlPrefix}api/authorize/code/`;
+            const error = await fetch(url, {
+                method: 'POST',
+                headers: {
+                    Authorization: `Token ${user.token}`,
+                },
+                body: JSON.stringify({ authCode }),
+            }).then((response) => {
+                if (response.status !== 200) {
+                    return `(${response.status}) Invalid Authorization Code`;
+                }
+                return null;
+            }).catch(() => null);
 
-        const error = await fetch(url, {
-            method: 'POST',
-            headers: {
-                Authorization: `Token ${user.token}`,
-            },
-            body: JSON.stringify({ authCode }),
-        }).then((response) => {
-            if (response.status !== 200) {
-                return `(${response.status}) Invalid Authorization Code`;
+            if (error) {
+                console.log('error', error);
+            } else {
+                sessionStorage.removeItem('authCode');
+                checkAccountStatus();
             }
-            return null;
-        }).catch(() => null);
+        };
 
-        if (error) {
-            console.log(error);
+        if (sessionStorage.authCode) {
+            setBattlenetAccount(sessionStorage.authCode);
         }
-    };
+    }, []);
 
     const authorizeBattlenetAccount = async () => {
         const url = `${urlPrefix}api/authorize/url/`;
@@ -74,14 +78,7 @@ const AccountSetup = () => {
         )).catch(() => null);
 
         if (result) {
-            setAuthWindow(window.open(result.url));
-            setBattlenetAccountCheck(setInterval(() => {
-                if (sessionStorage.authCode) {
-                    authWindow.close();
-                    setBattlenetAccount(sessionStorage.authCode);
-                    checkAccountStatus();
-                }
-            }, 2000));
+            window.location.replace(result.url);
         }
     };
 
@@ -112,15 +109,41 @@ const AccountSetup = () => {
                     Your progress is saved automatically
                 </h3>
                 <ul className="AccountSetup__progress-list">
-                    <li className="AccountSetup__task-progress AccountSetup__task-progress--completed">
+                    <li
+                        className={`
+                            AccountSetup__task-progress
+                            ${user.verified ? 'AccountSetup__task-progress--completed' : ''}
+                        `}
+                    >
                         Email Verification
-                        <span className="AccountSetup__completion-message">Complete!</span>
+                        {user.verified &&
+                            <span className="AccountSetup__completion-message">
+                                Complete!
+                            </span>}
                     </li>
-                    <li className="AccountSetup__task-progress">
+                    <li
+                        className={`
+                            AccountSetup__task-progress
+                            ${user.battlenetAccounts ? 'AccountSetup__task-progress--completed' : ''}
+                        `}
+                    >
                         Battle.net Account Link
+                        {user.battlenetAccounts &&
+                            <span className="AccountSetup__completion-message">
+                                Complete!
+                            </span>}
                     </li>
-                    <li className="AccountSetup__task-progress">
+                    <li
+                        className={`
+                            AccountSetup__task-progress
+                            ${Object.keys(user.battlenetAccounts[0].profiles).length > 0 ? 'AccountSetup__task-progress--completed' : ''}
+                        `}
+                    >
                         Add Profiles
+                        {Object.keys(user.battlenetAccounts[0].profiles).length > 0 &&
+                            <span className="AccountSetup__completion-message">
+                                Complete!
+                            </span>}
                     </li>
                 </ul>
             </div>
@@ -162,8 +185,14 @@ const AccountSetup = () => {
                             <span className="AccountSetup__status-name">
                                 Battle.net Account
                             </span>
-                            <span className="AccountSetup__status AccountSetup__status--in-progress">
-                                Link in progress
+                            <span
+                                className={`
+                                    AccountSetup__status
+                                    ${user.battlenetAccounts ? 'AccountSetup__status--completed' : 'AccountSetup__status--failed'}
+                                `}
+                            >
+                                {user.battlenetAccounts ?
+                                    user.battlenetAccounts[0].battletag : 'No account found'}
                             </span>
                         </p>
                     </span>
@@ -191,7 +220,7 @@ const AccountSetup = () => {
                             </span>
                             <span className="AccountSetup__status AccountSetup__status--failed">
                                 {user.battlenetAccounts ?
-                                    Object.keys(user.battlenetAccounts[0]).length : 0}
+                                    Object.keys(user.battlenetAccounts[0].profiles).length : 0}
                                     &nbsp;Profiles saved
                             </span>
                         </p>

@@ -31,7 +31,6 @@ const PageTemplate = (props) => {
         Replays: 'Replays',
         Analysis: 'Trend Analysis',
         Upload: 'Upload Replays',
-        Setup: 'Getting Started',
     };
 
     const raceToggleStyle = {
@@ -51,6 +50,7 @@ const PageTemplate = (props) => {
                 return (
                     <Router className="Router">
                         <Redirect from="/login" to="/replays" noThrow />
+                        <Redirect from="/setup" to="/replays" noThrow />
                         <Redirect from="/" to="/replays" noThrow />
                         <Upload
                             path="/upload"
@@ -101,7 +101,7 @@ const PageTemplate = (props) => {
                     <Fragment>
                         <div className={`PageTemplate__page-info PageTemplate__page-info--${currentPage}`}>
                             <h1 className="PageTemplate__page-name">
-                                {pages[currentPage]}
+                                {currentPage === 'Setup' ? 'Getting Started' : pages[currentPage]}
                             </h1>
                             {currentPage !== 'Setup' &&
                                 <h2 className="PageTemplate__data-info">

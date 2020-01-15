@@ -33,7 +33,7 @@ const user = (state = defaultUserState, action) => {
     const handleStateShape = (currentState) => {
         // if snake case key exists, then fresh state
         // else hook fetching
-        if ('battlenet_accounts' in state) {
+        if ('battlenet_accounts' in currentState) {
             const { battlenet_accounts, main_race, ...userInfo } = currentState;
             return {
                 ...userInfo,

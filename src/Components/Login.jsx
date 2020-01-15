@@ -23,7 +23,6 @@ const Login = () => {
     const onGetCredentials = (user) => {
         dispatch(setUser(user));
         sessionStorage.user = JSON.stringify(user);
-        console.log(sessionStorage);
     };
 
     const handleSubmit = async (event) => {

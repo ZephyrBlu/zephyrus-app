@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { setUser } from './actions';
 import PageTemplate from './Components/General/PageTemplate';
 import './ProfileApp.css';
@@ -7,6 +7,7 @@ import './ProfileApp.css';
 const ProfileApp = () => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.user);
+    const [checkingUserAccount, setCheckingUserAccount] = useState(false);
 
     if (sessionStorage.user && !user.email) {
         dispatch(setUser(JSON.parse(sessionStorage.user)));
@@ -23,6 +24,8 @@ const ProfileApp = () => {
 
     useEffect(() => {
         const checkAccountStatus = async () => {
+            setCheckingUserAccount(true);
+
             let urlPrefix;
             if (process.env.NODE_ENV === 'development') {
                 urlPrefix = 'http://127.0.0.1:8000/';
@@ -40,6 +43,7 @@ const ProfileApp = () => {
                 response.json()
             )).catch(() => null);
             dispatch(setUser(updatedUser.user));
+            setCheckingUserAccount(false);
         };
 
         if (user.token && (!user.battlenetAccounts || !user.verified)) {
@@ -48,8 +52,8 @@ const ProfileApp = () => {
     }, [user.token]);
 
     const chooseDefaultPage = () => {
-        if (user.token) {
-            if (user.battlenetAccounts && user.verified) {
+        if (user.token && !checkingUserAccount) {
+            if (user.verified && user.battlenetAccounts && Object.keys(user.battlenetAccounts[0].profiles).length > 0) {
                 return 'Replays';
             }
             return 'Setup';
