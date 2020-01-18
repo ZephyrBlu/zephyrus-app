@@ -23,7 +23,7 @@
     --success: hsl(120, 80%, 20%);
 }
 
-html, body, #root, .ProfileApp {
+html, #root, .ProfileApp {
     height: 100%;
 }
 

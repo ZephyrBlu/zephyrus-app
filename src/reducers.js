@@ -28,7 +28,7 @@ const defaultUserState = {
 
 const user = (state = defaultUserState, action) => {
     // checks if the state shape is fresh/loading from
-    // sessionStorage or is being fetched from hook
+    // localStorage or is being fetched from hook
     // then handles appropriately
     const handleStateShape = (currentState) => {
         // if snake case key exists, then fresh state

@@ -74,6 +74,7 @@ const PageTemplate = (props) => {
                         <Redirect from="/*" to="/setup" noThrow />
                         <AccountSetup
                             path="/setup"
+                            setWaitingForUser={props.setWaitingForUser}
                         />
                     </Router>
                 );
@@ -84,6 +85,7 @@ const PageTemplate = (props) => {
                         <Redirect from="/*" to="/login" noThrow />
                         <Login
                             path="/login"
+                            setWaitingForUser={props.setWaitingForUser}
                         />
                     </Router>
                 );

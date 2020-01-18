@@ -49,7 +49,7 @@ const PageSidebar = (props) => {
         if (error) {
             alert('Something went wrong. Please try to logout again');
         }
-        sessionStorage.clear();
+        localStorage.clear();
         dispatch(setDefaultUser());
         dispatch(setReplays([]));
         dispatch(setSelectedReplayHash(null));

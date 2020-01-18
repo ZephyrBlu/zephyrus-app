@@ -1,31 +1,35 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
-import { setUser } from './actions';
+import { setUser, setSelectedRace } from './actions';
 import PageTemplate from './Components/General/PageTemplate';
 import './ProfileApp.css';
 
 const ProfileApp = () => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.user);
-    const [checkingUserAccount, setCheckingUserAccount] = useState(false);
+    const [defaultPage, setDefaultPage] = useState(null);
+    const [waitingForUser, setWaitingForUser] = useState(true);
 
-    if (sessionStorage.user && !user.email) {
-        dispatch(setUser(JSON.parse(sessionStorage.user)));
-    }
+    useEffect(() => {
+        if (localStorage.user) {
+            const localUser = JSON.parse(localStorage.user);
+
+            if (localUser.verified && localUser.battlenet_accounts && Object.keys(localUser.battlenet_accounts[0].profiles).length > 0) {
+                setWaitingForUser(false);
+            }
+
+            if (localStorage.user && !user.email) {
+                dispatch(setUser(localUser));
+                dispatch(setSelectedRace(localUser.main_race));
+            }
+        }
+    }, []);
 
     const urlParams = new URLSearchParams(window.location.search);
     const authCode = urlParams.get('code');
 
     useEffect(() => {
-        if (authCode) {
-            sessionStorage.authCode = authCode;
-        }
-    }, []);
-
-    useEffect(() => {
         const checkAccountStatus = async () => {
-            setCheckingUserAccount(true);
-
             let urlPrefix;
             if (process.env.NODE_ENV === 'development') {
                 urlPrefix = 'http://127.0.0.1:8000/';
@@ -42,28 +46,35 @@ const ProfileApp = () => {
             }).then(response => (
                 response.json()
             )).catch(() => null);
+
             dispatch(setUser(updatedUser.user));
-            setCheckingUserAccount(false);
+            localStorage.user = JSON.stringify(updatedUser.user);
         };
 
-        if (user.token && (!user.battlenetAccounts || !user.verified)) {
+        if (authCode) {
+            localStorage.authCode = authCode;
+        }
+
+        if (user.token) {
             checkAccountStatus();
         }
     }, [user.token]);
 
-    const chooseDefaultPage = () => {
-        if (user.token && !checkingUserAccount) {
-            if (user.verified && user.battlenetAccounts && Object.keys(user.battlenetAccounts[0].profiles).length > 0) {
-                return 'Replays';
+    useEffect(() => {
+        if (user.token) {
+            if (!waitingForUser && user.verified && user.battlenetAccounts && Object.keys(user.battlenetAccounts[0].profiles).length > 0) {
+                setDefaultPage('Replays');
+            } else {
+                setDefaultPage('Setup');
             }
-            return 'Setup';
+        } else {
+            setDefaultPage('Login');
         }
-        return 'Login';
-    };
+    }, [user, waitingForUser]);
 
     return (
         <div className="ProfileApp">
-            <PageTemplate defaultPage={chooseDefaultPage()} />
+            <PageTemplate defaultPage={defaultPage} setWaitingForUser={setWaitingForUser} />
         </div>
     );
 };

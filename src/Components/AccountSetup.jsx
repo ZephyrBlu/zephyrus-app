@@ -1,13 +1,19 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect } from 'react';
+import { useEffect, useState, useRef } from 'react';
+import Tippy from '@tippy.js/react';
 import { setUser } from '../actions';
-// import SpinningRingAnimation from './General/SpinningRingAnimation';
-// import InfoTooltip from './General/InfoTooltip';
+import SpinningRingAnimation from './General/SpinningRingAnimation';
 import './AccountSetup.css';
 
-const AccountSetup = () => {
+const AccountSetup = (props) => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.user);
+    const profileInputRef = useRef();
+    const [currentProfileUrl, setCurrentProfileUrl] = useState(null);
+    const [isEmailSending, setIsEmailSending] = useState(false);
+    const [emailError, setEmailError] = useState(null);
+    const [isProfileSaving, setIsProfileSaving] = useState(false);
+    const [profileError, setProfileError] = useState(null);
 
     let urlPrefix;
     if (process.env.NODE_ENV === 'development') {
@@ -16,21 +22,22 @@ const AccountSetup = () => {
         urlPrefix = 'https://zephyrus.gg/';
     }
 
+    const checkAccountStatus = async () => {
+        const url = `${urlPrefix}api/authorize/check/`;
+
+        const updatedUser = await fetch(url, {
+            method: 'GET',
+            headers: {
+                Authorization: `Token ${user.token}`,
+            },
+        }).then(response => (
+            response.json()
+        )).catch(() => null);
+        dispatch(setUser(updatedUser.user));
+        localStorage.user = JSON.stringify(updatedUser.user);
+    };
+
     useEffect(() => {
-        const checkAccountStatus = async () => {
-            const url = `${urlPrefix}api/authorize/check/`;
-
-            const updatedUser = await fetch(url, {
-                method: 'GET',
-                headers: {
-                    Authorization: `Token ${user.token}`,
-                },
-            }).then(response => (
-                response.json()
-            )).catch(() => null);
-            dispatch(setUser(updatedUser.user));
-        };
-
         const setBattlenetAccount = async (authCode) => {
             const url = `${urlPrefix}api/authorize/code/`;
 
@@ -50,17 +57,46 @@ const AccountSetup = () => {
             if (error) {
                 console.log('error', error);
             } else {
-                sessionStorage.removeItem('authCode');
+                localStorage.removeItem('authCode');
                 checkAccountStatus();
             }
         };
 
-        if (sessionStorage.authCode) {
-            setBattlenetAccount(sessionStorage.authCode);
+        if (localStorage.authCode) {
+            setBattlenetAccount(localStorage.authCode);
         }
     }, []);
 
+    const resendEmail = async () => {
+        if (user.verified) {
+            return;
+        }
+        setIsEmailSending(true);
+        setEmailError(null);
+        const url = `${urlPrefix}api/resend/`;
+
+        const result = await fetch(url, {
+            method: 'GET',
+            headers: {
+                Authorization: `Token ${user.token}`,
+            },
+        }).then(response => (
+            response.status
+        )).catch(() => null);
+
+        if (result !== 200) {
+            setEmailError('Something went wrong');
+            setIsEmailSending(false);
+        } else {
+            setEmailError(null);
+            setIsEmailSending(null);
+        }
+    };
+
     const authorizeBattlenetAccount = async () => {
+        if (user.battlenetAccounts) {
+            return;
+        }
         const url = `${urlPrefix}api/authorize/url/`;
 
         const result = await fetch(url, {
@@ -78,17 +114,50 @@ const AccountSetup = () => {
         )).catch(() => null);
 
         if (result) {
-            window.location.replace(result.url);
+            window.location.assign(result.url);
         }
     };
 
-    const resendEmail = () => {
-        console.log('make request to backend to resend email');
+    const handleProfileUrlChange = (event) => {
+        setCurrentProfileUrl(event.target.value);
     };
 
-    const handleProfile = (event) => {
+    const handleProfile = async (event) => {
         event.preventDefault();
-        console.log('handle parsing profile');
+
+        // user needs to link a battlenet account first
+        // so profile can be connected to battlenet account
+        if (!user.battlenetAccounts) {
+            setProfileError(false);
+            return;
+        }
+
+        setIsProfileSaving(true);
+        setProfileError(null);
+        const url = `${urlPrefix}api/profile/`;
+
+        const result = await fetch(url, {
+            method: 'POST',
+            headers: {
+                Authorization: `Token ${user.token}`,
+            },
+            body: currentProfileUrl,
+        }).then(response => (
+            response.status
+        )).catch(() => null);
+
+        if (result === 200) {
+            checkAccountStatus();
+            setIsProfileSaving(null);
+        } else if (result === 400) {
+            setProfileError('Invalid URL');
+            setIsProfileSaving(false);
+        } else {
+            setProfileError('An error occurred during profile parsing');
+            setIsProfileSaving(false);
+        }
+        profileInputRef.current.value = null;
+        setCurrentProfileUrl(null);
     };
 
     return (
@@ -136,16 +205,23 @@ const AccountSetup = () => {
                     <li
                         className={`
                             AccountSetup__task-progress
-                            ${Object.keys(user.battlenetAccounts[0].profiles).length > 0 ? 'AccountSetup__task-progress--completed' : ''}
+                            ${user.battlenetAccounts && (Object.keys(user.battlenetAccounts[0].profiles).length > 0 ? 'AccountSetup__task-progress--completed' : '')}
                         `}
                     >
                         Add Profiles
-                        {Object.keys(user.battlenetAccounts[0].profiles).length > 0 &&
+                        {user.battlenetAccounts && (Object.keys(user.battlenetAccounts[0].profiles).length > 0) &&
                             <span className="AccountSetup__completion-message">
                                 Complete!
                             </span>}
                     </li>
                 </ul>
+                {user.verified && user.battlenetAccounts && Object.keys(user.battlenetAccounts[0].profiles).length > 0 &&
+                    <button
+                        className="AccountSetup__setup-action AccountSetup__setup-action--finish"
+                        onClick={() => props.setWaitingForUser(false)}
+                    >
+                        Continue
+                    </button>}
             </div>
             <ol className="AccountSetup__task-list">
                 <li className="AccountSetup__verify-email AccountSetup__task">
@@ -160,7 +236,7 @@ const AccountSetup = () => {
                             <span
                                 className={`
                                     AccountSetup__status
-                                    ${user.verified ? 'AccountSetup__status--completed' : ''}
+                                    ${user.verified ? 'AccountSetup__status--completed' : 'AccountSetup__status--in-progress'}
                                 `}
                             >
                                 {user.verified ? 'Verified' : 'Waiting for verification'}
@@ -170,11 +246,30 @@ const AccountSetup = () => {
                     <p className="AccountSetup__instructions">
                         A verification email has been sent to&nbsp;
                         <span className="AccountSetup__email">{user.email}</span>.<br />
-                        Click the link inside to verify your account then return to this page.
+                        Click the link inside to verify your account, you&#39;ll be redirected back to this page.
                     </p>
-                    <button className="AccountSetup__setup-action" onClick={resendEmail}>
-                        Resend Email
-                    </button>
+                    <div className="AccountSetup__setup-action-wrapper AccountSetup__setup-action-wrapper--email">
+                        <button
+                            className={`
+                                AccountSetup__setup-action
+                                ${user.verified ? 'AccountSetup__setup-action--completed' : ''}
+                            `}
+                            onClick={resendEmail}
+                        >
+                            {user.verified ? 'Verification Complete' : 'Resend Email'}
+                        </button>
+                        {isEmailSending && <SpinningRingAnimation />}
+                        {isEmailSending === null ?
+                            <span className="AccountSetup__info AccountSetup__info--completed">
+                                Email Sent
+                            </span>
+                            :
+                            ''}
+                        {emailError &&
+                            <span className="AccountSetup__info AccountSetup__info--completed">
+                                {emailError}
+                            </span>}
+                    </div>
                 </li>
                 <li className="AccountSetup__link-battlenet  AccountSetup__task">
                     <span className="AccountSetup__task-header">
@@ -197,28 +292,59 @@ const AccountSetup = () => {
                         </p>
                     </span>
                     <p className="AccountSetup__instructions">
-                        Link your account (Opens new tab) and
-                        allow Zephyrus access to your StarCraft II profile.<br />
-                        Once the authentication process is complete, the tab will close automatically.
+                        Link your account and allow Zephyrus access to your StarCraft II profile.<br />
+                        Once the authorization process is complete, you&#39;ll be redirected back to this page.
                     </p>
                     <button
-                        className="AccountSetup__setup-action"
+                        className={`
+                            AccountSetup__setup-action
+                            AccountSetup__setup-action--battlenet
+                            ${user.battlenetAccounts ? 'AccountSetup__setup-action--completed' : ''}
+                        `}
                         onClick={authorizeBattlenetAccount}
                         // add key handler for enter
                     >
-                        Link your Account
+                        {user.battlenetAccounts ? 'Link Successful' : 'Link your Account'}
                     </button>
+                    <Tippy
+                        content={
+                            <span>
+                                <span>
+                                    {`Linking your Battle.net account lets us identify 
+                                    you in replays and associate replays with your account.`}
+                                </span>
+                                <br />
+                                <br />
+                                <span>
+                                    {`We use your Battletag to associate replays 
+                                    with your account and the Profile IDs 
+                                    of your account in each region to identify you 
+                                    in replays.`}
+                                </span>
+                            </span>
+                        }
+                        arrow
+                    >
+                        <p className="AccountSetup__authorize-info">
+                            Why do I need to do this?
+                        </p>
+                    </Tippy>
                 </li>
                 <li className="AccountSetup__add-profiles  AccountSetup__task">
                     <span className="AccountSetup__task-header">
                         <h1 className="AccountSetup__title">
                             Add your Profiles
                         </h1>
-                        <p className="AccountSetup__task-status AccountSetup__task-status--failed">
+                        <p className="AccountSetup__task-status">
                             <span className="AccountSetup__status-name">
                                 Profiles
                             </span>
-                            <span className="AccountSetup__status AccountSetup__status--failed">
+                            <span
+                                className={`
+                                    AccountSetup__status
+                                    ${(user.battlenetAccounts && Object.keys(user.battlenetAccounts[0].profiles).length > 0) ? 'AccountSetup__status--completed' : 'AccountSetup__status--failed'}
+                                `}
+                            >
                                 {user.battlenetAccounts ?
                                     Object.keys(user.battlenetAccounts[0].profiles).length : 0}
                                     &nbsp;Profiles saved
@@ -238,18 +364,44 @@ const AccountSetup = () => {
                         &nbsp;and navigate to your profile.<br />
                         Copy the URL for each profile you want to track replays for.
                     </p>
-                    <form onSubmit={handleProfile}>
-                        <input
-                            type="url"
-                            placeholder="Enter profile URL"
-                            className="AccountSetup__profile-input"
-                        />
-                        <input
-                            type="submit"
-                            value="Save Profile"
-                            className="AccountSetup__setup-action AccountSetup__save-profile"
-                        />
-                    </form>
+                    <div className="AccountSetup__setup-action-wrapper AccountSetup__setup-action-wrapper--profile">
+                        <form className="AccountSetup__profile-form" onSubmit={handleProfile}>
+                            <input
+                                type="url"
+                                ref={profileInputRef}
+                                placeholder="Enter profile URL"
+                                onChange={handleProfileUrlChange}
+                                className="AccountSetup__profile-input"
+                            />
+                            <input
+                                type="submit"
+                                value="Save Profile"
+                                className="AccountSetup__setup-action AccountSetup__save-profile"
+                            />
+                        </form>
+                        {isProfileSaving && <SpinningRingAnimation />}
+                        {isProfileSaving === null ?
+                            <span className="AccountSetup__info AccountSetup__info--completed">
+                                Profile Saved
+                            </span>
+                            :
+                            ''}
+                        {profileError &&
+                            <span className="AccountSetup__info AccountSetup__info--completed">
+                                {profileError}
+                            </span>}
+                        {profileError === false &&
+                            <span className="AccountSetup__info AccountSetup__info--completed">
+                                Link your Battle.net Account before adding a Profile
+                            </span>}
+                    </div>
+                    {user.battlenetAccounts &&
+                            Object.values(user.battlenetAccounts[0].profiles).map(profile => (
+                                <p key={profile.profile_id} className="AccountSetup__profile-info">
+                                    {profile.region_name}:&nbsp;
+                                    {profile.profile_name} ({profile.profile_id[0]})&nbsp;
+                                </p>
+                            ))}
                 </li>
             </ol>
         </div>
