@@ -1,58 +1,80 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect } from 'react';
-import { setAuthToken, setSelectedRace } from './actions';
+import { useEffect, useState } from 'react';
+import { setUser, setSelectedRace } from './actions';
 import PageTemplate from './Components/General/PageTemplate';
 import './ProfileApp.css';
 
 const ProfileApp = () => {
     const dispatch = useDispatch();
-    let token = useSelector(state => state.token);
-    let mainRace = useSelector(state => state.mainRace);
-    if (sessionStorage.token && !token) {
-        token = sessionStorage.token;
-        dispatch(setAuthToken(token));
-    }
+    const user = useSelector(state => state.user);
+    const [defaultPage, setDefaultPage] = useState(null);
+    const [waitingForUser, setWaitingForUser] = useState(true);
 
-    if (sessionStorage.mainRace && !mainRace) {
-        mainRace = sessionStorage.mainRace;
-        dispatch(setSelectedRace(mainRace));
-    }
+    useEffect(() => {
+        if (localStorage.user) {
+            const localUser = JSON.parse(localStorage.user);
+
+            if (localUser.verified && localUser.battlenet_accounts && Object.keys(localUser.battlenet_accounts[0].profiles).length > 0) {
+                setWaitingForUser(false);
+            }
+
+            if (localStorage.user && !user.email) {
+                dispatch(setUser(localUser));
+                dispatch(setSelectedRace(localUser.main_race));
+            }
+        }
+    }, []);
 
     const urlParams = new URLSearchParams(window.location.search);
     const authCode = urlParams.get('code');
 
     useEffect(() => {
-        const setBattlenetAccount = async () => {
+        const checkAccountStatus = async () => {
             let urlPrefix;
             if (process.env.NODE_ENV === 'development') {
                 urlPrefix = 'http://127.0.0.1:8000/';
             } else {
                 urlPrefix = 'https://zephyrus.gg/';
             }
+            const url = `${urlPrefix}api/authorize/check/`;
 
-            const url = `${urlPrefix}api/authorize/code/`;
-
-            await fetch(url, {
-                method: 'POST',
+            const updatedUser = await fetch(url, {
+                method: 'GET',
                 headers: {
-                    Authorization: `Token ${token}`,
+                    Authorization: `Token ${user.token}`,
                 },
-                body: JSON.stringify({ authCode }),
             }).then(response => (
-                response.status
+                response.json()
             )).catch(() => null);
 
-            window.location.replace('https://app.zephyrus.gg/replays');
+            dispatch(setUser(updatedUser.user));
+            localStorage.user = JSON.stringify(updatedUser.user);
         };
 
         if (authCode) {
-            setBattlenetAccount();
+            localStorage.authCode = authCode;
         }
-    }, []);
+
+        if (user.token) {
+            checkAccountStatus();
+        }
+    }, [user.token]);
+
+    useEffect(() => {
+        if (user.token) {
+            if (!waitingForUser && user.verified && user.battlenetAccounts && Object.keys(user.battlenetAccounts[0].profiles).length > 0) {
+                setDefaultPage('Replays');
+            } else {
+                setDefaultPage('Setup');
+            }
+        } else {
+            setDefaultPage('Login');
+        }
+    }, [user, waitingForUser]);
 
     return (
         <div className="ProfileApp">
-            <PageTemplate defaultPage={token ? 'Replays' : 'Login'} />
+            <PageTemplate defaultPage={defaultPage} setWaitingForUser={setWaitingForUser} />
         </div>
     );
 };

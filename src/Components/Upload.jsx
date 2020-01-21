@@ -1,20 +1,16 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import {
     setReplays,
     setReplayInfo,
-    setBattlenetStatus,
     setTrends,
     setSelectedReplayHash,
 } from '../actions';
-import InfoTooltip from './General/InfoTooltip';
-import SpinningRingAnimation from './General/SpinningRingAnimation';
 import './Upload.css';
 
 const Upload = () => {
     const dispatch = useDispatch();
-    const token = useSelector(state => `Token ${state.token}`);
-    const hasAuthenticatedBattlenet = useSelector(state => state.battlenetStatus);
+    const user = useSelector(state => state.user);
     const [uploadInProgress, setUploadInProgress] = useState(false);
     const [uploadReponse, setUploadResponse] = useState(null);
 
@@ -24,52 +20,6 @@ const Upload = () => {
     } else {
         urlPrefix = 'https://zephyrus.gg/';
     }
-
-    useEffect(() => {
-        const checkBattlenetAccount = async () => {
-            const url = `${urlPrefix}api/authorize/check/`;
-
-            const result = await fetch(url, {
-                method: 'GET',
-                headers: {
-                    Authorization: token,
-                },
-            }).then(response => (
-                response.status
-            )).catch(() => null);
-
-            if (result === 200) {
-                dispatch(setBattlenetStatus(true));
-            } else {
-                dispatch(setBattlenetStatus(false));
-            }
-        };
-        if (!hasAuthenticatedBattlenet) {
-            checkBattlenetAccount();
-        }
-    }, []);
-
-    const authorizeBattlenetAccount = async () => {
-        const url = `${urlPrefix}api/authorize/url/`;
-
-        const result = await fetch(url, {
-            method: 'GET',
-            headers: {
-                Authorization: token,
-            },
-        }).then((response) => {
-            if (response.status === 200) {
-                return response.json();
-            }
-            return null;
-        }).then(responseBody => (
-            responseBody
-        )).catch(() => null);
-
-        if (result) {
-            window.location.replace(result.url);
-        }
-    };
 
     const uploadFiles = async (event) => {
         const files = event.target.files;
@@ -91,7 +41,7 @@ const Upload = () => {
             fetch(url, {
                 method: 'POST',
                 headers: {
-                    Authorization: token,
+                    Authorization: `Token ${user.token}`,
                 },
                 body: file,
             }).then((response) => {
@@ -107,6 +57,9 @@ const Upload = () => {
                 responseBody
             )).catch(() => null);
         });
+
+        // reduce number of actions dispatched
+        // refactor into general 'reset' action?
         dispatch(setReplays([]));
         dispatch(setReplayInfo([]));
         dispatch(setSelectedReplayHash(null));
@@ -129,7 +82,6 @@ const Upload = () => {
                     Stay on this page during the upload
                 </li>
             </ul>
-            {hasAuthenticatedBattlenet &&
             <form className="Upload__file-form" encType="multiple/form-data" onSubmit={uploadFiles}>
                 <input
                     className="Upload__form-input"
@@ -141,47 +93,7 @@ const Upload = () => {
                     required
                     onChange={uploadFiles}
                 />
-            </form>}
-            {!hasAuthenticatedBattlenet && (hasAuthenticatedBattlenet === false ?
-                <p className="Upload__authorize-message">
-                    Please&nbsp;
-                    <button
-                        className="Upload__battlenet-authorize"
-                        onClick={authorizeBattlenetAccount}
-                    >
-                        Link your Battlenet Account
-                    </button>
-                    <InfoTooltip
-                        content={
-                            <span>
-                                <span>
-                                    {`Linking your Battlenet account lets us identify 
-                                    you in replays and associate replays with your account.`}
-                                </span>
-                                <br />
-                                <br />
-                                <span>
-                                    {`We use your Battletag to associate replays 
-                                    with your account and the Profile IDs 
-                                    of your account in each region to identify you 
-                                    in replays.`}
-                                </span>
-                                <br />
-                                <br />
-                                <span>
-                                    {`If you don't link your account we won't 
-                                    be able to display and analyze your replays.`}
-                                </span>
-                            </span>
-                        }
-                    />
-                </p>
-                :
-                <div className="Upload__authorize-message">
-                    Verifying your Battlenet Account
-                    <SpinningRingAnimation />
-                </div>)
-            }
+            </form>
             {uploadInProgress &&
                 <p className="Upload__status">
                     Uploading your replays now...

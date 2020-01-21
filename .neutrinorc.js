@@ -18,6 +18,7 @@ module.exports = {
           "react/prop-types": 0,
           "react/no-multi-comp": 0,
           "no-console": "off",
+          "camelcase": 0,
           "max-len": 0,
           "jsx-a11y/mouse-events-have-key-events": 0,
           "jsx-a11y/label-has-for": { "some": [ "nesting", "id" ] },

@@ -8,6 +8,7 @@ import Analysis from '../Analysis/Analysis';
 import Upload from '../Upload';
 import Settings from '../Settings';
 import PageSidebar from './PageSidebar';
+import AccountSetup from '../AccountSetup';
 import './CSS/PageTemplate.css';
 
 const PageTemplate = (props) => {
@@ -20,7 +21,7 @@ const PageTemplate = (props) => {
 
     // When the defaultPage prop changes, reset the state of currentPage
     // to the new defaultPage prop.
-    //
+
     // Occurs when a user logs in or out
     useEffect(() => {
         setCurrentPage(props.defaultPage);
@@ -43,6 +44,54 @@ const PageTemplate = (props) => {
         str.charAt(0).toUpperCase() + str.slice(1)
     );
 
+    const chooseRouter = (defaultPage) => {
+        switch (defaultPage) {
+            case 'Replays':
+                return (
+                    <Router className="Router">
+                        <Redirect from="/login" to="/replays" noThrow />
+                        <Redirect from="/setup" to="/replays" noThrow />
+                        <Redirect from="/" to="/replays" noThrow />
+                        <Upload
+                            path="/upload"
+                        />
+                        <Replays
+                            path="/replays"
+                            visibleState={visibleState}
+                        />
+                        <Analysis
+                            path="/analysis"
+                        />
+                        <Settings
+                            path="/settings"
+                        />
+                    </Router>
+                );
+
+            case 'Setup':
+                return (
+                    <Router className="Router">
+                        <Redirect from="/*" to="/setup" noThrow />
+                        <AccountSetup
+                            path="/setup"
+                            setWaitingForUser={props.setWaitingForUser}
+                        />
+                    </Router>
+                );
+
+            default:
+                return (
+                    <Router className="Router">
+                        <Redirect from="/*" to="/login" noThrow />
+                        <Login
+                            path="/login"
+                            setWaitingForUser={props.setWaitingForUser}
+                        />
+                    </Router>
+                );
+        }
+    };
+
     return (
         <div className="PageTemplate">
             <header className="PageTemplate__header">
@@ -54,57 +103,59 @@ const PageTemplate = (props) => {
                     <Fragment>
                         <div className={`PageTemplate__page-info PageTemplate__page-info--${currentPage}`}>
                             <h1 className="PageTemplate__page-name">
-                                {pages[currentPage]}
+                                {currentPage === 'Setup' ? 'Getting Started' : pages[currentPage]}
                             </h1>
-                            <h2 className="PageTemplate__data-info">
-                                {selectedRace ? capitalize(selectedRace) : ''}
-                            </h2>
+                            {currentPage !== 'Setup' &&
+                                <h2 className="PageTemplate__data-info">
+                                    {selectedRace ? capitalize(selectedRace) : ''}
+                                </h2>}
                         </div>
-                        <div className="PageTemplate__race-toggle">
-                            <div
-                                className="PageTemplate__toggle-indicator"
-                                style={raceToggleStyle[selectedRace]}
-                            />
-                            <button
-                                className="PageTemplate__toggle-button"
-                                onClick={() => {
-                                    dispatch(setSelectedRace('protoss'));
-                                    dispatch(setSelectedReplayHash(null));
-                                }}
-                            >
-                                <img
-                                    src="../../icons/protoss-logo.svg"
-                                    alt="Protoss"
-                                    className="PageTemplate__race-icon"
+                        {currentPage !== 'Setup' &&
+                            <div className="PageTemplate__race-toggle">
+                                <div
+                                    className="PageTemplate__toggle-indicator"
+                                    style={raceToggleStyle[selectedRace]}
                                 />
-                            </button>
-                            <button
-                                className="PageTemplate__toggle-button"
-                                onClick={() => {
-                                    dispatch(setSelectedRace('zerg'));
-                                    dispatch(setSelectedReplayHash(null));
-                                }}
-                            >
-                                <img
-                                    src="../../icons/zerg-logo.svg"
-                                    alt="Zerg"
-                                    className="PageTemplate__race-icon"
-                                />
-                            </button>
-                            <button
-                                className="PageTemplate__toggle-button"
-                                onClick={() => {
-                                    dispatch(setSelectedRace('terran'));
-                                    dispatch(setSelectedReplayHash(null));
-                                }}
-                            >
-                                <img
-                                    src="../../icons/terran-logo.svg"
-                                    alt="Terran"
-                                    className="PageTemplate__race-icon"
-                                />
-                            </button>
-                        </div>
+                                <button
+                                    className="PageTemplate__toggle-button"
+                                    onClick={() => {
+                                        dispatch(setSelectedRace('protoss'));
+                                        dispatch(setSelectedReplayHash(null));
+                                    }}
+                                >
+                                    <img
+                                        src="../../icons/protoss-logo.svg"
+                                        alt="Protoss"
+                                        className="PageTemplate__race-icon"
+                                    />
+                                </button>
+                                <button
+                                    className="PageTemplate__toggle-button"
+                                    onClick={() => {
+                                        dispatch(setSelectedRace('zerg'));
+                                        dispatch(setSelectedReplayHash(null));
+                                    }}
+                                >
+                                    <img
+                                        src="../../icons/zerg-logo.svg"
+                                        alt="Zerg"
+                                        className="PageTemplate__race-icon"
+                                    />
+                                </button>
+                                <button
+                                    className="PageTemplate__toggle-button"
+                                    onClick={() => {
+                                        dispatch(setSelectedRace('terran'));
+                                        dispatch(setSelectedReplayHash(null));
+                                    }}
+                                >
+                                    <img
+                                        src="../../icons/terran-logo.svg"
+                                        alt="Terran"
+                                        className="PageTemplate__race-icon"
+                                    />
+                                </button>
+                            </div>}
                         {currentPage === 'Replays' &&
                             <span className="PageTemplate__hide-wrapper">
                                 {visibleState ? 'Hide Replays' : ''}
@@ -122,48 +173,23 @@ const PageTemplate = (props) => {
                             </span>}
                     </Fragment>}
             </header>
-            {currentPage && currentPage !== 'Login' &&
+            {currentPage && currentPage !== 'Login' && currentPage !== 'Setup' &&
                 <PageSidebar pages={Object.keys(pages)} />}
             <section
                 className={`PageTemplate__page-content PageTemplate__page-content--${currentPage}`}
             >
-                {currentPage && currentPage !== 'Login' &&
+                {currentPage &&
                     <Location>
                         {({ location }) => {
                             let currentComponent = location.pathname.slice(1);
                             currentComponent = currentComponent.charAt(0).toUpperCase() + currentComponent.slice(1);
-                            if (currentComponent !== 'Login') {
+                            if (currentComponent) {
                                 setCurrentPage(currentComponent);
                             }
 
-                            return (
-                                <Router className="Router">
-                                    <Redirect from="/login" to="/replays" noThrow />
-                                    <Redirect from="/" to="/replays" noThrow />
-                                    <Upload
-                                        path="/upload"
-                                    />
-                                    <Replays
-                                        path="/replays"
-                                        visibleState={visibleState}
-                                    />
-                                    <Analysis
-                                        path="/analysis"
-                                    />
-                                    <Settings
-                                        path="/settings"
-                                    />
-                                </Router>
-                            );
+                            return chooseRouter(props.defaultPage);
                         }}
                     </Location>}
-                {currentPage && currentPage === 'Login' &&
-                    <Router className="Router">
-                        <Redirect from="/*" to="/login" noThrow />
-                        <Login
-                            path="/login"
-                        />
-                    </Router>}
             </section>
         </div>
     );

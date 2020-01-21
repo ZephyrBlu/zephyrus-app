@@ -1,10 +1,10 @@
 import { useDispatch } from 'react-redux';
 import { useState } from 'react';
-import { setAuthToken, setSelectedRace } from '../actions';
+import { setUser, setSelectedRace } from '../actions';
 import SpinningRingAnimation from './General/SpinningRingAnimation';
 import './Login.css';
 
-const Login = () => {
+const Login = (props) => {
     const dispatch = useDispatch();
     const [usernameValue, setUsernameValue] = useState('');
     const [passwordValue, setPasswordValue] = useState('');
@@ -20,11 +20,13 @@ const Login = () => {
     };
 
     // update redux store with auth token
-    const onGetCredentials = (newToken, mainRace) => {
-        dispatch(setAuthToken(newToken));
-        dispatch(setSelectedRace(mainRace));
-        sessionStorage.token = newToken;
-        sessionStorage.mainRace = mainRace;
+    const onGetCredentials = (user) => {
+        if (user.verified && user.battlenet_accounts && Object.keys(user.battlenet_accounts[0].profiles).length > 0) {
+            props.setWaitingForUser(false);
+        }
+        dispatch(setUser(user));
+        dispatch(setSelectedRace(user.main_race));
+        localStorage.user = JSON.stringify(user);
     };
 
     const handleSubmit = async (event) => {
@@ -47,7 +49,7 @@ const Login = () => {
             password: passwordValue,
         };
 
-        const error = await fetch(loginUrl, {
+        const result = await fetch(loginUrl, {
             method: 'POST',
             headers: {
                 'Cache-Control': 'max-age=0, no-cache, no-store, must-revalidate',
@@ -60,12 +62,11 @@ const Login = () => {
             }
             return response.json();
         }).then(responseBody => (
-            onGetCredentials(responseBody.token, responseBody.main_race)
+            onGetCredentials(responseBody.user)
         )).catch(requestError => (requestError));
 
-        if (error) {
+        if (result) {
             setFormError('Incorrect details');
-            setIsUserWaiting(false);
         }
     };
 

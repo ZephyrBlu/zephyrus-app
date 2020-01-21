@@ -19,7 +19,7 @@ import './CSS/Analysis.css';
 
 const Analysis = () => {
     const dispatch = useDispatch();
-    const token = useSelector(state => `Token ${state.token}`);
+    const user = useSelector(state => state.user);
     const selectedRace = useSelector(state => state.selectedRace);
     const currentTrends = useSelector(state => state.raceData[selectedRace].trends);
     const [playerTrends, setPlayerTrends] = useState(null);
@@ -79,7 +79,7 @@ const Analysis = () => {
                 const trends = await fetch(url, {
                     method: 'GET',
                     headers: {
-                        Authorization: token,
+                        Authorization: `Token ${user.token}`,
                     },
                 }).then((response) => {
                     status = response.status;

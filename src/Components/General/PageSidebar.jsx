@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 // import { Link } from '@reach/router';
 import {
-    setAuthToken,
+    setDefaultUser,
     setReplays,
     setSelectedReplayHash,
     setFixedHoverState,
@@ -12,7 +12,7 @@ import './CSS/PageSidebar.css';
 
 const PageSidebar = (props) => {
     const dispatch = useDispatch();
-    const token = useSelector(state => `Token ${state.token}`);
+    const user = useSelector(state => state.user);
     const isHoverStateFixed = useSelector(state => state.isHoverStateFixed);
 
     const defaultHoverState = { Logout: false };
@@ -40,7 +40,7 @@ const PageSidebar = (props) => {
         const error = await fetch(url, {
             method: 'GET',
             headers: {
-                Authorization: token,
+                Authorization: `Token ${user.token}`,
             },
         }).then(response => (
             response.status === 200 ? null : `${response.status} ${response.statusText}`
@@ -49,8 +49,8 @@ const PageSidebar = (props) => {
         if (error) {
             alert('Something went wrong. Please try to logout again');
         }
-        sessionStorage.clear();
-        dispatch(setAuthToken(null));
+        localStorage.clear();
+        dispatch(setDefaultUser());
         dispatch(setReplays([]));
         dispatch(setSelectedReplayHash(null));
     };
@@ -119,7 +119,7 @@ const PageSidebar = (props) => {
                     onBlur={() => (isHoverStateFixed ?
                         null : setHoverState(prevState => ({ ...prevState, Logout: false })))
                     }
-                    onClick={() => handleLogout()}
+                    onClick={handleLogout}
                     style={hoverState.Logout ?
                         {
                             marginRight: '16px',

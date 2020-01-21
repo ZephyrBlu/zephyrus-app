@@ -1,18 +1,22 @@
-export const SET_AUTHENTICATION_TOKEN = 'SET_AUTHENTICATION_TOKEN';
+export const SET_USER = 'SET_USER';
+export const SET_DEFAULT_USER = 'SET_DEFAULT_USER';
 export const SET_SELECTED_RACE = 'SET_SELECTED_RACE';
 export const SET_REPLAYS = 'SET_REPLAYS';
 export const SET_REPLAY_INFO = 'SET_REPLAY_INFO';
 export const SET_TRENDS = 'SET_TRENDS';
 export const SET_SELECTED_REPLAY_HASH = 'SET_SELECTED_REPLAY_HASH';
-export const SET_BATTLENET_STATUS = 'SET_BATTLENET_STATUS';
 export const SET_FIXED_HOVER_STATE = 'SET_FIXED_HOVER_STATE';
 
-export const setAuthToken = token => (
-    { type: SET_AUTHENTICATION_TOKEN, token }
+export const setUser = user => (
+    { type: SET_USER, user }
 );
 
-export const setSelectedRace = currentRace => (
-    { type: SET_SELECTED_RACE, currentRace }
+export const setDefaultUser = user => (
+    { type: SET_DEFAULT_USER, user }
+);
+
+export const setSelectedRace = selectedRace => (
+    { type: SET_SELECTED_RACE, selectedRace }
 );
 
 export const setReplays = (replays, race) => (
@@ -29,10 +33,6 @@ export const setTrends = (trends, race) => (
 
 export const setSelectedReplayHash = replayHash => (
     { type: SET_SELECTED_REPLAY_HASH, replayHash }
-);
-
-export const setBattlenetStatus = status => (
-    { type: SET_BATTLENET_STATUS, status }
 );
 
 export const setFixedHoverState = hoverState => (
