@@ -6,12 +6,13 @@ import {
     SET_REPLAYS,
     SET_REPLAY_INFO,
     SET_TRENDS,
+    SET_REPLAY_COUNT,
     SET_SELECTED_REPLAY_HASH,
     SET_FIXED_HOVER_STATE,
 } from './actions';
 
-const races = ['protoss', 'terran', 'zerg', 'null'];
-const raceDefaultState = { replays: null, trends: null };
+const races = ['protoss', 'terran', 'zerg'];
+const raceDefaultState = { replays: null, trends: null, count: 0 };
 const raceDataDefaultState = {};
 
 races.forEach((race) => {
@@ -69,28 +70,31 @@ const selectedRace = (state = null, action) => {
 const raceData = (state = raceDataDefaultState, action) => {
     switch (action.type) {
         case SET_REPLAYS:
-            if (races.includes(action.race)) {
-                return {
-                    ...state,
-                    [action.race]: {
-                        ...state[action.race],
-                        replays: action.replays,
-                    },
-                };
-            }
-            return state;
+            return {
+                ...state,
+                [action.race]: {
+                    ...state[action.race],
+                    replays: action.replays,
+                },
+            };
 
         case SET_TRENDS:
-            if (races.includes(action.race)) {
-                return {
-                    ...state,
-                    [action.race]: {
-                        ...state[action.race],
-                        trends: action.trends,
-                    },
-                };
-            }
-            return state;
+            return {
+                ...state,
+                [action.race]: {
+                    ...state[action.race],
+                    trends: action.trends,
+                },
+            };
+
+        case SET_REPLAY_COUNT:
+            return {
+                ...state,
+                [action.race]: {
+                    ...state[action.race],
+                    count: action.count,
+                },
+            };
 
         default:
             return state;
