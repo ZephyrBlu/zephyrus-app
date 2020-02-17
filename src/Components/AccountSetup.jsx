@@ -404,6 +404,23 @@ const AccountSetup = (props) => {
                             ))}
                 </li>
             </ol>
+            <p className="AccountSetup__message">
+                Having trouble setting up your account?<br />
+                Contact me on&nbsp;
+                <a
+                    href="https://www.reddit.com/user/ZephyrBluu/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Reddit
+                </a>, Discord (ZephyrBlu#4524)
+                or at&nbsp;
+                <a
+                    href="mailto:hello@zephyrus.gg"
+                >
+                    hello@zephyrus.gg
+                </a>
+            </p>
         </div>
     );
 };

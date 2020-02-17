@@ -79,7 +79,11 @@ const ProfileApp = () => {
 
     return (
         <div className="ProfileApp">
-            <PageTemplate defaultPage={defaultPage} setWaitingForUser={setWaitingForUser} />
+            <PageTemplate
+                token={user.token}
+                defaultPage={defaultPage}
+                setWaitingForUser={setWaitingForUser}
+            />
         </div>
     );
 };
