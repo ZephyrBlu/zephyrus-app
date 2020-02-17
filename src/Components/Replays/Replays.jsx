@@ -24,7 +24,12 @@ const Replays = (props) => {
     const dispatch = useDispatch();
     const [selectedReplay, setSelectedReplay] = useState(null);
     const [selectedReplayInfo, setSelectedReplayInfo] = useState(null);
-    const [timelineStat, setTimelineStat] = useState('resource_collection_rate_all');
+
+    if (!localStorage.timelineStat) {
+        localStorage.timelineStat = 'resource_collection_rate_all';
+    }
+
+    const [timelineStat, setTimelineStat] = useState(localStorage.timelineStat);
     const [user, selectedRace, replayInfo, selectedReplayHash] = useSelector(selectData);
     const [cachedTimeline, setCachedTimeline] = useState({ 0: { 1: {} } });
     const [currentGameloop, setCurrentGameloop] = useState(0);
@@ -53,7 +58,7 @@ const Replays = (props) => {
             }
 
             const races = ['protoss', 'zerg', 'terran'];
-            await Promise.all(races.map(async (race) => {
+            races.forEach(async (race) => {
                 const url = `${urlPrefix}api/replays/${race}/`;
                 let status;
 
