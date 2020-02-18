@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
-import { setReplays, setReplayCount } from './actions';
+import { setReplays, setReplayCount, setReplayInfo } from './actions';
 
 const useReplayPolling = (interval) => {
     const dispatch = useDispatch();
@@ -59,7 +59,7 @@ const useReplayPolling = (interval) => {
             }).catch(() => null);
 
             if (countStatus === 200 && countResponse !== replayCount[race]) {
-                dispatch(setReplays(null, race));
+                dispatch(setReplayInfo([]));
                 const updatedReplays = await getUserReplays(race);
                 if (updatedReplays) {
                     dispatch(setReplays(updatedReplays, race));
