@@ -1,5 +1,5 @@
 import ReplayStat from '../Replays/ReplayStat';
-import TrendStat from '../Analysis/TrendStat';
+import TrendStat from '../Trends/TrendStat';
 import './CSS/StatCategory.css';
 
 const StatCategory = (props) => {
@@ -32,7 +32,7 @@ const StatCategory = (props) => {
 
     return (
         <div
-            className={`StatCategory StatCategory--${props.type ? 'replays' : 'analysis'}`}
+            className={`StatCategory StatCategory--${props.type ? 'replays' : 'trends'}`}
             style={{ gridArea: props.category }}
         >
             <h2 className="StatCategory__title">
@@ -41,7 +41,7 @@ const StatCategory = (props) => {
                     :
                     props.category.charAt(0).toUpperCase() + props.category.slice(1)}
             </h2>
-            <div className={`StatCategory__stats StatCategory__stats--${props.type ? 'replays' : 'analysis'}`}>
+            <div className={`StatCategory__stats StatCategory__stats--${props.type ? 'replays' : 'trends'}`}>
                 {Object.keys(statOrder[props.category]).map((stat, index) => (
                     props.type === 'replays' && stat !== 'winrate' ?
                         <ReplayStat

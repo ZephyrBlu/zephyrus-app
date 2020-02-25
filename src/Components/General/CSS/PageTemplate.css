@@ -90,7 +90,7 @@
     width: 175px;
 }
 
-.PageTemplate__page-info--Analysis {
+.PageTemplate__page-info--Trends {
     width: 245px;
 }
 
@@ -199,7 +199,7 @@
 }
 
 .PageTemplate__page-content--Setup,
-.PageTemplate__page-content--Analysis {
+.PageTemplate__page-content--Trends {
     margin-top: 5px;
     margin-bottom: 5px;
 }

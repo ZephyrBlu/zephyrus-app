@@ -15,9 +15,9 @@ import InfoTooltip from '../General/InfoTooltip';
 import CustomTooltip from '../General/Tooltip';
 import DefaultResponse from '../General/DefaultResponse';
 import WaveAnimation from '../General/WaveAnimation';
-import './CSS/Analysis.css';
+import './CSS/Trends.css';
 
-const Analysis = () => {
+const Trends = () => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.user);
     const selectedRace = useSelector(state => state.selectedRace);
@@ -214,7 +214,7 @@ const Analysis = () => {
     };
 
     return (
-        <div className="Analysis">
+        <div className="Trends">
             <div className="timeline">
                 <h2 className="timeline__title">
                     Weekly Trends
@@ -282,7 +282,7 @@ const Analysis = () => {
                     (
                         <ResponsiveContainer
                             className="chart-area"
-                            width="100%"
+                            width="99%"
                             height={300}
                         >
                             <LineChart data={timelineData}>
@@ -313,7 +313,7 @@ const Analysis = () => {
                                 <Tooltip
                                     content={
                                         <CustomTooltip
-                                            chart="analysis"
+                                            chart="Trends"
                                             lineState={lineState}
                                             tickFormatter={formatTick}
                                         />
@@ -404,4 +404,4 @@ const Analysis = () => {
     );
 };
 
-export default Analysis;
+export default Trends;

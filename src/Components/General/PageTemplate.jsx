@@ -4,7 +4,7 @@ import { Location, Router, Redirect } from '@reach/router';
 import { setDefaultUser, setReplays, setSelectedRace, setSelectedReplayHash } from '../../actions';
 import Login from '../Login';
 import Replays from '../Replays/Replays';
-import Analysis from '../Analysis/Analysis';
+import Trends from '../Trends/Trends';
 import Upload from '../Upload';
 import Settings from '../Settings';
 import PageSidebar from './PageSidebar';
@@ -57,7 +57,7 @@ const PageTemplate = (props) => {
 
     const pages = {
         Replays: 'Replays',
-        Analysis: 'Trend Analysis',
+        Trends: 'Weekly Trends',
         Upload: 'Upload Replays',
     };
 
@@ -87,8 +87,8 @@ const PageTemplate = (props) => {
                             path="/replays"
                             visibleState={visibleState}
                         />
-                        <Analysis
-                            path="/analysis"
+                        <Trends
+                            path="/trends"
                         />
                         <Settings
                             path="/settings"

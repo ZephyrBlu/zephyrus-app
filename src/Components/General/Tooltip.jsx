@@ -44,7 +44,7 @@ const CustomTooltip = (props) => {
 
     if (props.payload !== undefined && props.payload.length !== 0) {
         switch (props.chart) {
-            case 'analysis':
+            case 'trends':
                 content = (
                     <Fragment>
                         <ul className="Tooltip__content">

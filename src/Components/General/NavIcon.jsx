@@ -1,6 +1,6 @@
 import { Fragment } from 'react';
 
-const Icon = props => (
+const NavIcon = props => (
     <Fragment>
         <img
             src={`../../icons/${props.icon}.svg`}
@@ -17,4 +17,4 @@ const Icon = props => (
     </Fragment>
 );
 
-export default Icon;
+export default NavIcon;

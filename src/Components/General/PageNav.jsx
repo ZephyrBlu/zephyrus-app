@@ -1,5 +1,5 @@
 import { Link } from '@reach/router';
-import Icon from './Icon';
+import NavIcon from './NavIcon';
 import './CSS/PageNav.css';
 
 const PageNav = (props) => {
@@ -11,6 +11,22 @@ const PageNav = (props) => {
     };
 
     const hoverTimeouts = [];
+
+    const createLinkStyle = (pageName) => {
+        if (props.fixedHoverState) {
+            return {
+                width: '100px',
+                borderRadius: '27px',
+            };
+        } else if (props.hoverState[pageName]) {
+            return {
+                width: '100px',
+                borderRadius: '27px',
+                backgroundColor: 'hsl(209, 77%, 14%)',
+            };
+        }
+        return {};
+    };
 
     return (
         <nav className="PageNav">
@@ -60,14 +76,9 @@ const PageNav = (props) => {
                                         ));
                                     }
                                 }}
-                                style={props.hoverState[pageName] ?
-                                    {
-                                        width: '100px',
-                                        borderRadius: '27px',
-                                        backgroundColor: 'hsl(209, 77%, 14%)',
-                                    } : {}}
+                                style={createLinkStyle(pageName)}
                             >
-                                <Icon
+                                <NavIcon
                                     icon={pageName.toLowerCase()}
                                     text={props.hoverState[pageName] ? pageName : false}
                                 />
