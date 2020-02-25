@@ -1,4 +1,5 @@
 import { Link } from '@reach/router';
+import Icon from './Icon';
 import './CSS/PageNav.css';
 
 const PageNav = (props) => {
@@ -60,9 +61,16 @@ const PageNav = (props) => {
                                     }
                                 }}
                                 style={props.hoverState[pageName] ?
-                                    { width: '100px', borderRadius: '27px' } : { width: '22px' }}
+                                    {
+                                        width: '100px',
+                                        borderRadius: '27px',
+                                        backgroundColor: 'hsl(209, 77%, 14%)',
+                                    } : {}}
                             >
-                                {props.hoverState[pageName] ? pageName : pageName.slice(0, 1)}
+                                <Icon
+                                    icon={pageName.toLowerCase()}
+                                    text={props.hoverState[pageName] ? pageName : false}
+                                />
                             </Link>
                         </li>
                     );
