@@ -122,7 +122,7 @@ const PageSidebar = (props) => {
                     onClick={handleLogout}
                     style={hoverState.Logout ?
                         {
-                            marginRight: '16px',
+                            marginRight: '11px',
                             width: '130px',
                             borderRadius: '25px',
                         } : {}}
