@@ -313,7 +313,7 @@ const Trends = () => {
                                 <Tooltip
                                     content={
                                         <CustomTooltip
-                                            chart="Trends"
+                                            chart="trends"
                                             lineState={lineState}
                                             tickFormatter={formatTick}
                                         />
