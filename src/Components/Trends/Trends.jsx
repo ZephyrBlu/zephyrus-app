@@ -15,33 +15,38 @@ import InfoTooltip from '../General/InfoTooltip';
 import CustomTooltip from '../General/Tooltip';
 import DefaultResponse from '../General/DefaultResponse';
 import WaveAnimation from '../General/WaveAnimation';
-import './CSS/Analysis.css';
+import './CSS/Trends.css';
 
-const Analysis = () => {
+const Trends = () => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.user);
     const selectedRace = useSelector(state => state.selectedRace);
     const currentTrends = useSelector(state => state.raceData[selectedRace].trends);
     const [playerTrends, setPlayerTrends] = useState(null);
     const [statDropdownState, setStatDropdownState] = useState(0);
-    const [lineState, setLineState] = useState({
-        winrate: 1,
-        sq: 1,
-        apm: 1,
-        avg_pac_action_latency: 0,
-        avg_pac_actions: 0,
-        avg_pac_gap: 0,
-        avg_pac_per_min: 0,
-        workers_produced: 1,
-        workers_lost: 0,
-        avg_unspent_resources_minerals: 0,
-        avg_unspent_resources_gas: 0,
-        avg_resource_collection_rate_minerals: 0,
-        avg_resource_collection_rate_gas: 0,
-        resources_lost_minerals: 0,
-        resources_lost_gas: 0,
-        inject_count: 0,
-    });
+
+    if (!localStorage.lineState) {
+        localStorage.lineState = JSON.stringify({
+            winrate: 1,
+            sq: 1,
+            apm: 1,
+            avg_pac_action_latency: 0,
+            avg_pac_actions: 0,
+            avg_pac_gap: 0,
+            avg_pac_per_min: 0,
+            workers_produced: 1,
+            workers_lost: 0,
+            avg_unspent_resources_minerals: 0,
+            avg_unspent_resources_gas: 0,
+            avg_resource_collection_rate_minerals: 0,
+            avg_resource_collection_rate_gas: 0,
+            resources_lost_minerals: 0,
+            resources_lost_gas: 0,
+            inject_count: 0,
+        });
+    }
+
+    const [lineState, setLineState] = useState(JSON.parse(localStorage.lineState));
     const [timelineData, setTimelineData] = useState([{
         winrate: 0,
         sq: 0,
@@ -61,6 +66,10 @@ const Analysis = () => {
         inject_count: 0,
         count: 0,
     }]);
+
+    useEffect(() => {
+        localStorage.lineState = JSON.stringify(lineState);
+    }, [lineState]);
 
     useEffect(() => {
         const getStats = async () => {
@@ -205,7 +214,7 @@ const Analysis = () => {
     };
 
     return (
-        <div className="Analysis">
+        <div className="Trends">
             <div className="timeline">
                 <h2 className="timeline__title">
                     Weekly Trends
@@ -238,16 +247,17 @@ const Analysis = () => {
                         {Object.entries(statNames).map(([stat, statName]) => (
                             <li key={stat} className="timeline__stat-dropdown-option">
                                 <button
-                                    onClick={() => (
-                                        lineState[stat] === 1 ?
+                                    onClick={() => {
+                                        if (lineState[stat] === 1) {
                                             setLineState(prevState => (
                                                 { ...prevState, [stat]: 0 }
-                                            ))
-                                            :
+                                            ));
+                                        } else {
                                             setLineState(prevState => (
                                                 { ...prevState, [stat]: 1 }
-                                            ))
-                                    )}
+                                            ));
+                                        }
+                                    }}
                                     className="timeline__stat-dropdown-button"
                                 >
                                     {statName}&nbsp;&nbsp;
@@ -272,7 +282,7 @@ const Analysis = () => {
                     (
                         <ResponsiveContainer
                             className="chart-area"
-                            width="100%"
+                            width="99%"
                             height={300}
                         >
                             <LineChart data={timelineData}>
@@ -303,7 +313,7 @@ const Analysis = () => {
                                 <Tooltip
                                     content={
                                         <CustomTooltip
-                                            chart="analysis"
+                                            chart="Trends"
                                             lineState={lineState}
                                             tickFormatter={formatTick}
                                         />
@@ -394,4 +404,4 @@ const Analysis = () => {
     );
 };
 
-export default Analysis;
+export default Trends;

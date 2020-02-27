@@ -12,20 +12,10 @@
 
 .Upload__message {
     position: absolute;
-    top: 390px;
+    top: 570px;
     margin-left: -30px;
     text-align: center;
     font-size: 14px;
-}
-
-.Upload__message a,
-.Upload__message a:visited {
-    color: var(--text);
-}
-
-.Upload__issues a,
-.Upload__issues a:visited {
-    color: white;
 }
 
 .Upload__info {
@@ -71,6 +61,18 @@
     outline: none;
     background: var(--light-blue-hover);
     cursor: pointer;
+}
+
+.Upload__auto-uploader {
+    position: absolute;
+    top: 390px;
+    width: 505px;
+    margin: 0 auto;
+    margin-left: -40px;
+    padding: 20px;
+    text-align: center;
+    background-color: var(--secondary-background);
+    border-radius: 25px;
 }
 
 .Upload__success, .Upload__status {

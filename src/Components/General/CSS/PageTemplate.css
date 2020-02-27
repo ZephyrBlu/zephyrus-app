@@ -90,7 +90,7 @@
     width: 175px;
 }
 
-.PageTemplate__page-info--Analysis {
+.PageTemplate__page-info--Trends {
     width: 245px;
 }
 
@@ -159,6 +159,27 @@
     cursor: pointer;
 }
 
+.PageTemplate__logout {
+    text-decoration: underline;
+    font-size: 18px;
+    width: max-content;
+    margin: 0 auto;
+    margin-right: 30px;
+    border: none;
+    background-color: var(--main-background);
+    font-weight: 300;
+    font-family: 'Roboto', sans-serif;
+}
+
+.PageTemplate__logout:hover {
+    cursor: pointer;
+}
+
+.PageTemplate__logout,
+.PageTemplate__logout:visited {
+    color: var(--text);
+}
+
 .PageTemplate__page-content {
     grid-area: page-content;
     display: inline-block;
@@ -178,7 +199,7 @@
 }
 
 .PageTemplate__page-content--Setup,
-.PageTemplate__page-content--Analysis {
+.PageTemplate__page-content--Trends {
     margin-top: 5px;
     margin-bottom: 5px;
 }

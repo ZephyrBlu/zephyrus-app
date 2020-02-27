@@ -1,6 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useEffect, useState } from 'react';
 import { setUser, setSelectedRace } from './actions';
+import useReplayPolling from './useReplayPolling';
 import PageTemplate from './Components/General/PageTemplate';
 import './ProfileApp.css';
 
@@ -9,6 +10,8 @@ const ProfileApp = () => {
     const user = useSelector(state => state.user);
     const [defaultPage, setDefaultPage] = useState(null);
     const [waitingForUser, setWaitingForUser] = useState(true);
+
+    useReplayPolling(30000);
 
     useEffect(() => {
         if (localStorage.user) {
@@ -25,17 +28,19 @@ const ProfileApp = () => {
         }
     }, []);
 
+    let urlPrefix;
+    if (process.env.NODE_ENV === 'development') {
+        urlPrefix = 'http://127.0.0.1:8000/';
+    } else {
+        urlPrefix = 'https://zephyrus.gg/';
+    }
+
+    // one time check for OAuth authorization code
     const urlParams = new URLSearchParams(window.location.search);
     const authCode = urlParams.get('code');
 
     useEffect(() => {
         const checkAccountStatus = async () => {
-            let urlPrefix;
-            if (process.env.NODE_ENV === 'development') {
-                urlPrefix = 'http://127.0.0.1:8000/';
-            } else {
-                urlPrefix = 'https://zephyrus.gg/';
-            }
             const url = `${urlPrefix}api/authorize/check/`;
 
             const updatedUser = await fetch(url, {
@@ -74,7 +79,11 @@ const ProfileApp = () => {
 
     return (
         <div className="ProfileApp">
-            <PageTemplate defaultPage={defaultPage} setWaitingForUser={setWaitingForUser} />
+            <PageTemplate
+                token={user.token}
+                defaultPage={defaultPage}
+                setWaitingForUser={setWaitingForUser}
+            />
         </div>
     );
 };

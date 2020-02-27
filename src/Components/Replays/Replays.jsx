@@ -1,7 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
 import { useState, useEffect, Fragment } from 'react';
-import { setReplays, setReplayInfo } from '../../actions';
+import { setReplays, setReplayCount, setReplayInfo } from '../../actions';
 import ReplayList from './ReplayList';
 import ReplayInfo from './ReplayInfo';
 import TimelineArea from './TimelineArea';
@@ -24,7 +24,12 @@ const Replays = (props) => {
     const dispatch = useDispatch();
     const [selectedReplay, setSelectedReplay] = useState(null);
     const [selectedReplayInfo, setSelectedReplayInfo] = useState(null);
-    const [timelineStat, setTimelineStat] = useState('resource_collection_rate_all');
+
+    if (!localStorage.timelineStat) {
+        localStorage.timelineStat = 'resource_collection_rate_all';
+    }
+
+    const [timelineStat, setTimelineStat] = useState(localStorage.timelineStat);
     const [user, selectedRace, replayInfo, selectedReplayHash] = useSelector(selectData);
     const [cachedTimeline, setCachedTimeline] = useState({ 0: { 1: {} } });
     const [currentGameloop, setCurrentGameloop] = useState(0);
@@ -53,7 +58,7 @@ const Replays = (props) => {
             }
 
             const races = ['protoss', 'zerg', 'terran'];
-            await Promise.all(races.map(async (race) => {
+            races.forEach(async (race) => {
                 const url = `${urlPrefix}api/replays/${race}/`;
                 let status;
 
@@ -70,11 +75,31 @@ const Replays = (props) => {
                 )).catch(() => null);
 
                 if (status === 200 && data.length > 0) {
+                    const countUrl = `${url}count/`;
+                    let countStatus;
+                    const countResponse = await fetch(countUrl, {
+                        method: 'GET',
+                        headers: {
+                            Authorization: `Token ${user.token}`,
+                        },
+                    }).then((response) => {
+                        countStatus = response.status;
+                        return response.json();
+                    }).catch(() => null);
+
                     dispatch(setReplays(data, race));
+                    let replayCount;
+                    if (countStatus === 200) {
+                        replayCount = countResponse;
+                    } else {
+                        replayCount = 0;
+                    }
+                    dispatch(setReplayCount(replayCount, race));
                 } else {
                     dispatch(setReplays(false, race));
+                    dispatch(setReplayCount(0, race));
                 }
-            }));
+            });
         };
 
         if (userReplays === null) {

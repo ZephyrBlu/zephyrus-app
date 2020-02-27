@@ -19,6 +19,13 @@ const ReplayInfo = (props) => {
         workers_killed: 'Workers Lost',
     };
 
+    let urlPrefix;
+    if (process.env.NODE_ENV === 'development') {
+        urlPrefix = 'http://127.0.0.1:8000/';
+    } else {
+        urlPrefix = 'https://zephyrus.gg/';
+    }
+
     return (
         <div className="ReplayInfo__title-area">
             <h2 className="ReplayInfo__matchup">
@@ -62,6 +69,13 @@ const ReplayInfo = (props) => {
                     </h2>
                 </div>
             </div>
+            <a
+                className="ReplayInfo__replay-download"
+                href={`${urlPrefix}api/download/${props.selectedReplay.file_hash}/`}
+                download
+            >
+                Download Replay
+            </a>
             <div className="ReplayInfo__stat-select">
                 <button
                     className="ReplayInfo__stat-toggle"
@@ -91,7 +105,10 @@ const ReplayInfo = (props) => {
                             <button
                                 key={statName}
                                 className="ReplayInfo__dropdown-button"
-                                onClick={() => (props.setTimelineStat(statKey))}
+                                onClick={() => {
+                                    props.setTimelineStat(statKey);
+                                    localStorage.timelineStat = statKey;
+                                }}
                             >
                                 {statName}&nbsp;&nbsp;
                                 <svg height="10" width="10">

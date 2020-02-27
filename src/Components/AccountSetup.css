@@ -283,3 +283,14 @@
     color: var(--text);
     font-size: 16px;
 }
+
+.AccountSetup__message {
+    text-align: center;
+    font-size: 14px;
+    margin-top: 40px;
+}
+
+.AccountSetup__message a,
+.AccountSetup__message a:visited {
+    color: var(--text);
+}

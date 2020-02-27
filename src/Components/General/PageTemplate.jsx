@@ -1,10 +1,10 @@
 import { useEffect, useState, Fragment } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Location, Router, Redirect } from '@reach/router';
-import { setSelectedRace, setSelectedReplayHash } from '../../actions';
+import { setDefaultUser, setReplays, setSelectedRace, setSelectedReplayHash } from '../../actions';
 import Login from '../Login';
 import Replays from '../Replays/Replays';
-import Analysis from '../Analysis/Analysis';
+import Trends from '../Trends/Trends';
 import Upload from '../Upload';
 import Settings from '../Settings';
 import PageSidebar from './PageSidebar';
@@ -27,9 +27,37 @@ const PageTemplate = (props) => {
         setCurrentPage(props.defaultPage);
     }, [props.defaultPage]);
 
+    const handleLogout = async () => {
+        let urlPrefix;
+        if (process.env.NODE_ENV === 'development') {
+            urlPrefix = 'http://127.0.0.1:8000/';
+        } else {
+            urlPrefix = 'https://zephyrus.gg/';
+        }
+
+        const url = `${urlPrefix}api/logout/`;
+
+        const error = await fetch(url, {
+            method: 'GET',
+            headers: {
+                Authorization: `Token ${props.token}`,
+            },
+        }).then(response => (
+            response.status === 200 ? null : `${response.status} ${response.statusText}`
+        ));
+
+        if (error) {
+            alert('Something went wrong. Please try to logout again');
+        }
+        localStorage.clear();
+        dispatch(setDefaultUser());
+        dispatch(setReplays([]));
+        dispatch(setSelectedReplayHash(null));
+    };
+
     const pages = {
         Replays: 'Replays',
-        Analysis: 'Trend Analysis',
+        Trends: 'Weekly Trends',
         Upload: 'Upload Replays',
     };
 
@@ -59,8 +87,8 @@ const PageTemplate = (props) => {
                             path="/replays"
                             visibleState={visibleState}
                         />
-                        <Analysis
-                            path="/analysis"
+                        <Trends
+                            path="/trends"
                         />
                         <Settings
                             path="/settings"
@@ -172,6 +200,10 @@ const PageTemplate = (props) => {
                                 </button>
                             </span>}
                     </Fragment>}
+                {currentPage === 'Setup' &&
+                    <button className="PageTemplate__logout" onClick={handleLogout}>
+                        Logout
+                    </button>}
             </header>
             {currentPage && currentPage !== 'Login' && currentPage !== 'Setup' &&
                 <PageSidebar pages={Object.keys(pages)} />}

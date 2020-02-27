@@ -73,13 +73,13 @@ const Upload = () => {
                     Only ladder 1v1&#39;s are supported. Other replays will be skipped
                 </li>
                 <li className="Upload__info-item">
-                    You can upload up to 100 replays at a time
+                    Max 100 replays per upload. Each one will take a few seconds
                 </li>
                 <li className="Upload__info-item">
-                    Each replay will take a few seconds to upload and process
+                    Stay on this page to see your upload progress (Optional)
                 </li>
                 <li className="Upload__info-item">
-                    Stay on this page during the upload
+                    Your replays will be refreshed every 30sec
                 </li>
             </ul>
             <form className="Upload__file-form" encType="multiple/form-data" onSubmit={uploadFiles}>
@@ -94,6 +94,31 @@ const Upload = () => {
                     onChange={uploadFiles}
                 />
             </form>
+            <div className="Upload__auto-uploader">
+                We just released an auto-uploader.&nbsp;
+                <a href="https://app.zephyrus.gg/zephyrus-autouploader.zip" download>
+                    Click here
+                </a>
+                &nbsp;to download it (Win only).
+                <br />
+                <br />
+                <span style={{ textDecoration: 'underline' }} >
+                    PLEASE NOTE:
+                </span>
+                &nbsp;This app is currently unsigned. You will need to give it permission
+                to run.
+                <br />
+                <br />
+                If you are concerned about malicious code you can view the
+                source code after the files have been downloaded or&nbsp;
+                <a
+                    href="https://github.com/ZephyrBlu/zephyrus-autouploader"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    on GitHub
+                </a>.
+            </div>
             {uploadInProgress &&
                 <p className="Upload__status">
                     Uploading your replays now...
