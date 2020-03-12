@@ -1,0 +1,92 @@
+.FeatureVote__title {
+    font-size: 24px;
+    margin: 0;
+}
+
+.FeatureVote__sub-title {
+    font-size: 14px;
+    color: var(--light-grey);
+    margin: 10px 0 15px;
+}
+
+.FeatureVote__form {
+    text-align: left;
+}
+
+.FeatureVote__input-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.FeatureVote__input-wrapper--last {
+    margin-bottom: 0;
+}
+
+.FeatureVote__checkbox {
+    -webkit-appearance: none;
+    margin: 0;
+    width: 25px;
+    height: 25px;
+    border-radius: 6px;
+    background-color: var(--secondary-background);
+    line-height: 25px;
+}
+
+.FeatureVote__checkbox:focus {
+    outline: none;
+    box-shadow: 0 0 0 1px var(--light-blue) inset;
+}
+
+.FeatureVote__checkbox:checked:after {
+    content: '\2714';
+    margin: 3px;
+}
+
+.FeatureVote__label {
+    margin-left: 10px;
+    font-size: 16px;
+    user-select: none;
+}
+
+.FeatureVote__text-input {
+    border-radius: 8px;
+    border: none;
+    padding: 4px;
+}
+
+.FeatureVote__submit-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 20px;
+    height: 36px;
+}
+
+.FeatureVote__form-submit {
+    border: none;
+    border-radius: 8px;
+    background-color: var(--light-blue);
+    padding: 8px 12px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    width: 75%;
+    transition: .5s;
+}
+
+.FeatureVote__form-submit:hover,
+.FeatureVote__form-submit:focus {
+    outline: none;
+    cursor: pointer;
+    background-color: var(--light-blue-hover);
+}
+
+.FeatureVote__form-submit:disabled {
+    background-color: var(--secondary-background);
+}
+
+.FeatureVote__form-submit:disabled:hover {
+    cursor: not-allowed;
+}

@@ -79,7 +79,10 @@
 }
 
 .PageTemplate__page-info {
-    height: min-content;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 32px;
     padding: 0 25px;
     margin: 0 25px;
     border-left: 2px solid var(--tertiary-background-light);
@@ -157,6 +160,53 @@
 .PageTemplate__race-icon:focus {
     outline: none;
     cursor: pointer;
+}
+
+.PageTemplate__feature-vote {
+    padding-left: 25px;
+    margin-left: 25px;
+    border-left: 2px solid var(--tertiary-background-light);
+    height: 32px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.PageTemplate__show-vote {
+    padding: 8px 12px;
+    padding-right: 6px;
+    background-color: var(--light-blue);
+    border-radius: 8px;
+    border: none;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    transition: .3s;
+}
+
+.PageTemplate__show-vote:hover,
+.PageTemplate__show-vote:focus {
+    outline: none;
+    cursor: pointer;
+    background-color: var(--light-blue-hover);
+}
+
+.PageTemplate__feature-vote-arrow {
+    width: 20px;
+    height: 20px;
+    transform: rotate(90deg);
+}
+
+.tippy-backdrop {
+    background-color: var(--tertiary-background);
+}
+
+.PageTemplate__feature-vote-content {
+    padding: 10px 20px 20px;
+    border-radius: 15px;
 }
 
 .PageTemplate__logout {

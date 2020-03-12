@@ -1,6 +1,7 @@
 import { useEffect, useState, Fragment } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Location, Router, Redirect } from '@reach/router';
+import Tippy from '@tippy.js/react';
 import { setDefaultUser, setReplays, setSelectedRace, setSelectedReplayHash } from '../../actions';
 import Login from '../Login';
 import Replays from '../Replays/Replays';
@@ -9,11 +10,13 @@ import Upload from '../Upload';
 import Settings from '../Settings';
 import PageSidebar from './PageSidebar';
 import AccountSetup from '../AccountSetup';
+import FeatureVote from './FeatureVote';
 import './CSS/PageTemplate.css';
 
 const PageTemplate = (props) => {
     const dispatch = useDispatch();
     const selectedRace = useSelector(state => state.selectedRace);
+    const [showFeatureVote, setShowFeatureVote] = useState(false);
     const [visibleState, setVisibleState] = useState(true);
 
     // Set currentPage state as null for initial render
@@ -139,51 +142,79 @@ const PageTemplate = (props) => {
                                 </h2>}
                         </div>
                         {currentPage !== 'Setup' &&
-                            <div className="PageTemplate__race-toggle">
-                                <div
-                                    className="PageTemplate__toggle-indicator"
-                                    style={raceToggleStyle[selectedRace]}
-                                />
-                                <button
-                                    className="PageTemplate__toggle-button"
-                                    onClick={() => {
-                                        dispatch(setSelectedRace('protoss'));
-                                        dispatch(setSelectedReplayHash(null));
-                                    }}
-                                >
-                                    <img
-                                        src="../../icons/protoss-logo.svg"
-                                        alt="Protoss"
-                                        className="PageTemplate__race-icon"
+                            <Fragment>
+                                <div className="PageTemplate__race-toggle">
+                                    <div
+                                        className="PageTemplate__toggle-indicator"
+                                        style={raceToggleStyle[selectedRace]}
                                     />
-                                </button>
-                                <button
-                                    className="PageTemplate__toggle-button"
-                                    onClick={() => {
-                                        dispatch(setSelectedRace('zerg'));
-                                        dispatch(setSelectedReplayHash(null));
-                                    }}
+                                    <button
+                                        className="PageTemplate__toggle-button"
+                                        onClick={() => {
+                                            dispatch(setSelectedRace('protoss'));
+                                            dispatch(setSelectedReplayHash(null));
+                                        }}
+                                    >
+                                        <img
+                                            src="../../icons/protoss-logo.svg"
+                                            alt="Protoss"
+                                            className="PageTemplate__race-icon"
+                                        />
+                                    </button>
+                                    <button
+                                        className="PageTemplate__toggle-button"
+                                        onClick={() => {
+                                            dispatch(setSelectedRace('zerg'));
+                                            dispatch(setSelectedReplayHash(null));
+                                        }}
+                                    >
+                                        <img
+                                            src="../../icons/zerg-logo.svg"
+                                            alt="Zerg"
+                                            className="PageTemplate__race-icon"
+                                        />
+                                    </button>
+                                    <button
+                                        className="PageTemplate__toggle-button"
+                                        onClick={() => {
+                                            dispatch(setSelectedRace('terran'));
+                                            dispatch(setSelectedReplayHash(null));
+                                        }}
+                                    >
+                                        <img
+                                            src="../../icons/terran-logo.svg"
+                                            alt="Terran"
+                                            className="PageTemplate__race-icon"
+                                        />
+                                    </button>
+                                </div>
+                                <Tippy
+                                    className="PageTemplate__feature-vote-content"
+                                    content={<FeatureVote />}
+                                    placement="top-end"
+                                    trigger="manual"
+                                    visible={showFeatureVote}
+                                    hideOnClick={false}
+                                    interactive
                                 >
-                                    <img
-                                        src="../../icons/zerg-logo.svg"
-                                        alt="Zerg"
-                                        className="PageTemplate__race-icon"
-                                    />
-                                </button>
-                                <button
-                                    className="PageTemplate__toggle-button"
-                                    onClick={() => {
-                                        dispatch(setSelectedRace('terran'));
-                                        dispatch(setSelectedReplayHash(null));
-                                    }}
-                                >
-                                    <img
-                                        src="../../icons/terran-logo.svg"
-                                        alt="Terran"
-                                        className="PageTemplate__race-icon"
-                                    />
-                                </button>
-                            </div>}
+                                    <div className="PageTemplate__feature-vote">
+                                        <button
+                                            className="PageTemplate__show-vote"
+                                            onClick={() => (
+                                                showFeatureVote ?
+                                                    setShowFeatureVote(false) : setShowFeatureVote(true)
+                                            )}
+                                        >
+                                            Vote on New Features&nbsp;
+                                            <img
+                                                className="PageTemplate__feature-vote-arrow"
+                                                src="../../icons/arrow-right-black.svg"
+                                                alt="show-feature-vote"
+                                            />
+                                        </button>
+                                    </div>
+                                </Tippy>
+                            </Fragment>}
                         {currentPage === 'Replays' &&
                             <span className="PageTemplate__hide-wrapper">
                                 {visibleState ? 'Hide Replays' : ''}
