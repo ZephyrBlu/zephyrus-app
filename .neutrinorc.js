@@ -26,6 +26,7 @@ module.exports = {
           "react/no-array-index-key": 0,
           "prefer-destructuring": ["error", {"object": false, "array": true}],
           "no-unused-expressions": ["error", { "allowTernary": true }],
+          "no-param-reassign": ["error", { "props": false }],
         }
       }
     }],

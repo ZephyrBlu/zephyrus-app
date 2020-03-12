@@ -4,6 +4,7 @@ import './CSS/FeatureVote.css';
 
 const FeatureVote = () => {
     const [disableTextInput, setDisableTextInput] = useState(true);
+    const [textInput, setTextInput] = useState();
     const [checkboxesSelected, setCheckboxesSelected] = useState(0);
     const maxSelected = 2;
 
@@ -19,8 +20,13 @@ const FeatureVote = () => {
         e.preventDefault();
         setIsFormSubmitted(true);
         setTimeout(() => {
+            console.log(textInput);
             setIsFormSubmitted(false);
         }, 2000);
+    };
+
+    const updateTextInput = (e) => {
+        setTextInput(e.target.value.trim());
     };
 
     const handleCheckboxClick = (selection, setSelection, textField = false) => {
@@ -140,11 +146,12 @@ const FeatureVote = () => {
                             type="text"
                             htmlFor="feature-5"
                             placeholder="Other"
+                            onChange={e => updateTextInput(e)}
                         />
                     }
                 </div>
                 <div className="FeatureVote__submit-wrapper">
-                    {isFormSubmitted || checkboxesSelected === 0 ?
+                    {isFormSubmitted || checkboxesSelected === 0 || (!textInput && feature5Checked) ?
                         <Fragment>
                             <input
                                 className="FeatureVote__form-submit"
@@ -152,7 +159,7 @@ const FeatureVote = () => {
                                 value="VOTE"
                                 disabled
                             />
-                            {checkboxesSelected !== 0 && <SpinningRingAnimation />}
+                            {checkboxesSelected !== 0 && (feature5Checked ? textInput : true) && <SpinningRingAnimation />}
                         </Fragment>
                         :
                         <input
