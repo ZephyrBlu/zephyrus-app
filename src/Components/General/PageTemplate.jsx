@@ -193,6 +193,7 @@ const PageTemplate = (props) => {
                                     content={<FeatureVote />}
                                     placement="top-end"
                                     trigger="manual"
+                                    maxWidth={360}
                                     visible={showFeatureVote}
                                     hideOnClick={false}
                                     interactive

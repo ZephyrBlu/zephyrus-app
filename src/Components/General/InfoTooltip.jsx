@@ -10,10 +10,15 @@ const InfoTooltip = props => (
             xmlns="http://www.w3.org/2000/svg"
             x="0px"
             y="0px"
-            width="25"
-            height="25"
+            width={props.width || '25'}
+            height={props.height || '25'}
             viewBox="0 0 172 172"
-            style={{ position: 'relative', top: '5px', right: '-5px' }}
+            style={{
+                position: 'relative',
+                top: '5px',
+                right: '-5px',
+                ...props.style,
+            }}
         >
             <g
                 fill="none"
