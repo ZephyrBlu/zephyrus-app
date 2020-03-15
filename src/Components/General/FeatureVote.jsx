@@ -85,9 +85,11 @@ const FeatureVote = () => {
             setIsLoading(false);
         };
 
-        setIsLoading(true);
-        getCurrentVotes();
-    }, []);
+        if (token) {
+            setIsLoading(true);
+            getCurrentVotes();
+        }
+    }, [token]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -209,7 +211,7 @@ const FeatureVote = () => {
                         <SpinningRingAnimation
                             style={{
                                 position: 'absolute',
-                                marginLeft: '150px',
+                                marginLeft: '160px',
                             }}
                         />}
                 </div>
