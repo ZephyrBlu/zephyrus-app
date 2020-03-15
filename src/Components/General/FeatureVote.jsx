@@ -1,0 +1,225 @@
+import { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import InfoTooltip from '../General/InfoTooltip';
+import SpinningRingAnimation from '../General/SpinningRingAnimation';
+import './CSS/FeatureVote.css';
+
+const FeatureVote = () => {
+    const token = useSelector(state => state.user.token);
+    const [isLoading, setIsLoading] = useState(false);
+    const [isTextInputDisabled, setIsTextInputDisabled] = useState(true);
+    const [textInput, setTextInput] = useState('');
+    const [checkboxesSelected, setCheckboxesSelected] = useState(0);
+    const [checkboxState, setCheckboxState] = useState(Array(6).fill(false));
+    const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+    const [responseText, setResponseText] = useState(null);
+    const maxSelected = 2;
+
+    const features = [
+        'Shareable Replay Pages',
+        'Winrate Page (Matchup, map, game length)',
+        'More in-game Info (Supply block, SPM)',
+        'Demo Website for New Users',
+        'Focus Goal Tracking (Premium)',
+    ];
+
+    const featureDescription = [
+        <span>Replays will generate links to individual replay pages</span>,
+        <span>A comprehensive winrate page that tracks seasonal and weekly winrate.<br /><br />Matchup and map winrates will be tracked along with your winrate relative to the duration of matches</span>,
+        <span>Richer in-game information such as supply block and screens-per-minute (SPM).<br /><br />Other possibilities include race-specific stats or duration of unit vs building selection (i.e. macro vs micro).<br /><br />Open to suggestions</span>,
+        <span>A demo website where people can try out the site as though they are signed up and have uploaded replays</span>,
+        <span>A feature to allow users to create and track specific goals based on in-game events or game-states, as well as tracking winrate in relation to their goal.<br /><br />Focus Goals will be intergrated into the Replays page as well as having their own page.<br /><br />This is the first planned premium feature for Zephyrus</span>,
+    ];
+
+    const featureCodes = [
+        'shareable-replay-pages',
+        'winrate-page',
+        'game-info',
+        'demo-website',
+        'focus-goal-tracking',
+        'other',
+    ];
+
+    let urlPrefix;
+    if (process.env.NODE_ENV === 'development') {
+        urlPrefix = 'http://127.0.0.1:8000/';
+    } else {
+        urlPrefix = 'https://zephyrus.gg/';
+    }
+
+    useEffect(() => {
+        const checked = checkboxState.filter(state => state);
+        setCheckboxesSelected(checked.length);
+    }, [checkboxState]);
+
+    useEffect(() => {
+        setIsTextInputDisabled(!checkboxState[features.length] || (!checkboxState[features.length] && !textInput));
+    }, [textInput, checkboxState]);
+
+    useEffect(() => {
+        const getCurrentVotes = async () => {
+            const url = `${urlPrefix}api/vote/`;
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: {
+                    Authorization: `Token ${token}`,
+                },
+            }).then(res => res.json());
+            const votes = response.votes;
+
+            for (let i = 0; i < featureCodes.length; i += 1) {
+                const currentFeature = featureCodes[i];
+                votes.forEach(([feature, comment]) => {
+                    if (feature === currentFeature) {
+                        setCheckboxState((prevState) => {
+                            prevState[i] = true;
+                            return [...prevState];
+                        });
+
+                        if (feature === 'other') {
+                            setTextInput(comment);
+                        }
+                    }
+                });
+            }
+            setIsLoading(false);
+        };
+
+        setIsLoading(true);
+        getCurrentVotes();
+    }, []);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        setIsFormSubmitted(true);
+        setResponseText(null);
+
+        const votes = {};
+        featureCodes.forEach((featureCode, index) => {
+            if (checkboxState[index]) {
+                // if we are at the end of the feature codes
+                // i.e at 'other'
+                if (index === features.length) {
+                    votes[featureCode] = textInput.trim();
+                } else {
+                    votes[featureCode] = '';
+                }
+            }
+        });
+
+        const url = `${urlPrefix}api/vote/`;
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                Authorization: `Token ${token}`,
+            },
+            body: JSON.stringify({
+                features: featureCodes,
+                votes,
+            }),
+        }).then(res => res);
+        setIsFormSubmitted(false);
+        setResponseText(response.ok ? 'Vote Successful' : 'Vote Failed');
+    };
+
+    const updateTextInput = (e) => {
+        const currentText = e.target.value;
+        setTextInput(currentText.slice(0, 100));
+    };
+
+    const handleCheckboxClick = (featureIndex) => {
+        const isFeatureChecked = checkboxState[featureIndex];
+        if (checkboxesSelected < maxSelected || isFeatureChecked) {
+            setCheckboxState((prevState) => {
+                prevState[featureIndex] = !isFeatureChecked;
+                return [...prevState];
+            });
+        }
+    };
+
+    return (
+        <div className="FeatureVote">
+            <h1 className="FeatureVote__title">
+                Feature Vote
+            </h1>
+            <h2 className="FeatureVote__sub-title">
+                Vote on which feature you want in the next update
+                <br />
+                You may choose&nbsp;
+                <span style={{ textDecoration: 'underline' }}>
+                    up to 2
+                </span>
+                &nbsp;features and resubmit at any time
+            </h2>
+            <form className="FeatureVote__form" onSubmit={e => handleSubmit(e)}>
+                {features.map((featureText, index) => (
+                    <div key={`feature-${index}`} className="FeatureVote__input-wrapper">
+                        <input
+                            key={`feature-${index}-input`}
+                            className="FeatureVote__checkbox"
+                            type="checkbox"
+                            id={`feature-${index}`}
+                            name={`feature-${index}`}
+                            checked={checkboxState[index]}
+                            disabled={isLoading}
+                            onChange={() => handleCheckboxClick(index)}
+                        />
+                        <label key={`feature-${index}-label`} htmlFor={`feature-${index}`} className="FeatureVote__label">
+                            {featureText}
+                            <InfoTooltip
+                                content={featureDescription[index]}
+                                width={20}
+                                height={20}
+                                style={{
+                                    height: '20px',
+                                    width: '20px',
+                                    top: '0px',
+                                    left: '5px',
+                                }}
+                            />
+                        </label>
+                    </div>
+                ))}
+                <div className="FeatureVote__input-wrapper FeatureVote__input-wrapper--last">
+                    <input
+                        className="FeatureVote__checkbox"
+                        type="checkbox"
+                        id="feature-last"
+                        name="feature-last"
+                        checked={checkboxState[features.length]}
+                        onChange={() => handleCheckboxClick(features.length)}
+                    />
+                    <input
+                        className="FeatureVote__text-input FeatureVote__label"
+                        type="text"
+                        placeholder="Other"
+                        value={textInput}
+                        onChange={e => updateTextInput(e)}
+                        disabled={isTextInputDisabled}
+                    />
+                </div>
+                <div className="FeatureVote__submit-wrapper">
+                    <input
+                        className="FeatureVote__form-submit"
+                        type="submit"
+                        value="VOTE"
+                        disabled={isLoading || isFormSubmitted || checkboxesSelected === 0 || (!textInput && checkboxState[features.length])}
+                    />
+                    {isFormSubmitted && checkboxesSelected !== 0 &&
+                        <SpinningRingAnimation
+                            style={{
+                                position: 'absolute',
+                                marginLeft: '150px',
+                            }}
+                        />}
+                </div>
+            </form>
+            {responseText &&
+                <p className="FeatureVote__message">
+                    {responseText}
+                </p>}
+        </div>
+    );
+};
+
+export default FeatureVote;

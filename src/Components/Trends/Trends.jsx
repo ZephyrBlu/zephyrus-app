@@ -361,6 +361,20 @@ const Trends = () => {
                 <span className="recent-trends__title-area">
                     <h2 className="recent-trends__title">
                         Recent Performance
+                        <InfoTooltip content={
+                            <span>
+                                Each statistic has the current weekly median and Median Average Difference (MAD) displayed next to it, as well as the difference compared to the previous week below
+                                <br />
+                                <br />
+                                The main value is the median and the +/- values is the MAD, which is a measure of spread
+                                <br />
+                                <br />
+                                Green and red highlighted values represent the median and MAD for wins and losses respectively
+                                <br />
+                                <br />
+                                Win/loss values also show the difference between the overall median and the win/loss median
+                            </span>}
+                        />
                     </h2>
                     <h3 className="recent-trends__winrate">
                         {playerTrends && (
