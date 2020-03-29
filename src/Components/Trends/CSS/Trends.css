@@ -19,6 +19,7 @@
     width: max-content;
     height: max-content;
     margin: 0 0 10px;
+    margin-left: 15px;
     font-size: 28px;
 }
 
@@ -95,7 +96,7 @@
 
 .recent-trends {
     width: max-content;
-    margin: 30px auto 0;
+    margin: 40px auto 0;
     padding-bottom: 1px;
 }
 
