@@ -47,6 +47,8 @@ const ReplayRecord = (props) => {
             return `${start.trim()}${fraction} Months ago`;
         } else if (date.slice(1, 2) === 'm') {
             return `${date.slice(0, 1)} Months ago`;
+        } else if (date.slice(2, 3) === 'm') {
+            return `${date.slice(0, 2)} Months ago`;
         } else if (date.slice(1, 2) === 'w') {
             return `${date.slice(0, 1)} Weeks Ago`;
         } else if (date.slice(1, 2) === 'd') {
