@@ -92,6 +92,10 @@
     cursor: pointer;
 }
 
+.login-form__submit:disabled {
+    cursor: not-allowed;
+}
+
 @media (max-width: 1400px) {
     .Login .PageTemplate__main-content {
         justify-content: flex-start;

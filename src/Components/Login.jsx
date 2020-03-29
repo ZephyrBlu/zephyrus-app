@@ -65,6 +65,7 @@ const Login = (props) => {
             onGetCredentials(responseBody.user)
         )).catch(requestError => (requestError));
 
+        setIsUserWaiting(false);
         if (result) {
             setFormError('Incorrect details');
         }
@@ -100,7 +101,12 @@ const Login = (props) => {
                         />
                     </p>
                     <span className="login-form__flex-wrapper">
-                        <input className="login-form__submit" type="submit" value="LOG IN" />
+                        <input
+                            className="login-form__submit"
+                            type="submit"
+                            value="LOG IN"
+                            disabled={isUserWaiting}
+                        />
                         {isUserWaiting &&
                             <SpinningRingAnimation style={{ top: '20px' }} />}
                     </span>
