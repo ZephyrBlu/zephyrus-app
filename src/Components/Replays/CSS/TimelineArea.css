@@ -20,7 +20,10 @@
 }
 
 .tooltip__player--player2 {
-    
+}
+
+.tooltip__player--comparison {
+    padding-left: 10px;
 }
 
 .tooltip__player {

@@ -7,7 +7,11 @@ const ReplayRecord = (props) => {
     const dispatch = useDispatch();
     const selectedReplayHash = useSelector(state => state.selectedReplayHash);
 
-    const handleReplaySelection = async () => {
+    const handleReplaySelection = async (e) => {
+        // return when we just want to compare a replay
+        if (e.target.classList.contains('ReplayRecord__compare-replay')) {
+            return;
+        }
         dispatch(setSelectedReplayHash(props.hash));
     };
 
@@ -99,6 +103,12 @@ const ReplayRecord = (props) => {
                     }
                 </span>
             ))}
+            <button onClick={() => props.compareReplay(props.hash, 1)} className="ReplayRecord__compare-replay ReplayRecord__compare-replay--player1">
+                &#43;
+            </button>
+            <button onClick={() => props.compareReplay(props.hash, 2)} className="ReplayRecord__compare-replay ReplayRecord__compare-replay--player2">
+                &#43;
+            </button>
         </div>
     );
 };

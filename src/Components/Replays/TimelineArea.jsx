@@ -18,6 +18,7 @@ import './CSS/TimelineArea.css';
 const TimelineArea = (props) => {
     const [isTimelineFrozen, setTimelineState] = useState(false);
     const currentTimelineState = props.timeline[props.gameloop];
+    const currentComparisonTimelineState = props.comparisonTimeline ? props.comparisonTimeline[props.gameloop] : null;
 
     const formatTick = (content) => {
         const totalSeconds = Math.floor(Number(content) / 22.4);
@@ -61,11 +62,12 @@ const TimelineArea = (props) => {
                     <Tooltip
                         content={
                             <TimelineTooltip
-                                currentTimelineState={currentTimelineState}
+                                currentTimelineState={currentComparisonTimelineState || currentTimelineState}
                                 gameloop={props.gameloop}
                                 setGameloop={props.setGameloop}
                                 isTimelineFrozen={isTimelineFrozen}
                                 players={props.players}
+                                comparisonPlayer={props.comparisonPlayer}
                             />
                         }
                         position={{ y: -20 }}
@@ -84,6 +86,14 @@ const TimelineArea = (props) => {
                         activeDot={{ stroke: 'blue', fill: 'blue' }}
                         dot={false}
                     />
+                    {props.comparisonPlayer && props.comparisonPlayer.id &&
+                        <Line
+                            type="monotone"
+                            dataKey={`comparison.${props.comparisonPlayer.id}.${props.timelineStat}`}
+                            stroke="hsl(0, 0%, 85%)"
+                            activeDot={{ stroke: 'hsl(0, 0%, 85%)', fill: 'hsl(0, 0%, 85%)' }}
+                            dot={false}
+                        />}
                 </LineChart>
             </ResponsiveContainer>
             {currentTimelineState &&

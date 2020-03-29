@@ -12,6 +12,7 @@ const ReplayList = props => (
                     key={fileHash}
                     hash={fileHash}
                     stats={newStats}
+                    compareReplay={props.handleReplayComparison}
                 />
             );
         })}
