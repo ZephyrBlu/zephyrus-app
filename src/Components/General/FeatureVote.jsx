@@ -6,14 +6,15 @@ import './CSS/FeatureVote.css';
 
 const FeatureVote = () => {
     const token = useSelector(state => state.user.token);
-    const [isLoading, setIsLoading] = useState(false);
-    const [isTextInputDisabled, setIsTextInputDisabled] = useState(true);
+    const [isLoading, setIsLoading] = useState(true);
     const [textInput, setTextInput] = useState('');
-    const [checkboxesSelected, setCheckboxesSelected] = useState(0);
     const [checkboxState, setCheckboxState] = useState(Array(6).fill(false));
     const [isFormSubmitted, setIsFormSubmitted] = useState(false);
     const [responseText, setResponseText] = useState(null);
     const maxSelected = 2;
+
+    const checked = checkboxState.filter(state => state);
+    const checkboxesSelected = checked.length;
 
     const features = [
         'Shareable Replay Pages',
@@ -48,15 +49,6 @@ const FeatureVote = () => {
     }
 
     useEffect(() => {
-        const checked = checkboxState.filter(state => state);
-        setCheckboxesSelected(checked.length);
-    }, [checkboxState]);
-
-    useEffect(() => {
-        setIsTextInputDisabled(!checkboxState[features.length] || (!checkboxState[features.length] && !textInput));
-    }, [textInput, checkboxState]);
-
-    useEffect(() => {
         const getCurrentVotes = async () => {
             const url = `${urlPrefix}api/vote/`;
             const response = await fetch(url, {
@@ -86,7 +78,6 @@ const FeatureVote = () => {
         };
 
         if (token) {
-            setIsLoading(true);
             getCurrentVotes();
         }
     }, [token]);
@@ -153,7 +144,7 @@ const FeatureVote = () => {
                 </span>
                 &nbsp;features and resubmit at any time
             </h2>
-            <form className="FeatureVote__form" onSubmit={e => handleSubmit(e)}>
+            <form className="FeatureVote__form" onSubmit={handleSubmit}>
                 {features.map((featureText, index) => (
                     <div key={`feature-${index}`} className="FeatureVote__input-wrapper">
                         <input
@@ -196,8 +187,8 @@ const FeatureVote = () => {
                         type="text"
                         placeholder="Other"
                         value={textInput}
-                        onChange={e => updateTextInput(e)}
-                        disabled={isTextInputDisabled}
+                        onChange={updateTextInput}
+                        disabled={!checkboxState[features.length]}
                     />
                 </div>
                 <div className="FeatureVote__submit-wrapper">

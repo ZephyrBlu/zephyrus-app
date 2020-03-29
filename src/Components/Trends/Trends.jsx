@@ -11,6 +11,7 @@ import {
 } from 'recharts';
 import { setTrends } from '../../actions';
 import StatCategory from '../General/StatCategory';
+import StatCorrelations from './StatCorrelations';
 import InfoTooltip from '../General/InfoTooltip';
 import CustomTooltip from '../General/Tooltip';
 import DefaultResponse from '../General/DefaultResponse';
@@ -24,10 +25,12 @@ const Trends = () => {
     const currentTrends = useSelector(state => state.raceData[selectedRace].trends);
     const [playerTrends, setPlayerTrends] = useState(null);
     const [statDropdownState, setStatDropdownState] = useState(0);
+    const [statCorrelations, setStatCorrelations] = useState(null);
 
     if (!localStorage.lineState) {
         localStorage.lineState = JSON.stringify({
             winrate: 1,
+            mmr: 0,
             sq: 1,
             apm: 1,
             avg_pac_action_latency: 0,
@@ -35,7 +38,8 @@ const Trends = () => {
             avg_pac_gap: 0,
             avg_pac_per_min: 0,
             workers_produced: 1,
-            workers_lost: 0,
+            workers_killed: 1,
+            workers_lost: 1,
             avg_unspent_resources_minerals: 0,
             avg_unspent_resources_gas: 0,
             avg_resource_collection_rate_minerals: 0,
@@ -49,6 +53,7 @@ const Trends = () => {
     const [lineState, setLineState] = useState(JSON.parse(localStorage.lineState));
     const [timelineData, setTimelineData] = useState([{
         winrate: 0,
+        mmr: 0,
         sq: 0,
         apm: 0,
         avg_pac_action_latency: 0,
@@ -56,6 +61,7 @@ const Trends = () => {
         avg_pac_gap: 0,
         avg_pac_per_min: 0,
         workers_produced: 0,
+        workers_killed: 0,
         workers_lost: 0,
         avg_unspent_resources_minerals: 0,
         avg_unspent_resources_gas: 0,
@@ -72,6 +78,7 @@ const Trends = () => {
     }, [lineState]);
 
     useEffect(() => {
+        const requestControllers = [];
         const getStats = async () => {
             let urlPrefix;
             if (process.env.NODE_ENV === 'development') {
@@ -83,10 +90,14 @@ const Trends = () => {
             const races = ['protoss', 'zerg', 'terran'];
             await Promise.all(races.map(async (race) => {
                 const url = `${urlPrefix}api/stats/${race}/`;
+                const controller = new AbortController();
+                requestControllers.push(controller);
+                const signal = controller.signal;
                 let status;
 
                 const trends = await fetch(url, {
                     method: 'GET',
+                    signal,
                     headers: {
                         Authorization: `Token ${user.token}`,
                     },
@@ -109,50 +120,62 @@ const Trends = () => {
             if (currentTrends) {
                 setPlayerTrends(currentTrends.recent);
                 setTimelineData(currentTrends.weekly);
+                setStatCorrelations(currentTrends.correlations);
             } else {
                 setPlayerTrends(null);
                 setTimelineData([]);
+                setStatCorrelations(null);
             }
         } else {
             getStats();
         }
+
+        return () => {
+            requestControllers.forEach((controller) => {
+                controller.abort();
+            });
+        };
     }, [currentTrends]);
 
     const statColours = {
         winrate: 'white',
-        sq: 'red',
-        apm: 'hsl(210, 68%, 47%)',
-        avg_pac_action_latency: 'gold',
-        avg_pac_actions: 'orange',
-        avg_pac_gap: 'violet',
-        avg_pac_per_min: 'cyan',
-        workers_produced: 'green',
-        workers_lost: 'purple',
-        avg_unspent_resources_minerals: '#00FF7F',
-        avg_unspent_resources_gas: 'brown',
-        avg_resource_collection_rate_minerals: '#014421',
-        avg_resource_collection_rate_gas: '#36454F',
-        resources_lost_minerals: '#8B008B',
-        resources_lost_gas: '#FBEC5D',
-        inject_count: 'grey',
+        mmr: 'var(--line-shade-1)',
+        sq: 'var(--line-shade-2)',
+        apm: 'var(--line-shade-3)',
+        // avg_pac_action_latency: 'gold',
+        // avg_pac_actions: 'orange',
+        // avg_pac_gap: 'violet',
+        // avg_pac_per_min: 'cyan',
+        workers_produced: 'var(--line-shade-4)',
+        workers_killed: 'var(--line-shade-5)',
+        workers_lost: 'var(--line-shade-6)',
+        avg_unspent_resources_minerals: 'var(--line-shade-7)',
+        avg_unspent_resources_gas: 'var(--line-shade-8)',
+        // avg_resource_collection_rate_minerals: '#014421',
+        // avg_resource_collection_rate_gas: '#36454F',
+        // resources_lost_minerals: '#8B008B',
+        // resources_lost_gas: '#FBEC5D',
+        inject_count: 'var(--line-shade-9)',
     };
 
     const statNames = {
         winrate: 'Winrate',
+        mmr: 'MMR',
         sq: 'SQ',
         apm: 'APM',
-        avg_pac_action_latency: 'PAC Action Latency',
-        avg_pac_actions: 'PAC Actions',
-        avg_pac_gap: 'PAC Gap',
-        avg_pac_per_min: 'PAC Per Minute',
+        // avg_pac_action_latency: 'PAC Action Latency',
+        // avg_pac_actions: 'PAC Actions',
+        // avg_pac_gap: 'PAC Gap',
+        // avg_pac_per_min: 'PAC Per Minute',
         workers_produced: 'Workers Produced',
+        workers_killed: 'Workers Killed',
         workers_lost: 'Workers Lost',
         avg_unspent_resources_minerals: 'Unspent Minerals',
         avg_unspent_resources_gas: 'Unspent Gas',
-        avg_resource_collection_rate_minerals: 'Mineral Collection Rate',
-        avg_resource_collection_rate_gas: 'Gas Collection Rate',
-        resources_lost_minerals: 'Minerals Lost',
-        resources_lost_gas: 'Gas Lost',
+        // avg_resource_collection_rate_minerals: 'Mineral Collection Rate',
+        // avg_resource_collection_rate_gas: 'Gas Collection Rate',
+        // resources_lost_minerals: 'Minerals Lost',
+        // resources_lost_gas: 'Gas Lost',
         inject_count: 'Inject Count',
     };
 
@@ -191,7 +214,11 @@ const Trends = () => {
                 }
 
                 if (content.slice(1, 2) === 'm') {
-                    return `${content.slice(0, 1)}mo`;
+                    return `${content.slice(0, 1)} mo`;
+                }
+
+                if (content.slice(2, 3) === 'm') {
+                    return `${content.slice(0, 2)} mo`;
                 }
                 return content;
             }
@@ -205,7 +232,27 @@ const Trends = () => {
                 if (content.slice(1, 2) === 'm') {
                     return `${content.slice(0, 1)} Month(s) Ago`;
                 }
+
+                if (content.slice(2, 3) === 'm') {
+                    return `${content.slice(0, 2)} Month(s) Ago`;
+                }
                 return `${content.slice(0, 1)} Week(s) Ago`;
+            }
+
+            case 'period': {
+                if (content.indexOf('*') !== -1) {
+                    const [start, fraction] = formatString();
+                    return `${start.trim()}${fraction}`;
+                }
+
+                if (content.slice(1, 2) === 'm') {
+                    return `${content.slice(0, 1)}`;
+                }
+
+                if (content.slice(2, 3) === 'm') {
+                    return `${content.slice(0, 2)}`;
+                }
+                return content;
             }
 
             default:
@@ -219,10 +266,18 @@ const Trends = () => {
                 <h2 className="timeline__title">
                     Weekly Trends
                     <InfoTooltip
-                        content={`
-                            Percentage differences are limited to +-50%.
-                            Weeks with less than 5 games played default to 0%
-                        `}
+                        content={
+                            <span>
+                                Weekly stats are the median values for that week.
+                                <br />
+                                <br />
+                                Stat differences are calculated from weekly medians
+                                and 3 month medians. The chart is limited to a +-30% difference.
+                                <br />
+                                <br />
+                                The 3 month periods are shown on the tooltip.
+                            </span>
+                        }
                     />
                 </h2>
                 <div className="timeline__stat-picker">
@@ -239,7 +294,7 @@ const Trends = () => {
                         style={{
                             opacity: statDropdownState,
                             zIndex: statDropdownState,
-                            maxHeight: statDropdownState === 0 ? '0px' : '285px',
+                            maxHeight: statDropdownState === 0 ? '0px' : '350px',
                         }}
                         className={`timeline__stat-dropdown 
                             ${statDropdownState === 1 ? window.setTimeout(() => (''), 500) : 'timeline__stat-dropdown--open'}`}
@@ -283,18 +338,30 @@ const Trends = () => {
                         <ResponsiveContainer
                             className="chart-area"
                             width="99%"
-                            height={300}
+                            height={400}
                         >
                             <LineChart data={timelineData}>
                                 <XAxis
-                                    tick={{ fontSize: 20 }}
+                                    tick={{ fontSize: 16 }}
                                     tickFormatter={content => formatTick(content)}
+                                    label={{
+                                        value: 'Time Since Current Week',
+                                        fontSize: 18,
+                                        // angle: -90,
+                                        dy: 20,
+                                        fill: 'hsl(0, 0%, 47%)',
+                                    }}
+                                    height={55}
+                                    interval={1}
                                     dataKey="date"
                                     dx={-9}
                                     dy={3}
                                 />
                                 <YAxis
-                                    tick={{ fontSize: 20 }}
+                                    type="number"
+                                    scale="linear"
+                                    allowDataOverflow
+                                    tick={{ fontSize: 16 }}
                                     label={{
                                         value: 'Weekly Percentage Difference (%)',
                                         fontSize: 18,
@@ -302,7 +369,7 @@ const Trends = () => {
                                         dx: -25,
                                         fill: 'hsl(0, 0%, 47%)',
                                     }}
-                                    domain={[-50, 50]}
+                                    domain={[-30, 30]}
                                     dx={-3}
                                 />
                                 <CartesianGrid
@@ -325,6 +392,7 @@ const Trends = () => {
                                         key={stat}
                                         type="monotone"
                                         dataKey={`${stat}[1]`}
+                                        connectNulls
                                         stroke={statColours[stat]}
                                         strokeWidth={2}
                                         dot={{
@@ -357,6 +425,7 @@ const Trends = () => {
                     )
                 }
             </div>
+            {statCorrelations && <StatCorrelations correlations={statCorrelations} />}
             <div className="recent-trends">
                 <span className="recent-trends__title-area">
                     <h2 className="recent-trends__title">
@@ -386,13 +455,13 @@ const Trends = () => {
                                 </span>% over {playerTrends.count} games&#160;
                                 {timelineData.length > 0 &&
                                     <small>
-                                        ({playerTrends.winrate[1] >= 0 ?
+                                        ({timelineData.slice(-1)[0].winrate[1] >= 0 ?
                                             <span className="TrendStat__trend--positive">
                                                 +{timelineData.slice(-1)[0].winrate[1]}
                                             </span>
                                             :
                                             <span className="TrendStat__trend--negative">
-                                                {timelineData.slice(-1)[0].winrate[1]}
+                                                -{timelineData.slice(-1)[0].winrate[1]}
                                             </span>}% this week)
                                     </small>}
                             </Fragment>)}

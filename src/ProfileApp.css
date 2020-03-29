@@ -21,6 +21,16 @@
     --error: hsl(0, 100%, 30%);
     --info: hsl(210, 75%, 35%);
     --success: hsl(120, 80%, 20%);
+
+    --line-shade-1: hsl(208, 77%, 10%);
+    --line-shade-2: hsl(208, 80%, 25%);
+    --line-shade-3: hsl(208, 83%, 40%);
+    --line-shade-4: hsl(208, 86%, 55%);
+    --line-shade-5: hsl(208, 89%, 70%);
+    --line-shade-6: hsl(180, 25%, 15%);
+    --line-shade-7: hsl(180, 25%, 30%);
+    --line-shade-8: hsl(180, 25%, 45%);
+    --line-shade-9: hsl(180, 25%, 60%);
 }
 
 html, #root, .ProfileApp {

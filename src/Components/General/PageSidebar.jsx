@@ -27,7 +27,7 @@ const PageSidebar = (props) => {
 
     const [hoverState, setHoverState] = useState(isHoverStateFixed ? fixedHoverState : defaultHoverState);
 
-    const handleLogout = async () => {
+    const handleLogout = () => {
         let urlPrefix;
         if (process.env.NODE_ENV === 'development') {
             urlPrefix = 'http://127.0.0.1:8000/';
@@ -37,7 +37,7 @@ const PageSidebar = (props) => {
 
         const url = `${urlPrefix}api/logout/`;
 
-        const error = await fetch(url, {
+        fetch(url, {
             method: 'GET',
             headers: {
                 Authorization: `Token ${user.token}`,
@@ -46,9 +46,6 @@ const PageSidebar = (props) => {
             response.status === 200 ? null : `${response.status} ${response.statusText}`
         ));
 
-        if (error) {
-            alert('Something went wrong. Please try to logout again');
-        }
         localStorage.clear();
         dispatch(setDefaultUser());
         dispatch(setReplays([]));

@@ -24,6 +24,8 @@ const Replays = (props) => {
     const dispatch = useDispatch();
     const [selectedReplay, setSelectedReplay] = useState(null);
     const [selectedReplayInfo, setSelectedReplayInfo] = useState(null);
+    const [timelineController, setTimelineController] = useState(null);
+    const [timelineError, setTimelineError] = useState(false);
 
     if (!localStorage.timelineStat) {
         localStorage.timelineStat = 'resource_collection_rate_all';
@@ -49,6 +51,7 @@ const Replays = (props) => {
     );
 
     useEffect(() => {
+        const requestControllers = [];
         const getUserReplays = async () => {
             let urlPrefix;
             if (process.env.NODE_ENV === 'development') {
@@ -60,10 +63,14 @@ const Replays = (props) => {
             const races = ['protoss', 'zerg', 'terran'];
             races.forEach(async (race) => {
                 const url = `${urlPrefix}api/replays/${race}/`;
+                const controller = new AbortController();
+                requestControllers.push(controller);
+                const signal = controller.signal;
                 let status;
 
                 const data = await fetch(url, {
                     method: 'GET',
+                    signal,
                     headers: {
                         Authorization: `Token ${user.token}`,
                     },
@@ -76,9 +83,14 @@ const Replays = (props) => {
 
                 if (status === 200 && data.length > 0) {
                     const countUrl = `${url}count/`;
+                    const countController = new AbortController();
+                    requestControllers.push(countController);
+                    const countSignal = controller.signal;
                     let countStatus;
+
                     const countResponse = await fetch(countUrl, {
                         method: 'GET',
+                        countSignal,
                         headers: {
                             Authorization: `Token ${user.token}`,
                         },
@@ -105,6 +117,12 @@ const Replays = (props) => {
         if (userReplays === null) {
             getUserReplays();
         }
+
+        return () => {
+            requestControllers.forEach((controller) => {
+                controller.abort();
+            });
+        };
     }, []);
 
     useEffect(() => {
@@ -149,6 +167,7 @@ const Replays = (props) => {
         const getReplayTimeline = async () => {
             setCurrentGameloop(0);
             setTimelineData([]);
+            setTimelineError(false);
 
             let url;
             if (process.env.NODE_ENV === 'development') {
@@ -157,8 +176,16 @@ const Replays = (props) => {
                 url = `https://zephyrus.gg/api/replays/timeline/${selectedReplayHash}/`;
             }
 
+            const controller = new AbortController();
+            if (timelineController) {
+                timelineController.abort();
+            }
+            setTimelineController(controller);
+            const signal = controller.signal;
+
             const timelineUrl = await fetch(url, {
                 method: 'GET',
+                signal,
                 headers: {
                     Authorization: `Token ${user.token}`,
                     'Accept-Encoding': 'gzip',
@@ -169,22 +196,26 @@ const Replays = (props) => {
                 responseBody
             )).catch(() => null);
 
-            url = timelineUrl.timeline_url;
-            const data = await fetch(url, {
-                method: 'GET',
-            }).then(response => (
-                response.json()
-            )).then(responseBody => (
-                responseBody
-            )).catch(() => null);
+            if (timelineUrl) {
+                url = timelineUrl.timeline_url;
+                const data = await fetch(url, {
+                    method: 'GET',
+                }).then(response => (
+                    response.json()
+                )).then(responseBody => (
+                    responseBody
+                )).catch(() => null);
 
-            setTimelineData(data.timeline);
+                setTimelineData(data.timeline);
 
-            const timeline = {};
-            data.timeline.forEach((gamestate) => {
-                timeline[gamestate[1].gameloop] = gamestate;
-            });
-            setCachedTimeline(timeline);
+                const timeline = {};
+                data.timeline.forEach((gamestate) => {
+                    timeline[gamestate[1].gameloop] = gamestate;
+                });
+                setCachedTimeline(timeline);
+            } else {
+                setTimelineError(true);
+            }
         };
 
         setSelectedReplayInfo(null);
@@ -196,6 +227,12 @@ const Replays = (props) => {
         if (selectedReplayHash) {
             getReplayTimeline();
         }
+
+        return () => {
+            if (timelineController) {
+                timelineController.abort();
+            }
+        };
     }, [selectedReplayHash]);
 
     const statCategories = ['general', 'economic', 'PAC', 'efficiency'];
@@ -220,7 +257,7 @@ const Replays = (props) => {
                     setTimelineStat={setTimelineStat}
                     clanTagIndex={clanTagIndex}
                 />}
-            {selectedReplayHash && (timelineData.length > 1 ?
+            {selectedReplayHash && (timelineData.length > 1 ? /* eslint-disable-line no-nested-ternary */
                 <TimelineArea
                     timelineData={timelineData}
                     timeline={cachedTimeline}
@@ -229,7 +266,7 @@ const Replays = (props) => {
                     setGameloop={setCurrentGameloop}
                     players={getPlayers()}
                     visibleState={props.visibleState}
-                /> : <WaveAnimation />)}
+                /> : (timelineError ? 'An error occured' : <WaveAnimation />)) /* eslint-disable-line no-nested-ternary */}
             <div className={`replay-stats${selectedReplayInfo ? '' : '--default'}`}>
                 {selectedReplayInfo ?
                     <div className="replay-stats__stats">

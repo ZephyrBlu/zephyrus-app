@@ -134,6 +134,7 @@ const StatCategory = (props) => {
         },
         economic: {
             workers_produced: 'Workers Produced',
+            workers_killed: 'Workers Killed',
             workers_lost: 'Workers Lost',
             avg_resource_collection_rate_minerals: 'Avg Mineral Collection Rate',
             avg_resource_collection_rate_gas: 'Avg Gas Collection Rate',
