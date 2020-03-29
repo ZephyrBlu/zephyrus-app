@@ -11,6 +11,7 @@ import {
 } from 'recharts';
 import { setTrends } from '../../actions';
 import StatCategory from '../General/StatCategory';
+import StatCorrelations from './StatCorrelations';
 import InfoTooltip from '../General/InfoTooltip';
 import CustomTooltip from '../General/Tooltip';
 import DefaultResponse from '../General/DefaultResponse';
@@ -24,6 +25,7 @@ const Trends = () => {
     const currentTrends = useSelector(state => state.raceData[selectedRace].trends);
     const [playerTrends, setPlayerTrends] = useState(null);
     const [statDropdownState, setStatDropdownState] = useState(0);
+    const [statCorrelations, setStatCorrelations] = useState(null);
 
     if (!localStorage.lineState) {
         localStorage.lineState = JSON.stringify({
@@ -118,9 +120,11 @@ const Trends = () => {
             if (currentTrends) {
                 setPlayerTrends(currentTrends.recent);
                 setTimelineData(currentTrends.weekly);
+                setStatCorrelations(currentTrends.correlations);
             } else {
                 setPlayerTrends(null);
                 setTimelineData([]);
+                setStatCorrelations(null);
             }
         } else {
             getStats();
@@ -421,6 +425,7 @@ const Trends = () => {
                     )
                 }
             </div>
+            {statCorrelations && <StatCorrelations correlations={statCorrelations} />}
             <div className="recent-trends">
                 <span className="recent-trends__title-area">
                     <h2 className="recent-trends__title">
