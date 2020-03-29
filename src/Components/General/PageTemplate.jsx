@@ -30,7 +30,7 @@ const PageTemplate = (props) => {
         setCurrentPage(props.defaultPage);
     }, [props.defaultPage]);
 
-    const handleLogout = async () => {
+    const handleLogout = () => {
         let urlPrefix;
         if (process.env.NODE_ENV === 'development') {
             urlPrefix = 'http://127.0.0.1:8000/';
@@ -40,7 +40,7 @@ const PageTemplate = (props) => {
 
         const url = `${urlPrefix}api/logout/`;
 
-        const error = await fetch(url, {
+        fetch(url, {
             method: 'GET',
             headers: {
                 Authorization: `Token ${props.token}`,
@@ -49,9 +49,6 @@ const PageTemplate = (props) => {
             response.status === 200 ? null : `${response.status} ${response.statusText}`
         ));
 
-        if (error) {
-            alert('Something went wrong. Please try to logout again');
-        }
         localStorage.clear();
         dispatch(setDefaultUser());
         dispatch(setReplays([]));
