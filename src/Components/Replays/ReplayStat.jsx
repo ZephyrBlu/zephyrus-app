@@ -25,19 +25,19 @@ const ReplayStat = (props) => {
                     key={`${props.category}-${props.replayInfo[props.stat][1]}-span`}
                     className={`ReplayStat__stat-value--${props.stat}-${player1Highlight} ReplayStat__stat-value--${player1Highlight}`}
                 >
-                    {props.category === 'PAC' ?
+                    {props.category === 'PAC' ? /* eslint-disable-line no-nested-ternary */
                         props.replayInfo[props.stat][1]
                         :
-                        Math.round(props.replayInfo[props.stat][1])}
+                        props.stat === 'workers_killed' || props.stat === 'workers_lost' ? Math.round(props.replayInfo[props.stat][1]) - 12 : Math.round(props.replayInfo[props.stat][1]) /* eslint-disable-line no-nested-ternary */}
                 </span>
                 <span
                     key={`${props.replayInfo[props.stat][2]}-span`}
                     className={`ReplayStat__stat-value--${props.stat}-${player2Highlight} ReplayStat__stat-value--${player2Highlight}`}
                 >
-                    {props.category === 'PAC' ?
+                    {props.category === 'PAC' ? /* eslint-disable-line no-nested-ternary */
                         props.replayInfo[props.stat][2]
                         :
-                        Math.round(props.replayInfo[props.stat][2])}
+                        props.stat === 'workers_killed' || props.stat === 'workers_lost' ? Math.round(props.replayInfo[props.stat][2]) - 12 : Math.round(props.replayInfo[props.stat][2]) /* eslint-disable-line no-nested-ternary */}
                 </span>
             </div>
         </div>
