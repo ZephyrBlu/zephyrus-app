@@ -67,6 +67,7 @@ const TimelineArea = (props) => {
                                 setGameloop={props.setGameloop}
                                 isTimelineFrozen={isTimelineFrozen}
                                 players={props.players}
+                                userMatchId={props.userMatchId}
                                 comparisonPlayer={props.comparisonPlayer}
                             />
                         }

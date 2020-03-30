@@ -46,6 +46,10 @@ const TimelineTooltip = (props) => {
     }
 
     let content;
+    const playerColours = {
+        1: 'red',
+        2: 'blue',
+    };
 
     if (props.payload.length > 0 && props.players && props.currentTimelineState) {
         content = (
@@ -57,39 +61,25 @@ const TimelineTooltip = (props) => {
                                 {formatCurrentTime(props.gameloop)}&nbsp;
                                 <span>{props.isTimelineFrozen ? '(F)' : ''}</span>
                             </td>
-                            <td className="tooltip__player tooltip__player--player1">
-                                <svg
-                                    className="tooltip__player-indicator"
-                                    height="10"
-                                    width="10"
-                                >
-                                    <circle
-                                        cx="5"
-                                        cy="5"
-                                        r="5"
-                                        fill="red"
-                                    />
-                                </svg>
-                                {props.players[1].name}
-                                &nbsp;({props.players[1].race.slice(0, 1)})
-                            </td>
-                            <td className="tooltip__player tooltip__player--player2">
-                                <svg
-                                    className="tooltip__player-indicator"
-                                    height="10"
-                                    width="10"
-                                >
-                                    <circle
-                                        cx="5"
-                                        cy="5"
-                                        r="5"
-                                        fill="blue"
-                                    />
-                                </svg>
-                                {props.players[2].name}
-                                &nbsp;({props.players[2].race.slice(0, 1)})
-                            </td>
-                            {props.comparisonPlayer &&
+                            {Object.keys(playerColours).map(playerId => (
+                                <td key={`player-${playerId}`} className={`tooltip__player tooltip__player--player${playerId}`}>
+                                    <svg
+                                        className="tooltip__player-indicator"
+                                        height="10"
+                                        width="10"
+                                    >
+                                        <circle
+                                            cx="5"
+                                            cy="5"
+                                            r="5"
+                                            fill={playerColours[playerId]}
+                                        />
+                                    </svg>
+                                    {props.players[playerId].name}
+                                    &nbsp;({props.players[playerId].race.slice(0, 1)})
+                                </td>
+                            ))}
+                            {/* {props.comparisonPlayer &&
                                 <td className="tooltip__player tooltip__player--comparison">
                                     <svg
                                         className="tooltip__player-indicator"
@@ -105,30 +95,39 @@ const TimelineTooltip = (props) => {
                                     </svg>
                                     {props.comparisonPlayer.name}
                                     &nbsp;({props.comparisonPlayer.race.slice(0, 1)})
-                                </td>}
+                                </td>} */}
                         </tr>
                         {Object.entries(timelineStatCategories).map(([statName, statKeys]) => (
                             <tr key={`${statName}-row`} className="tooltip__timeline-stat">
                                 <td key={`${statName}-name`} className="tooltip__stat-name">
                                     {statName}
                                 </td>
-                                <td key={`${statName}-values-1`} className="tooltip__stat-values">
-                                    {statKeys.map((key, index) => (
-                                        <span key={`${statName}-${key}-cell-1`} className="tooltip__value tooltip__value--player1">
-                                            {string2dot(props.currentTimelineState[1], key)}&nbsp;
-                                            {index === statKeys.length - 1 ? '' : '/ '}
-                                        </span>
-                                    ))}
-                                </td>
-                                <td key={`${statName}-values-2`} className="tooltip__stat-values">
-                                    {statKeys.map((key, index) => (
-                                        <span key={`${statName}-${key}-cell-2`} className="tooltip__value tooltip__value--player2">
-                                            {string2dot(props.currentTimelineState[2], key)}&nbsp;
-                                            {index === statKeys.length - 1 ? '' : '/ '}
-                                        </span>
-                                    ))}
-                                </td>
-                                {props.currentTimelineState.comparison &&
+                                {Object.keys(playerColours).map(playerId => (
+                                    <td key={`${statName}-values-${playerId}`} className="tooltip__stat-values">
+                                        {statKeys.map((key, index) => {
+                                            let compareStat;
+                                            let statDiff;
+                                            let diffClass;
+                                            if (props.currentTimelineState.comparison && /* statKeys.length === 1 && */ props.userMatchId == playerId) { /* eslint-disable-line eqeqeq */
+                                                compareStat = true;
+                                                statDiff = string2dot(props.currentTimelineState[playerId], key) - string2dot(props.currentTimelineState.comparison[props.comparisonPlayer.id], key);
+                                                diffClass = statDiff >= 0 ? `tooltip__stat-comparison-diff--positive tooltip__stat-comparison-diff--${key}-positive` : `tooltip__stat-comparison-diff--negative tooltip__stat-comparison-diff--${key}-negative`;
+                                            }
+
+                                            return (
+                                                <span key={`${statName}-${key}-cell-${playerId}`} className={`tooltip__value tooltip__value--player${playerId}`}>
+                                                    {string2dot(props.currentTimelineState[playerId], key)}&nbsp;
+                                                    {compareStat &&
+                                                        <span className={diffClass}>
+                                                            {statDiff >= 0 ? `+${statDiff}` : statDiff}&nbsp;
+                                                        </span>}
+                                                    {index === statKeys.length - 1 ? '' : '/ '}
+                                                </span>
+                                            );
+                                        })}
+                                    </td>
+                                ))}
+                                {/* {props.currentTimelineState.comparison &&
                                     <td key={`${statName}-values-3`} className="tooltip__stat-values">
                                         {statKeys.map((key, index) => (
                                             <span key={`${statName}-${key}-cell-3`} className="tooltip__value tooltip__value--comparison">
@@ -136,7 +135,7 @@ const TimelineTooltip = (props) => {
                                                 {index === statKeys.length - 1 ? '' : '/ '}
                                             </span>
                                         ))}
-                                    </td>}
+                                    </td>} */}
                             </tr>
                         ))}
                     </tbody>

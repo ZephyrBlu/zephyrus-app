@@ -43,3 +43,13 @@
 .tooltip__stat-values {
     text-align: center;
 }
+
+.tooltip__stat-comparison-diff--positive,
+.tooltip__stat-comparison-diff--workers_killed-negative {
+    color: var(--green);
+}
+
+.tooltip__stat-comparison-diff--negative,
+.tooltip__stat-comparison-diff--workers_killed-positive {
+    color: var(--red);
+}

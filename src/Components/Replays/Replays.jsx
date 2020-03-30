@@ -368,6 +368,7 @@ const Replays = (props) => {
                     gameloop={currentGameloop}
                     setGameloop={setCurrentGameloop}
                     players={getPlayers()}
+                    userMatchId={selectedReplay ? selectedReplay.user_match_id : null}
                     visibleState={props.visibleState}
                 /> : (timelineError ? 'An error occured' : <WaveAnimation />)) /* eslint-disable-line no-nested-ternary */}
             <div className={`replay-stats${selectedReplayInfo ? '' : '--default'}`}>
