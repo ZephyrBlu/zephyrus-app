@@ -13,7 +13,7 @@
 .ReplayInfo__replay-download {
     grid-area: download;
     padding: 8px 12px;
-    background-color: var(--light-blue);
+    background-color: var(--primary-blue);
     color: black;
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
@@ -29,7 +29,7 @@
 .ReplayInfo__replay-download:hover,
 .ReplayInfo__replay-download:focus {
     outline: none;
-    background-color: var(--light-blue-hover);
+    background-color: var(--primary-blue-hover);
     cursor: pointer;
 }
 
@@ -54,7 +54,7 @@
 
 .ReplayInfo__stat-toggle:focus {
     outline: none;
-    box-shadow: 0 0 0 1px var(--tertiary-background-light) inset;
+    box-shadow: 0 0 0 1px var(--primary-light-2) inset;
 }
 
 .ReplayInfo__stat-toggle:hover {
@@ -76,7 +76,7 @@
     width: 200px;
     padding: 5px;
     padding-bottom: 0;
-    background-color: var(--tertiary-background);
+    background-color: var(--primary-light-1);
     overflow: hidden;
     border-radius: 5px;
     transition: max-height 0.5s, opacity 0.2s 0.4s, z-index 0.2s 0.4s;
@@ -108,7 +108,7 @@
 
 .ReplayInfo__dropdown-button:focus {
     outline: none;
-    box-shadow: 0 0 0 1px var(--tertiary-background-light) inset;
+    box-shadow: 0 0 0 1px var(--primary-light-2) inset;
 }
 
 .ReplayInfo__players {
@@ -133,7 +133,7 @@
     font-size: 16px;
     display: inline;
     padding: 4px 8px;
-    background-color: var(--tertiary-background);
+    background-color: var(--primary-light-1);
     border-radius: 0 15px 15px 0;
 }
 

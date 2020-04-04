@@ -10,7 +10,7 @@
     'logout';
     height: 100%;
     width: max-content;
-    background-color: var(--secondary-background-dark);
+    background-color: var(--secondary-dark-1);
 }
 
 .PageSidebar__show-hide {
@@ -18,7 +18,7 @@
     justify-self: center;
     width: min-content;
     border: none;
-    background-color: var(--secondary-background-dark);
+    background-color: var(--secondary-dark-1);
 }
 
 .PageSidebar__show-hide:focus {
@@ -45,7 +45,7 @@
 }
 
 .PageSidebar__settings--active .PageSidebar__settings-icon {
-    box-shadow: 0 0 0 2px var(--light-blue) inset;
+    box-shadow: 0 0 0 2px var(--primary-blue) inset;
 }
 
 .PageSidebar__settings-icon:hover,

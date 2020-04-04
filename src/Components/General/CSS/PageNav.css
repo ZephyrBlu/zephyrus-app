@@ -2,7 +2,7 @@
     grid-area: nav;
     transition: 0.8s;
     font-weight: 400;
-    border-top: 1px solid var(--tertiary-background-light);
+    border-top: 1px solid var(--primary-light-2);
 }
 
 .PageNav__link-list {
@@ -39,7 +39,7 @@
 
 .PageNav__link:hover,
 .PageNav__link:focus {
-    background-color: var(--tertiary-background);
+    background-color: var(--primary-light-1);
     cursor: pointer;
     outline: none;
     transition: .3s;
@@ -55,7 +55,7 @@
 }
 
 .PageNav__link--active {
-    background-color: var(--tertiary-background);
+    background-color: var(--primary-light-1);
 }
 
 .PageNav__link--active img {

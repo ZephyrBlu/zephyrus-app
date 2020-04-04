@@ -23,7 +23,7 @@
     width: 30px;
     height: 30px;
     border-radius: 5px;
-    border: 1px solid var(--light-blue);
+    border: 1px solid var(--primary-blue);
     background-color: transparent;
     transition: .3s;
     font-size: 30px;
@@ -42,7 +42,7 @@
     margin-left: 5px;
     padding: 2px 4px;
     border-radius: 5px;
-    background-color: var(--light-blue);
+    background-color: var(--primary-blue);
     font-size: 12px;
     font-weight: bolder;
     letter-spacing: 0;
@@ -54,5 +54,5 @@
     outline: none;
     cursor: pointer;
     color: black;
-    background-color: var(--light-blue);
+    background-color: var(--primary-blue);
 }

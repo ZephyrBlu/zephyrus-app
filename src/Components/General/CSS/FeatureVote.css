@@ -30,13 +30,13 @@
     width: 25px;
     height: 25px;
     border-radius: 6px;
-    background-color: var(--secondary-background);
+    background-color: var(--secondary-dark-2);
     line-height: 25px;
 }
 
 .FeatureVote__checkbox:focus {
     outline: none;
-    box-shadow: 0 0 0 1px var(--light-blue) inset;
+    box-shadow: 0 0 0 1px var(--primary-blue) inset;
 }
 
 .FeatureVote__checkbox:checked:after {
@@ -70,7 +70,7 @@
 .FeatureVote__form-submit {
     border: none;
     border-radius: 8px;
-    background-color: var(--light-blue);
+    background-color: var(--primary-blue);
     padding: 8px 12px;
     font-family: 'Roboto', sans-serif;
     font-weight: 500;
@@ -83,11 +83,11 @@
 .FeatureVote__form-submit:focus {
     outline: none;
     cursor: pointer;
-    background-color: var(--light-blue-hover);
+    background-color: var(--primary-blue-hover);
 }
 
 .FeatureVote__form-submit:disabled {
-    background-color: var(--secondary-background);
+    background-color: var(--secondary-dark-2);
 }
 
 .FeatureVote__form-submit:disabled:hover {

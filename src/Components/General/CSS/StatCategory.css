@@ -9,7 +9,7 @@
 }
 
 .StatCategory__stats {
-    background-color: var(--secondary-background);
+    background-color: var(--secondary-dark-2);
     padding: 20px 25px;
     border-radius: 25px;
     width: min-content;

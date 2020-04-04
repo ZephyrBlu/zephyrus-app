@@ -41,8 +41,8 @@
     width: 275px;
     right: 60px;
     top: 100px;
-    background-color: var(--main-background);
-    border: 1px solid var(--tertiary-background-light);
+    background-color: var(--primary-dark-1);
+    border: 1px solid var(--primary-light-2);
     border-radius: 10px;
 }
 
@@ -134,7 +134,7 @@
 }
 
 .AccountSetup__status-name {
-    background-color: var(--tertiary-background);
+    background-color: var(--primary-light-1);
     border-radius: 17px 0 0 17px;
 }
 
@@ -186,7 +186,7 @@
     padding: 10px 15px;
     border: none;
     border-radius: 5px;
-    background-color: var(--light-blue);
+    background-color: var(--primary-blue);
     font-size: 16px;
     transition: .3s;
 }
@@ -201,8 +201,8 @@
 }
 
 .AccountSetup__setup-action--completed {
-    box-shadow: 0 0 0 1px var(--light-blue) inset;
-    background-color: var(--main-background);
+    box-shadow: 0 0 0 1px var(--primary-blue) inset;
+    background-color: var(--primary-dark-1);
     color: var(--text);
     width: max-content;
 }
@@ -210,13 +210,13 @@
 .AccountSetup__setup-action:hover,
 .AccountSetup__setup-action:focus {
     outline: none;
-    background-color: var(--light-blue-hover);
+    background-color: var(--primary-blue-hover);
     cursor: pointer;
 }
 
 .AccountSetup__setup-action--completed:hover,
 .AccountSetup__setup-action--completed:focus {
-    background-color: var(--main-background);
+    background-color: var(--primary-dark-1);
     cursor: default;
 }
 
