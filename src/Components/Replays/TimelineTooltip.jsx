@@ -67,7 +67,7 @@ const TimelineTooltip = (props) => {
                                         cx="5"
                                         cy="5"
                                         r="5"
-                                        fill="red"
+                                        fill="hsl(0, 100%, 55%)"
                                     />
                                 </svg>
                                 {props.players[1].name}
@@ -83,7 +83,7 @@ const TimelineTooltip = (props) => {
                                         cx="5"
                                         cy="5"
                                         r="5"
-                                        fill="blue"
+                                        fill="hsl(240, 80%, 55%)"
                                     />
                                 </svg>
                                 {props.players[2].name}

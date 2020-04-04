@@ -13,10 +13,9 @@
 .ReplayInfo__replay-download {
     grid-area: download;
     padding: 8px 12px;
-    background-color: var(--primary-blue);
-    color: black;
+    border: 1px solid var(--primary-light-1);
+    background-color: var(--secondary-dark-2);
     font-family: 'Roboto', sans-serif;
-    font-weight: 400;
     font-size: 18px;
     text-decoration: none;
     border-radius: 8px;
@@ -26,12 +25,16 @@
     transition: .3s;
 }
 
-.ReplayInfo__replay-download:hover,
+.ReplayInfo__replay-download:visited {
+    color: var(--text);
+}
+
+/* .ReplayInfo__replay-download:hover,
 .ReplayInfo__replay-download:focus {
     outline: none;
     background-color: var(--primary-blue-hover);
     cursor: pointer;
-}
+} */
 
 .ReplayInfo__stat-select {
     position: relative;
@@ -121,6 +124,11 @@
 .ReplayInfo__player-info {
     display: inline-block;
     padding: 4px 0;
+    padding-bottom: 12px;
+}
+
+.ReplayInfo__player-info--user {
+    border-bottom: 2px solid var(--primary-light-2);
 }
 
 .ReplayInfo__player-info--player1 {
@@ -148,12 +156,12 @@
 }
 
 .ReplayInfo__player--1 {
-    background-color: hsla(0, 100%, 50%, 0.6);
+    background-color: hsla(0, 100%, 55%, 0.6);
     color: hsl(0, 0%, 85%);
 }
 
 .ReplayInfo__player--2 {
-    background-color: hsla(240, 100%, 50%, 0.6);
+    background-color: hsla(240, 80%, 55%, 0.6);
     color: hsl(0, 0%, 85%);
 }
 

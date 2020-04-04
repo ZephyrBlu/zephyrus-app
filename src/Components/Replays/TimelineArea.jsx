@@ -56,7 +56,7 @@ const TimelineArea = (props) => {
                         dataKey="1.gameloop"
                         tickFormatter={content => formatTick(content)}
                     />
-                    <YAxis />
+                    <YAxis padding={{ top: 5 }} />
                     <CartesianGrid horizontal={false} vertical={false} />
                     <Tooltip
                         content={
@@ -73,15 +73,15 @@ const TimelineArea = (props) => {
                     <Line
                         type="monotone"
                         dataKey={`1.${props.timelineStat}`}
-                        stroke="red"
-                        activeDot={{ stroke: 'red', fill: 'red' }}
+                        stroke="hsl(0, 100%, 55%)"
+                        activeDot={{ stroke: 'hsl(0, 100%, 55%)', fill: 'hsl(0, 100%, 55%)' }}
                         dot={false}
                     />
                     <Line
                         type="monotone"
                         dataKey={`2.${props.timelineStat}`}
-                        stroke="blue"
-                        activeDot={{ stroke: 'blue', fill: 'blue' }}
+                        stroke="hsl(240, 80%, 55%)"
+                        activeDot={{ stroke: 'hsl(240, 80%, 55%)', fill: 'hsl(240, 80%, 55%)' }}
                         dot={false}
                     />
                 </LineChart>

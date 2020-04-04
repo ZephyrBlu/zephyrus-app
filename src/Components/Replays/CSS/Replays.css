@@ -20,8 +20,9 @@
     grid-area: sidebar;
     overflow-y: hidden;
     border-left: 1px solid var(--primary-light-2);
-    margin-right: 5px;
+    padding-right: 5px;
     padding-bottom: 10px;
+    background-color: var(--primary-dark-2);
 }
 
 .replay-stats {
@@ -44,43 +45,6 @@
     justify-self: center;
     margin: 0 auto;
     border-radius: 15px;
-}
-
-.StatCategory--replays .StatCategory__title {
-    margin: 10px 20px;
-    margin-right: 0;
-}
-
-.StatCategory__stats--replays {
-    padding: 5px 20px 10px;
-}
-
-.StatCategory__stats--replays {
-    background-color: var(--primary-dark-1);
-}
-
-.StatCategory--replays:first-child {
-    border-radius: 15px 0 0 0;
-    border: 1px solid var(--primary-light-2);
-}
-
-.StatCategory--replays:nth-child(2) {
-    border-radius: 0 15px 0 0;
-    border: 1px solid var(--primary-light-2);
-    border-left: none;
-}
-
-.StatCategory--replays:nth-child(3) {
-    border-radius: 0 0 0 15px;
-    border: 1px solid var(--primary-light-2);
-    border-top: none;
-}
-
-.StatCategory--replays:last-child {
-    border-radius: 0 0 15px 0;
-    border: 1px solid var(--primary-light-2);
-    border-left: none;
-    border-top: none;
 }
 
 /*@media (max-width: 1500px) {

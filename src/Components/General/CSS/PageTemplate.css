@@ -15,6 +15,7 @@
     align-items: center;
     height: 60px;
     width: 100%;
+    background-color: var(--primary-dark-2);
     color: var(--text);
     border-bottom: 1px solid var(--primary-light-2);
 }
@@ -68,7 +69,7 @@
 
 .PageTemplate__toggle-indicator {
     position: absolute;
-    z-index: -1;
+    z-index: 1;
     box-shadow: 0 0 0 2px var(--primary-blue) inset;
     border-radius: 50%;
     height: 46px;
@@ -218,7 +219,7 @@
     border: none;
     height: 35px;
     border-radius: 50% 0 0 50%;
-    background-color: var(--primary-dark-1);
+    background-color: inherit;
 }
 
 .PageTemplate__hide-side-bar:hover,
@@ -229,7 +230,6 @@
 
 .PageTemplate__hide-icon {
     padding: 0;
-    background-color: var(--primary-dark-1);
     border-radius: 50% 0 0 50%;
     height: 35px;
 }
