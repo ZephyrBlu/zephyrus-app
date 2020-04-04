@@ -1,0 +1,58 @@
+.Title {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0;
+    margin-left: 10px;
+    width: max-content;
+    height: min-content;
+    color: var(--text);
+    font-weight: 300;
+    font-size: 18px;
+    letter-spacing: 2px;
+}
+
+.Title__logo {
+    font-family: 'Major Mono Display', monospace;
+    padding: 1px;
+    padding-left: 2px;
+    padding-bottom: 4px;
+    display: inline-block;
+    line-height: 30px;
+    text-align: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    border: 1px solid var(--light-blue);
+    background-color: transparent;
+    transition: .3s;
+    font-size: 30px;
+    font-weight: 500;
+    text-decoration: none;
+    color: var(--text);
+}
+
+.Title__logo:visited {
+    text-decoration: none;
+    color: var(--text);
+}
+
+.Title__beta-icon {
+    height: 14px;
+    margin-left: 5px;
+    padding: 2px 4px;
+    border-radius: 5px;
+    background-color: var(--light-blue);
+    font-size: 12px;
+    font-weight: bolder;
+    letter-spacing: 0;
+    color: black;
+}
+
+.Title__logo:hover,
+.Title__logo:focus {
+    outline: none;
+    cursor: pointer;
+    color: black;
+    background-color: var(--light-blue);
+}

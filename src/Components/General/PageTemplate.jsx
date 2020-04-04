@@ -8,6 +8,7 @@ import Replays from '../Replays/Replays';
 import Trends from '../Trends/Trends';
 import Upload from '../Upload';
 import Settings from '../Settings';
+import Title from './Title';
 import PageSidebar from './PageSidebar';
 import AccountSetup from '../AccountSetup';
 import FeatureVote from './FeatureVote';
@@ -123,10 +124,7 @@ const PageTemplate = (props) => {
     return (
         <div className="PageTemplate">
             <header className="PageTemplate__header">
-                <h1 className="PageTemplate__title">
-                    <a href="https://zephyrus.gg" className="PageTemplate__logo">z</a>&nbsp;
-                    ZEPHYRUS <span className="PageTemplate__beta-icon">BETA</span>
-                </h1>
+                <Title />
                 {currentPage && currentPage !== 'Login' &&
                     <Fragment>
                         <div className={`PageTemplate__page-info PageTemplate__page-info--${currentPage}`}>
