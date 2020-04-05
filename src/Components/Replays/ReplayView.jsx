@@ -3,6 +3,7 @@ import ReplayInfo from './ReplayInfo';
 import TimelineArea from './TimelineArea';
 import StatCategory from '../General/StatCategory';
 import WaveAnimation from '../General/WaveAnimation';
+import './CSS/ReplayView.css';
 
 const ReplayView = ({ replay, timeline, gameloop, clanTagIndex, visibleState }) => {
     const getPlayers = () => ({
@@ -48,9 +49,9 @@ const ReplayView = ({ replay, timeline, gameloop, clanTagIndex, visibleState }) 
                     clanTagIndex={clanTagIndex}
                 />}
             {timelineArea}
-            <div className={`replay-stats${replay.info ? '' : '--default'}`}>
+            <div className={`ReplayView${replay.info ? '' : '--default'}`}>
                 {replay.info ?
-                    <div className="replay-stats__stats">
+                    <div className="ReplayView__stats">
                         {statCategories.map(category => (
                             <StatCategory
                                 key={category}
@@ -61,7 +62,7 @@ const ReplayView = ({ replay, timeline, gameloop, clanTagIndex, visibleState }) 
                         ))}
                     </div>
                     :
-                    <h2 className="replay-stats__default">Select a replay to view</h2>}
+                    <h2 className="ReplayView__default">Select a replay to view</h2>}
             </div>
         </Fragment>
     );
