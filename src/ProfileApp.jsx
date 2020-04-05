@@ -45,9 +45,7 @@ const ProfileApp = () => {
 
             const updatedUser = await fetch(url, {
                 method: 'GET',
-                headers: {
-                    Authorization: `Token ${user.token}`,
-                },
+                headers: { Authorization: `Token ${user.token}` },
             }).then(response => (
                 response.json()
             )).catch(() => null);

@@ -28,9 +28,7 @@ const useReplayPolling = (interval) => {
 
         const data = await fetch(url, {
             method: 'GET',
-            headers: {
-                Authorization: `Token ${token}`,
-            },
+            headers: { Authorization: `Token ${token}` },
         }).then((response) => {
             status = response.status;
             return response.json();
@@ -50,9 +48,7 @@ const useReplayPolling = (interval) => {
             let countStatus;
             const countResponse = await fetch(countUrl, {
                 method: 'GET',
-                headers: {
-                    Authorization: `Token ${token}`,
-                },
+                headers: { Authorization: `Token ${token}` },
             }).then((response) => {
                 countStatus = response.status;
                 return response.json();

@@ -98,9 +98,7 @@ const Trends = () => {
                 const trends = await fetch(url, {
                     method: 'GET',
                     signal,
-                    headers: {
-                        Authorization: `Token ${user.token}`,
-                    },
+                    headers: { Authorization: `Token ${user.token}` },
                 }).then((response) => {
                     status = response.status;
                     return response.json();

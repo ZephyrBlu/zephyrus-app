@@ -53,9 +53,7 @@ const FeatureVote = () => {
             const url = `${urlPrefix}api/vote/`;
             const response = await fetch(url, {
                 method: 'GET',
-                headers: {
-                    Authorization: `Token ${token}`,
-                },
+                headers: { Authorization: `Token ${token}` },
             }).then(res => res.json());
             const votes = response.votes;
 
@@ -103,9 +101,7 @@ const FeatureVote = () => {
         const url = `${urlPrefix}api/vote/`;
         const response = await fetch(url, {
             method: 'POST',
-            headers: {
-                Authorization: `Token ${token}`,
-            },
+            headers: { Authorization: `Token ${token}` },
             body: JSON.stringify({
                 features: featureCodes,
                 votes,

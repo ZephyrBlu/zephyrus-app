@@ -43,9 +43,7 @@ const PageTemplate = (props) => {
 
         fetch(url, {
             method: 'GET',
-            headers: {
-                Authorization: `Token ${props.token}`,
-            },
+            headers: { Authorization: `Token ${props.token}` },
         }).then(response => (
             response.status === 200 ? null : `${response.status} ${response.statusText}`
         ));

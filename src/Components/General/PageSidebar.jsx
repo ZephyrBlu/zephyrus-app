@@ -39,9 +39,7 @@ const PageSidebar = (props) => {
 
         fetch(url, {
             method: 'GET',
-            headers: {
-                Authorization: `Token ${user.token}`,
-            },
+            headers: { Authorization: `Token ${user.token}` },
         }).then(response => (
             response.status === 200 ? null : `${response.status} ${response.statusText}`
         ));

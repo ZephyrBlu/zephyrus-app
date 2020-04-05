@@ -27,6 +27,7 @@ module.exports = {
           "prefer-destructuring": ["error", {"object": false, "array": true}],
           "no-unused-expressions": ["error", { "allowTernary": true }],
           "no-param-reassign": ["error", { "props": false }],
+          "object-curly-newline": ["error", { "multiline": true }],
         }
       }
     }],

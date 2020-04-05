@@ -27,9 +27,7 @@ const AccountSetup = (props) => {
 
         const updatedUser = await fetch(url, {
             method: 'GET',
-            headers: {
-                Authorization: `Token ${user.token}`,
-            },
+            headers: { Authorization: `Token ${user.token}` },
         }).then(response => (
             response.json()
         )).catch(() => null);
@@ -43,9 +41,7 @@ const AccountSetup = (props) => {
 
             const error = await fetch(url, {
                 method: 'POST',
-                headers: {
-                    Authorization: `Token ${user.token}`,
-                },
+                headers: { Authorization: `Token ${user.token}` },
                 body: JSON.stringify({ authCode }),
             }).then((response) => {
                 if (response.status !== 200) {
@@ -77,9 +73,7 @@ const AccountSetup = (props) => {
 
         const result = await fetch(url, {
             method: 'GET',
-            headers: {
-                Authorization: `Token ${user.token}`,
-            },
+            headers: { Authorization: `Token ${user.token}` },
         }).then(response => (
             response.status
         )).catch(() => null);
@@ -101,9 +95,7 @@ const AccountSetup = (props) => {
 
         const result = await fetch(url, {
             method: 'GET',
-            headers: {
-                Authorization: `Token ${user.token}`,
-            },
+            headers: { Authorization: `Token ${user.token}` },
         }).then((response) => {
             if (response.status === 200) {
                 return response.json();
@@ -138,9 +130,7 @@ const AccountSetup = (props) => {
 
         const result = await fetch(url, {
             method: 'POST',
-            headers: {
-                Authorization: `Token ${user.token}`,
-            },
+            headers: { Authorization: `Token ${user.token}` },
             body: currentProfileUrl,
         }).then(response => (
             response.status

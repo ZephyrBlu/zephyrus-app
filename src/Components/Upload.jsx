@@ -40,9 +40,7 @@ const Upload = () => {
         fileList.forEach((file) => {
             fetch(url, {
                 method: 'POST',
-                headers: {
-                    Authorization: `Token ${user.token}`,
-                },
+                headers: { Authorization: `Token ${user.token}` },
                 body: file,
             }).then((response) => {
                 if (response.status === 200) {
