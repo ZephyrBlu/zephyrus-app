@@ -241,10 +241,12 @@ const Replays = (props) => {
         1: {
             name: selectedReplay.players[1].name.slice(clanTagIndex(selectedReplay.players[1].name)),
             race: selectedReplay.players[1].race,
+            mmr: selectedReplay.match_data.mmr[1],
         },
         2: {
             name: selectedReplay.players[2].name.slice(clanTagIndex(selectedReplay.players[2].name)),
             race: selectedReplay.players[2].race,
+            mmr: selectedReplay.match_data.mmr[2],
         },
     });
 
@@ -266,6 +268,7 @@ const Replays = (props) => {
                     setGameloop={setCurrentGameloop}
                     players={getPlayers()}
                     visibleState={props.visibleState}
+                    selectedReplay={selectedReplay}
                 /> : (timelineError ? 'An error occured' : <WaveAnimation />)) /* eslint-disable-line no-nested-ternary */}
             <div className={`replay-stats${selectedReplayInfo ? '' : '--default'}`}>
                 {selectedReplayInfo ?

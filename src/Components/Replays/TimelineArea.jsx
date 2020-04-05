@@ -88,6 +88,48 @@ const TimelineArea = (props) => {
             </ResponsiveContainer>
             {currentTimelineState &&
                 <div className="timeline-state">
+                    <div className="timeline-state__players">
+                        {Object.values(props.players).map((player, index) => (
+                            <div
+                                key={`player-${player.mmr}`}
+                                className={`timeline-state__player timeline-state__player--player-${index + 1}`}
+                            >
+                                {index !== Object.values(props.players).length - 1 ?
+                                    <Fragment>
+                                        <img
+                                            src={`../../icons/${player.race}-logo.svg`}
+                                            alt={player.race}
+                                            className="timeline-state__race-icon"
+                                        />
+                                        <div className="timeline-state__player-info">
+                                            <span className="timeline-state__player-name">
+                                                {player.name}
+                                            </span>
+                                            <span className="timeline-state__player-mmr">
+                                                Player {index + 1}&nbsp;&nbsp;{player.mmr}
+                                            </span>
+                                        </div>
+                                    </Fragment>
+                                    :
+                                    <Fragment>
+                                        <div className="timeline-state__player-info" style={{ textAlign: 'right' }}>
+                                            <span className="timeline-state__player-name">
+                                                {player.name}
+                                            </span>
+                                            <span className="timeline-state__player-mmr">
+                                                Player {index + 1}&nbsp;&nbsp;{player.mmr}
+                                            </span>
+                                        </div>
+                                        <img
+                                            src={`../../icons/${player.race}-logo.svg`}
+                                            alt={player.race}
+                                            className="timeline-state__race-icon"
+                                        />
+                                    </Fragment>
+                                }
+                            </div>
+                        ))}
+                    </div>
                     <CurrentSelectionState
                         timelineState={currentTimelineState}
                         players={props.players}

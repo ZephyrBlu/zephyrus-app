@@ -1,13 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300&display=swap');
+
 .ReplayInfo__title-area {
     position:relative;
     display: grid;
     grid-template: max-content max-content min-content / repeat(3, max-content) 1fr;
     grid-template-areas:
     'matchup map result players'
-    'date date date filler'
+    'date date share-replay share-replay'
     'download download download stat-selection';
     grid-gap: 0 20px;
-    margin: 10px 25px 40px 60px;
+    margin: 10px 25px 30px 60px;
 }
 
 .ReplayInfo__replay-download {
@@ -19,22 +21,49 @@
     font-size: 18px;
     text-decoration: none;
     border-radius: 8px;
-    margin-top: 15px;
     width: max-content;
     height: min-content;
     transition: .3s;
+    margin-top: -8px;
 }
 
 .ReplayInfo__replay-download:visited {
     color: var(--text);
 }
 
-/* .ReplayInfo__replay-download:hover,
-.ReplayInfo__replay-download:focus {
+.ReplayInfo__share-replay {
+    grid-area: share-replay;
+    justify-self: flex-end;
+    background-color: var(--secondary-dark-2);
+    border-radius: 15px;
+    border: 1px solid var(--primary-light-2);
+    margin-top: 15px;
+}
+
+.ReplayInfo__share-replay * {
+    color: var(--text);
+    font-size: 12px;
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+.ReplayInfo__replay-label {
+    padding: 4px 8px;
+    padding-right: 5px;
+}
+
+.ReplayInfo__replay-url {
+    width: 300px;
+    text-align: center;
+    background-color: transparent;
+    border: none;
+    border-left: 1px solid var(--primary-light-2);
+    padding: 4px 8px;
+    padding-left: 2px;
+}
+
+.ReplayInfo__replay-url:focus {
     outline: none;
-    background-color: var(--primary-blue-hover);
-    cursor: pointer;
-} */
+}
 
 .ReplayInfo__stat-select {
     position: relative;
@@ -117,18 +146,18 @@
 .ReplayInfo__players {
     grid-area: players;
     justify-self: flex-end;
-    margin-right: 20px;
     margin-top: 5px;
 }
 
 .ReplayInfo__player-info {
     display: inline-block;
     padding: 4px 0;
-    padding-bottom: 12px;
+    border-radius: 15px;
 }
 
 .ReplayInfo__player-info--user {
-    border-bottom: 2px solid var(--primary-light-2);
+    box-shadow: 0 0 10px 1px var(--primary-light-3);
+    border: 2px solid var(--primary-light-3);
 }
 
 .ReplayInfo__player-info--player1 {
@@ -136,8 +165,7 @@
 }
 
 .ReplayInfo__player-name {
-    margin: 0;
-    margin-bottom: 10px;
+    margin: 0 0 10px;
     font-size: 16px;
     display: inline;
     padding: 4px 8px;

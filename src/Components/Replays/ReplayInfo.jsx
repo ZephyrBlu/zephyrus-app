@@ -76,6 +76,20 @@ const ReplayInfo = (props) => {
             >
                 Download Replay
             </a>
+            <span className="ReplayInfo__share-replay">
+                <label htmlFor="share-replay" className="ReplayInfo__replay-label">
+                    Share
+                </label>
+                <input
+                    id="share-replay"
+                    className="ReplayInfo__replay-url"
+                    type="text"
+                    onClick={e => e.target.select()}
+                    onFocus={e => e.target.select()}
+                    value={`${urlPrefix}replay/${selectedReplay.url}`}
+                    readOnly
+                />
+            </span>
             <div className="ReplayInfo__stat-select">
                 <button
                     className="ReplayInfo__stat-toggle"

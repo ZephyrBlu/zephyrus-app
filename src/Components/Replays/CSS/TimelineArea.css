@@ -2,6 +2,33 @@
     cursor: pointer;
 }
 
+.timeline-state__players {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0 10px;
+    margin-left: 15px;
+}
+
+.timeline-state__player {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+}
+
+.timeline-state__player-info * {
+    display: block;
+}
+
+.timeline-state__player-mmr {
+    font-size: 16px;
+    color: var(--grey);
+}
+
+.timeline-state__race-icon {
+    height: 50px;
+    width: 50px;
+}
+
 .tooltip {
     display: grid;
 }
