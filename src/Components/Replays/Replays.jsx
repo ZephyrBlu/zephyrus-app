@@ -1,11 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
-import { useState, useEffect, Fragment } from 'react';
+import { useState, useEffect } from 'react';
 import { setReplays, setReplayCount, setReplayInfo } from '../../actions';
+import ReplayView from './ReplayView';
 import ReplayList from './ReplayList';
-import ReplayInfo from './ReplayInfo';
-import TimelineArea from './TimelineArea';
-import StatCategory from '../General/StatCategory';
 import DefaultResponse from '../General/DefaultResponse';
 import WaveAnimation from '../General/WaveAnimation';
 import './CSS/Replays.css';
@@ -71,9 +69,7 @@ const Replays = (props) => {
                 const data = await fetch(url, {
                     method: 'GET',
                     signal,
-                    headers: {
-                        Authorization: `Token ${user.token}`,
-                    },
+                    headers: { Authorization: `Token ${user.token}` },
                 }).then((response) => {
                     status = response.status;
                     return response.json();
@@ -91,9 +87,7 @@ const Replays = (props) => {
                     const countResponse = await fetch(countUrl, {
                         method: 'GET',
                         countSignal,
-                        headers: {
-                            Authorization: `Token ${user.token}`,
-                        },
+                        headers: { Authorization: `Token ${user.token}` },
                     }).then((response) => {
                         countStatus = response.status;
                         return response.json();
@@ -198,9 +192,7 @@ const Replays = (props) => {
 
             if (timelineUrl) {
                 url = timelineUrl.timeline_url;
-                const data = await fetch(url, {
-                    method: 'GET',
-                }).then(response => (
+                const data = await fetch(url, { method: 'GET' }).then(response => (
                     response.json()
                 )).then(responseBody => (
                     responseBody
@@ -235,61 +227,7 @@ const Replays = (props) => {
         };
     }, [selectedReplayHash]);
 
-    const statCategories = ['general', 'economic', 'PAC', 'efficiency'];
-
-    const getPlayers = () => ({
-        1: {
-            name: selectedReplay.players[1].name.slice(clanTagIndex(selectedReplay.players[1].name)),
-            race: selectedReplay.players[1].race,
-            mmr: selectedReplay.match_data.mmr[1],
-        },
-        2: {
-            name: selectedReplay.players[2].name.slice(clanTagIndex(selectedReplay.players[2].name)),
-            race: selectedReplay.players[2].race,
-            mmr: selectedReplay.match_data.mmr[2],
-        },
-    });
-
-    const mainContent = (
-        <Fragment>
-            {selectedReplayInfo &&
-                <ReplayInfo
-                    selectedReplay={selectedReplay}
-                    timelineStat={timelineStat}
-                    setTimelineStat={setTimelineStat}
-                    clanTagIndex={clanTagIndex}
-                />}
-            {selectedReplayHash && (timelineData.length > 1 ? /* eslint-disable-line no-nested-ternary */
-                <TimelineArea
-                    timelineData={timelineData}
-                    timeline={cachedTimeline}
-                    timelineStat={timelineStat}
-                    gameloop={currentGameloop}
-                    setGameloop={setCurrentGameloop}
-                    players={getPlayers()}
-                    visibleState={props.visibleState}
-                    selectedReplay={selectedReplay}
-                /> : (timelineError ? 'An error occured' : <WaveAnimation />)) /* eslint-disable-line no-nested-ternary */}
-            <div className={`replay-stats${selectedReplayInfo ? '' : '--default'}`}>
-                {selectedReplayInfo ?
-                    <div className="replay-stats__stats">
-                        {statCategories.map(category => (
-                            <StatCategory
-                                key={category}
-                                type="replays"
-                                category={category}
-                                replayInfo={selectedReplayInfo}
-                            />
-                        ))}
-                    </div>
-                    :
-                    <h2 className="replay-stats__default">Select a replay to view</h2>}
-            </div>
-        </Fragment>
-    );
-
     let sideBar;
-
     if (userReplays !== false) {
         sideBar = (
             replayInfo.length > 0 ?
@@ -307,7 +245,26 @@ const Replays = (props) => {
             style={props.visibleState ? {} : { gridTemplateColumns: '1fr 0px' }}
         >
             <div className="Replays__main-content">
-                {mainContent}
+                <ReplayView
+                    replay={{
+                        data: selectedReplay,
+                        info: selectedReplayInfo,
+                        hash: selectedReplayHash,
+                    }}
+                    timeline={{
+                        data: timelineData,
+                        cached: cachedTimeline,
+                        stat: timelineStat,
+                        setStat: setTimelineStat,
+                        error: timelineError,
+                    }}
+                    gameloop={{
+                        current: currentGameloop,
+                        set: setCurrentGameloop,
+                    }}
+                    clanTagIndex={clanTagIndex}
+                    visibleState={props.visibleState}
+                />
             </div>
             <div className="Replays__sidebar">
                 {sideBar}

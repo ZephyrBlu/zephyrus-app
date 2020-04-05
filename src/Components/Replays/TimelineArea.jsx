@@ -15,9 +15,9 @@ import TimelineTooltip from './TimelineTooltip';
 import '../General/CSS/Tooltip.css';
 import './CSS/TimelineArea.css';
 
-const TimelineArea = (props) => {
+const TimelineArea = ({ timeline, gameloop, players, visibleState }) => {
     const [isTimelineFrozen, setTimelineState] = useState(false);
-    const currentTimelineState = props.timeline[props.gameloop];
+    const currentTimelineState = timeline.cached[gameloop.current];
 
     const formatTick = (content) => {
         const totalSeconds = Math.floor(Number(content) / 22.4);
@@ -43,7 +43,7 @@ const TimelineArea = (props) => {
         <Fragment>
             <ResponsiveContainer width="100%" height={200}>
                 <LineChart
-                    data={props.timelineData}
+                    data={timeline.data}
                     margin={{ right: 25 }}
                     onClick={
                         () => (
@@ -61,25 +61,26 @@ const TimelineArea = (props) => {
                     <Tooltip
                         content={
                             <TimelineTooltip
-                                currentTimelineState={currentTimelineState}
-                                gameloop={props.gameloop}
-                                setGameloop={props.setGameloop}
-                                isTimelineFrozen={isTimelineFrozen}
-                                players={props.players}
+                                timeline={{
+                                    state: currentTimelineState,
+                                    frozen: isTimelineFrozen,
+                                }}
+                                gameloop={gameloop}
+                                players={players}
                             />
                         }
                         position={{ y: -20 }}
                     />
                     <Line
                         type="monotone"
-                        dataKey={`1.${props.timelineStat}`}
+                        dataKey={`1.${timeline.stat}`}
                         stroke="hsl(0, 100%, 55%)"
                         activeDot={{ stroke: 'hsl(0, 100%, 55%)', fill: 'hsl(0, 100%, 55%)' }}
                         dot={false}
                     />
                     <Line
                         type="monotone"
-                        dataKey={`2.${props.timelineStat}`}
+                        dataKey={`2.${timeline.stat}`}
                         stroke="hsl(240, 80%, 55%)"
                         activeDot={{ stroke: 'hsl(240, 80%, 55%)', fill: 'hsl(240, 80%, 55%)' }}
                         dot={false}
@@ -89,12 +90,12 @@ const TimelineArea = (props) => {
             {currentTimelineState &&
                 <div className="timeline-state">
                     <div className="timeline-state__players">
-                        {Object.values(props.players).map((player, index) => (
+                        {Object.values(players).map((player, index) => (
                             <div
                                 key={`player-${player.mmr}`}
                                 className={`timeline-state__player timeline-state__player--player-${index + 1}`}
                             >
-                                {index !== Object.values(props.players).length - 1 ?
+                                {index !== Object.values(players).length - 1 ?
                                     <Fragment>
                                         <img
                                             src={`../../icons/${player.race}-logo.svg`}
@@ -132,25 +133,25 @@ const TimelineArea = (props) => {
                     </div>
                     <CurrentSelectionState
                         timelineState={currentTimelineState}
-                        players={props.players}
+                        players={players}
                     />
                     <UpgradeState
                         timelineState={currentTimelineState}
-                        players={props.players}
+                        players={players}
                     />
                     <ObjectState
                         objectType="unit"
                         timelineState={currentTimelineState}
-                        players={props.players}
-                        visibleState={props.visibleState}
+                        players={players}
+                        visibleState={visibleState}
                         objectStates={objectStates.unit}
                         ignoreObjects={ignoreObjects.unit}
                     />
                     <ObjectState
                         objectType="building"
                         timelineState={currentTimelineState}
-                        players={props.players}
-                        visibleState={props.visibleState}
+                        players={players}
+                        visibleState={visibleState}
                         objectStates={objectStates.building}
                         ignoreObjects={ignoreObjects.building}
                     />
