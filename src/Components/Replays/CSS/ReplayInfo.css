@@ -15,7 +15,7 @@
 .ReplayInfo__replay-download {
     grid-area: download;
     padding: 8px 12px;
-    border: 1px solid var(--primary-light-1);
+    border: 1px solid var(--primary-light-2);
     background-color: var(--secondary-dark-2);
     font-family: 'Roboto', sans-serif;
     font-size: 18px;

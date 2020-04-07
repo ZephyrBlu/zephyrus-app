@@ -1,6 +1,6 @@
-import './CSS/WaveAnimation.css';
+import './CSS/LoadingAnimation.css';
 
-const WaveAnimation = () => (
+const LoadingAnimation = () => (
     <div className="sk-wave">
         <div className="sk-rect sk-rect1" />
         <div className="sk-rect sk-rect2" />
@@ -10,4 +10,4 @@ const WaveAnimation = () => (
     </div>
 );
 
-export default WaveAnimation;
+export default LoadingAnimation;

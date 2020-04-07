@@ -2,7 +2,7 @@ import { Fragment } from 'react';
 import ReplayInfo from './ReplayInfo';
 import TimelineArea from './TimelineArea';
 import StatCategory from '../General/StatCategory';
-import WaveAnimation from '../General/WaveAnimation';
+import LoadingAnimation from '../General/LoadingAnimation';
 import './CSS/ReplayView.css';
 
 const ReplayView = ({ replay, timeline, gameloop, clanTagIndex, visibleState }) => {
@@ -33,7 +33,7 @@ const ReplayView = ({ replay, timeline, gameloop, clanTagIndex, visibleState }) 
                 />
             );
         } else {
-            timelineArea = timeline.error ? 'An error occured' : <WaveAnimation />;
+            timelineArea = timeline.error ? 'An error occured' : <LoadingAnimation />;
         }
     }
 

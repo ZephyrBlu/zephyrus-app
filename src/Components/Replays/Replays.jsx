@@ -5,7 +5,7 @@ import { setReplays, setReplayCount, setReplayInfo } from '../../actions';
 import ReplayView from './ReplayView';
 import ReplayList from './ReplayList';
 import DefaultResponse from '../General/DefaultResponse';
-import WaveAnimation from '../General/WaveAnimation';
+import LoadingAnimation from '../General/LoadingAnimation';
 import './CSS/Replays.css';
 
 const selectData = createSelector(
@@ -233,7 +233,7 @@ const Replays = (props) => {
             replayInfo.length > 0 ?
                 <ReplayList replayList={replayInfo} />
                 :
-                <WaveAnimation />
+                <LoadingAnimation />
         );
     } else {
         sideBar = (<DefaultResponse />);

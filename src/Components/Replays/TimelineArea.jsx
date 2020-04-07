@@ -12,7 +12,6 @@ import ObjectState from './ObjectState';
 import CurrentSelectionState from './CurrentSelectionState';
 import UpgradeState from './UpgradeState';
 import TimelineTooltip from './TimelineTooltip';
-import '../General/CSS/Tooltip.css';
 import './CSS/TimelineArea.css';
 
 const TimelineArea = ({ timeline, gameloop, players, visibleState }) => {
@@ -98,7 +97,7 @@ const TimelineArea = ({ timeline, gameloop, players, visibleState }) => {
                                 {index !== Object.values(players).length - 1 ?
                                     <Fragment>
                                         <img
-                                            src={`../../icons/${player.race}-logo.svg`}
+                                            src={`../../icons/${player.race.toLowerCase()}-logo.svg`}
                                             alt={player.race}
                                             className="timeline-state__race-icon"
                                         />
@@ -122,7 +121,7 @@ const TimelineArea = ({ timeline, gameloop, players, visibleState }) => {
                                             </span>
                                         </div>
                                         <img
-                                            src={`../../icons/${player.race}-logo.svg`}
+                                            src={`../../icons/${player.race.toLowerCase()}-logo.svg`}
                                             alt={player.race}
                                             className="timeline-state__race-icon"
                                         />

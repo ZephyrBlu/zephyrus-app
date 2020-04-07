@@ -13,9 +13,9 @@ import { setTrends } from '../../actions';
 import StatCategory from '../General/StatCategory';
 import StatCorrelations from './StatCorrelations';
 import InfoTooltip from '../General/InfoTooltip';
-import CustomTooltip from '../General/Tooltip';
+import TrendsTooltip from './TrendsTooltip';
 import DefaultResponse from '../General/DefaultResponse';
-import WaveAnimation from '../General/WaveAnimation';
+import LoadingAnimation from '../General/LoadingAnimation';
 import './CSS/Trends.css';
 
 const Trends = () => {
@@ -377,7 +377,7 @@ const Trends = () => {
                                 />
                                 <Tooltip
                                     content={
-                                        <CustomTooltip
+                                        <TrendsTooltip
                                             chart="trends"
                                             lineState={lineState}
                                             tickFormatter={formatTick}
@@ -477,7 +477,7 @@ const Trends = () => {
                         ))}
                     </div>}
                 {!currentTrends && (currentTrends === null ?
-                    <WaveAnimation />
+                    <LoadingAnimation />
                     :
                     <DefaultResponse />)}
             </div>

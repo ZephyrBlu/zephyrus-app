@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
-import './CSS/Tooltip.css';
+import './CSS/TrendsTooltip.css';
 
-const CustomTooltip = (props) => {
+const TrendsTooltip = (props) => {
     let content = null;
 
     const statOrder = {
@@ -121,4 +121,4 @@ const CustomTooltip = (props) => {
     return null;
 };
 
-export default CustomTooltip;
+export default TrendsTooltip;
