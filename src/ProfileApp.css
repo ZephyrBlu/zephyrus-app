@@ -36,8 +36,9 @@
     --line-shade-9: hsl(180, 25%, 60%);
 }
 
-html, #root, .ProfileApp {
+html, body, #root, .ProfileApp {
     height: 100%;
+    overflow-x: hidden;
 }
 
 body {
@@ -67,7 +68,7 @@ h1, h2, h3, h4, h5 {
 }
 
 ::-webkit-scrollbar {
-    width: 8px;
+    width: 18px;
     visibility: hidden;
     opacity: 1;
 }
@@ -80,13 +81,14 @@ h1, h2, h3, h4, h5 {
 }
 
 ::-webkit-scrollbar-thumb {
-    background: hsla(0, 0%, 20%, 0.6);
-    border-radius: 5px;
+    background-color: hsla(0, 0%, 20%, 0.6);
+    border-radius: 10px;
+    border: 5px solid var(--primary-dark-1);
 }
 
 .main-content::-webkit-scrollbar,
 .content-sidebar__content::-webkit-scrollbar {
-    width: 8px;
+    width: 18px;
     visibility: hidden;
     opacity: 1;
 }
@@ -104,6 +106,11 @@ h1, h2, h3, h4, h5 {
 
 .main-content::-webkit-scrollbar-thumb,
 .content-sidebar__content::-webkit-scrollbar-thumb {
-    background: hsla(0, 0%, 20%, 0.6);
-    border-radius: 5px;
+    background-color: hsla(0, 0%, 20%, 0.6);
+    border-radius: 10px;
+    border: 5px solid var(--primary-dark-1);
+}
+
+.ReplayList::-webkit-scrollbar-thumb {
+    border: 5px solid var(--primary-dark-2);
 }
