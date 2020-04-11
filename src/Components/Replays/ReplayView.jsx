@@ -1,8 +1,8 @@
 import { Fragment } from 'react';
 import ReplayInfo from './ReplayInfo';
 import TimelineArea from './TimelineArea';
-import StatCategory from '../General/StatCategory';
-import LoadingAnimation from '../General/LoadingAnimation';
+import StatCategory from '../shared/StatCategory';
+import LoadingAnimation from '../shared/LoadingAnimation';
 import './CSS/ReplayView.css';
 
 const ReplayView = ({ replay, timeline, gameloop, clanTagIndex, visibleState }) => {
@@ -23,7 +23,7 @@ const ReplayView = ({ replay, timeline, gameloop, clanTagIndex, visibleState }) 
 
     let timelineArea;
     if (replay.hash) {
-        if (timeline.data.length > 1) {
+        if (timeline.data) {
             timelineArea = (
                 <TimelineArea
                     timeline={timeline}

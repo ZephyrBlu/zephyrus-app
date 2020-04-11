@@ -1,18 +1,18 @@
 import { Fragment } from 'react';
 
-const NavIcon = props => (
+const NavIcon = ({ icon, text }) => (
     <Fragment>
         <img
-            src={`../../icons/${props.icon}-icon.svg`}
+            src={`../../icons/${icon}-icon.svg`}
             style={{
                 width: '22px',
                 height: '22px',
             }}
-            alt={props.icon}
+            alt={icon}
         />
-        {props.text &&
+        {text &&
             <span style={{ marginTop: '2px', marginLeft: '10px' }}>
-                {props.text}
+                {text}
             </span>}
     </Fragment>
 );

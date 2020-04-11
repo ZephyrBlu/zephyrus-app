@@ -1,8 +1,8 @@
 import Tippy from '@tippy.js/react';
 
-const InfoTooltip = props => (
+const InfoTooltip = ({ content, width, height, style }) => (
     <Tippy
-        content={props.content}
+        content={content}
         arrow
     >
         <svg
@@ -10,14 +10,14 @@ const InfoTooltip = props => (
             xmlns="http://www.w3.org/2000/svg"
             x="0px"
             y="0px"
-            width={props.width || '25'}
-            height={props.height || '25'}
+            width={width || '25'}
+            height={height || '25'}
             viewBox="0 0 172 172"
             style={{
                 position: 'relative',
                 top: '5px',
                 right: '-5px',
-                ...props.style,
+                ...style,
             }}
         >
             <g

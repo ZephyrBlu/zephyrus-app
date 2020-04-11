@@ -1,7 +1,7 @@
 import { Fragment } from 'react';
 import './CSS/TrendsTooltip.css';
 
-const TrendsTooltip = (props) => {
+const TrendsTooltip = ({ payload, label, lineState, tickFormatter }) => {
     let content = null;
 
     const statOrder = {
@@ -46,69 +46,62 @@ const TrendsTooltip = (props) => {
         inject_count: 'var(--line-shade-9)',
     };
 
-    if (props.payload !== undefined && props.payload.length !== 0) {
-        switch (props.chart) {
-            case 'trends':
-                content = (
-                    <Fragment>
-                        <ul className="Tooltip__content">
-                            <li className="Tooltip__title">
-                                {props.tickFormatter(props.label, 'chart')}
-                            </li>
-                            <li className="Tooltip__games">
-                                {props.payload[0].payload.count}&nbsp;/&nbsp;
-                                {props.payload[0].payload.total_count} Games
-                            </li>
-                            {props.payload.map((payload, index) => {
-                                const key = props.payload[index].dataKey.slice(0, -3);
+    if (payload !== undefined && payload.length !== 0) {
+        content = (
+            <Fragment>
+                <ul className="Tooltip__content">
+                    <li className="Tooltip__title">
+                        {tickFormatter(label, 'chart')}
+                    </li>
+                    <li className="Tooltip__games">
+                        {payload[0].payload.count}&nbsp;/&nbsp;
+                        {payload[0].payload.total_count} Games
+                    </li>
+                    {payload.map((_payload, index) => {
+                        const key = payload[index].dataKey.slice(0, -3);
 
-                                return (
-                                    props.lineState[payload.name.slice(0, -3)] === 0 ?
-                                        null
+                        return (
+                            lineState[_payload.name.slice(0, -3)] === 0 ?
+                                null
+                                :
+                                <li key={`${key}-${index}-stat`} className="Tooltip__stat">
+                                    <svg key={`${key}-${index}-svg`} height="10" width="10">
+                                        <circle key={`${key}-circle`} cx="5" cy="5" r="5" fill={colours[key]} />
+                                    </svg>&nbsp;
+                                    <span key={`${key}-${index}-span`}>
+                                        {statOrder[_payload.name.slice(0, -3)]}
+                                    </span>&nbsp;
+                                    {_payload.name.slice(0, -3) === 'winrate' ?
+                                        `${_payload.payload[key][0]}%`
                                         :
-                                        <li key={`${key}-${index}-stat`} className="Tooltip__stat">
-                                            <svg key={`${key}-${index}-svg`} height="10" width="10">
-                                                <circle key={`${key}-circle`} cx="5" cy="5" r="5" fill={colours[key]} />
-                                            </svg>&nbsp;
-                                            <span key={`${key}-${index}-span`}>
-                                                {statOrder[payload.name.slice(0, -3)]}
-                                            </span>&nbsp;
-                                            {payload.name.slice(0, -3) === 'winrate' ?
-                                                `${payload.payload[key][0]}%`
+                                        _payload.payload[key][0]} (
+                                    <span
+                                        key={`${key}-${index}-value`}
+                                        className={
+                                            `Tooltip__value ${_payload.payload[key][1] > 0 ?
+                                                `Tooltip__value--positive Tooltip__value--${key}-positive`
                                                 :
-                                                payload.payload[key][0]} (
-                                            <span
-                                                key={`${key}-${index}-value`}
-                                                className={
-                                                    `Tooltip__value ${payload.payload[key][1] > 0 ?
-                                                        `Tooltip__value--positive Tooltip__value--${key}-positive`
-                                                        :
-                                                        `Tooltip__value--negative Tooltip__value--${key}-negative`}`
-                                                }
-                                            >
-                                                {payload.payload[key][1] > 0 ?
-                                                    `+${payload.payload[key][1]}`
-                                                    :
-                                                    payload.payload[key][1]}%
-                                            </span>)
-                                        </li>
-                                );
-                            })}
-                            <li className="Tooltip__games" style={{ margin: '10px 0 0', textAlign: 'center' }}>
-                                3-Month Period:&nbsp;
-                                {props.tickFormatter(props.payload[0].payload.start_date, 'period')}
-                                -
-                                {props.tickFormatter(props.payload[0].payload.end_date, 'period')}
-                                &nbsp;mo
-                            </li>
-                        </ul>
-                    </Fragment>
-                );
-                break;
-
-            default:
-                break;
-        }
+                                                `Tooltip__value--negative Tooltip__value--${key}-negative`}`
+                                        }
+                                    >
+                                        {_payload.payload[key][1] > 0 ?
+                                            `+${_payload.payload[key][1]}`
+                                            :
+                                            _payload.payload[key][1]}%
+                                    </span>)
+                                </li>
+                        );
+                    })}
+                    <li className="Tooltip__games" style={{ margin: '10px 0 0', textAlign: 'center' }}>
+                        3-Month Period:&nbsp;
+                        {tickFormatter(payload[0].payload.start_date, 'period')}
+                        -
+                        {tickFormatter(payload[0].payload.end_date, 'period')}
+                        &nbsp;mo
+                    </li>
+                </ul>
+            </Fragment>
+        );
     }
 
     if (content) {

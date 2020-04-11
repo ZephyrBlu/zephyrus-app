@@ -1,5 +1,5 @@
 import { useLayoutEffect, useState } from 'react';
-import InfoTooltip from '../General/InfoTooltip';
+import InfoTooltip from '../shared/InfoTooltip';
 import './CSS/StatCorrelations.css';
 
 const StatCorrelations = (props) => {

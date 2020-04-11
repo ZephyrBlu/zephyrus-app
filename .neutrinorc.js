@@ -28,6 +28,8 @@ module.exports = {
           "no-unused-expressions": ["error", { "allowTernary": true }],
           "no-param-reassign": ["error", { "props": false }],
           "object-curly-newline": ["error", { "multiline": true }],
+          "no-underscore-dangle": 0,
+          "no-param-reassign": 0,
         }
       }
     }],

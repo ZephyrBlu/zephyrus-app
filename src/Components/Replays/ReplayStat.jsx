@@ -1,9 +1,9 @@
 import './CSS/ReplayStat.css';
 
-const ReplayStat = (props) => {
+const ReplayStat = ({ stat, statName, replayInfo, category, modifier }) => {
     let player1Highlight;
     let player2Highlight;
-    if (props.replayInfo[props.stat][1] > props.replayInfo[props.stat][2]) {
+    if (replayInfo[stat][1] > replayInfo[stat][2]) {
         player1Highlight = 'win';
         player2Highlight = 'loss';
     } else {
@@ -13,31 +13,31 @@ const ReplayStat = (props) => {
 
     return (
         <div
-            key={props.stat}
+            key={stat}
             className={`
                 ReplayStat__stat 
-                ${props.modifier ? `ReplayStat__stat--${props.modifier}` : ''}
+                ${modifier ? `ReplayStat__stat--${modifier}` : ''}
             `}
         >
-            <h2 className="ReplayStat__stat-title">{props.statName}</h2>
-            <div className={`ReplayStat__stat-value ${props.modifier ? 'ReplayStat__stat-value--last' : ''}`}>
+            <h2 className="ReplayStat__stat-title">{statName}</h2>
+            <div className={`ReplayStat__stat-value ${modifier ? 'ReplayStat__stat-value--last' : ''}`}>
                 <span
-                    key={`${props.category}-${props.replayInfo[props.stat][1]}-span`}
-                    className={`ReplayStat__stat-value--${props.stat}-${player1Highlight} ReplayStat__stat-value--${player1Highlight}`}
+                    key={`${category}-${replayInfo[stat][1]}-span`}
+                    className={`ReplayStat__stat-value--${stat}-${player1Highlight} ReplayStat__stat-value--${player1Highlight}`}
                 >
-                    {props.category === 'PAC' ? /* eslint-disable-line no-nested-ternary */
-                        props.replayInfo[props.stat][1]
+                    {category === 'PAC' ? /* eslint-disable-line no-nested-ternary */
+                        replayInfo[stat][1]
                         :
-                        props.stat === 'workers_killed' || props.stat === 'workers_lost' ? Math.round(props.replayInfo[props.stat][1]) - 12 : Math.round(props.replayInfo[props.stat][1]) /* eslint-disable-line no-nested-ternary */}
+                        stat === 'workers_killed' || stat === 'workers_lost' ? Math.round(replayInfo[stat][1]) - 12 : Math.round(replayInfo[stat][1]) /* eslint-disable-line no-nested-ternary */}
                 </span>
                 <span
-                    key={`${props.replayInfo[props.stat][2]}-span`}
-                    className={`ReplayStat__stat-value--${props.stat}-${player2Highlight} ReplayStat__stat-value--${player2Highlight}`}
+                    key={`${replayInfo[stat][2]}-span`}
+                    className={`ReplayStat__stat-value--${stat}-${player2Highlight} ReplayStat__stat-value--${player2Highlight}`}
                 >
-                    {props.category === 'PAC' ? /* eslint-disable-line no-nested-ternary */
-                        props.replayInfo[props.stat][2]
+                    {category === 'PAC' ? /* eslint-disable-line no-nested-ternary */
+                        replayInfo[stat][2]
                         :
-                        props.stat === 'workers_killed' || props.stat === 'workers_lost' ? Math.round(props.replayInfo[props.stat][2]) - 12 : Math.round(props.replayInfo[props.stat][2]) /* eslint-disable-line no-nested-ternary */}
+                        stat === 'workers_killed' || stat === 'workers_lost' ? Math.round(replayInfo[stat][2]) - 12 : Math.round(replayInfo[stat][2]) /* eslint-disable-line no-nested-ternary */}
                 </span>
             </div>
         </div>

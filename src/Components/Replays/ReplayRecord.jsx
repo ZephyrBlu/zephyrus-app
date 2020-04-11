@@ -3,12 +3,12 @@ import { Fragment } from 'react';
 import { setSelectedReplayHash } from '../../actions';
 import './CSS/ReplayRecord.css';
 
-const ReplayRecord = (props) => {
+const ReplayRecord = ({ hash, stats }) => {
     const dispatch = useDispatch();
     const selectedReplayHash = useSelector(state => state.selectedReplayHash);
 
     const handleReplaySelection = async () => {
-        dispatch(setSelectedReplayHash(props.hash));
+        dispatch(setSelectedReplayHash(hash));
     };
 
     const handleKeyDown = (key) => {
@@ -62,22 +62,22 @@ const ReplayRecord = (props) => {
             role="button"
             tabIndex={0}
             className={
-                selectedReplayHash && selectedReplayHash === props.hash ?
+                selectedReplayHash && selectedReplayHash === hash ?
                     `
                         ReplayRecord
-                        ReplayRecord--${props.stats.result.toLowerCase().split(',')[0]}
+                        ReplayRecord--${stats.result.toLowerCase().split(',')[0]}
                         ReplayRecord--selected
                     `
                     :
                     `
                         ReplayRecord
-                        ReplayRecord--${props.stats.result.toLowerCase().split(',')[0]}
+                        ReplayRecord--${stats.result.toLowerCase().split(',')[0]}
                     `
             }
             onClick={handleReplaySelection}
             onKeyDown={e => handleKeyDown(e.key)}
         >
-            {Object.keys(props.stats).map(replayInfoField => (
+            {Object.keys(stats).map(replayInfoField => (
                 <span
                     key={`${replayInfoField}`}
                     className={`ReplayRecord__${replayInfoField}`}
@@ -85,17 +85,17 @@ const ReplayRecord = (props) => {
                     {replayInfoField === 'result' ?
                         <Fragment>
                             <span className={`ReplayRecord__stat--${
-                                props.stats[replayInfoField].split(',')[0] === 'Win' ?
+                                stats[replayInfoField].split(',')[0] === 'Win' ?
                                     'win' : 'loss'}`}
                             >
-                                {props.stats[replayInfoField].split(',')[0]}
+                                {stats[replayInfoField].split(',')[0]}
                             </span>
                             <span>
-                                {props.stats[replayInfoField].split(',')[1]} min
+                                {stats[replayInfoField].split(',')[1]} min
                             </span>
                         </Fragment>
                         :
-                        formatDate(props.stats[replayInfoField])
+                        formatDate(stats[replayInfoField])
                     }
                 </span>
             ))}

@@ -1,11 +1,12 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 import {
     setReplays,
     setReplayInfo,
     setTrends,
     setSelectedReplayHash,
 } from '../actions';
+import UrlContext from '../index';
 import './Upload.css';
 
 const Upload = () => {
@@ -13,13 +14,7 @@ const Upload = () => {
     const user = useSelector(state => state.user);
     const [uploadInProgress, setUploadInProgress] = useState(false);
     const [uploadReponse, setUploadResponse] = useState(null);
-
-    let urlPrefix;
-    if (process.env.NODE_ENV === 'development') {
-        urlPrefix = 'http://127.0.0.1:8000/';
-    } else {
-        urlPrefix = 'https://zephyrus.gg/';
-    }
+    const urlPrefix = useContext(UrlContext);
 
     const uploadFiles = async (event) => {
         const files = event.target.files;
@@ -51,9 +46,7 @@ const Upload = () => {
                 setUploadInProgress(false);
                 setUploadResponse(`${success}/${fileList.length} uploaded, ${fail} failed to process`);
                 return response.json();
-            }).then(responseBody => (
-                responseBody
-            )).catch(() => null);
+            });
         });
 
         // reduce number of actions dispatched

@@ -1,9 +1,9 @@
 import ReplayStat from '../Replays/ReplayStat';
 import TrendStat from '../Trends/TrendStat';
-import InfoTooltip from '../General/InfoTooltip';
+import InfoTooltip from '../shared/InfoTooltip';
 import './CSS/StatCategory.css';
 
-const StatCategory = (props) => {
+const StatCategory = ({ type, category, replayInfo, trends, recentPercentDiff }) => {
     const descriptions = {
         general: (
             <p style={{ margin: 0, textAlign: 'left' }}>
@@ -155,27 +155,27 @@ const StatCategory = (props) => {
 
     return (
         <div
-            className={`StatCategory StatCategory--${props.type ? 'replays' : 'trends'}`}
-            style={{ gridArea: props.category }}
+            className={`StatCategory StatCategory--${type ? 'replays' : 'trends'}`}
+            style={{ gridArea: category }}
         >
             <h2 className="StatCategory__title">
-                {props.category === 'PAC' ?
+                {category === 'PAC' ?
                     'Perception Action Cycle (PAC)'
                     :
-                    props.category.charAt(0).toUpperCase() + props.category.slice(1)}
-                <InfoTooltip content={descriptions[props.category] || 'Loading'} />
+                    category.charAt(0).toUpperCase() + category.slice(1)}
+                <InfoTooltip content={descriptions[category] || 'Loading'} />
             </h2>
-            <div className={`StatCategory__stats StatCategory__stats--${props.type ? 'replays' : 'trends'}`}>
-                {Object.keys(statOrder[props.category]).map((stat, index) => (
-                    props.type === 'replays' && stat !== 'winrate' ?
+            <div className={`StatCategory__stats StatCategory__stats--${type ? 'replays' : 'trends'}`}>
+                {Object.keys(statOrder[category]).map((stat, index) => (
+                    type === 'replays' && stat !== 'winrate' ?
                         <ReplayStat
                             key={stat}
                             stat={stat}
-                            statName={statOrder[props.category][stat]}
-                            replayInfo={props.replayInfo}
-                            category={props.category}
+                            statName={statOrder[category][stat]}
+                            replayInfo={replayInfo}
+                            category={category}
                             modifier={
-                                index === Object.keys(statOrder[props.category]).length - 1 ?
+                                index === Object.keys(statOrder[category]).length - 1 ?
                                     'last' : false
                             }
                         />
@@ -183,11 +183,11 @@ const StatCategory = (props) => {
                         <TrendStat
                             key={stat}
                             stat={stat}
-                            statName={statOrder[props.category][stat]}
-                            trends={props.trends}
-                            recentPercentDiff={props.recentPercentDiff}
+                            statName={statOrder[category][stat]}
+                            trends={trends}
+                            recentPercentDiff={recentPercentDiff}
                             modifier={
-                                index === Object.keys(statOrder[props.category]).length - 1 ?
+                                index === Object.keys(statOrder[category]).length - 1 ?
                                     'last' : false
                             }
                         />

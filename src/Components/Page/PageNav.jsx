@@ -2,7 +2,7 @@ import { Link } from '@reach/router';
 import NavIcon from './NavIcon';
 import './CSS/PageNav.css';
 
-const PageNav = (props) => {
+const PageNav = ({ pages, hoverState }) => {
     const isActive = ({ isCurrent }) => {
         if (isCurrent) {
             return { className: 'PageNav__link PageNav__link--active' };
@@ -13,12 +13,12 @@ const PageNav = (props) => {
     const hoverTimeouts = [];
 
     const createLinkStyle = (pageName) => {
-        if (props.fixedHoverState) {
+        if (hoverState.fixed) {
             return {
                 width: '100px',
                 borderRadius: '27px',
             };
-        } else if (props.hoverState[pageName]) {
+        } else if (hoverState.state[pageName]) {
             return {
                 width: '100px',
                 borderRadius: '27px',
@@ -33,8 +33,8 @@ const PageNav = (props) => {
             <ul
                 className="PageNav__link-list"
                 onMouseLeave={() => {
-                    if (!props.fixedHoverState) {
-                        props.resetHoverState();
+                    if (!hoverState.fixed) {
+                        hoverState.reset();
                     }
 
                     hoverTimeouts.forEach((timeout) => {
@@ -42,7 +42,7 @@ const PageNav = (props) => {
                     });
                 }}
             >
-                {props.pages.map((pageName) => {
+                {pages.map((pageName) => {
                     let hoverTimeout;
                     hoverTimeouts.push(hoverTimeout);
 
@@ -53,25 +53,25 @@ const PageNav = (props) => {
                                 getProps={isActive}
                                 to={`/${pageName.toLowerCase()}`}
                                 onMouseEnter={() => {
-                                    if (!props.fixedHoverState) {
+                                    if (!hoverState.fixed) {
                                         clearTimeout(hoverTimeout);
 
-                                        props.setHoverState(prevState => (
+                                        hoverState.set(prevState => (
                                             { ...prevState, [pageName]: true }
                                         ));
                                     }
                                 }}
                                 onMouseLeave={() => {
-                                    if (!props.fixedHoverState) {
+                                    if (!hoverState.fixed) {
                                         hoverTimeout = setTimeout(() =>
-                                            props.setHoverState(prevState => (
+                                            hoverState.set(prevState => (
                                                 { ...prevState, [pageName]: false }
                                             )), 400);
                                     }
                                 }}
                                 onMouseMove={() => {
-                                    if (!props.fixedHoverState && !props.hoverState[pageName]) {
-                                        props.setHoverState(prevState => (
+                                    if (!hoverState.fixed && !hoverState.state[pageName]) {
+                                        hoverState.set(prevState => (
                                             { ...prevState, [pageName]: true }
                                         ));
                                     }
@@ -80,7 +80,7 @@ const PageNav = (props) => {
                             >
                                 <NavIcon
                                     icon={pageName.toLowerCase()}
-                                    text={props.hoverState[pageName] ? pageName : false}
+                                    text={hoverState.state[pageName] ? pageName : false}
                                 />
                             </Link>
                         </li>

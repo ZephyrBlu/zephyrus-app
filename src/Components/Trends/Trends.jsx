@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { useState, useEffect, Fragment } from 'react';
+import { useState, useEffect, useContext, Fragment } from 'react';
 import {
     ResponsiveContainer,
     LineChart,
@@ -10,12 +10,13 @@ import {
     Line,
 } from 'recharts';
 import { setTrends } from '../../actions';
-import StatCategory from '../General/StatCategory';
+import UrlContext from '../../index';
+import StatCategory from '../shared/StatCategory';
 import StatCorrelations from './StatCorrelations';
-import InfoTooltip from '../General/InfoTooltip';
+import InfoTooltip from '../shared/InfoTooltip';
 import TrendsTooltip from './TrendsTooltip';
-import DefaultResponse from '../General/DefaultResponse';
-import LoadingAnimation from '../General/LoadingAnimation';
+import DefaultResponse from '../shared/DefaultResponse';
+import LoadingAnimation from '../shared/LoadingAnimation';
 import './CSS/Trends.css';
 
 const Trends = () => {
@@ -26,6 +27,7 @@ const Trends = () => {
     const [playerTrends, setPlayerTrends] = useState(null);
     const [statDropdownState, setStatDropdownState] = useState(0);
     const [statCorrelations, setStatCorrelations] = useState(null);
+    const urlPrefix = useContext(UrlContext);
 
     if (!localStorage.lineState) {
         localStorage.lineState = JSON.stringify({
@@ -80,13 +82,6 @@ const Trends = () => {
     useEffect(() => {
         const requestControllers = [];
         const getStats = async () => {
-            let urlPrefix;
-            if (process.env.NODE_ENV === 'development') {
-                urlPrefix = 'http://127.0.0.1:8000/';
-            } else {
-                urlPrefix = 'https://zephyrus.gg/';
-            }
-
             const races = ['protoss', 'zerg', 'terran'];
             await Promise.all(races.map(async (race) => {
                 const url = `${urlPrefix}api/stats/${race}/`;

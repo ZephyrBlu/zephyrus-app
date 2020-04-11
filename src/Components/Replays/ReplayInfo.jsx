@@ -1,8 +1,10 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import UrlContext from '../../index';
 import './CSS/ReplayInfo.css';
 
 const ReplayInfo = ({ replay, timeline, clanTagIndex }) => {
     const [timelineStatDropdown, setTimelineStatDropdown] = useState(0);
+    const urlPrefix = useContext(UrlContext);
 
     const timelineStatCategories = {
         resource_collection_rate_all: 'Total Collection Rate',
@@ -17,13 +19,6 @@ const ReplayInfo = ({ replay, timeline, clanTagIndex }) => {
         workers_active: 'Workers Active',
         workers_killed: 'Workers Lost',
     };
-
-    let urlPrefix;
-    if (process.env.NODE_ENV === 'development') {
-        urlPrefix = 'http://127.0.0.1:8000/';
-    } else {
-        urlPrefix = 'https://zephyrus.gg/';
-    }
 
     return (
         <div className="ReplayInfo__title-area">

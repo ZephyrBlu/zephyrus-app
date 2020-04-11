@@ -96,7 +96,7 @@
 }
 
 @media (max-width: 1400px) {
-    .Login .PageTemplate__main-content {
+    .Login .Page__main-content {
         justify-content: flex-start;
     }
 

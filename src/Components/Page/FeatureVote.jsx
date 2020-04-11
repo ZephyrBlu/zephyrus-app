@@ -1,16 +1,19 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useSelector } from 'react-redux';
-import InfoTooltip from '../General/InfoTooltip';
-import SpinningRingAnimation from '../General/SpinningRingAnimation';
+import UrlContext from '../../index';
+import useFetch from '../../useFetch';
+import InfoTooltip from '../shared/InfoTooltip';
+import SpinningRingAnimation from '../shared/SpinningRingAnimation';
 import './CSS/FeatureVote.css';
 
 const FeatureVote = () => {
-    const token = useSelector(state => state.user.token);
+    const user = useSelector(state => state.user);
     const [isLoading, setIsLoading] = useState(true);
     const [textInput, setTextInput] = useState('');
     const [checkboxState, setCheckboxState] = useState(Array(6).fill(false));
     const [isFormSubmitted, setIsFormSubmitted] = useState(false);
     const [responseText, setResponseText] = useState(null);
+    const urlPrefix = useContext(UrlContext);
     const maxSelected = 2;
 
     const checked = checkboxState.filter(state => state);
@@ -41,25 +44,13 @@ const FeatureVote = () => {
         'other',
     ];
 
-    let urlPrefix;
-    if (process.env.NODE_ENV === 'development') {
-        urlPrefix = 'http://127.0.0.1:8000/';
-    } else {
-        urlPrefix = 'https://zephyrus.gg/';
-    }
+    const featureVotes = useFetch(`${urlPrefix}api/vote/`, null, 'votes', user);
 
     useEffect(() => {
-        const getCurrentVotes = async () => {
-            const url = `${urlPrefix}api/vote/`;
-            const response = await fetch(url, {
-                method: 'GET',
-                headers: { Authorization: `Token ${token}` },
-            }).then(res => res.json());
-            const votes = response.votes;
-
+        if (featureVotes) {
             for (let i = 0; i < featureCodes.length; i += 1) {
                 const currentFeature = featureCodes[i];
-                votes.forEach(([feature, comment]) => {
+                featureVotes.forEach(([feature, comment]) => {
                     if (feature === currentFeature) {
                         setCheckboxState((prevState) => {
                             prevState[i] = true;
@@ -73,12 +64,8 @@ const FeatureVote = () => {
                 });
             }
             setIsLoading(false);
-        };
-
-        if (token) {
-            getCurrentVotes();
         }
-    }, [token]);
+    }, [user]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -101,12 +88,12 @@ const FeatureVote = () => {
         const url = `${urlPrefix}api/vote/`;
         const response = await fetch(url, {
             method: 'POST',
-            headers: { Authorization: `Token ${token}` },
+            headers: { Authorization: `Token ${user.token}` },
             body: JSON.stringify({
                 features: featureCodes,
                 votes,
             }),
-        }).then(res => res);
+        });
         setIsFormSubmitted(false);
         setResponseText(response.ok ? 'Vote Successful' : 'Vote Failed');
     };

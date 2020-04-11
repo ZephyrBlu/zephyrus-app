@@ -1,7 +1,7 @@
 import './CSS/SpinningRingAnimation.css';
 
-const SpinningRingAnimation = props => (
-    <div className="lds-ring" style={props.style}>
+const SpinningRingAnimation = ({ style }) => (
+    <div className="lds-ring" style={style}>
         <div />
         <div />
         <div />

@@ -36,7 +36,7 @@
     --line-shade-9: hsl(180, 25%, 60%);
 }
 
-html, body, #root, .ProfileApp {
+html, body, #root, .App {
     height: 100%;
     overflow-x: hidden;
 }
