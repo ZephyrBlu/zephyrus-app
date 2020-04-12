@@ -1,17 +1,16 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-const useFetch = (url, opts = null, dataKey = null, deps = true) => {
+const useFetch = (url, opts = null, dataKey = null, dep = '_default') => {
     const [_state, _setState] = useState(null);
+    const [_prevDep, _setPrevDep] = useState('_default');
     const user = useSelector(state => state.user);
 
-    if (!Array.isArray(deps)) {
-        deps = [deps];
-    }
-
     useEffect(() => {
+        // reset on logout
         if (!user) {
             _setState(null);
+            _setPrevDep('_default');
         }
     }, [user]);
 
@@ -36,15 +35,22 @@ const useFetch = (url, opts = null, dataKey = null, deps = true) => {
             }
         };
 
-        if (user && url && (deps[0] || deps[0] === 0)) {
+        /*
+          disallow requests if:
+            - the user is logged out
+            - the url is falsy
+            - the dependency is falsy (Other than 0)
+            - the dependency has not changed (Other than default)
+        */
+        if (user && url && (dep || dep === 0) && (dep !== _prevDep || dep === '_default')) {
             fetchData();
+            _setPrevDep(dep);
         }
 
         return () => {
             controller.abort();
-            _setState(null);
         };
-    }, [user, url, ...deps]);
+    }, [user, url, dep]);
 
     // need to immediately check user condition since
     // useEffect runs post-render and so state change takes time to propagate

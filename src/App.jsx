@@ -1,13 +1,15 @@
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import useReplayPolling from './useReplayPolling';
+import useReplays from './useReplays';
+import useTrends from './useTrends';
 import Page from './components/Page/Page';
 import './components/Page/CSS/Page.css';
 import './App.css';
 
 const App = () => {
     const user = useSelector(state => state.user);
-    useReplayPolling(30000);
+    useReplays(30000);
+    useTrends();
 
     // one time check for OAuth authorization code
     const urlParams = new URLSearchParams(window.location.search);

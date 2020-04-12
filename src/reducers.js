@@ -3,12 +3,12 @@ import {
     SET_USER,
     SET_INITIAL_USER,
     SET_SELECTED_RACE,
-    SET_RACE_DATA,
     SET_REPLAYS,
     SET_REPLAY_INFO,
     SET_TRENDS,
     SET_SELECTED_REPLAY_HASH,
     SET_FIXED_HOVER_STATE,
+    UPLOAD_RESET,
     LOGOUT_RESET,
 } from './actions';
 
@@ -68,30 +68,19 @@ const selectedRace = (state = null, action) => {
 const raceData = (state = raceDataDefaultState, action) => {
     switch (action.type) {
         case SET_REPLAYS:
-            return {
-                ...state,
-                [action.race]: {
-                    ...state[action.race],
-                    replays: action.replays,
-                },
-            };
-
-        case SET_TRENDS:
-            return {
-                ...state,
-                [action.race]: {
-                    ...state[action.race],
-                    trends: action.trends,
-                },
-            };
-
-        case SET_RACE_DATA:
             Object.entries(action.data).forEach(([race, info]) => {
                 info.trends = state[race].trends;
             });
             return { ...state, ...action.data };
 
+        case SET_TRENDS:
+            Object.entries(action.data).forEach(([race, info]) => {
+                info.replays = state[race].replays;
+            });
+            return { ...state, ...action.data };
+
         case LOGOUT_RESET:
+        case UPLOAD_RESET:
             return raceDataDefaultState;
 
         default:
@@ -105,6 +94,7 @@ const replayInfo = (state = [], action) => {
             return action.replayInfo;
 
         case LOGOUT_RESET:
+        case UPLOAD_RESET:
             return [];
 
         default:
@@ -118,6 +108,7 @@ const selectedReplayHash = (state = null, action) => {
             return action.replayHash;
 
         case LOGOUT_RESET:
+        case UPLOAD_RESET:
             return null;
 
         default:

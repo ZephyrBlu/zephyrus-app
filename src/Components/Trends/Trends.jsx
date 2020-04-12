@@ -1,5 +1,5 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { useState, useEffect, useContext, Fragment } from 'react';
+import { useSelector } from 'react-redux';
+import { useState, useEffect, Fragment } from 'react';
 import {
     ResponsiveContainer,
     LineChart,
@@ -9,8 +9,6 @@ import {
     Tooltip,
     Line,
 } from 'recharts';
-import { setTrends } from '../../actions';
-import UrlContext from '../../index';
 import StatCategory from '../shared/StatCategory';
 import StatCorrelations from './StatCorrelations';
 import InfoTooltip from '../shared/InfoTooltip';
@@ -20,14 +18,10 @@ import LoadingAnimation from '../shared/LoadingAnimation';
 import './CSS/Trends.css';
 
 const Trends = () => {
-    const dispatch = useDispatch();
-    const user = useSelector(state => state.user);
-    const selectedRace = useSelector(state => state.selectedRace);
-    const currentTrends = useSelector(state => state.raceData[selectedRace].trends);
+    const currentTrends = useSelector(state => state.raceData[state.selectedRace].trends);
     const [playerTrends, setPlayerTrends] = useState(null);
     const [statDropdownState, setStatDropdownState] = useState(0);
     const [statCorrelations, setStatCorrelations] = useState(null);
-    const urlPrefix = useContext(UrlContext);
 
     if (!localStorage.lineState) {
         localStorage.lineState = JSON.stringify({
@@ -80,54 +74,15 @@ const Trends = () => {
     }, [lineState]);
 
     useEffect(() => {
-        const requestControllers = [];
-        const getStats = async () => {
-            const races = ['protoss', 'zerg', 'terran'];
-            await Promise.all(races.map(async (race) => {
-                const url = `${urlPrefix}api/stats/${race}/`;
-                const controller = new AbortController();
-                requestControllers.push(controller);
-                const signal = controller.signal;
-                let status;
-
-                const trends = await fetch(url, {
-                    method: 'GET',
-                    signal,
-                    headers: { Authorization: `Token ${user.token}` },
-                }).then((response) => {
-                    status = response.status;
-                    return response.json();
-                }).then(responseBody => (
-                    JSON.parse(responseBody)
-                )).catch(() => (null));
-
-                if (trends && status === 200) {
-                    dispatch(setTrends(trends, race));
-                } else {
-                    dispatch(setTrends(false, race));
-                }
-            }));
-        };
-
-        if (currentTrends !== null) {
-            if (currentTrends) {
-                setPlayerTrends(currentTrends.recent);
-                setTimelineData(currentTrends.weekly);
-                setStatCorrelations(currentTrends.correlations);
-            } else {
-                setPlayerTrends(null);
-                setTimelineData([]);
-                setStatCorrelations(null);
-            }
-        } else {
-            getStats();
+        if (currentTrends) {
+            setPlayerTrends(currentTrends.recent);
+            setTimelineData(currentTrends.weekly);
+            setStatCorrelations(currentTrends.correlations);
+        } else if (currentTrends === false) {
+            setPlayerTrends(null);
+            setTimelineData([]);
+            setStatCorrelations(null);
         }
-
-        return () => {
-            requestControllers.forEach((controller) => {
-                controller.abort();
-            });
-        };
     }, [currentTrends]);
 
     const statColours = {

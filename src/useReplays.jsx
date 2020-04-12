@@ -1,10 +1,10 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useState, useEffect, useContext } from 'react';
-import { setReplayInfo, setRaceData } from './actions';
+import { setReplayInfo, setReplays } from './actions';
 import UrlContext from './index';
 import useFetch from './useFetch';
 
-const useReplayPolling = (interval) => {
+const useReplays = (interval) => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.user);
     const selectedRace = useSelector(state => state.selectedRace);
@@ -31,12 +31,23 @@ const useReplayPolling = (interval) => {
 
     // if count changes then replays must also change, therefore we only need to check replays
     // could make this more efficient by only setting data that has changed
-    if ((protossReplays !== _cachedData.protoss.replays) || (zergReplays !== _cachedData.zerg.replays) || (terranReplays !== _cachedData.terran.replays)) {
-        _setCachedData({
+    if (protossReplays !== _cachedData.protoss.replays) {
+        _setCachedData(prevData => ({
+            ...prevData,
             protoss: { replays: protossReplays, count: protossCount },
+        }));
+    }
+    if (zergReplays !== _cachedData.zerg.replays) {
+        _setCachedData(prevData => ({
+            ...prevData,
             zerg: { replays: zergReplays, count: zergCount },
+        }));
+    }
+    if (terranReplays !== _cachedData.terran.replays) {
+        _setCachedData(prevData => ({
+            ...prevData,
             terran: { replays: terranReplays, count: terranCount },
-        });
+        }));
     }
 
     useEffect(() => {
@@ -62,17 +73,16 @@ const useReplayPolling = (interval) => {
         if (updatedReplays[selectedRace]) {
             dispatch(setReplayInfo([]));
         }
-        dispatch(setRaceData(updatedReplays));
+        dispatch(setReplays(updatedReplays));
     }, [_cachedData]);
 
     useEffect(() => {
         // flipping interval state triggers count useFetch hooks to fire again
         let pollInterval;
         if (user) {
-            pollInterval = setInterval(
-                flipIntervalState(prevState => (prevState === 'flip' ? 'flop' : 'flip')),
-                interval,
-            );
+            pollInterval = setInterval(() => {
+                flipIntervalState(prevState => (prevState === 'flip' ? 'flop' : 'flip'));
+            }, interval);
         } else {
             _setPrevCount(defaultCount);
             _setCachedData(defaultData);
@@ -81,4 +91,4 @@ const useReplayPolling = (interval) => {
     }, [user]);
 };
 
-export default useReplayPolling;
+export default useReplays;

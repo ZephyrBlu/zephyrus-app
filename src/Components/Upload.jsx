@@ -1,11 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { useState, useContext } from 'react';
-import {
-    setReplays,
-    setReplayInfo,
-    setTrends,
-    setSelectedReplayHash,
-} from '../actions';
+import { uploadReset } from '../actions';
 import UrlContext from '../index';
 import './Upload.css';
 
@@ -48,13 +43,7 @@ const Upload = () => {
                 return response.json();
             });
         });
-
-        // reduce number of actions dispatched
-        // refactor into general 'reset' action?
-        dispatch(setReplays([]));
-        dispatch(setReplayInfo([]));
-        dispatch(setSelectedReplayHash(null));
-        dispatch(setTrends(null));
+        dispatch(uploadReset());
     };
 
     return (
