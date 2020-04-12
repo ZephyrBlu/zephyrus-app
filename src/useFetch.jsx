@@ -1,16 +1,14 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-const useFetch = (url, dep = '_default', dataKey = null, opts = null) => {
+const useFetch = (url, dep = 'default', dataKey = null, opts = null) => {
     const user = useSelector(state => state.user);
     const [_state, _setState] = useState(null);
-    const [_prevDep, _setPrevDep] = useState('_default');
 
     useEffect(() => {
         // reset on logout
         if (!user) {
             _setState(null);
-            _setPrevDep('_default');
         }
     }, [user]);
 
@@ -40,11 +38,9 @@ const useFetch = (url, dep = '_default', dataKey = null, opts = null) => {
             - the user is logged out
             - the url is falsy
             - the dependency is falsy (Other than 0)
-            - the dependency has not changed (Other than default)
         */
-        if (user && url && (dep || dep === 0) && (dep !== _prevDep || dep === '_default')) {
+        if (user && url && (dep || dep === 0)) {
             fetchData();
-            _setPrevDep(dep);
         }
 
         return () => {

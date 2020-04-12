@@ -83,7 +83,7 @@ const Replays = ({ visibleState }) => {
             'Accept-Encoding': 'gzip',
         },
     });
-    const replayTimeline = useFetch(timelineUrl, '_default', 'timeline', { method: 'GET' });
+    const replayTimeline = useFetch(timelineUrl, 'default', 'timeline', { method: 'GET' });
 
     useEffect(() => {
         if (replayTimeline) {
