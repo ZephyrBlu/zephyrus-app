@@ -2,12 +2,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
 import { useState, useEffect } from 'react';
 import { setReplayInfo } from '../../actions';
+import useFetch from '../../useFetch';
 import ReplayView from './ReplayView';
 import ReplayList from './ReplayList';
 import DefaultResponse from '../shared/DefaultResponse';
 import LoadingAnimation from '../shared/LoadingAnimation';
 import './CSS/Replays.css';
-import useFetch from '../../useFetch';
 
 const selectData = createSelector(
     state => state.user,
@@ -76,14 +76,15 @@ const Replays = ({ visibleState }) => {
         url = `https://zephyrus.gg/api/replays/timeline/${selectedReplayHash}/`;
     }
 
-    const timelineUrl = useFetch(url, {
+    const timelineUrl = useFetch(url, selectedReplayHash, 'timeline_url', {
         method: 'GET',
         headers: {
             Authorization: `Token ${user.token}`,
             'Accept-Encoding': 'gzip',
         },
-    }, 'timeline_url', selectedReplayHash);
-    const replayTimeline = useFetch(timelineUrl, { method: 'GET' }, 'timeline');
+    });
+    const replayTimeline = useFetch(timelineUrl, '_default', 'timeline', { method: 'GET' });
+
     useEffect(() => {
         if (replayTimeline) {
             setTimelineData(replayTimeline);

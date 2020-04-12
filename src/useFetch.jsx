@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
-const useFetch = (url, opts = null, dataKey = null, dep = '_default') => {
+const useFetch = (url, dep = '_default', dataKey = null, opts = null) => {
+    const user = useSelector(state => state.user);
     const [_state, _setState] = useState(null);
     const [_prevDep, _setPrevDep] = useState('_default');
-    const user = useSelector(state => state.user);
 
     useEffect(() => {
         // reset on logout

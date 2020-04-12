@@ -44,7 +44,7 @@ const FeatureVote = () => {
         'other',
     ];
 
-    const featureVotes = useFetch(`${urlPrefix}api/vote/`, null, 'votes', user);
+    const featureVotes = useFetch(`${urlPrefix}api/vote/`, user, 'votes');
 
     useEffect(() => {
         if (featureVotes) {
