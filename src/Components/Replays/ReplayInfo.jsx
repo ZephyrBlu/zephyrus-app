@@ -10,6 +10,8 @@ const ReplayInfo = ({ replay, timeline, clanTagIndex }) => {
         resource_collection_rate_all: 'Total Collection Rate',
         'resource_collection_rate.minerals': 'Mineral Collection Rate',
         'resource_collection_rate.gas': 'Gas Collection Rate',
+        'unspent_resources.minerals': 'Unspent Minerals',
+        'unspent_resources.gas': 'Unspent Gas',
         total_army_value: 'Total Army Value',
         'army_value.minerals': 'Mineral Army Value',
         'army_value.gas': 'Gas Army Value',

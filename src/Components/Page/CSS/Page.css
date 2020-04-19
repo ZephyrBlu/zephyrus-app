@@ -131,7 +131,6 @@
     grid-area: page-content;
     display: inline-block;
     margin: 0;
-    margin-right: 5px;
     overflow-x: hidden;
     overflow-y: auto;
 }
@@ -143,12 +142,6 @@
 .Page__page-content--Login {
     overflow-y: hidden;
     margin-right: 0;
-}
-
-.Page__page-content--Setup,
-.Page__page-content--Trends {
-    margin-top: 5px;
-    margin-bottom: 5px;
 }
 
 .Page__page-content--Replays {

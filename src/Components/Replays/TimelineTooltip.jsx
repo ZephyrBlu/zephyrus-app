@@ -17,6 +17,7 @@ const TimelineTooltip = ({ payload, players, gameloop, timeline }) => {
     const timelineStatCategories = {
         'Workers Active': ['workers_active'],
         'Workers Lost': ['workers_killed'],
+        'Unspent Resources': ['unspent_resources.minerals', 'unspent_resources.gas'],
         'Collection Rate': ['resource_collection_rate.minerals', 'resource_collection_rate.gas'],
         'Army Value': ['army_value.minerals', 'army_value.gas'],
         'Resources Lost': ['resources_lost.minerals', 'resources_lost.gas'],

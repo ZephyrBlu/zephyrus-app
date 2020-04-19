@@ -40,7 +40,7 @@ const TimelineArea = ({ timeline, gameloop, players, visibleState }) => {
 
     return (
         <Fragment>
-            <ResponsiveContainer width="100%" height={200}>
+            <ResponsiveContainer width="100%" height={225}>
                 <LineChart
                     data={timeline.data}
                     margin={{ right: 25 }}
@@ -68,7 +68,7 @@ const TimelineArea = ({ timeline, gameloop, players, visibleState }) => {
                                 players={players}
                             />
                         }
-                        position={{ y: -20 }}
+                        position={{ y: -10 }}
                     />
                     <Line
                         type="monotone"
