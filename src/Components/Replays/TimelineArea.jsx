@@ -8,6 +8,7 @@ import {
     Line,
 } from 'recharts';
 import { Fragment, useState } from 'react';
+import RaceState from './RaceState';
 import ObjectState from './ObjectState';
 import CurrentSelectionState from './CurrentSelectionState';
 import UpgradeState from './UpgradeState';
@@ -130,6 +131,10 @@ const TimelineArea = ({ timeline, gameloop, players, visibleState }) => {
                             </div>
                         ))}
                     </div>
+                    <RaceState
+                        timelineState={currentTimelineState}
+                        players={players}
+                    />
                     <CurrentSelectionState
                         timelineState={currentTimelineState}
                         players={players}

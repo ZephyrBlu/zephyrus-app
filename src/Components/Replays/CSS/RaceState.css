@@ -1,0 +1,37 @@
+.RaceState {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas: 'race-stats-player1 race-stats-player2';
+    border-radius: 15px;
+    box-shadow: 0 0 0 1px var(--primary-light-2) inset;
+    margin-left: 15px;
+    margin-bottom: 10px;
+}
+
+.RaceState__player {
+
+}
+
+.RaceState__player--player1 {
+    grid-area: race-stats-player1;
+}
+
+.RaceState__player--player2 {
+    grid-area: race-stats-player2;
+}
+
+.RaceState__energy {
+    table-layout:fixed;
+    border-collapse: collapse;
+}
+
+.RaceState__energy-metric-value {
+    padding: 0;
+    width: 40px;
+    text-align: center;
+}
+
+.RaceState__energy-metric-value:first-child {
+    width: 70px;
+    text-align: left;
+}

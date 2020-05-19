@@ -60,7 +60,7 @@ const StatCategory = ({ type, category, replayInfo, trends, recentPercentDiff })
             </p>),
         PAC: (
             <p style={{ margin: 0, textAlign: 'left' }}>
-                In theory, a PAC relates to the cycle of a player acquiring, moving to, and executing a task.
+                In theory, a Perception Action Cycle (PAC) relates to the cycle of a player acquiring, moving to, and executing a task.
                 For a PAC to be recorded there are a couple of constraints: The camera must move 6 game units and the PAC must last at least 0.2s.
                 <br />
                 <br />
@@ -130,7 +130,6 @@ const StatCategory = ({ type, category, replayInfo, trends, recentPercentDiff })
             winrate: 'Winrate',
             sq: 'Spending Quotient',
             apm: 'Actions Per Minute',
-            inject_count: 'Inject Count',
         },
         economic: {
             workers_produced: 'Workers Produced',
@@ -159,10 +158,7 @@ const StatCategory = ({ type, category, replayInfo, trends, recentPercentDiff })
             style={{ gridArea: category }}
         >
             <h2 className="StatCategory__title">
-                {category === 'PAC' ?
-                    'Perception Action Cycle (PAC)'
-                    :
-                    category.charAt(0).toUpperCase() + category.slice(1)}
+                {category.charAt(0).toUpperCase() + category.slice(1)}
                 <InfoTooltip content={descriptions[category] || 'Loading'} />
             </h2>
             <div className={`StatCategory__stats StatCategory__stats--${type ? 'replays' : 'trends'}`}>

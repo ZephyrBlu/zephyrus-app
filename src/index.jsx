@@ -13,7 +13,8 @@ if (process.env.NODE_ENV === 'production') {
 
 let urlPrefix;
 if (process.env.NODE_ENV === 'production') {
-    urlPrefix = 'https://zephyrus.gg/';
+    // urlPrefix = 'https://zephyrus.gg/';
+    urlPrefix = 'https://testing-dot-reflected-codex-228006.uc.r.appspot.com/';
 } else {
     urlPrefix = 'http://127.0.0.1:8000/';
 }

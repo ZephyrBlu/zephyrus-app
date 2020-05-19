@@ -28,7 +28,7 @@ const ReplayStat = ({ stat, statName, replayInfo, category, modifier }) => {
                     {category === 'PAC' ? /* eslint-disable-line no-nested-ternary */
                         replayInfo[stat][1]
                         :
-                        stat === 'workers_killed' || stat === 'workers_lost' ? Math.round(replayInfo[stat][1]) - 12 : Math.round(replayInfo[stat][1]) /* eslint-disable-line no-nested-ternary */}
+                        stat === 'workers_killed' || stat === 'workers_lost' ? Math.round(replayInfo[stat][1]) : Math.round(replayInfo[stat][1]) /* eslint-disable-line no-nested-ternary */}
                 </span>
                 <span
                     key={`${replayInfo[stat][2]}-span`}
@@ -37,7 +37,7 @@ const ReplayStat = ({ stat, statName, replayInfo, category, modifier }) => {
                     {category === 'PAC' ? /* eslint-disable-line no-nested-ternary */
                         replayInfo[stat][2]
                         :
-                        stat === 'workers_killed' || stat === 'workers_lost' ? Math.round(replayInfo[stat][2]) - 12 : Math.round(replayInfo[stat][2]) /* eslint-disable-line no-nested-ternary */}
+                        stat === 'workers_killed' || stat === 'workers_lost' ? Math.round(replayInfo[stat][2]) : Math.round(replayInfo[stat][2]) /* eslint-disable-line no-nested-ternary */}
                 </span>
             </div>
         </div>
