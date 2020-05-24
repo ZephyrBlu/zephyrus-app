@@ -101,15 +101,25 @@ const TimelineArea = ({ timeline, gameloop, players, visibleState }) => {
                 <div className="timeline-state">
                     <div className="timeline-state__players">
                         <div className="timeline-state__central">
-                            <span className="timeline-state__player-supply timeline-state__player-supply--player1">
-                                {currentTimelineState[1].supply} / {currentTimelineState[1].supply_cap}
-                            </span>
+                            <div className="timeline-state__player-supply timeline-state__player-supply--player1">
+                                <div className="timeline-state__supply-value">
+                                    {currentTimelineState[1].supply} / {currentTimelineState[1].supply_cap}
+                                </div>
+                                <div className="timeline-state__supply-block-value">
+                                    {currentTimelineState[1].supply_block}s
+                                </div>
+                            </div>
                             <span className="timeline-state__current-time">
                                 {formatCurrentTime(gameloop.current)}
                             </span>
-                            <span className="timeline-state__player-supply timeline-state__player-supply--player2">
-                                {currentTimelineState[2].supply} / {currentTimelineState[2].supply_cap}
-                            </span>
+                            <div className="timeline-state__player-supply timeline-state__player-supply--player2">
+                                <div className="timeline-state__supply-value">
+                                    {currentTimelineState[2].supply} / {currentTimelineState[2].supply_cap}
+                                </div>
+                                <div className="timeline-state__supply-block-value">
+                                    {currentTimelineState[2].supply_block}s
+                                </div>
+                            </div>
                         </div>
                         {Object.values(players).map((player, index) => (
                             <div
@@ -156,10 +166,10 @@ const TimelineArea = ({ timeline, gameloop, players, visibleState }) => {
                         timelineState={currentTimelineState}
                         players={players}
                     />
-                    <CurrentSelectionState
+                    {/* <CurrentSelectionState
                         timelineState={currentTimelineState}
                         players={players}
-                    />
+                    /> */}
                     <UpgradeState
                         timelineState={currentTimelineState}
                         players={players}

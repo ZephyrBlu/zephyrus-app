@@ -1,3 +1,11 @@
+.RaceToggle {
+    height: min-content;
+    width: max-content;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
 .RaceToggle__race-toggle {
     height: min-content;
     width: max-content;
