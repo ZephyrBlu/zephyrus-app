@@ -29,6 +29,16 @@ const TimelineArea = ({ timeline, gameloop, players, visibleState }) => {
         return `${minutes}:${seconds}`;
     };
 
+    const formatCurrentTime = (tickGameloop) => {
+        const totalSeconds = Math.floor(tickGameloop / 22.4);
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = totalSeconds - (minutes * 60);
+        return String(seconds).length === 1 ?
+            `${minutes}:0${seconds}`
+            :
+            `${minutes}:${seconds}`;
+    };
+
     const objectStates = {
         unit: ['live', 'died'],
         building: ['live', 'died', 'in_progress'],
@@ -41,7 +51,7 @@ const TimelineArea = ({ timeline, gameloop, players, visibleState }) => {
 
     return (
         <Fragment>
-            <ResponsiveContainer width="100%" height={225}>
+            <ResponsiveContainer width="100%" height={200}>
                 <LineChart
                     data={timeline.data}
                     margin={{ right: 25 }}
@@ -90,10 +100,21 @@ const TimelineArea = ({ timeline, gameloop, players, visibleState }) => {
             {currentTimelineState &&
                 <div className="timeline-state">
                     <div className="timeline-state__players">
+                        <div className="timeline-state__central">
+                            <span className="timeline-state__player-supply timeline-state__player-supply--player1">
+                                {currentTimelineState[1].supply} / {currentTimelineState[1].supply_cap}
+                            </span>
+                            <span className="timeline-state__current-time">
+                                {formatCurrentTime(gameloop.current)}
+                            </span>
+                            <span className="timeline-state__player-supply timeline-state__player-supply--player2">
+                                {currentTimelineState[2].supply} / {currentTimelineState[2].supply_cap}
+                            </span>
+                        </div>
                         {Object.values(players).map((player, index) => (
                             <div
                                 key={`player-${player.mmr}`}
-                                className={`timeline-state__player timeline-state__player--player-${index + 1}`}
+                                className={`timeline-state__player timeline-state__player--player${index + 1}`}
                             >
                                 {index !== Object.values(players).length - 1 ?
                                     <Fragment>

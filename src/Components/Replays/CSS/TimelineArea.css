@@ -3,16 +3,52 @@
 }
 
 .timeline-state__players {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 300px 1fr 300px;
+    grid-template-areas: 'timeline-state-player1 timeline-state-central timeline-state-player2';
     margin: 20px 0 10px;
     margin-left: 15px;
+}
+
+.timeline-state__central {
+    align-self: flex-end;
+    align-items: flex-end;
+    display: grid;
+    grid-template-columns: 1fr min-content 1fr;
+}
+
+.timeline-state__current-time {
+    font-size: 28px;
+    margin: 0 25px -3px;
+}
+
+.timeline-state__player-supply {
+    font-size: 18px;
+}
+
+.timeline-state__player-supply--player1 {
+    text-align: right;
+}
+
+.timeline-state__player-supply--player2 {
+    text-align: left;
 }
 
 .timeline-state__player {
     display: flex;
     align-items: center;
+    width: max-content;
     font-size: 24px;
+}
+
+.timeline-state__player--player1 {
+    grid-area: timeline-state-player1;
+    justify-self: flex-start;
+}
+
+.timeline-state__player--player2 {
+    grid-area: timeline-state-player2;
+    justify-self: flex-end;
 }
 
 .timeline-state__player-info * {
