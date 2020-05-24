@@ -10,7 +10,7 @@ import {
 import { Fragment, useState } from 'react';
 import RaceState from './RaceState';
 import ObjectState from './ObjectState';
-import CurrentSelectionState from './CurrentSelectionState';
+// import CurrentSelectionState from './CurrentSelectionState';
 import UpgradeState from './UpgradeState';
 import TimelineTooltip from './TimelineTooltip';
 import './CSS/TimelineArea.css';

@@ -18,9 +18,7 @@ const TimelineTooltip = ({ payload, players, gameloop, timeline }) => {
         'Workers Active': ['workers_active'],
         'Workers Lost': ['workers_killed'],
         'Unspent Resources': ['unspent_resources.minerals', 'unspent_resources.gas'],
-        'Collection Rate': ['resource_collection_rate.minerals', 'resource_collection_rate.gas'],
-        'Army Value': ['army_value.minerals', 'army_value.gas'],
-        'Resources Lost': ['resources_lost.minerals', 'resources_lost.gas'],
+        'Resources Mined': ['resources_collected.minerals', 'resources_collected.gas'],
     };
 
     const string2dot = (obj, str) => (
@@ -31,10 +29,9 @@ const TimelineTooltip = ({ payload, players, gameloop, timeline }) => {
         const totalSeconds = Math.floor(tickGameloop / 22.4);
         const minutes = Math.floor(totalSeconds / 60);
         const seconds = totalSeconds - (minutes * 60);
-        return String(seconds).length === 1 ?
-            `${minutes}:0${seconds}`
-            :
-            `${minutes}:${seconds}`;
+        return String(seconds).length === 1
+            ? `${minutes}:0${seconds}`
+            : `${minutes}:${seconds}`;
     };
 
     if (timeline.frozen) {

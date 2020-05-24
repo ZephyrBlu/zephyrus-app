@@ -179,8 +179,8 @@ const RaceState = ({ players, timelineState }) => {
                                 <tbody>
                                     {transposeEnergyData(playerState.race.energy).map(energyMetric => (
                                         <tr key={`energy-metric-${energyMetric}`} className="RaceState__energy-metric">
-                                            {energyMetric.map(value => (
-                                                <td key={`energy-value-${value}`} className="RaceState__energy-metric-value">{value}</td>
+                                            {energyMetric.map((value, i) => (
+                                                <td key={`energy-value-${value}-${i}`} className="RaceState__energy-metric-value">{value}</td>
                                             ))}
                                         </tr>
                                     ))}
