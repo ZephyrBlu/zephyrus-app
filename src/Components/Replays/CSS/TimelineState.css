@@ -4,9 +4,11 @@
 
 .timeline-state__image {
     border-radius: 50%;
-    margin-left: -10px;
-    width: 35px;
-    height: 35px;
+    margin-left: -6px;
+    width: 25px;
+    height: 25px;
+    padding: 3px;
+    background-color: var(--secondary-dark-2);
 }
 
 .timeline-state__image:hover {
@@ -15,15 +17,15 @@
 
 .timeline-state__object-count {
     position: relative;
-    left: -12px;
+    left: -8px;
     background-color: var(--primary-light-1);
     border-radius: 50%;
     padding: 4px;
     display: inline-block;
     text-align: center;
-    font-size: 14px;
-    width: 14px;
-    height: 14px;
+    font-size: 12px;
+    width: 12px;
+    height: 12px;
 }
 
 .timeline-state__object-count--died {

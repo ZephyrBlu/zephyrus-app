@@ -78,7 +78,7 @@ const ObjectState = (props) => {
                                                 alt={objectName}
                                                 title={objectName}
                                                 className="timeline-state__image"
-                                                src={`./images/${props.objectType}/${props.players[playerId].race}/${objectName}.jpg`}
+                                                src={`./images/${props.objectType}/${props.players[playerId].race}/${objectName}.png`}
                                             />
                                             <div
                                                 key={`${objectName}-${state}-div`}

@@ -53,7 +53,7 @@ const CurrentSelectionState = (props) => {
                                             alt={objectName}
                                             title={objectName}
                                             className="timeline-state__image"
-                                            src={`./images/${checkType(playerId, objectName)}/${props.players[playerId].race}/${objectName}.jpg`}
+                                            src={`./images/${checkType(playerId, objectName)}/${props.players[playerId].race}/${objectName}.png`}
                                         />
                                         <div
                                             key={`${objectName}-${playerId}-div`}

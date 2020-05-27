@@ -58,7 +58,7 @@ const UpgradeState = (props) => {
                                     alt={upgradeName}
                                     title={upgradeName}
                                     className="timeline-state__image"
-                                    src={`./images/upgrade/${props.players[playerId].race}/${upgradeName}.gif`}
+                                    src={`./images/upgrade/${props.players[playerId].race}/${upgradeName}.png`}
                                 />
                                 <div
                                     key={`${upgradeName}-${playerId}-div`}
