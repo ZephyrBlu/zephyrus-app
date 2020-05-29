@@ -61,7 +61,19 @@ const ObjectState = (props) => {
             return (
                 startIndex === 0
                     ? objectName.slice(startIndex, -6)
+                    : 'Morphing'
+            );
+        } else if (objectName !== 'Egg' && objectName.includes('Egg')) {
+            return (
+                startIndex === 0
+                    ? objectName.slice(startIndex, -3)
                     : objectName.slice(-6)
+            );
+        } else if (objectName.includes('Cocoon')) {
+            return (
+                startIndex === 0
+                    ? objectName.slice(startIndex, -6)
+                    : 'Morphing'
             );
         }
         return objectName;

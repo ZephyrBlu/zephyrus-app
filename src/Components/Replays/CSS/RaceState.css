@@ -40,7 +40,7 @@
 }
 
 .RaceState__energy-table {
-    table-layout:fixed;
+    table-layout: fixed;
     border-collapse: collapse;
     margin-top: 5px;
     font-size: 12px;
@@ -55,4 +55,15 @@
 .RaceState__energy-metric-value:first-child {
     width: 70px;
     text-align: left;
+}
+
+.RaceState__inject-efficiency-metrics {
+    margin: 0 auto;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+.RaceState__inject-efficiency-value {
+    width: 32px;
+    text-align: center;
 }

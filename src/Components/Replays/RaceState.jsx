@@ -189,7 +189,12 @@ const RaceState = ({ players, timelineState }) => {
                         </div>}
                     {playerState.race.inject_efficiency &&
                         <div className="RaceState__inject-efficiency">
-                            <BarChart width={100} height={100} data={formatInjectData(playerState.race.inject_efficiency)}>
+                            <BarChart
+                                width={playerState.race.inject_efficiency.length * 40}
+                                height={75}
+                                barGap={10}
+                                data={formatInjectData(playerState.race.inject_efficiency)}
+                            >
                                 <YAxis type="number" domain={[0, 1]} hide />
                                 {playerState.race.inject_efficiency.map((building, i) => (
                                     <Bar
@@ -197,6 +202,7 @@ const RaceState = ({ players, timelineState }) => {
                                         dataKey={`building${i}`}
                                         fill="#ffffff"
                                         isAnimationActive={false}
+                                        barSize={25}
                                         maxBarSize={25}
                                     />
                                 ))}
@@ -205,7 +211,12 @@ const RaceState = ({ players, timelineState }) => {
                                 <tbody>
                                     <tr>
                                         {playerState.race.inject_efficiency.map((value, i) => (
-                                            <td key={`inject-value-${value}-${i}`}>{Math.round(value * 100, 0)}%</td>
+                                            <td
+                                                key={`inject-value-${value}-${i}`}
+                                                className="RaceState__inject-efficiency-value"
+                                            >
+                                                {Math.round(value * 100, 0)}%
+                                            </td>
                                         ))}
                                     </tr>
                                 </tbody>

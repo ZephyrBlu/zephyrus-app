@@ -61,7 +61,7 @@ const UpgradeState = (props) => {
                                     src={`./images/upgrade/${props.players[playerId].race}/${upgradeName}.png`}
                                 />
                                 {upgradeName.includes(props.players[playerId].race) && (
-                                    upgradeName.includes('1') || upgradeName.includes('3') || upgradeName.includes('3')
+                                    upgradeName.includes('1') || upgradeName.includes('2') || upgradeName.includes('3')
                                 ) &&
                                     <div
                                         key={`${upgradeName}-${playerId}-div`}
