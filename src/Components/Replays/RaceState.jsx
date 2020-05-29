@@ -118,12 +118,12 @@ const RaceState = ({ players, timelineState }) => {
         <div className="RaceState">
             <div className="RaceState__resource-metrics">
                 <h2 className="RaceState__resource-chart-title">Army Value</h2>
-                <ResponsiveContainer width="99%" height={44}>
+                <ResponsiveContainer width="99%" height={34}>
                     <BarChart
                         layout="vertical"
                         barGap={2}
-                        barSize={15}
-                        maxBarSize={15}
+                        barSize={10}
+                        maxBarSize={10}
                         data={[formatResourceData(timelineState)[0]]}
                     >
                         <XAxis type="number" domain={[0, 1]} hide />
@@ -135,12 +135,12 @@ const RaceState = ({ players, timelineState }) => {
                     </BarChart>
                 </ResponsiveContainer>
                 <h2 className="RaceState__resource-chart-title">Resources Lost</h2>
-                <ResponsiveContainer width="99%" height={44}>
+                <ResponsiveContainer width="99%" height={34}>
                     <BarChart
                         layout="vertical"
                         barGap={2}
-                        barSize={15}
-                        maxBarSize={15}
+                        barSize={10}
+                        maxBarSize={10}
                         data={[formatResourceData(timelineState)[1]]}
                     >
                         <XAxis type="number" domain={[0, 1]} hide />
@@ -158,7 +158,7 @@ const RaceState = ({ players, timelineState }) => {
                         <div className="RaceState__energy">
                             <BarChart
                                 width={70 + (Object.values(playerState.race.energy)[0].length * 35)}
-                                height={60}
+                                height={50}
                                 barGap={10}
                                 margin={{ left: 70 }}
                                 data={formatEnergyData(playerState.race.energy, index + 1)}

@@ -60,12 +60,15 @@ const UpgradeState = (props) => {
                                     className="timeline-state__image"
                                     src={`./images/upgrade/${props.players[playerId].race}/${upgradeName}.png`}
                                 />
-                                <div
-                                    key={`${upgradeName}-${playerId}-div`}
-                                    className="timeline-state__object-count"
-                                >
-                                    {upgradeName.slice(-1)}
-                                </div>
+                                {upgradeName.includes(props.players[playerId].race) && (
+                                    upgradeName.includes('1') || upgradeName.includes('3') || upgradeName.includes('3')
+                                ) &&
+                                    <div
+                                        key={`${upgradeName}-${playerId}-div`}
+                                        className="timeline-state__object-label timeline-state__object-count"
+                                    >
+                                        {upgradeName.slice(-1)}
+                                    </div>}
                             </Fragment>
                         ))}
                     </div>

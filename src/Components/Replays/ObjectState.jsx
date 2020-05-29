@@ -46,12 +46,26 @@ const ObjectState = (props) => {
         return isBreak;
     };
 
-    // const checkType = (playerId, objectName) => {
-    //     if (Object.keys(props.timelineState[playerId].unit).indexOf(objectName) > -1) {
-    //         return 'unit';
-    //     }
-    //     return 'building';
-    // };
+    const checkObjectState = (objectName, startIndex = false) => {
+        // with start index, returns the name of the object without it's state
+        // without start index it returns the object's state
+        // if the object has no state it returns the unaltered name
+
+        if (objectName.includes('Burrowed')) {
+            return (
+                startIndex === 0
+                    ? objectName.slice(startIndex, -8)
+                    : objectName.slice(-8)
+            );
+        } else if (objectName.includes('Flying')) {
+            return (
+                startIndex === 0
+                    ? objectName.slice(startIndex, -6)
+                    : objectName.slice(-6)
+            );
+        }
+        return objectName;
+    };
 
     return (
         props.objectStates.map(state => (
@@ -73,16 +87,23 @@ const ObjectState = (props) => {
                                     objectInfo[state] > 0 && !(props.ignoreObjects.includes(objectName)) &&
                                         <Fragment key={`${objectName}-${state}-frag`}>
                                             {insertBreak()}
+                                            {objectName !== checkObjectState(objectName) &&
+                                                <div
+                                                    key={`${objectName}-state-div`}
+                                                    className="timeline-state__object-label timeline-state__object-state"
+                                                >
+                                                    {checkObjectState(objectName)[0]}
+                                                </div>}
                                             <img
                                                 key={`${objectName}-${state}-img`}
                                                 alt={objectName}
                                                 title={objectName}
                                                 className="timeline-state__image"
-                                                src={`./images/${props.objectType}/${props.players[playerId].race}/${objectName}.png`}
+                                                src={`./images/${props.objectType}/${props.players[playerId].race}/${checkObjectState(objectName, 0)}.png`}
                                             />
                                             <div
                                                 key={`${objectName}-${state}-div`}
-                                                className={`timeline-state__object-count timeline-state__object-count--${state}`}
+                                                className={`timeline-state__object-label timeline-state__object-count timeline-state__object-count--${state}`}
                                             >
                                                 {objectInfo[state]}
                                             </div>

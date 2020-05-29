@@ -2,13 +2,12 @@
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-areas: 'race-stats-player1 race-stats-central race-stats-player2';
-    border-radius: 15px;
-    box-shadow: 0 0 0 1px var(--primary-light-2) inset;
+    border-bottom: 1px solid var(--primary-light-2);
     margin-left: 15px;
     margin-bottom: 10px;
     font-size: 14px;
-    padding: 10px;
-    height: 120px;
+    padding-bottom: 10px;
+    height: 95px;
 }
 
 .RaceState__resource-metrics {
@@ -20,7 +19,7 @@
 
 .RaceState__resource-chart-title {
     margin: 0;
-    font-size: 16px;
+    font-size: 14px;
     text-align: center;
 }
 
@@ -44,6 +43,7 @@
     table-layout:fixed;
     border-collapse: collapse;
     margin-top: 5px;
+    font-size: 12px;
 }
 
 .RaceState__energy-metric-value {
