@@ -38,7 +38,7 @@ const RaceState = ({ players, timelineState }) => {
 
     const transposeEnergyData = (energyData) => {
         // energy values, energy efficiency, energy idle time
-        const formattedData = [['Energy'], ['Efficiency'], ['Idle Time']];
+        const formattedData = [[], [], []];
 
         Object.values(energyData)[0].forEach((building) => {
             formattedData[0].push(Math.round(building[0], 0));
@@ -157,10 +157,9 @@ const RaceState = ({ players, timelineState }) => {
                     {playerState.race.energy &&
                         <div className="RaceState__energy">
                             <BarChart
-                                width={70 + (Object.values(playerState.race.energy)[0].length * 35)}
+                                width={10 + (Object.values(playerState.race.energy)[0].length * 35)}
                                 height={50}
                                 barGap={10}
-                                margin={{ left: 70 }}
                                 data={formatEnergyData(playerState.race.energy, index + 1)}
                             >
                                 <YAxis type="number" domain={[0, 200]} hide />
