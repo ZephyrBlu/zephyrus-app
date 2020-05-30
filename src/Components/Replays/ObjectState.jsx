@@ -83,7 +83,7 @@ const ObjectState = (props) => {
         props.objectStates.map(state => (
             <div key={`${state}-div`} className={`timeline-state__info timeline-state__info--${state}`}>
                 <h2 key={`${state}-title`} className="state-info-title">
-                    {capitalize(props.objectType)}&nbsp;
+                    {capitalize(props.objectType)}s&nbsp;
                     {state === 'in_progress' ? 'In-progress' : capitalize(state)}
                 </h2>
                 {Object.keys(props.timelineState).map((playerId) => {

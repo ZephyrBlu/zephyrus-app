@@ -168,10 +168,11 @@ const RaceState = ({ players, timelineState }) => {
                                     <Bar
                                         key={`energy-building-${building}`}
                                         dataKey={`building${i}`}
-                                        fill="#ffffff"
+                                        fill="hsl(270, 100%, 45%)"
                                         isAnimationActive={false}
                                         barSize={25}
                                         maxBarSize={25}
+                                        radius={5}
                                     />
                                 ))}
                             </BarChart>
@@ -204,6 +205,7 @@ const RaceState = ({ players, timelineState }) => {
                                         isAnimationActive={false}
                                         barSize={25}
                                         maxBarSize={25}
+                                        radius={5}
                                     />
                                 ))}
                             </BarChart>

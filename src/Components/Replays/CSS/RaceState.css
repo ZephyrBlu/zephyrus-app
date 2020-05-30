@@ -39,6 +39,10 @@
     justify-content: flex-end;
 }
 
+.RaceState__energy .recharts-wrapper .recharts-surface {
+    filter: drop-shadow(0 0 2px hsl(270, 100%, 45%));
+}
+
 .RaceState__energy-table {
     table-layout: fixed;
     border-collapse: collapse;
