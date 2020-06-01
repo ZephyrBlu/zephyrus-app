@@ -30,7 +30,7 @@ const RaceState = ({ players, timelineState }) => {
         const formattedData = {};
 
         injectData.forEach((building, index) => {
-            formattedData[`building${index}`] = building;
+            formattedData[`building${index}`] = building[0];
         });
 
         return [formattedData];
@@ -154,6 +154,29 @@ const RaceState = ({ players, timelineState }) => {
             </div>
             {Object.values(timelineState).map((playerState, index) => (
                 <div key={`player-state-${index + 1}`} className={`RaceState__player RaceState__player--player${index + 1}`}>
+                    {(players[index + 1].race === 'Protoss' || players[index + 1].race === 'Terran') &&
+                        <div className="RaceState__energy-usage">
+                            {players[index + 1].race === 'Protoss' && playerState.race.ability_targets &&
+                                Object.entries(playerState.race.ability_targets).map(([building, count]) => (
+                                    <div className="RaceState__usage-values">
+                                        {building.split(/(?=[A-Z])/).map(name => (
+                                            `${name} `
+                                        ))}
+                                        <div className="RaceState__usage-count">
+                                            {count}
+                                        </div>
+                                    </div>
+                                ))}
+                            {players[index + 1].race === 'Terran' && playerState.race.abilities_used &&
+                                Object.entries(playerState.race.abilities_used).map(([ability, count]) => (
+                                    <div className="RaceState__usage-values">
+                                        {abilityNames[ability]}&nbsp;
+                                        <div className="RaceState__usage-count">
+                                            {count}
+                                        </div>
+                                    </div>
+                                ))}
+                        </div>}
                     {playerState.race.energy &&
                         <div className="RaceState__energy">
                             <BarChart
@@ -190,34 +213,49 @@ const RaceState = ({ players, timelineState }) => {
                     {playerState.race.inject_efficiency &&
                         <div className="RaceState__inject-efficiency">
                             <BarChart
-                                width={playerState.race.inject_efficiency.length * 40}
-                                height={75}
+                                width={playerState.race.inject_efficiency.reduce((count, values) => (
+                                    values.length > 1 ? count + 1 : count
+                                ), 0) * 40}
+                                height={65}
                                 barGap={10}
                                 data={formatInjectData(playerState.race.inject_efficiency)}
                             >
                                 <YAxis type="number" domain={[0, 1]} hide />
-                                {playerState.race.inject_efficiency.map((building, i) => (
-                                    <Bar
-                                        key={`inject-building-${building}`}
-                                        dataKey={`building${i}`}
-                                        fill="#ffffff"
-                                        isAnimationActive={false}
-                                        barSize={25}
-                                        maxBarSize={25}
-                                        radius={5}
-                                    />
+                                {playerState.race.inject_efficiency.map((values, i) => (
+                                    values.length > 1 &&
+                                        <Bar
+                                            key={`inject-building-${i}`}
+                                            dataKey={`building${i}`}
+                                            fill="hsl(270, 100%, 45%)"
+                                            isAnimationActive={false}
+                                            barSize={25}
+                                            maxBarSize={25}
+                                            radius={5}
+                                        />
                                 ))}
                             </BarChart>
                             <table className="RaceState__inject-efficiency-metrics">
                                 <tbody>
-                                    <tr>
-                                        {playerState.race.inject_efficiency.map((value, i) => (
-                                            <td
-                                                key={`inject-value-${value}-${i}`}
-                                                className="RaceState__inject-efficiency-value"
-                                            >
-                                                {Math.round(value * 100, 0)}%
-                                            </td>
+                                    <tr className="RaceState__efficiency-metric">
+                                        {playerState.race.inject_efficiency.map((values, i) => (
+                                            values.length > 1 &&
+                                                <td
+                                                    key={`inject-value-${values[0]}-${i}`}
+                                                    className="RaceState__inject-efficiency-value"
+                                                >
+                                                    {Math.round(values[0] * 100, 0)}%
+                                                </td>
+                                        ))}
+                                    </tr>
+                                    <tr className="RaceState__efficiency-metric">
+                                        {playerState.race.inject_efficiency.map((values, i) => (
+                                            values.length > 1 &&
+                                                <td
+                                                    key={`inject-value-${values[1]}-${i}`}
+                                                    className="RaceState__inject-efficiency-value"
+                                                >
+                                                    {Math.round(values[1] / 22.4, 0)}s
+                                                </td>
                                         ))}
                                     </tr>
                                 </tbody>

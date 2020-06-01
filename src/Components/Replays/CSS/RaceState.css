@@ -1,6 +1,6 @@
 .RaceState {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 3fr 2fr 3fr;
     grid-template-areas: 'race-stats-player1 race-stats-central race-stats-player2';
     border-bottom: 1px solid var(--primary-light-2);
     margin-left: 15px;
@@ -19,6 +19,7 @@
 
 .RaceState__resource-chart-title {
     margin: 0;
+    margin-bottom: -3px;
     font-size: 14px;
     text-align: center;
 }
@@ -30,16 +31,33 @@
 .RaceState__player--player1 {
     grid-area: race-stats-player1;
     flex-direction: row;
-    justify-content: flex-start;
+    justify-content: space-evenly;
+}
+
+.RaceState__player--player1 .RaceState__energy-usage {
+    order: 1;
+}
+
+.RaceState__player--player1 .RaceState__energy {
+    order: 2;
+}
+
+.RaceState__player--player2 .RaceState__energy-usage {
+    order: 2;
+}
+
+.RaceState__player--player2 .RaceState__energy {
+    order: 1;
 }
 
 .RaceState__player--player2 {
     grid-area: race-stats-player2;
     flex-direction: row;
-    justify-content: flex-end;
+    justify-content: space-evenly;
 }
 
-.RaceState__energy .recharts-wrapper .recharts-surface {
+.RaceState__energy .recharts-wrapper .recharts-surface,
+.RaceState__inject-efficiency .recharts-wrapper .recharts-surface {
     filter: drop-shadow(0 0 2px hsl(270, 100%, 45%));
 }
 
@@ -66,7 +84,48 @@
     border-collapse: collapse;
 }
 
+.RaceState__efficiency-metric:last-child {
+    color: var(--grey);
+}
+
 .RaceState__inject-efficiency-value {
-    width: 32px;
+    width: 35px;
     text-align: center;
+}
+
+.RaceState__energy-usage {
+    width: 300px;
+    height: 86px;
+    margin: auto 0;
+    display: flex;
+    flex-flow: column wrap;
+    justify-content: center;
+}
+
+.RaceState__usage-values {
+    margin-bottom: 10px;
+    margin-right: 10px;
+    width: 135px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.RaceState__usage-values:nth-child(3),
+.RaceState__usage-values:nth-child(6),
+.RaceState__usage-values:nth-child(9),
+.RaceState__usage-values:nth-child(12) {
+    margin-bottom: 0;
+}
+
+.RaceState__usage-count {
+    height: 20px;
+    width: 20px;
+    border: 1px solid var(--primary-light-3);
+    border-radius: 5px;
+    background-color: var(--primary-light-1);
+    text-align: center;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
 }
