@@ -19,13 +19,6 @@ const StatCategory = ({ type, category, replayInfo, trends, recentPercentDiff })
                 </span>
                 <br />
                 APM measures the number of game actions you perform per minute
-                <br />
-                <br />
-                <span style={{ textDecoration: 'underline' }}>
-                    Inject Count
-                </span>
-                <br />
-                Inject Count measures the number of times you inject per game
             </p>),
         economic: (
             <p style={{ margin: 0, textAlign: 'left' }}>
@@ -129,7 +122,9 @@ const StatCategory = ({ type, category, replayInfo, trends, recentPercentDiff })
         general: {
             winrate: 'Winrate',
             sq: 'Spending Quotient',
+            supply_block: 'Supply Block',
             apm: 'Actions Per Minute',
+            spm: 'Screens Per Minute',
         },
         economic: {
             workers_produced: 'Workers Produced',
@@ -137,6 +132,10 @@ const StatCategory = ({ type, category, replayInfo, trends, recentPercentDiff })
             workers_lost: 'Workers Lost',
             avg_resource_collection_rate_minerals: 'Avg Mineral Collection Rate',
             avg_resource_collection_rate_gas: 'Avg Gas Collection Rate',
+            resources_collected_minerals: 'Minerals Collected',
+            resources_collected_gas: 'Gas Collected',
+            resources_lost_minerals: 'Minerals Lost',
+            resources_lost_gas: 'Gas Lost',
         },
         PAC: {
             avg_pac_actions: 'Avg PAC Actions',
@@ -161,21 +160,37 @@ const StatCategory = ({ type, category, replayInfo, trends, recentPercentDiff })
                 {category.charAt(0).toUpperCase() + category.slice(1)}
                 <InfoTooltip content={descriptions[category] || 'Loading'} />
             </h2>
-            <div className={`StatCategory__stats StatCategory__stats--${type ? 'replays' : 'trends'}`}>
-                {Object.keys(statOrder[category]).map((stat, index) => (
-                    type === 'replays' && stat !== 'winrate' ?
-                        <ReplayStat
-                            key={stat}
-                            stat={stat}
-                            statName={statOrder[category][stat]}
-                            replayInfo={replayInfo}
-                            category={category}
-                            modifier={
-                                index === Object.keys(statOrder[category]).length - 1 ?
-                                    'last' : false
-                            }
-                        />
-                        :
+            {type === 'replays' ?
+                <table className="StatCategory__stats StatCategory__stats--replays">
+                    <tbody>
+                        <tr>
+                            <td />
+                            <td className="ReplayStat__player-header">
+                                {replayInfo.user_match_id === 1 && 'You'}
+                            </td>
+                            <td className="ReplayStat__player-header">
+                                {replayInfo.user_match_id === 2 && 'You'}
+                            </td>
+                        </tr>
+                        {Object.keys(statOrder[category]).map((stat, index) => (
+                            stat !== 'winrate' &&
+                            <ReplayStat
+                                key={stat}
+                                stat={stat}
+                                statName={statOrder[category][stat]}
+                                replayInfo={replayInfo}
+                                category={category}
+                                modifier={
+                                    index === Object.keys(statOrder[category]).length - 1 ?
+                                        'last' : false
+                                }
+                            />
+                        ))}
+                    </tbody>
+                </table>
+                :
+                <div className="StatCategory__stats StatCategory__stats--trends">
+                    {Object.keys(statOrder[category]).map((stat, index) => (
                         <TrendStat
                             key={stat}
                             stat={stat}
@@ -187,8 +202,8 @@ const StatCategory = ({ type, category, replayInfo, trends, recentPercentDiff })
                                     'last' : false
                             }
                         />
-                ))}
-            </div>
+                    ))}
+                </div>}
         </div>
     );
 };

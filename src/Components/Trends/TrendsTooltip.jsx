@@ -22,7 +22,7 @@ const TrendsTooltip = ({ payload, label, lineState, tickFormatter }) => {
         // avg_resource_collection_rate_gas: 'Gas Collection Rate',
         // resources_lost_minerals: 'Minerals Lost',
         // resources_lost_gas: 'Gas Lost',
-        inject_count: 'Inject Count',
+        // inject_count: 'Inject Count',
     };
 
     const colours = {
@@ -43,7 +43,7 @@ const TrendsTooltip = ({ payload, label, lineState, tickFormatter }) => {
         // avg_resource_collection_rate_gas: '#36454F',
         // resources_lost_minerals: '#8B008B',
         // resources_lost_gas: '#FBEC5D',
-        inject_count: 'var(--line-shade-9)',
+        // inject_count: 'var(--line-shade-9)',
     };
 
     if (payload !== undefined && payload.length !== 0) {

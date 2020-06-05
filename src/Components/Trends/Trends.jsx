@@ -23,7 +23,7 @@ const Trends = () => {
     const [statDropdownState, setStatDropdownState] = useState(0);
     const [statCorrelations, setStatCorrelations] = useState(null);
 
-    if (!localStorage.lineState) {
+    if (!localStorage.lineState || JSON.parse(localStorage.lineState).inject_count) {
         localStorage.lineState = JSON.stringify({
             winrate: 1,
             mmr: 0,
@@ -42,7 +42,6 @@ const Trends = () => {
             avg_resource_collection_rate_gas: 0,
             resources_lost_minerals: 0,
             resources_lost_gas: 0,
-            inject_count: 0,
         });
     }
 
@@ -65,7 +64,6 @@ const Trends = () => {
         avg_resource_collection_rate_gas: 0,
         resources_lost_minerals: 0,
         resources_lost_gas: 0,
-        inject_count: 0,
         count: 0,
     }]);
 
@@ -103,7 +101,7 @@ const Trends = () => {
         // avg_resource_collection_rate_gas: '#36454F',
         // resources_lost_minerals: '#8B008B',
         // resources_lost_gas: '#FBEC5D',
-        inject_count: 'var(--line-shade-9)',
+        // inject_count: 'var(--line-shade-9)',
     };
 
     const statNames = {
@@ -124,7 +122,7 @@ const Trends = () => {
         // avg_resource_collection_rate_gas: 'Gas Collection Rate',
         // resources_lost_minerals: 'Minerals Lost',
         // resources_lost_gas: 'Gas Lost',
-        inject_count: 'Inject Count',
+        // inject_count: 'Inject Count',
     };
 
     const statCategories = ['general', 'economic', 'PAC', 'efficiency'];

@@ -1,17 +1,13 @@
 .StatCategory {
-    #margin: 0 auto 30px;
     padding: 0 auto 30px;
-}
-
-.StatCategory--replays {
-    #width: max-content;
-    #width: minmax(350px, 480px);
 }
 
 .StatCategory__stats {
     padding: 20px 25px;
     border-radius: 25px;
     width: min-content;
+    table-layout: fixed;
+    border-collapse: collapse;
 }
 
 .StatCategory--replays .StatCategory__title {
@@ -21,7 +17,7 @@
 
 .StatCategory__stats--replays {
     width: 380px;
-    padding: 5px 20px 10px;
+    margin: -30px 20px 20px;
 }
 
 .StatCategory--replays:first-child {

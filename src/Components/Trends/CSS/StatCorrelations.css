@@ -35,8 +35,6 @@
 
 .StatCorrelations__correlation-direction {
     grid-area: correlation-direction;
-    display: flex;
-    justify-content: center;
     font-size: 14px;
 }
 

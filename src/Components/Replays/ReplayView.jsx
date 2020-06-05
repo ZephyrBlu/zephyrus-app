@@ -37,6 +37,13 @@ const ReplayView = ({ replay, timeline, gameloop, clanTagIndex, visibleState }) 
         }
     }
 
+    // remove race from replay.info as it is non-standard and not displayed for post-game summary
+    let replayInfo;
+    if (replay.info) {
+        const { race, ...filteredReplay } = replay.info;
+        replayInfo = filteredReplay;
+    }
+
     return (
         <Fragment>
             {replay.info &&
@@ -57,7 +64,7 @@ const ReplayView = ({ replay, timeline, gameloop, clanTagIndex, visibleState }) 
                                 key={category}
                                 type="replays"
                                 category={category}
-                                replayInfo={replay.info}
+                                replayInfo={replayInfo}
                             />
                         ))}
                     </div>
