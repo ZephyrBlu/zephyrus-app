@@ -213,7 +213,7 @@ const RaceState = ({ players, timelineState }) => {
                             </table>
                         </div>}
                     {playerState.race.inject_efficiency &&
-                        <div className="RaceState__inject-efficiency">
+                        <div className="RaceState__inject-efficiency-wrapper">
                             <BarChart
                                 width={playerState.race.inject_efficiency.reduce((count, values) => (
                                     values.length > 1 ? count + 1 : count
@@ -236,7 +236,7 @@ const RaceState = ({ players, timelineState }) => {
                                         />
                                 ))}
                             </BarChart>
-                            <table className="RaceState__inject-efficiency-metrics">
+                            <table className="RaceState__inject-efficiency">
                                 <tbody>
                                     <tr className="RaceState__efficiency-metric">
                                         {playerState.race.inject_efficiency.map((values, i) => (
@@ -263,6 +263,27 @@ const RaceState = ({ players, timelineState }) => {
                                 </tbody>
                             </table>
                         </div>}
+                    {playerState.race.creep &&
+                        <ul className="RaceState__creep">
+                            <li className="RaceState__creep-stat">
+                                Creep Coverage
+                                <div className="RaceState__zerg-count">
+                                    {Math.round(playerState.race.creep.coverage[0] * 100, 0)}%
+                                </div>
+                            </li>
+                            <li className="RaceState__creep-stat">
+                                Creep Tiles
+                                <div className="RaceState__zerg-count">
+                                    {playerState.race.creep.coverage[1]}
+                                </div>
+                            </li>
+                            <li className="RaceState__creep-stat">
+                                Active Tumors
+                                <div className="RaceState__zerg-count">
+                                    {playerState.race.creep.tumors}
+                                </div>
+                            </li>
+                        </ul>}
                 </div>
             ))}
         </div>
