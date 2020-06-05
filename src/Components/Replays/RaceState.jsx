@@ -1,4 +1,4 @@
-import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts';
 import './CSS/RaceState.css';
 
 const RaceState = ({ players, timelineState }) => {
@@ -128,6 +128,7 @@ const RaceState = ({ players, timelineState }) => {
                     >
                         <XAxis type="number" domain={[0, 1]} hide />
                         <YAxis type="category" hide />
+                        <Tooltip wrapperStyle={{ zIndex: 9999 }} content={<RaceStateTooltip />} cursor={false} />
                         <Bar dataKey="1.mineralsPercent" stackId="minerals" fill="hsla(0, 100%, 55%, 0.6)" strokeWidth={resourceBarStrokeWidth} strokeOpacity={resourceBarStrokeOpacity} radius={[10, 0, 0, 0]} isAnimationActive={false} />
                         <Bar dataKey="1.gasPercent" stackId="gas" fill="hsla(0, 100%, 55%, 0.6)" strokeWidth={resourceBarStrokeWidth} strokeOpacity={resourceBarStrokeOpacity} radius={[0, 0, 0, 10]} isAnimationActive={false} />
                         <Bar dataKey="2.mineralsPercent" stackId="minerals" fill="hsla(240, 80%, 55%, 0.6)" strokeWidth={resourceBarStrokeWidth} strokeOpacity={resourceBarStrokeOpacity} radius={[0, 10, 0, 0]} isAnimationActive={false} />
@@ -145,6 +146,7 @@ const RaceState = ({ players, timelineState }) => {
                     >
                         <XAxis type="number" domain={[0, 1]} hide />
                         <YAxis type="category" hide />
+                        <Tooltip content={<RaceStateTooltip />} cursor={false} />
                         <Bar dataKey="1.mineralsPercent" stackId="minerals" fill="hsla(0, 100%, 55%, 0.6)" strokeWidth={resourceBarStrokeWidth} strokeOpacity={resourceBarStrokeOpacity} radius={[10, 0, 0, 0]} isAnimationActive={false} />
                         <Bar dataKey="1.gasPercent" stackId="gas" fill="hsla(0, 100%, 55%, 0.6)" strokeWidth={resourceBarStrokeWidth} strokeOpacity={resourceBarStrokeOpacity} radius={[0, 0, 0, 10]} isAnimationActive={false} />
                         <Bar dataKey="2.mineralsPercent" stackId="minerals" fill="hsla(240, 80%, 55%, 0.6)" strokeWidth={resourceBarStrokeWidth} strokeOpacity={resourceBarStrokeOpacity} radius={[0, 10, 0, 0]} isAnimationActive={false} />
@@ -263,6 +265,73 @@ const RaceState = ({ players, timelineState }) => {
                         </div>}
                 </div>
             ))}
+        </div>
+    );
+};
+
+const RaceStateTooltip = ({ payload }) => {
+    if (payload.length === 0) {
+        return null;
+    }
+
+    const tooltipData = [{ resource: 'Minerals', values: [] }, { resource: 'Gas', values: [] }];
+
+    // transposing resource data from player based to resource type based
+    Object.values(payload[0].payload).forEach((playerResourceData) => {
+        tooltipData[0].values.push(playerResourceData.minerals);
+        tooltipData[1].values.push(playerResourceData.gas);
+    });
+
+    return (
+        <div className="RaceStateTooltip">
+            <table>
+                <tbody>
+                    <tr>
+                        <td />
+                        <td className="tooltip__player tooltip__player--player1">
+                            <svg
+                                className="tooltip__player-indicator"
+                                height="10"
+                                width="10"
+                            >
+                                <circle
+                                    cx="5"
+                                    cy="5"
+                                    r="5"
+                                    fill="hsl(0, 100%, 55%)"
+                                />
+                            </svg>
+                        </td>
+                        <td className="tooltip__player tooltip__player--player1">
+                            <svg
+                                className="tooltip__player-indicator"
+                                height="10"
+                                width="10"
+                            >
+                                <circle
+                                    cx="5"
+                                    cy="5"
+                                    r="5"
+                                    fill="hsl(240, 80%, 55%)"
+                                />
+                            </svg>
+                        </td>
+                    </tr>
+                    {tooltipData.map((playerResourceData, i) => (
+                        <tr key={`${playerResourceData.resource}-${i}`}>
+                            <td className="tooltip__stat-name">
+                                {playerResourceData.resource}
+                            </td>
+                            <td className="tooltip__stat-values">
+                                {playerResourceData.values[0]}
+                            </td>
+                            <td className="tooltip__stat-values">
+                                {playerResourceData.values[1]}
+                            </td>
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
         </div>
     );
 };

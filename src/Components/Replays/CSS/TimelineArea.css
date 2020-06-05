@@ -75,10 +75,6 @@
     width: 50px;
 }
 
-.tooltip {
-    display: grid;
-}
-
 .tooltip__content {
     padding: 0;
     margin: 0;

@@ -129,3 +129,24 @@
     flex-direction: column;
     justify-content: center;
 }
+
+.RaceStateTooltip {
+    height: max-content;
+    z-index: 9999;
+    margin: 0 30px;
+    padding: 10px;
+    border-radius: 15px;
+    background-color: hsla(209, 77%, 14%, 1);
+}
+
+.RaceStateTooltip .tooltip__player-indicator {
+    margin: 0;
+}
+
+.RaceStateTooltip .tooltip__stat-name {
+    padding-right: 10px;
+}
+
+.RaceStateTooltip .tooltip__stat-values {
+    text-align: center;
+}
