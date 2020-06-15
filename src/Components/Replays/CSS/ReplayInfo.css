@@ -1,36 +1,68 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300&display=swap');
+
 .ReplayInfo__title-area {
     position:relative;
     display: grid;
     grid-template: max-content max-content min-content / repeat(3, max-content) 1fr;
     grid-template-areas:
     'matchup map result players'
-    'date date date filler'
+    'date date share-replay share-replay'
     'download download download stat-selection';
     grid-gap: 0 20px;
-    margin: 10px 25px 40px 60px;
+    margin: 10px 25px 30px 60px;
 }
 
 .ReplayInfo__replay-download {
     grid-area: download;
     padding: 8px 12px;
-    background-color: var(--light-blue);
-    color: black;
+    border: 1px solid var(--primary-light-2);
+    background-color: var(--secondary-dark-2);
     font-family: 'Roboto', sans-serif;
-    font-weight: 400;
     font-size: 18px;
     text-decoration: none;
     border-radius: 8px;
-    margin-top: 15px;
     width: max-content;
     height: min-content;
     transition: .3s;
+    margin-top: -8px;
 }
 
-.ReplayInfo__replay-download:hover,
-.ReplayInfo__replay-download:focus {
+.ReplayInfo__replay-download:visited {
+    color: var(--text);
+}
+
+.ReplayInfo__share-replay {
+    grid-area: share-replay;
+    justify-self: flex-end;
+    background-color: var(--secondary-dark-2);
+    border-radius: 15px;
+    border: 1px solid var(--primary-light-2);
+    margin-top: 15px;
+}
+
+.ReplayInfo__share-replay * {
+    color: var(--text);
+    font-size: 12px;
+    font-family: 'IBM Plex Mono', monospace;
+}
+
+.ReplayInfo__replay-label {
+    padding: 4px 8px;
+    padding-right: 5px;
+}
+
+.ReplayInfo__replay-url {
+    width: 300px;
+    text-align: center;
+    background-color: transparent;
+    border: none;
+    border-left: 1px solid var(--primary-light-2);
+    padding: 4px 8px;
+    padding-left: 2px;
+}
+
+.ReplayInfo__replay-url:focus {
     outline: none;
-    background-color: var(--light-blue-hover);
-    cursor: pointer;
 }
 
 .ReplayInfo__stat-select {
@@ -54,7 +86,7 @@
 
 .ReplayInfo__stat-toggle:focus {
     outline: none;
-    box-shadow: 0 0 0 1px var(--tertiary-background-light) inset;
+    box-shadow: 0 0 0 1px var(--primary-light-2) inset;
 }
 
 .ReplayInfo__stat-toggle:hover {
@@ -76,7 +108,7 @@
     width: 200px;
     padding: 5px;
     padding-bottom: 0;
-    background-color: var(--tertiary-background);
+    background-color: var(--primary-light-1);
     overflow: hidden;
     border-radius: 5px;
     transition: max-height 0.5s, opacity 0.2s 0.4s, z-index 0.2s 0.4s;
@@ -108,19 +140,24 @@
 
 .ReplayInfo__dropdown-button:focus {
     outline: none;
-    box-shadow: 0 0 0 1px var(--tertiary-background-light) inset;
+    box-shadow: 0 0 0 1px var(--primary-light-2) inset;
 }
 
 .ReplayInfo__players {
     grid-area: players;
     justify-self: flex-end;
-    margin-right: 20px;
     margin-top: 5px;
 }
 
 .ReplayInfo__player-info {
     display: inline-block;
     padding: 4px 0;
+    border-radius: 15px;
+}
+
+.ReplayInfo__player-info--user {
+    box-shadow: 0 0 10px 1px var(--primary-light-3);
+    border: 2px solid var(--primary-light-3);
 }
 
 .ReplayInfo__player-info--player1 {
@@ -128,12 +165,11 @@
 }
 
 .ReplayInfo__player-name {
-    margin: 0;
-    margin-bottom: 10px;
+    margin: 0 0 10px;
     font-size: 16px;
     display: inline;
     padding: 4px 8px;
-    background-color: var(--tertiary-background);
+    background-color: var(--primary-light-1);
     border-radius: 0 15px 15px 0;
 }
 
@@ -148,12 +184,12 @@
 }
 
 .ReplayInfo__player--1 {
-    background-color: hsla(0, 100%, 50%, 0.6);
+    background-color: hsla(0, 100%, 55%, 0.6);
     color: hsl(0, 0%, 85%);
 }
 
 .ReplayInfo__player--2 {
-    background-color: hsla(240, 100%, 50%, 0.6);
+    background-color: hsla(240, 80%, 55%, 0.6);
     color: hsl(0, 0%, 85%);
 }
 

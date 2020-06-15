@@ -2,8 +2,77 @@
     cursor: pointer;
 }
 
-.tooltip {
+.timeline-state__players {
     display: grid;
+    grid-template-columns: 250px 1fr 250px;
+    grid-template-areas: 'timeline-state-player1 timeline-state-central timeline-state-player2';
+    margin: 10px 0;
+    margin-left: 15px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--primary-light-2);
+}
+
+.timeline-state__central {
+    align-self: flex-end;
+    align-items: flex-end;
+    justify-self: center;
+    display: grid;
+    grid-template-columns: 80px min-content 80px;
+}
+
+.timeline-state__current-time {
+    font-size: 32px;
+    margin: 0 10px;
+}
+
+.timeline-state__supply-value {
+    font-size: 16px;
+    text-align: center;
+}
+
+.timeline-state__supply-block-value {
+    font-size: 14px;
+    color: var(--grey);
+    text-align: center;
+}
+
+.timeline-state__player-supply--player1 {
+    text-align: right;
+}
+
+.timeline-state__player-supply--player2 {
+    text-align: left;
+}
+
+.timeline-state__player {
+    display: flex;
+    align-items: center;
+    width: max-content;
+    font-size: 24px;
+}
+
+.timeline-state__player--player1 {
+    grid-area: timeline-state-player1;
+    justify-self: flex-start;
+}
+
+.timeline-state__player--player2 {
+    grid-area: timeline-state-player2;
+    justify-self: flex-end;
+}
+
+.timeline-state__player-info * {
+    display: block;
+}
+
+.timeline-state__player-mmr {
+    font-size: 16px;
+    color: var(--grey);
+}
+
+.timeline-state__race-icon {
+    height: 50px;
+    width: 50px;
 }
 
 .tooltip__content {

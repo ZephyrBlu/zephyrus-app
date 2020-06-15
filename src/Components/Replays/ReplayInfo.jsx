@@ -1,14 +1,17 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
+import UrlContext from '../../index';
 import './CSS/ReplayInfo.css';
 
-const ReplayInfo = (props) => {
+const ReplayInfo = ({ replay, timeline, clanTagIndex }) => {
     const [timelineStatDropdown, setTimelineStatDropdown] = useState(0);
+    const urlPrefix = useContext(UrlContext);
 
-    const selectedReplay = props.selectedReplay;
     const timelineStatCategories = {
         resource_collection_rate_all: 'Total Collection Rate',
         'resource_collection_rate.minerals': 'Mineral Collection Rate',
         'resource_collection_rate.gas': 'Gas Collection Rate',
+        'unspent_resources.minerals': 'Unspent Minerals',
+        'unspent_resources.gas': 'Unspent Gas',
         total_army_value: 'Total Army Value',
         'army_value.minerals': 'Mineral Army Value',
         'army_value.gas': 'Gas Army Value',
@@ -19,63 +22,70 @@ const ReplayInfo = (props) => {
         workers_killed: 'Workers Lost',
     };
 
-    let urlPrefix;
-    if (process.env.NODE_ENV === 'development') {
-        urlPrefix = 'http://127.0.0.1:8000/';
-    } else {
-        urlPrefix = 'https://zephyrus.gg/';
-    }
-
     return (
         <div className="ReplayInfo__title-area">
             <h2 className="ReplayInfo__matchup">
-                {`${selectedReplay.players[1].race.slice(0, 1)}v${selectedReplay.players[2].race.slice(0, 1)}`}
+                {`${replay.players[1].race.slice(0, 1)}v${replay.players[2].race.slice(0, 1)}`}
             </h2>
             <h2 className="ReplayInfo__map">
-                {selectedReplay.map}
+                {replay.map}
             </h2>
             <span className="ReplayInfo__date">
-                {selectedReplay.played_at.slice(0, 1)} Months Ago
+                {replay.played_at.slice(0, 1)} Months Ago
             </span>
             <span className="ReplayInfo__result">
-                {selectedReplay.win ?
+                {replay.win ?
                     <span className="ReplayInfo__result--win">Win</span>
                     :
                     <span className="ReplayInfo__result--loss">Loss</span>
                 }
-                {`\xa0\xa0\xa0\xa0${Math.ceil(selectedReplay.match_length / 60)} min`}
+                {`\xa0\xa0\xa0\xa0${Math.ceil(replay.match_length / 60)} min`}
             </span>
             <div className="ReplayInfo__players">
                 <div
                     className={
                         `ReplayInfo__player-info ReplayInfo__player-info--player1
-                        ${selectedReplay.user_match_id === 1 ? 'ReplayInfo__player-info--user' : ''}`
+                        ${replay.user_match_id === 1 ? 'ReplayInfo__player-info--user' : ''}`
                     }
                 >
                     <span className="ReplayInfo__player ReplayInfo__player--1">Player 1</span>
                     <h2 className="ReplayInfo__player-name">
-                        {selectedReplay.players[1].name.slice(props.clanTagIndex(selectedReplay.players[1].name))}
+                        {replay.players[1].name.slice(clanTagIndex(replay.players[1].name))}
                     </h2>
                 </div>
                 <div
                     className={
                         `ReplayInfo__player-info ReplayInfo__player-info--player2
-                        ${selectedReplay.user_match_id === 2 ? 'ReplayInfo__player-info--user' : ''}`
+                        ${replay.user_match_id === 2 ? 'ReplayInfo__player-info--user' : ''}`
                     }
                 >
                     <span className="ReplayInfo__player ReplayInfo__player--2">Player 2</span>
                     <h2 className="ReplayInfo__player-name">
-                        {selectedReplay.players[2].name.slice(props.clanTagIndex(selectedReplay.players[2].name))}
+                        {replay.players[2].name.slice(clanTagIndex(replay.players[2].name))}
                     </h2>
                 </div>
             </div>
             <a
                 className="ReplayInfo__replay-download"
-                href={`${urlPrefix}api/download/${props.selectedReplay.file_hash}/`}
+                href={`${urlPrefix}api/download/${replay.file_hash}/`}
                 download
             >
                 Download Replay
             </a>
+            <span className="ReplayInfo__share-replay">
+                <label htmlFor="share-replay" className="ReplayInfo__replay-label">
+                    Share
+                </label>
+                <input
+                    id="share-replay"
+                    className="ReplayInfo__replay-url"
+                    type="text"
+                    onClick={e => e.target.select()}
+                    onFocus={e => e.target.select()}
+                    value={`${urlPrefix}replay/${replay.url}`}
+                    readOnly
+                />
+            </span>
             <div className="ReplayInfo__stat-select">
                 <button
                     className="ReplayInfo__stat-toggle"
@@ -84,7 +94,7 @@ const ReplayInfo = (props) => {
                             setTimelineStatDropdown(0) : setTimelineStatDropdown(1)
                     )}
                 >
-                    {timelineStatCategories[props.timelineStat]}
+                    {timelineStatCategories[timeline.stat]}
                     <img
                         className="ReplayInfo__selection-arrow"
                         src="../../icons/down-arrow.svg"
@@ -106,7 +116,7 @@ const ReplayInfo = (props) => {
                                 key={statName}
                                 className="ReplayInfo__dropdown-button"
                                 onClick={() => {
-                                    props.setTimelineStat(statKey);
+                                    timeline.setStat(statKey);
                                     localStorage.timelineStat = statKey;
                                 }}
                             >
@@ -119,7 +129,7 @@ const ReplayInfo = (props) => {
                                         r="5"
                                         fill="hsl(210, 68%, 47%)"
                                         opacity={
-                                            statKey === props.timelineStat ?
+                                            statKey === timeline.stat ?
                                                 '1' : '0'
                                         }
                                     />

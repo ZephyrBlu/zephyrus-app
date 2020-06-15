@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useState, useEffect, Fragment } from 'react';
 import {
     ResponsiveContainer,
@@ -9,25 +9,21 @@ import {
     Tooltip,
     Line,
 } from 'recharts';
-import { setTrends } from '../../actions';
-import StatCategory from '../General/StatCategory';
+import StatCategory from '../shared/StatCategory';
 import StatCorrelations from './StatCorrelations';
-import InfoTooltip from '../General/InfoTooltip';
-import CustomTooltip from '../General/Tooltip';
-import DefaultResponse from '../General/DefaultResponse';
-import WaveAnimation from '../General/WaveAnimation';
+import InfoTooltip from '../shared/InfoTooltip';
+import TrendsTooltip from './TrendsTooltip';
+import DefaultResponse from '../shared/DefaultResponse';
+import LoadingAnimation from '../shared/LoadingAnimation';
 import './CSS/Trends.css';
 
 const Trends = () => {
-    const dispatch = useDispatch();
-    const user = useSelector(state => state.user);
-    const selectedRace = useSelector(state => state.selectedRace);
-    const currentTrends = useSelector(state => state.raceData[selectedRace].trends);
+    const currentTrends = useSelector(state => state.raceData[state.selectedRace].trends);
     const [playerTrends, setPlayerTrends] = useState(null);
     const [statDropdownState, setStatDropdownState] = useState(0);
     const [statCorrelations, setStatCorrelations] = useState(null);
 
-    if (!localStorage.lineState) {
+    if (!localStorage.lineState || JSON.parse(localStorage.lineState).inject_count) {
         localStorage.lineState = JSON.stringify({
             winrate: 1,
             mmr: 0,
@@ -46,7 +42,6 @@ const Trends = () => {
             avg_resource_collection_rate_gas: 0,
             resources_lost_minerals: 0,
             resources_lost_gas: 0,
-            inject_count: 0,
         });
     }
 
@@ -69,7 +64,6 @@ const Trends = () => {
         avg_resource_collection_rate_gas: 0,
         resources_lost_minerals: 0,
         resources_lost_gas: 0,
-        inject_count: 0,
         count: 0,
     }]);
 
@@ -78,63 +72,15 @@ const Trends = () => {
     }, [lineState]);
 
     useEffect(() => {
-        const requestControllers = [];
-        const getStats = async () => {
-            let urlPrefix;
-            if (process.env.NODE_ENV === 'development') {
-                urlPrefix = 'http://127.0.0.1:8000/';
-            } else {
-                urlPrefix = 'https://zephyrus.gg/';
-            }
-
-            const races = ['protoss', 'zerg', 'terran'];
-            await Promise.all(races.map(async (race) => {
-                const url = `${urlPrefix}api/stats/${race}/`;
-                const controller = new AbortController();
-                requestControllers.push(controller);
-                const signal = controller.signal;
-                let status;
-
-                const trends = await fetch(url, {
-                    method: 'GET',
-                    signal,
-                    headers: {
-                        Authorization: `Token ${user.token}`,
-                    },
-                }).then((response) => {
-                    status = response.status;
-                    return response.json();
-                }).then(responseBody => (
-                    JSON.parse(responseBody)
-                )).catch(() => (null));
-
-                if (trends && status === 200) {
-                    dispatch(setTrends(trends, race));
-                } else {
-                    dispatch(setTrends(false, race));
-                }
-            }));
-        };
-
-        if (currentTrends !== null) {
-            if (currentTrends) {
-                setPlayerTrends(currentTrends.recent);
-                setTimelineData(currentTrends.weekly);
-                setStatCorrelations(currentTrends.correlations);
-            } else {
-                setPlayerTrends(null);
-                setTimelineData([]);
-                setStatCorrelations(null);
-            }
-        } else {
-            getStats();
+        if (currentTrends) {
+            setPlayerTrends(currentTrends.recent);
+            setTimelineData(currentTrends.weekly);
+            setStatCorrelations(currentTrends.correlations);
+        } else if (currentTrends === false) {
+            setPlayerTrends(null);
+            setTimelineData([]);
+            setStatCorrelations(null);
         }
-
-        return () => {
-            requestControllers.forEach((controller) => {
-                controller.abort();
-            });
-        };
     }, [currentTrends]);
 
     const statColours = {
@@ -155,7 +101,7 @@ const Trends = () => {
         // avg_resource_collection_rate_gas: '#36454F',
         // resources_lost_minerals: '#8B008B',
         // resources_lost_gas: '#FBEC5D',
-        inject_count: 'var(--line-shade-9)',
+        // inject_count: 'var(--line-shade-9)',
     };
 
     const statNames = {
@@ -176,7 +122,7 @@ const Trends = () => {
         // avg_resource_collection_rate_gas: 'Gas Collection Rate',
         // resources_lost_minerals: 'Minerals Lost',
         // resources_lost_gas: 'Gas Lost',
-        inject_count: 'Inject Count',
+        // inject_count: 'Inject Count',
     };
 
     const statCategories = ['general', 'economic', 'PAC', 'efficiency'];
@@ -379,7 +325,7 @@ const Trends = () => {
                                 />
                                 <Tooltip
                                     content={
-                                        <CustomTooltip
+                                        <TrendsTooltip
                                             chart="trends"
                                             lineState={lineState}
                                             tickFormatter={formatTick}
@@ -479,7 +425,7 @@ const Trends = () => {
                         ))}
                     </div>}
                 {!currentTrends && (currentTrends === null ?
-                    <WaveAnimation />
+                    <LoadingAnimation />
                     :
                     <DefaultResponse />)}
             </div>

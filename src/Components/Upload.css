@@ -1,5 +1,5 @@
 .Upload {
-    background-color: var(--secondary-background);
+    background-color: var(--secondary-dark-2);
     width: max-content;
     height: 160px;
     margin: 80px auto 0;
@@ -25,7 +25,7 @@
 .Upload__file-form {
     margin: 20px auto 0;
     width: 160px;
-    background: var(--light-blue);
+    background: var(--primary-blue);
     border: none;
     border-radius: 8px;
     transition: 0.3s;
@@ -33,7 +33,7 @@
 
 .Upload__file-form:hover, .Upload__file-form:focus {
     outline: none;
-    background: var(--light-blue-hover);
+    background: var(--primary-blue-hover);
 }
 
 .Upload__form-input {
@@ -59,7 +59,7 @@
 .Upload__form-input::-webkit-file-upload-button:hover,
 .Upload__form-input::-webkit-file-upload-button:focus {
     outline: none;
-    background: var(--light-blue-hover);
+    background: var(--primary-blue-hover);
     cursor: pointer;
 }
 
@@ -71,7 +71,7 @@
     margin-left: -40px;
     padding: 20px;
     text-align: center;
-    background-color: var(--secondary-background);
+    background-color: var(--secondary-dark-2);
     border-radius: 25px;
 }
 

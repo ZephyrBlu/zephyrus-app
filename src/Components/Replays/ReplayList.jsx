@@ -1,9 +1,9 @@
 import ReplayRecord from './ReplayRecord';
 import './CSS/ReplayList.css';
 
-const ReplayList = props => (
+const ReplayList = ({ replays }) => (
     <section className="ReplayList">
-        {props.replayList.map((replayInfo) => {
+        {replays.map((replayInfo) => {
             const stats = replayInfo;
             const { fileHash, ...newStats } = stats;
 

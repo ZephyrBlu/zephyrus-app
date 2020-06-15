@@ -1,15 +1,17 @@
 import { useDispatch } from 'react-redux';
-import { useState } from 'react';
-import { setUser, setSelectedRace } from '../actions';
-import SpinningRingAnimation from './General/SpinningRingAnimation';
+import { useState, useEffect, useContext } from 'react';
+import { setInitialUser } from '../actions';
+import SpinningRingAnimation from './shared/SpinningRingAnimation';
 import './Login.css';
+import UrlContext from '../index';
 
-const Login = (props) => {
+const Login = ({ setWaitingForUser }) => {
     const dispatch = useDispatch();
     const [usernameValue, setUsernameValue] = useState('');
     const [passwordValue, setPasswordValue] = useState('');
     const [formError, setFormError] = useState(null);
-    const [isUserWaiting, setIsUserWaiting] = useState(false);
+    const [_user, _setUser] = useState({ user: null, waiting: false });
+    const urlPrefix = useContext(UrlContext);
 
     const handleUsernameInput = (event) => {
         setUsernameValue(event.target.value);
@@ -19,55 +21,55 @@ const Login = (props) => {
         setPasswordValue(event.target.value);
     };
 
-    // update redux store with auth token
-    const onGetCredentials = (user) => {
-        if (user.verified && user.battlenet_accounts && Object.keys(user.battlenet_accounts[0].profiles).length > 0) {
-            props.setWaitingForUser(false);
+    useEffect(() => {
+        // wrap in check for initial effect
+        if (_user.user) {
+            localStorage.user = JSON.stringify(_user.user);
+            const userState = _user.user /* eslint-disable-line no-nested-ternary */
+                ? (_user.user.verified
+                && !!_user.user.battlenet_accounts
+                && Object.keys(_user.user.battlenet_accounts[0].profiles).length > 0)
+                : null;
+            setWaitingForUser(!userState);
+            dispatch(setInitialUser(_user.user, _user.user.main_race));
         }
-        dispatch(setUser(user));
-        dispatch(setSelectedRace(user.main_race));
-        localStorage.user = JSON.stringify(user);
-    };
+    }, [_user]);
 
     const handleSubmit = async (event) => {
         // prevents form action to reload page
         event.preventDefault();
-        setIsUserWaiting(true);
+        _setUser(prevUser => ({ ...prevUser, waiting: true }));
         setFormError(false);
-
-        let urlPrefix;
-        if (process.env.NODE_ENV === 'development') {
-            urlPrefix = 'http://127.0.0.1:8000/';
-        } else {
-            urlPrefix = 'https://zephyrus.gg/';
-        }
-
-        const loginUrl = `${urlPrefix}api/login/`;
 
         const data = {
             username: usernameValue,
             password: passwordValue,
         };
 
-        const result = await fetch(loginUrl, {
+        const loginOpts = {
             method: 'POST',
             headers: {
                 'Cache-Control': 'max-age=0, no-cache, no-store, must-revalidate',
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(data),
-        }).then((response) => {
-            if (response.status !== 200) {
-                throw new Error(`${response.status} ${response.statusText}`);
-            }
-            return response.json();
-        }).then(responseBody => (
-            onGetCredentials(responseBody.user)
-        )).catch(requestError => (requestError));
+        };
 
-        setIsUserWaiting(false);
-        if (result) {
+        const loginResponse = await fetch(
+            `${urlPrefix}api/login/`,
+            loginOpts,
+        ).then(async (response) => {
+            if (response.ok) {
+                const _data = await response.json();
+                return _data;
+            }
+            return false;
+        });
+        if (loginResponse.user) {
+            _setUser(prevUser => ({ ...prevUser, user: loginResponse.user }));
+        } else {
             setFormError('Incorrect details');
+            _setUser(prevUser => ({ ...prevUser, waiting: false }));
         }
     };
 
@@ -105,9 +107,9 @@ const Login = (props) => {
                             className="login-form__submit"
                             type="submit"
                             value="LOG IN"
-                            disabled={isUserWaiting}
+                            disabled={_user.waiting}
                         />
-                        {isUserWaiting &&
+                        {_user.waiting &&
                             <SpinningRingAnimation style={{ top: '20px' }} />}
                     </span>
                     {formError &&

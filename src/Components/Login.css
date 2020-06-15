@@ -17,14 +17,14 @@
 }
 
 .login-form {
-    background-color: var(--secondary-background);
+    background-color: var(--secondary-dark-2);
     height: 120px;
     width: 100%;
     margin: 300px 0 0;
     margin-left: calc(-580px + (100vw*.5));
     padding: 20px 60px 20px 20px;
     border-radius: 15px 0 0 15px;
-    border: 1px solid var(--tertiary-background-light);
+    border: 1px solid var(--primary-light-2);
 }
 
 .login-form__title {
@@ -70,13 +70,12 @@
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    #margin-left: 90px;
 }
 
 .login-form__submit {
     margin-top: 20px;
     padding: 10px 100px;
-    background-color: var(--light-blue);
+    background-color: var(--primary-blue);
     color: black;
     font-size: 16px;
     font-family: 'Roboto', sans-serif;
@@ -88,7 +87,7 @@
 
 .login-form__submit:hover, .login-form__submit:focus {
     outline: none;
-    background-color: var(--light-blue-hover);
+    background-color: var(--primary-blue-hover);
     cursor: pointer;
 }
 
@@ -97,7 +96,7 @@
 }
 
 @media (max-width: 1400px) {
-    .Login .PageTemplate__main-content {
+    .Login .Page__main-content {
         justify-content: flex-start;
     }
 
@@ -127,8 +126,8 @@
         margin: 0 auto;
         padding: 20px;
         border-radius: 15px;
-        border: 1px solid var(--tertiary-background-light);
-        background-color: var(--secondary-background);
+        border: 1px solid var(--primary-light-2);
+        background-color: var(--secondary-dark-2);
     }
 
     .login-form__error {

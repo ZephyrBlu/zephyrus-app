@@ -1,0 +1,61 @@
+.StatCategory {
+    padding: 0 auto 30px;
+}
+
+.StatCategory__stats {
+    padding: 20px 25px;
+    border-radius: 25px;
+    width: min-content;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+.StatCategory--replays .StatCategory__title {
+    margin: 10px 20px;
+    margin-right: 0;
+}
+
+.StatCategory__stats--replays {
+    width: 380px;
+    margin: -30px 20px 20px;
+}
+
+.StatCategory--replays:first-child {
+    border-radius: 15px 0 0 0;
+    border: 1px solid var(--primary-light-2);
+}
+
+.StatCategory--replays:nth-child(2) {
+    border-radius: 0 15px 0 0;
+    border: 1px solid var(--primary-light-2);
+    border-left: none;
+}
+
+.StatCategory--replays:nth-child(3) {
+    border-radius: 0 0 0 15px;
+    border: 1px solid var(--primary-light-2);
+    border-top: none;
+}
+
+.StatCategory--replays:last-child {
+    border-radius: 0 0 15px 0;
+    border: 1px solid var(--primary-light-2);
+    border-left: none;
+    border-top: none;
+}
+
+.StatCategory__stats--trends {
+    background-color: var(--secondary-dark-2);
+}
+
+.StatCategory__title {
+    margin: 0;
+    margin-left: 25px;
+    margin-bottom: 10px;
+}
+
+@media (max-width: 1400px) {
+    .StatCategory__stats--replays {
+        min-width: 0;
+    }
+}

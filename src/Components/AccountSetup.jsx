@@ -1,11 +1,12 @@
+import { useEffect, useState, useRef, useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { useEffect, useState, useRef } from 'react';
 import Tippy from '@tippy.js/react';
 import { setUser } from '../actions';
-import SpinningRingAnimation from './General/SpinningRingAnimation';
+import UrlContext from '../index';
+import SpinningRingAnimation from './shared/SpinningRingAnimation';
 import './AccountSetup.css';
 
-const AccountSetup = (props) => {
+const AccountSetup = ({ setWaitingForUser }) => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.user);
     const profileInputRef = useRef();
@@ -14,25 +15,17 @@ const AccountSetup = (props) => {
     const [emailError, setEmailError] = useState(null);
     const [isProfileSaving, setIsProfileSaving] = useState(false);
     const [profileError, setProfileError] = useState(null);
-
-    let urlPrefix;
-    if (process.env.NODE_ENV === 'development') {
-        urlPrefix = 'http://127.0.0.1:8000/';
-    } else {
-        urlPrefix = 'https://zephyrus.gg/';
-    }
+    const urlPrefix = useContext(UrlContext);
 
     const checkAccountStatus = async () => {
         const url = `${urlPrefix}api/authorize/check/`;
 
         const updatedUser = await fetch(url, {
             method: 'GET',
-            headers: {
-                Authorization: `Token ${user.token}`,
-            },
+            headers: { Authorization: `Token ${user.token}` },
         }).then(response => (
             response.json()
-        )).catch(() => null);
+        ));
         dispatch(setUser(updatedUser.user));
         localStorage.user = JSON.stringify(updatedUser.user);
     };
@@ -41,22 +34,13 @@ const AccountSetup = (props) => {
         const setBattlenetAccount = async (authCode) => {
             const url = `${urlPrefix}api/authorize/code/`;
 
-            const error = await fetch(url, {
+            const battlenetAccountResponse = await fetch(url, {
                 method: 'POST',
-                headers: {
-                    Authorization: `Token ${user.token}`,
-                },
+                headers: { Authorization: `Token ${user.token}` },
                 body: JSON.stringify({ authCode }),
-            }).then((response) => {
-                if (response.status !== 200) {
-                    return `(${response.status}) Invalid Authorization Code`;
-                }
-                return null;
-            }).catch(() => null);
+            }).then(response => response);
 
-            if (error) {
-                console.log('error', error);
-            } else {
+            if (battlenetAccountResponse.ok) {
                 localStorage.removeItem('authCode');
                 checkAccountStatus();
             }
@@ -75,21 +59,17 @@ const AccountSetup = (props) => {
         setEmailError(null);
         const url = `${urlPrefix}api/resend/`;
 
-        const result = await fetch(url, {
+        const emailResponse = await fetch(url, {
             method: 'GET',
-            headers: {
-                Authorization: `Token ${user.token}`,
-            },
-        }).then(response => (
-            response.status
-        )).catch(() => null);
+            headers: { Authorization: `Token ${user.token}` },
+        });
 
-        if (result !== 200) {
-            setEmailError('Something went wrong');
-            setIsEmailSending(false);
-        } else {
+        if (emailResponse.ok) {
             setEmailError(null);
             setIsEmailSending(null);
+        } else {
+            setEmailError('Something went wrong');
+            setIsEmailSending(false);
         }
     };
 
@@ -99,22 +79,19 @@ const AccountSetup = (props) => {
         }
         const url = `${urlPrefix}api/authorize/url/`;
 
-        const result = await fetch(url, {
+        const authorizeBattlenetResponse = await fetch(url, {
             method: 'GET',
-            headers: {
-                Authorization: `Token ${user.token}`,
-            },
-        }).then((response) => {
-            if (response.status === 200) {
-                return response.json();
+            headers: { Authorization: `Token ${user.token}` },
+        }).then(async (response) => {
+            if (response.ok) {
+                const data = await response.json();
+                return data;
             }
             return null;
-        }).then(responseBody => (
-            responseBody
-        )).catch(() => null);
+        });
 
-        if (result) {
-            window.location.assign(result.url);
+        if (authorizeBattlenetResponse) {
+            window.location.assign(authorizeBattlenetResponse.url);
         }
     };
 
@@ -136,20 +113,16 @@ const AccountSetup = (props) => {
         setProfileError(null);
         const url = `${urlPrefix}api/profile/`;
 
-        const result = await fetch(url, {
+        const profileResponse = await fetch(url, {
             method: 'POST',
-            headers: {
-                Authorization: `Token ${user.token}`,
-            },
+            headers: { Authorization: `Token ${user.token}` },
             body: currentProfileUrl,
-        }).then(response => (
-            response.status
-        )).catch(() => null);
+        });
 
-        if (result === 200) {
+        if (profileResponse.ok) {
             checkAccountStatus();
             setIsProfileSaving(null);
-        } else if (result === 400) {
+        } else if (profileResponse.status === 400) {
             setProfileError('Invalid URL');
             setIsProfileSaving(false);
         } else {
@@ -218,7 +191,7 @@ const AccountSetup = (props) => {
                 {user.verified && user.battlenetAccounts && Object.keys(user.battlenetAccounts[0].profiles).length > 0 &&
                     <button
                         className="AccountSetup__setup-action AccountSetup__setup-action--finish"
-                        onClick={() => props.setWaitingForUser(false)}
+                        onClick={() => setWaitingForUser(false)}
                     >
                         Continue
                     </button>}

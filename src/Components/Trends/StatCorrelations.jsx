@@ -1,5 +1,5 @@
 import { useLayoutEffect, useState } from 'react';
-import InfoTooltip from '../General/InfoTooltip';
+import InfoTooltip from '../shared/InfoTooltip';
 import './CSS/StatCorrelations.css';
 
 const StatCorrelations = (props) => {
@@ -73,9 +73,9 @@ const StatCorrelations = (props) => {
                             >
                                 {value[0] >= 0 ? 'Positive' : 'Negative'} Correlation
                             </span>&nbsp;&nbsp;&nbsp;&nbsp;
-                            <span style={{ textDecoration: 'underline' }}>
+                            {/* <span>
                                 {value[0] >= 0 ? 'Keep doing this' : 'Improve at this'}
-                            </span>
+                            </span> */}
                         </span>
                         <span
                             className={`

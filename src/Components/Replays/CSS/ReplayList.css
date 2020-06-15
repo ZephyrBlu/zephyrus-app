@@ -1,8 +1,5 @@
 .ReplayList {
     grid-area: replay-list;
-    background-color: var(--main-background);
-    border-radius: 25px;
-    margin-top: 5px;
     height: 100%;
     overflow-y: scroll;
 }

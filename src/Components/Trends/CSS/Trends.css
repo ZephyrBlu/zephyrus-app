@@ -52,7 +52,7 @@
 .timeline__stat-picker-title:focus,
 .timeline__stat-dropdown-button:focus {
     outline: none;
-    box-shadow: 0 0 0 1px var(--tertiary-background-light);
+    box-shadow: 0 0 0 1px var(--primary-light-2);
 }
 
 .timeline__stat-dropdown {
@@ -65,7 +65,7 @@
     padding: 5px;
     transition: max-height 0.5s;
     overflow: hidden;
-    background-color: var(--tertiary-background);
+    background-color: var(--primary-light-1);
     border-radius: 5px;
 }
 
