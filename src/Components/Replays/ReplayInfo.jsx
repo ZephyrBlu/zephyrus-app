@@ -1,26 +1,9 @@
-import { useState, useContext } from 'react';
+import { useContext } from 'react';
 import UrlContext from '../../index';
 import './CSS/ReplayInfo.css';
 
-const ReplayInfo = ({ replay, timeline, clanTagIndex }) => {
-    const [timelineStatDropdown, setTimelineStatDropdown] = useState(0);
+const ReplayInfo = ({ replay, clanTagIndex }) => {
     const urlPrefix = useContext(UrlContext);
-
-    const timelineStatCategories = {
-        resource_collection_rate_all: 'Total Collection Rate',
-        'resource_collection_rate.minerals': 'Mineral Collection Rate',
-        'resource_collection_rate.gas': 'Gas Collection Rate',
-        'unspent_resources.minerals': 'Unspent Minerals',
-        'unspent_resources.gas': 'Unspent Gas',
-        total_army_value: 'Total Army Value',
-        'army_value.minerals': 'Mineral Army Value',
-        'army_value.gas': 'Gas Army Value',
-        total_resources_lost: 'Total Resources Lost',
-        'resources_lost.minerals': 'Minerals Lost',
-        'resources_lost.gas': 'Gas Lost',
-        workers_active: 'Workers Active',
-        workers_killed: 'Workers Lost',
-    };
 
     return (
         <div className="ReplayInfo__title-area">
@@ -86,59 +69,6 @@ const ReplayInfo = ({ replay, timeline, clanTagIndex }) => {
                     readOnly
                 />
             </span>
-            <div className="ReplayInfo__stat-select">
-                <button
-                    className="ReplayInfo__stat-toggle"
-                    onClick={() => (
-                        timelineStatDropdown === 1 ?
-                            setTimelineStatDropdown(0) : setTimelineStatDropdown(1)
-                    )}
-                >
-                    {timelineStatCategories[timeline.stat]}
-                    <img
-                        className="ReplayInfo__selection-arrow"
-                        src="../../icons/down-arrow.svg"
-                        alt=""
-                    />
-                </button>
-                <ul
-                    style={{
-                        opacity: timelineStatDropdown,
-                        zIndex: timelineStatDropdown,
-                        maxHeight: timelineStatDropdown === 0 ? '0px' : '400px',
-                    }}
-                    className={`ReplayInfo__stat-dropdown 
-                        ${timelineStatDropdown === 1 ? 'ReplayInfo__stat-dropdown--open' : ''}`}
-                >
-                    {Object.entries(timelineStatCategories).map(([statKey, statName]) => (
-                        <li key={statName} className="ReplayInfo__dropdown-option">
-                            <button
-                                key={statName}
-                                className="ReplayInfo__dropdown-button"
-                                onClick={() => {
-                                    timeline.setStat(statKey);
-                                    localStorage.timelineStat = statKey;
-                                }}
-                            >
-                                {statName}&nbsp;&nbsp;
-                                <svg height="10" width="10">
-                                    <circle
-                                        className="ReplayInfo__stat-dropdown-indicator"
-                                        cx="5"
-                                        cy="5"
-                                        r="5"
-                                        fill="hsl(210, 68%, 47%)"
-                                        opacity={
-                                            statKey === timeline.stat ?
-                                                '1' : '0'
-                                        }
-                                    />
-                                </svg>
-                            </button>
-                        </li>
-                    ))}
-                </ul>
-            </div>
         </div>
     );
 };

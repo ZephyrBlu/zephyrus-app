@@ -49,10 +49,6 @@ const ReplayView = ({ replay, timeline, gameloop, clanTagIndex, visibleState }) 
             {replay.info &&
                 <ReplayInfo
                     replay={replay.data}
-                    timeline={{
-                        stat: timeline.stat,
-                        setStat: timeline.setStat,
-                    }}
                     clanTagIndex={clanTagIndex}
                 />}
             {timelineArea}
