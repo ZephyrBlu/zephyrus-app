@@ -22,24 +22,24 @@
 
 .StatCategory--replays:first-child {
     border-radius: 15px 0 0 0;
-    border: 1px solid var(--primary-light-2);
+    border: 1px solid var(--primary-light-3);
 }
 
 .StatCategory--replays:nth-child(2) {
     border-radius: 0 15px 0 0;
-    border: 1px solid var(--primary-light-2);
+    border: 1px solid var(--primary-light-3);
     border-left: none;
 }
 
 .StatCategory--replays:nth-child(3) {
     border-radius: 0 0 0 15px;
-    border: 1px solid var(--primary-light-2);
+    border: 1px solid var(--primary-light-3);
     border-top: none;
 }
 
 .StatCategory--replays:last-child {
     border-radius: 0 0 15px 0;
-    border: 1px solid var(--primary-light-2);
+    border: 1px solid var(--primary-light-3);
     border-left: none;
     border-top: none;
 }

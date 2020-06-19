@@ -18,7 +18,7 @@
 
 .timeline-state__object-label {
     position: relative;
-    background-color: var(--primary-light-1);
+    background-color: var(--primary-light-2);
     border-radius: 50%;
     padding: 4px;
     display: inline-block;
@@ -26,7 +26,6 @@
     font-size: 12px;
     width: 12px;
     height: 12px;
-    border: 1px solid var(--primary-light-3);
 }
 
 .timeline-state__object-state {
@@ -53,7 +52,7 @@
     grid-template-columns: 1fr max-content 1fr;
     grid-template-rows: 40px;
     grid-template-areas: 'unit-info-player1 state-info-title unit-info-player2';
-    border-bottom: 1px solid var(--primary-light-2);
+    border-bottom: 1px solid var(--primary-light-3);
     padding-bottom: 5px;
 }
 

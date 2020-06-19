@@ -17,7 +17,7 @@
     width: 100%;
     background-color: var(--primary-dark-2);
     color: var(--text);
-    border-bottom: 1px solid var(--primary-light-2);
+    border-bottom: 1px solid var(--primary-light-3);
 }
 
 .Page__page-info {
@@ -27,8 +27,8 @@
     height: 32px;
     padding: 0 25px;
     margin: 0 25px;
-    border-left: 2px solid var(--primary-light-2);
-    border-right: 2px solid var(--primary-light-2);
+    border-left: 2px solid var(--primary-light-3);
+    border-right: 2px solid var(--primary-light-3);
 }
 
 .Page__page-info--Replays {
@@ -62,7 +62,7 @@
 .Page__feature-vote {
     padding-left: 25px;
     margin-left: 25px;
-    border-left: 2px solid var(--primary-light-2);
+    border-left: 2px solid var(--primary-light-3);
     height: 32px;
     display: flex;
     flex-direction: row;

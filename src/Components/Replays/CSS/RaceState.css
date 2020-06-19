@@ -2,7 +2,7 @@
     display: grid;
     grid-template-columns: 3fr 2fr 3fr;
     grid-template-areas: 'race-stats-player1 race-stats-central race-stats-player2';
-    border-bottom: 1px solid var(--primary-light-2);
+    border-bottom: 1px solid var(--primary-light-3);
     margin-left: 15px;
     margin-bottom: 10px;
     font-size: 14px;
@@ -121,9 +121,9 @@
 .RaceState__usage-count {
     height: 20px;
     width: 20px;
-    border: 1px solid var(--primary-light-3);
+    padding: 1px;
     border-radius: 5px;
-    background-color: var(--primary-light-1);
+    background-color: var(--primary-light-2);
     text-align: center;
     display: inline-flex;
     flex-direction: column;
@@ -166,11 +166,10 @@
     height: 20px;
     width: max-content;
     min-width: 10px;
-    padding: 0 5px;
+    padding: 1px 5px;
     margin-left: 10px;
-    border: 1px solid var(--primary-light-3);
     border-radius: 5px;
-    background-color: var(--primary-light-1);
+    background-color: var(--primary-light-2);
     text-align: center;
     display: inline-flex;
     flex-direction: column;
