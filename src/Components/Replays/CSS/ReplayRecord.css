@@ -19,7 +19,7 @@
 
 .ReplayRecord:focus {
     outline: none;
-    box-shadow: 0 0 0 2px var(--primary-light-1) inset;
+    box-shadow: 0 0 0 2px var(--primary-light-2) inset;
 }
 
 .ReplayRecord__stat--win {
@@ -35,7 +35,7 @@
 }
 
 .ReplayRecord--selected {
-    background-color: var(--primary-light-1);
+    background-color: var(--primary-light-2);
 }
 
 .ReplayRecord__matchup {

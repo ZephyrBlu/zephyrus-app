@@ -2,7 +2,7 @@
     grid-area: nav;
     transition: 0.8s;
     font-weight: 400;
-    border-top: 1px solid var(--primary-light-2);
+    border-top: 1px solid var(--primary-light-3);
 }
 
 .PageNav__link-list {
