@@ -42,13 +42,14 @@ const AccountSetup = ({ setWaitingForUser }) => {
 
             if (battlenetAccountResponse.ok) {
                 localStorage.removeItem('authCode');
-                checkAccountStatus();
             }
         };
 
         if (localStorage.authCode) {
             setBattlenetAccount(localStorage.authCode);
         }
+
+        checkAccountStatus();
     }, []);
 
     const resendEmail = async () => {
