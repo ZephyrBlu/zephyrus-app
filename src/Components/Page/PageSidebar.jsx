@@ -1,5 +1,6 @@
 import { useState, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { Link } from '@reach/router';
 import {
     logoutReset,
     setFixedHoverState,
@@ -42,24 +43,12 @@ const PageSidebar = ({ pages }) => {
         setHoverState(defaultHoverState);
     };
 
-    // const isActive = ({ isCurrent }) => {
-    //     if (isCurrent) {
-    //         return { className: 'PageSidebar__settings PageSidebar__settings--active' };
-    //     }
-    //     return { className: 'PageSidebar__settings' };
-    // };
-
-    // <Link
-    //     getProps={isActive}
-    //     to="/settings"
-    //     style={isHoverStateFixed ? { margin: '0 auto 20px' } : {}}
-    // >
-    //     <img
-    //         className="PageSidebar__settings-icon"
-    //         src="../../icons/settings.svg"
-    //         alt="settings"
-    //     />
-    // </Link>
+    const isActive = ({ isCurrent }) => {
+        if (isCurrent) {
+            return { className: 'PageSidebar__settings PageSidebar__settings--active' };
+        }
+        return { className: 'PageSidebar__settings' };
+    };
 
     return (
         <section className="PageSidebar">
@@ -92,6 +81,17 @@ const PageSidebar = ({ pages }) => {
                     reset: handleHoverStateReset,
                 }}
             />
+            <Link
+                getProps={isActive}
+                to="/settings"
+                style={isHoverStateFixed ? { margin: '0 auto 20px' } : {}}
+            >
+                <img
+                    className="PageSidebar__settings-icon"
+                    src="../../icons/settings.svg"
+                    alt="settings"
+                />
+            </Link>
             <button
                 className="PageSidebar__logout"
                 onMouseEnter={() => setHoverState(prevState => ({ ...prevState, Logout: true }))}

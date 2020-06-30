@@ -1,0 +1,85 @@
+.Settings {
+    border: 1px solid var(--primary-light-3);
+    border-radius: 25px;
+    background-color: var(--secondary-dark-1);
+    width: 70%;
+    margin: 60px auto 0;
+    padding: 40px;
+}
+
+.Settings__header {
+    margin: 0 0 40px;
+}
+
+.Settings__battlenet-account {
+    display: flex;
+    margin: 0 0 20px;
+}
+
+.Settings__battletag {
+    font-size: 32px;
+    font-weight: 400;
+    margin: 0;
+    margin-right: 40px;
+    width: max-content;
+    display: inline-block;
+}
+
+.Settings__link-battlenet-account {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--primary-blue);
+    font: 400 16px 'Roboto', sans-serif;
+    transition: .3s;
+}
+
+.Settings__link-battlenet-account:hover,
+.Settings__link-battlenet-account:focus {
+    outline: none;
+    background-color: var(--primary-blue-hover);
+    cursor: pointer;
+}
+
+.Settings__account-link-info {
+    padding: 10px;
+    background-color: var(--primary-light-2);
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 400;
+    width: max-content;
+}
+
+.Settings__profiles-title {
+    font-size: 28px;
+    font-weight: 400;
+}
+
+.Settings__battlenet-region {
+    margin: 0 0 20px;
+}
+
+.Settings__battlenet-region-info {
+    margin: 0 0 10px;
+    display: flex;
+    align-items: center;
+}
+
+.Settings__region-name {
+    font-size: 24px;
+    margin: 0;
+    margin-right: 15px;
+    display: inline-block;
+}
+
+.Settings__profile-name {
+    font-size: 18px;
+    margin: 0;
+    display: inline-block;
+    height: max-content;
+}
+
+.Settings__battlenet-profile-id {
+    font-size: 16px;
+    margin: 0 0 10px;
+}
