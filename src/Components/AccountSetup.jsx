@@ -26,9 +26,18 @@ const AccountSetup = ({ setWaitingForUser }) => {
         }).then(response => (
             response.json()
         ));
-        dispatch(setUser(updatedUser.user));
-        localStorage.user = JSON.stringify(updatedUser.user);
+
+        if (localStorage.user !== JSON.stringify(updatedUser.user)) {
+            dispatch(setUser(updatedUser.user));
+            localStorage.user = JSON.stringify(updatedUser.user);
+        }
     };
+
+    useEffect(() => {
+        if (user.token) {
+            checkAccountStatus();
+        }
+    }, [user]);
 
     useEffect(() => {
         const setBattlenetAccount = async (authCode) => {
@@ -42,14 +51,13 @@ const AccountSetup = ({ setWaitingForUser }) => {
 
             if (battlenetAccountResponse.ok) {
                 localStorage.removeItem('authCode');
+                checkAccountStatus();
             }
         };
 
         if (localStorage.authCode) {
             setBattlenetAccount(localStorage.authCode);
         }
-
-        checkAccountStatus();
     }, []);
 
     const resendEmail = async () => {
