@@ -43,6 +43,15 @@
     cursor: pointer;
 }
 
+.Settings__settings-action:disabled {
+    color: black;
+}
+
+.Settings__settings-action:disabled:hover {
+    background-color: var(--primary-blue);
+    cursor: not-allowed;
+}
+
 .Settings__account-link-info {
     padding: 10px;
     background-color: var(--primary-light-2);

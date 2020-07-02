@@ -106,7 +106,7 @@ const Settings = () => {
                 <h1 className="Settings__section-title">
                     Battlenet Profiles
                 </h1>
-                {Object.values(battlenetAccount.profiles).map(profile => (
+                {Object.entries(battlenetAccount.profiles).map(([regionId, profile]) => (
                     <div key={profile.region_name} className="Settings__battlenet-region">
                         <div className="Settings__battlenet-region-info">
                             <h2 className="Settings__region-name">
@@ -116,9 +116,16 @@ const Settings = () => {
                                 {profile.profile_name}
                             </h3>
                         </div>
-                        {profile.profile_id.map(p_id => (
-                            <p key={`profile-id-${p_id}`} className="Settings__battlenet-profile-id">
-                                {p_id}
+                        {profile.profile_id.map(pId => (
+                            <p key={`profile-id-${pId}`} className="Settings__battlenet-profile-id">
+                                {pId}&nbsp;&nbsp;&nbsp;&nbsp;
+                                <a
+                                    href={`https://starcraft2.com/en-us/profile/${regionId}/${profile.realm_id}/${pId}`}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    {`https://starcraft2.com/en-us/profile/${regionId}/${profile.realm_id}/${pId}`}
+                                </a>
                             </p>
                         ))}
                     </div>
@@ -130,13 +137,13 @@ const Settings = () => {
                 </h1>
                 {replaySummary &&
                     <div className="Settings__replay-summary">
-                        <p className="Settings__replay-count-wrapper">
+                        <div className="Settings__replay-count-wrapper">
                             <div className="Settings__replay-count">
                                 {replaySummary.linked + replaySummary.unlinked}
                             </div>
                             replays uploaded
-                        </p>
-                        <p className="Settings__replay-count-wrapper">
+                        </div>
+                        <div className="Settings__replay-count-wrapper">
                             <div className="Settings__replay-count">
                                 {replaySummary.linked}
                             </div>
@@ -144,17 +151,18 @@ const Settings = () => {
                             <span style={{ textDecoration: 'underline', fontWeight: 400 }}>
                                 {battlenetAccount.battletag}
                             </span>
-                        </p>
-                        <p className="Settings__replay-count-wrapper">
+                        </div>
+                        <div className="Settings__replay-count-wrapper">
                             <div className="Settings__replay-count">
                                 {replaySummary.unlinked}
                             </div>
                             replays unlinked
-                        </p>
+                        </div>
                     </div>}
                 <div className="Settings__link-replays">
                     <button
                         className="Settings__settings-action"
+                        disabled={linkCount}
                         onClick={linkReplays}
                     >
                         Link Replays
