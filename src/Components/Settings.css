@@ -126,6 +126,15 @@
     background-color: var(--primary-light-2);
 }
 
+.Settings__link-replays {
+    display: flex;
+    margin-bottom: 20px;
+}
+
+.Settings__link-count {
+    margin: 0;
+}
+
 @media (max-width: 1200px) {
     .Settings__account-link-info {
         font-size: 14px;

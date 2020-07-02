@@ -1,7 +1,8 @@
 import { useContext, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import InfoTooltip from './shared/InfoTooltip';
 import UrlContext from '../index';
+import InfoTooltip from './shared/InfoTooltip';
+import SpinningRingAnimation from './shared/SpinningRingAnimation';
 import './Settings.css';
 
 const Settings = () => {
@@ -9,6 +10,7 @@ const Settings = () => {
     const user = useSelector(state => state.user);
     const battlenetAccount = user.battlenetAccounts[0];
     const [replaySummary, setReplaySummary] = useState(null);
+    const [linkCount, setLinkCount] = useState(null);
 
     const authorizeBattlenetAccount = async () => {
         const url = `${urlPrefix}api/authorize/url/`;
@@ -29,6 +31,22 @@ const Settings = () => {
         }
     };
 
+    const linkReplays = async () => {
+        // const url = `${urlPrefix}api/replays/verify/`;
+
+        // const linkCount = await fetch(url, {
+        //     method: 'GET',
+        //     headers: { Authorization: `Token ${user.token}` },
+        // }).then(response => response.json());
+
+        // setLinkCount(linkCount.count);
+
+        setLinkCount(false);
+        setTimeout(() => {
+            setLinkCount(5);
+        }, 500);
+    };
+
     useEffect(() => {
         const fetchReplaySummary = async () => {
             const url = `${urlPrefix}api/replays/summary/`;
@@ -41,7 +59,7 @@ const Settings = () => {
             setReplaySummary(summary);
         };
         fetchReplaySummary();
-    }, []);
+    }, [linkCount]);
 
     return (
         <div className="Settings">
@@ -134,29 +152,37 @@ const Settings = () => {
                             replays unlinked
                         </p>
                     </div>}
-                <button
-                    className="Settings__settings-action"
-                    // onClick={authorizeBattlenetAccount}
-                >
-                    Link Replays
-                </button>
-                <InfoTooltip
-                    style={{ top: '8px', right: '-10px' }}
-                    content={
-                        <p style={{ margin: 0 }}>
-                            Replays are linked to your Battlenet Account
-                            through your Battlenet Profiles.
-                            <br />
-                            <br />
-                            If you have unlinked replays, we will try
-                            to match them to one of your Battlenet Profiles.
-                            <br />
-                            <br />
-                            If a match is found, the replay will be linked to
-                            the Battlenet Account associated with the matching profile.
-                        </p>
-                    }
-                />
+                <div className="Settings__link-replays">
+                    <button
+                        className="Settings__settings-action"
+                        onClick={linkReplays}
+                    >
+                        Link Replays
+                    </button>
+                    {linkCount === false && <SpinningRingAnimation />}
+                    <InfoTooltip
+                        style={{ top: '8px', right: '-10px' }}
+                        content={
+                            <p style={{ margin: 0 }}>
+                                Replays are linked to your Battlenet Account
+                                through your Battlenet Profiles.
+                                <br />
+                                <br />
+                                If you have unlinked replays, we will try
+                                to match them to one of your Battlenet Profiles.
+                                <br />
+                                <br />
+                                If a match is found, the replay will be linked to
+                                the Battlenet Account associated with the matching profile.
+                            </p>
+                        }
+                    />
+                </div>
+                {linkCount &&
+                    <p className="Settings__link-count">
+                        Trying to link {linkCount} replays.
+                        Reload this page in a couple of minutes.
+                    </p>}
             </div>
         </div>
     );
