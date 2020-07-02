@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import InfoTooltip from './shared/InfoTooltip';
 import UrlContext from '../index';
@@ -8,6 +8,7 @@ const Settings = () => {
     const urlPrefix = useContext(UrlContext);
     const user = useSelector(state => state.user);
     const battlenetAccount = user.battlenetAccounts[0];
+    const [replaySummary, setReplaySummary] = useState(null);
 
     const authorizeBattlenetAccount = async () => {
         const url = `${urlPrefix}api/authorize/url/`;
@@ -28,6 +29,20 @@ const Settings = () => {
         }
     };
 
+    useEffect(() => {
+        const fetchReplaySummary = async () => {
+            const url = `${urlPrefix}api/replays/summary/`;
+
+            const summary = await fetch(url, {
+                method: 'GET',
+                headers: { Authorization: `Token ${user.token}` },
+            }).then(response => response.json());
+
+            setReplaySummary(summary);
+        };
+        fetchReplaySummary();
+    }, []);
+
     return (
         <div className="Settings">
             <div className="Settings__header">
@@ -36,7 +51,7 @@ const Settings = () => {
                         {battlenetAccount.battletag}
                     </h1>
                     <button
-                        className="Settings__link-battlenet-account"
+                        className="Settings__settings-action"
                         onClick={authorizeBattlenetAccount}
                     >
                         Link a New Account
@@ -69,9 +84,8 @@ const Settings = () => {
                     your existing one. Replays will not be affected.
                 </div>
             </div>
-
             <div className="Settings__battlenet-profiles">
-                <h1 className="Settings__profiles-title">
+                <h1 className="Settings__section-title">
                     Battlenet Profiles
                 </h1>
                 {Object.values(battlenetAccount.profiles).map(profile => (
@@ -91,6 +105,58 @@ const Settings = () => {
                         ))}
                     </div>
                 ))}
+            </div>
+            <div className="Settings__account-replays">
+                <h1 className="Settings__section-title">
+                    Account Replays
+                </h1>
+                {replaySummary &&
+                    <div className="Settings__replay-summary">
+                        <p className="Settings__replay-count-wrapper">
+                            <div className="Settings__replay-count">
+                                {replaySummary.linked + replaySummary.unlinked}
+                            </div>
+                            replays uploaded
+                        </p>
+                        <p className="Settings__replay-count-wrapper">
+                            <div className="Settings__replay-count">
+                                {replaySummary.linked}
+                            </div>
+                            replays linked to&nbsp;
+                            <span style={{ textDecoration: 'underline', fontWeight: 400 }}>
+                                {battlenetAccount.battletag}
+                            </span>
+                        </p>
+                        <p className="Settings__replay-count-wrapper">
+                            <div className="Settings__replay-count">
+                                {replaySummary.unlinked}
+                            </div>
+                            replays unlinked
+                        </p>
+                    </div>}
+                <button
+                    className="Settings__settings-action"
+                    // onClick={authorizeBattlenetAccount}
+                >
+                    Link Replays
+                </button>
+                <InfoTooltip
+                    style={{ top: '8px', right: '-10px' }}
+                    content={
+                        <p style={{ margin: 0 }}>
+                            Replays are linked to your Battlenet Account
+                            through your Battlenet Profiles.
+                            <br />
+                            <br />
+                            If you have unlinked replays, we will try
+                            to match them to one of your Battlenet Profiles.
+                            <br />
+                            <br />
+                            If a match is found, the replay will be linked to
+                            the Battlenet Account associated with the matching profile.
+                        </p>
+                    }
+                />
             </div>
         </div>
     );

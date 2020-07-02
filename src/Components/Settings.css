@@ -8,7 +8,9 @@
 }
 
 .Settings__header {
-    margin: 0 0 40px;
+    margin: 0 0 30px;
+    padding: 0 0 30px;
+    border-bottom: 1px solid var(--primary-light-3);
 }
 
 .Settings__battlenet-account {
@@ -25,7 +27,7 @@
     display: inline-block;
 }
 
-.Settings__link-battlenet-account {
+.Settings__settings-action {
     padding: 10px 15px;
     border: none;
     border-radius: 5px;
@@ -34,8 +36,8 @@
     transition: .3s;
 }
 
-.Settings__link-battlenet-account:hover,
-.Settings__link-battlenet-account:focus {
+.Settings__settings-action:hover,
+.Settings__settings-action:focus {
     outline: none;
     background-color: var(--primary-blue-hover);
     cursor: pointer;
@@ -50,9 +52,16 @@
     width: max-content;
 }
 
-.Settings__profiles-title {
+.Settings__battlenet-profiles {
+    margin: 0 0 30px;
+    padding: 0 0 30px;
+    border-bottom: 1px solid var(--primary-light-3);
+}
+
+.Settings__section-title {
     font-size: 28px;
     font-weight: 400;
+    margin: 0 0 20px;
 }
 
 .Settings__battlenet-region {
@@ -82,4 +91,43 @@
 .Settings__battlenet-profile-id {
     font-size: 16px;
     margin: 0 0 10px;
+}
+
+.Settings__battlenet-region:nth-child(3) {
+    margin: 0;
+}
+
+.Settings__battlenet-region:nth-child(3)
+.Settings__battlenet-profile-id {
+    margin: 0;
+}
+
+.Settings__replay-summary {
+    margin-bottom: 25px;
+}
+
+.Settings__replay-count-wrapper {
+    margin: 0 0 15px;
+}
+
+.Settings__replay-count {
+    height: 25px;
+    width: max-content;
+    min-width: 25px;
+    padding: 2px;
+    margin-right: 8px;
+    font-size: 18px;
+    font-weight: 400;
+    text-align: center;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 5px;
+    background-color: var(--primary-light-2);
+}
+
+@media (max-width: 1200px) {
+    .Settings__account-link-info {
+        font-size: 14px;
+    }
 }
