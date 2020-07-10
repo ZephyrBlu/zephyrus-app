@@ -32,19 +32,15 @@ const Settings = () => {
     };
 
     const linkReplays = async () => {
-        // const url = `${urlPrefix}api/replays/verify/`;
-
-        // const linkCount = await fetch(url, {
-        //     method: 'GET',
-        //     headers: { Authorization: `Token ${user.token}` },
-        // }).then(response => response.json());
-
-        // setLinkCount(linkCount.count);
-
+        const url = `${urlPrefix}api/replays/verify/`;
         setLinkCount(false);
-        setTimeout(() => {
-            setLinkCount(5);
-        }, 500);
+
+        const linkCountResponse = await fetch(url, {
+            method: 'GET',
+            headers: { Authorization: `Token ${user.token}` },
+        }).then(response => response.json());
+
+        setLinkCount(linkCountResponse.count);
     };
 
     useEffect(() => {
@@ -186,7 +182,7 @@ const Settings = () => {
                         }
                     />
                 </div>
-                {linkCount &&
+                {typeof linkCount === 'number' &&
                     <p className="Settings__link-count">
                         Trying to link {linkCount} replays.
                         Reload this page in a couple of minutes.
