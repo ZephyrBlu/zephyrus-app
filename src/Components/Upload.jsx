@@ -1,11 +1,10 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { useState, useContext } from 'react';
-import { uploadReset } from '../actions';
 import UrlContext from '../index';
+import { handleFetch } from '../utils';
 import './Upload.css';
 
 const Upload = () => {
-    const dispatch = useDispatch();
     const user = useSelector(state => state.user);
     const [uploadInProgress, setUploadInProgress] = useState(false);
     const [uploadReponse, setUploadResponse] = useState(null);
@@ -27,23 +26,29 @@ const Upload = () => {
 
         let success = 0;
         let fail = 0;
-        fileList.forEach((file) => {
-            fetch(url, {
-                method: 'POST',
-                headers: { Authorization: `Token ${user.token}` },
-                body: file,
-            }).then((response) => {
-                if (response.status === 200) {
+        const opts = {
+            method: 'POST',
+            headers: { Authorization: `Token ${user.token}` },
+        };
+        fileList.forEach(async (file, index) => {
+            opts.body = file;
+            handleFetch(url, opts).then((result) => {
+                if (result) {
                     success += 1;
                 } else {
                     fail += 1;
                 }
                 setUploadInProgress(false);
                 setUploadResponse(`${success}/${fileList.length} uploaded, ${fail} failed to process`);
-                return response.json();
             });
+
+            if ((index + 1) % 10 === 0) {
+                await new Promise((resolve) => {
+                    const resolveTimeout = resolver => resolver();
+                    setTimeout(resolveTimeout(resolve), 2000);
+                });
+            }
         });
-        dispatch(uploadReset());
     };
 
     return (

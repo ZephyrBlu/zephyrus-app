@@ -26,9 +26,11 @@ const useFetch = (url, dep = 'default', dataKey = null, opts = null) => {
                     const data = await response.json();
                     _setState(dataKey ? data[dataKey] : data);
                 } else {
-                    throw new Error(`status ${response.status}`);
+                    console.error(`${response.status} ${response.statusText}`);
+                    _setState(false);
                 }
             } catch (error) {
+                console.error(error);
                 _setState(false);
             }
         };
