@@ -47,7 +47,7 @@ const Page = () => {
         <div className="Page">
             <header className="Page__header">
                 <Title />
-                {currentPage && currentPage !== 'Login' &&
+                {currentPage && currentPage !== 'Login' && currentPage !== 'Settings' &&
                     <Fragment>
                         <div className={`Page__page-info Page__page-info--${currentPage}`}>
                             <h1 className="Page__page-name">

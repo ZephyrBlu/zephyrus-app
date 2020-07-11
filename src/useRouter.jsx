@@ -15,12 +15,10 @@ const useRouter = (visibleState) => {
         && !!user.battlenetAccounts
         && Object.keys(user.battlenetAccounts[0].profiles).length > 0)
         : null;
-    // const [currentPage, setCurrentPage] = useState(null);
     const [waitingForUser, setWaitingForUser] = useState(!userState);
     let _router;
 
     if (!waitingForUser && userState) {
-        // currentPage = 'Replays';
         _router = (
             <Router className="Router">
                 <Redirect from="/login" to="/replays" noThrow />
@@ -42,7 +40,6 @@ const useRouter = (visibleState) => {
             </Router>
         );
     } else if (userState === false || (waitingForUser && userState)) {
-        // currentPage = 'Setup';
         _router = (
             <Router className="Router">
                 <Redirect from="/*" to="/setup" noThrow />
@@ -50,7 +47,6 @@ const useRouter = (visibleState) => {
             </Router>
         );
     } else {
-        // currentPage = 'Login';
         _router = (
             <Router className="Router">
                 <Redirect from="/*" to="/login" noThrow />

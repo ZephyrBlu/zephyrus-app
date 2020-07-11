@@ -1,5 +1,5 @@
 import { useDispatch } from 'react-redux';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useContext } from 'react';
 import useLoadingState from '../useLoadingState';
 import { setInitialUser } from '../actions';
 import SpinningRingAnimation from './shared/SpinningRingAnimation';
@@ -15,7 +15,6 @@ const Login = ({ setWaitingForUser }) => {
         data: null,
         loadingState: 'INITIAL',
     });
-    const [user, setUser] = useState(null);
     const urlPrefix = useContext(UrlContext);
 
     const dataStates = {
@@ -37,20 +36,6 @@ const Login = ({ setWaitingForUser }) => {
     const handlePasswordInput = (event) => {
         setPasswordValue(event.target.value);
     };
-
-    useEffect(() => {
-        // wrap in check for initial effect
-        if (user) {
-            localStorage.user = JSON.stringify(user);
-            const userState = user /* eslint-disable-line no-nested-ternary */
-                ? (user.verified
-                && !!user.battlenet_accounts
-                && Object.keys(user.battlenet_accounts[0].profiles).length > 0)
-                : null;
-            setWaitingForUser(!userState);
-            dispatch(setInitialUser(user, user.main_race));
-        }
-    }, [user]);
 
     const handleSubmit = async (event) => {
         // prevents form action to reload page
@@ -77,7 +62,17 @@ const Login = ({ setWaitingForUser }) => {
 
         if (loginResponse.ok) {
             if (loginResponse.data) {
-                setUser(loginResponse.data.user);
+                const user = loginResponse.data.user;
+                localStorage.user = JSON.stringify(user);
+
+                const userState = user /* eslint-disable-line no-nested-ternary */
+                    ? (user.verified
+                    && !!user.battlenet_accounts
+                    && Object.keys(user.battlenet_accounts[0].profiles).length > 0)
+                    : null;
+
+                setWaitingForUser(!userState);
+                dispatch(setInitialUser(user, user.main_race));
             } else {
                 setLoginState({
                     data: 'Something went wrong. Please try again',
