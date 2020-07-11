@@ -1,6 +1,7 @@
 import { useEffect, useState, useRef, useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Tippy from '@tippy.js/react';
+import useLoadingState from '../useLoadingState';
 import { setUser } from '../actions';
 import UrlContext from '../index';
 import { handleFetch } from '../utils';
@@ -11,15 +12,46 @@ const AccountSetup = ({ setWaitingForUser }) => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.user);
     const profileInputRef = useRef();
-    const [currentProfileUrl, setCurrentProfileUrl] = useState(null);
-    const [isEmailSending, setIsEmailSending] = useState(false);
-    const [emailError, setEmailError] = useState(null);
-    const [isProfileSaving, setIsProfileSaving] = useState(false);
-    const [profileError, setProfileError] = useState(null);
+    const [emailState, setEmailState] = useState({ loadingState: 'INITIAL' });
+    const [profileState, setProfileState] = useState({
+        data: null,
+        loadingState: 'INITIAL',
+    });
     const urlPrefix = useContext(UrlContext);
     const opts = {
         method: 'GET',
         headers: { Authorization: `Token ${user.token}` },
+    };
+
+    const dataStates = {
+        email: {
+            INITIAL: null,
+            IN_PROGRESS: (<SpinningRingAnimation />),
+            SUCCESS: (
+                <span className="AccountSetup__info AccountSetup__info--completed">
+                    Email Sent
+                </span>
+            ),
+            ERROR: (
+                <span className="AccountSetup__info AccountSetup__info--completed">
+                    Something went wrong
+                </span>
+            ),
+        },
+        profile: {
+            INITIAL: null,
+            IN_PROGRESS: (<SpinningRingAnimation />),
+            SUCCESS: (
+                <span className="AccountSetup__info AccountSetup__info--completed">
+                    Profile Saved
+                </span>
+            ),
+            ERROR: data => (
+                <span className="AccountSetup__info AccountSetup__info--completed">
+                    {data}
+                </span>
+            ),
+        },
     };
 
     const checkAccountStatus = async () => {
@@ -63,17 +95,15 @@ const AccountSetup = ({ setWaitingForUser }) => {
         if (user.verified) {
             return;
         }
-        setIsEmailSending(true);
-        setEmailError(null);
+
+        setEmailState({ loadingState: 'IN_PROGRESS' });
         const url = `${urlPrefix}api/resend/`;
         const emailResponse = await handleFetch(url, opts);
 
         if (emailResponse.ok) {
-            setEmailError(null);
-            setIsEmailSending(null);
+            setEmailState({ loadingState: 'SUCCESS' });
         } else {
-            setEmailError('Something went wrong');
-            setIsEmailSending(false);
+            setEmailState({ loadingState: 'ERROR' });
         }
     };
 
@@ -90,7 +120,7 @@ const AccountSetup = ({ setWaitingForUser }) => {
     };
 
     const handleProfileUrlChange = (event) => {
-        setCurrentProfileUrl(event.target.value);
+        profileInputRef.current = event.target.value;
     };
 
     const handleProfile = async (event) => {
@@ -99,33 +129,47 @@ const AccountSetup = ({ setWaitingForUser }) => {
         // user needs to link a battlenet account first
         // so profile can be connected to battlenet account
         if (!user.battlenetAccounts) {
-            setProfileError(false);
+            setProfileState({
+                data: 'Link your Battle.net Account before adding a Profile',
+                loadingState: 'ERROR',
+            });
             return;
         }
 
-        setIsProfileSaving(true);
-        setProfileError(null);
+        setProfileState({
+            data: null,
+            loadingState: 'IN_PROGRESS',
+        });
         const url = `${urlPrefix}api/profile/`;
         const profileOpts = {
             method: 'POST',
             headers: { Authorization: `Token ${user.token}` },
-            body: currentProfileUrl,
+            body: profileInputRef.current,
         };
         const profileResponse = await handleFetch(url, profileOpts);
 
         if (profileResponse.ok) {
             checkAccountStatus();
-            setIsProfileSaving(null);
+            setProfileState(prevState => ({
+                ...prevState,
+                loadingState: 'SUCCESS',
+            }));
         } else if (profileResponse.status === 400) {
-            setProfileError('Invalid URL');
-            setIsProfileSaving(false);
+            setProfileState({
+                data: 'Invalid URL',
+                loadingState: 'ERROR',
+            });
         } else {
-            setProfileError('An error occurred during profile parsing');
-            setIsProfileSaving(false);
+            setProfileState({
+                data: 'An error occurred during profile parsing',
+                loadingState: 'ERROR',
+            });
         }
         profileInputRef.current.value = null;
-        setCurrentProfileUrl(null);
     };
+
+    const EmailState = useLoadingState(emailState, dataStates.email);
+    const ProfileState = useLoadingState(profileState, dataStates.profile);
 
     return (
         <div className="AccountSetup">
@@ -225,17 +269,7 @@ const AccountSetup = ({ setWaitingForUser }) => {
                         >
                             {user.verified ? 'Verification Complete' : 'Resend Email'}
                         </button>
-                        {isEmailSending && <SpinningRingAnimation />}
-                        {isEmailSending === null ?
-                            <span className="AccountSetup__info AccountSetup__info--completed">
-                                Email Sent
-                            </span>
-                            :
-                            ''}
-                        {emailError &&
-                            <span className="AccountSetup__info AccountSetup__info--completed">
-                                {emailError}
-                            </span>}
+                        <EmailState />
                     </div>
                 </li>
                 <li className="AccountSetup__link-battlenet  AccountSetup__task">
@@ -346,21 +380,7 @@ const AccountSetup = ({ setWaitingForUser }) => {
                                 className="AccountSetup__setup-action AccountSetup__save-profile"
                             />
                         </form>
-                        {isProfileSaving && <SpinningRingAnimation />}
-                        {isProfileSaving === null ?
-                            <span className="AccountSetup__info AccountSetup__info--completed">
-                                Profile Saved
-                            </span>
-                            :
-                            ''}
-                        {profileError &&
-                            <span className="AccountSetup__info AccountSetup__info--completed">
-                                {profileError}
-                            </span>}
-                        {profileError === false &&
-                            <span className="AccountSetup__info AccountSetup__info--completed">
-                                Link your Battle.net Account before adding a Profile
-                            </span>}
+                        <ProfileState />
                     </div>
                     {user.battlenetAccounts &&
                             Object.values(user.battlenetAccounts[0].profiles).map(profile => (
@@ -368,7 +388,7 @@ const AccountSetup = ({ setWaitingForUser }) => {
                                     {profile.region_name}:&nbsp;
                                     {profile.profile_name}&nbsp;
                                     ({profile.profile_id.map((pId, i) => (
-                                        `${pId}${i + 1 !== profile.profile_id.length ? ',' : ''}`
+                                        `${pId}${i + 1 !== profile.profile_id.length ? ', ' : ''}`
                                     ))})
                                 </p>
                             ))}

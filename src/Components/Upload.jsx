@@ -1,14 +1,33 @@
 import { useSelector } from 'react-redux';
 import { useState, useContext } from 'react';
+import useLoadingState from '../useLoadingState';
 import UrlContext from '../index';
 import { handleFetch } from '../utils';
 import './Upload.css';
 
 const Upload = () => {
     const user = useSelector(state => state.user);
-    const [uploadInProgress, setUploadInProgress] = useState(false);
-    const [uploadReponse, setUploadResponse] = useState(null);
+    const [uploadState, setUploadState] = useState({
+        data: null,
+        loadingState: 'INITIAL',
+    });
     const urlPrefix = useContext(UrlContext);
+
+    const dataStates = {
+        upload: {
+            INITIAL: null,
+            IN_PROGRESS: (
+                <p className="Upload__status">
+                    Uploading your replays now...
+                </p>
+            ),
+            SUCCESS: ({ files, success, fail }) => (
+                <p className="Upload__success">
+                    {`${success}/${files} uploaded, ${fail} failed to process`}
+                </p>
+            ),
+        },
+    };
 
     const uploadFiles = async (event) => {
         const files = event.target.files;
@@ -20,7 +39,10 @@ const Upload = () => {
             }
         });
 
-        setUploadInProgress(true);
+        setUploadState(prevState => ({
+            ...prevState,
+            loadingState: 'IN_PROGRESS',
+        }));
 
         const url = `${urlPrefix}api/upload/`;
 
@@ -38,8 +60,14 @@ const Upload = () => {
                 } else {
                     fail += 1;
                 }
-                setUploadInProgress(false);
-                setUploadResponse(`${success}/${fileList.length} uploaded, ${fail} failed to process`);
+                setUploadState({
+                    data: {
+                        files: fileList.length,
+                        success,
+                        fail,
+                    },
+                    loadingState: 'SUCCESS',
+                });
             });
 
             if ((index + 1) % 10 === 0) {
@@ -50,6 +78,8 @@ const Upload = () => {
             }
         });
     };
+
+    const UploadState = useLoadingState(uploadState, dataStates.upload);
 
     return (
         <div className="Upload">
@@ -104,11 +134,7 @@ const Upload = () => {
                     on GitHub
                 </a>.
             </div>
-            {uploadInProgress &&
-                <p className="Upload__status">
-                    Uploading your replays now...
-                </p>}
-            {uploadReponse && <p className="Upload__success">{uploadReponse}</p>}
+            <UploadState />
             <p className="Upload__message">
                 Having trouble uploading replays?<br />
                 Contact me on&nbsp;

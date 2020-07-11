@@ -1,5 +1,6 @@
 import { useDispatch } from 'react-redux';
 import { useState, useEffect, useContext } from 'react';
+import useLoadingState from '../useLoadingState';
 import { setInitialUser } from '../actions';
 import SpinningRingAnimation from './shared/SpinningRingAnimation';
 import './Login.css';
@@ -10,9 +11,24 @@ const Login = ({ setWaitingForUser }) => {
     const dispatch = useDispatch();
     const [usernameValue, setUsernameValue] = useState('');
     const [passwordValue, setPasswordValue] = useState('');
-    const [formError, setFormError] = useState(null);
-    const [_user, _setUser] = useState({ user: null, waiting: false });
+    const [loginState, setLoginState] = useState({
+        data: null,
+        loadingState: 'INITIAL',
+    });
+    const [user, setUser] = useState(null);
     const urlPrefix = useContext(UrlContext);
+
+    const dataStates = {
+        login: {
+            INITIAL: null,
+            IN_PROGRESS: (<SpinningRingAnimation style={{ top: '20px' }} />),
+            ERROR: data => (
+                <p className="login-form__error">
+                    {data}
+                </p>
+            ),
+        },
+    };
 
     const handleUsernameInput = (event) => {
         setUsernameValue(event.target.value);
@@ -24,23 +40,25 @@ const Login = ({ setWaitingForUser }) => {
 
     useEffect(() => {
         // wrap in check for initial effect
-        if (_user.user) {
-            localStorage.user = JSON.stringify(_user.user);
-            const userState = _user.user /* eslint-disable-line no-nested-ternary */
-                ? (_user.user.verified
-                && !!_user.user.battlenet_accounts
-                && Object.keys(_user.user.battlenet_accounts[0].profiles).length > 0)
+        if (user) {
+            localStorage.user = JSON.stringify(user);
+            const userState = user /* eslint-disable-line no-nested-ternary */
+                ? (user.verified
+                && !!user.battlenet_accounts
+                && Object.keys(user.battlenet_accounts[0].profiles).length > 0)
                 : null;
             setWaitingForUser(!userState);
-            dispatch(setInitialUser(_user.user, _user.user.main_race));
+            dispatch(setInitialUser(user, user.main_race));
         }
-    }, [_user]);
+    }, [user]);
 
     const handleSubmit = async (event) => {
         // prevents form action to reload page
         event.preventDefault();
-        _setUser(prevUser => ({ ...prevUser, waiting: true }));
-        setFormError(false);
+        setLoginState(prevState => ({
+            ...prevState,
+            loadingState: 'IN_PROGRESS',
+        }));
 
         const data = {
             username: usernameValue,
@@ -59,16 +77,22 @@ const Login = ({ setWaitingForUser }) => {
 
         if (loginResponse.ok) {
             if (loginResponse.data) {
-                _setUser(prevUser => ({ ...prevUser, user: loginResponse.data.user }));
+                setUser(loginResponse.data.user);
             } else {
-                setFormError('Something went wrong. Please try again');
-                _setUser(prevUser => ({ ...prevUser, waiting: false }));
+                setLoginState({
+                    data: 'Something went wrong. Please try again',
+                    loadingState: 'ERROR',
+                });
             }
         } else {
-            setFormError('Incorrect details');
-            _setUser(prevUser => ({ ...prevUser, waiting: false }));
+            setLoginState({
+                data: 'Incorrect details',
+                loadingState: 'ERROR',
+            });
         }
     };
+
+    const LoginState = useLoadingState(loginState, dataStates.login);
 
     return (
         <div className="Login">
@@ -104,15 +128,11 @@ const Login = ({ setWaitingForUser }) => {
                             className="login-form__submit"
                             type="submit"
                             value="LOG IN"
-                            disabled={_user.waiting}
+                            disabled={loginState.loadingState === 'IN_PROGRESS'}
                         />
-                        {_user.waiting &&
-                            <SpinningRingAnimation style={{ top: '20px' }} />}
+                        <LoginState specifiedState="IN_PROGRESS" />
                     </span>
-                    {formError &&
-                        <p className="login-form__error">
-                            {formError}
-                        </p>}
+                    <LoginState specifiedState="ERROR" />
                 </form>
                 <img
                     className="login-image"

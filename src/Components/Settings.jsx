@@ -2,7 +2,7 @@ import { useContext, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import useLoadingState from '../useLoadingState';
 import UrlContext from '../index';
-import { handleFetch, loadingStates } from '../utils';
+import { handleFetch } from '../utils';
 import InfoTooltip from './shared/InfoTooltip';
 import LoadingAnimation from './shared/LoadingAnimation';
 import SpinningRingAnimation from './shared/SpinningRingAnimation';
@@ -14,11 +14,11 @@ const Settings = () => {
     const battlenetAccount = user.battlenetAccounts[0];
     const [replaySummary, setReplaySummary] = useState({
         data: null,
-        loadingState: loadingStates.INITIAL,
+        loadingState: 'INITIAL',
     });
     const [linkCount, setLinkCount] = useState({
         data: null,
-        loadingState: loadingStates.INITIAL,
+        loadingState: 'INITIAL',
     });
 
     const opts = {
@@ -28,9 +28,9 @@ const Settings = () => {
 
     const dataStates = {
         replaySummary: {
-            [loadingStates.INITIAL]: null,
-            [loadingStates.IN_PROGRESS]: (<LoadingAnimation />),
-            [loadingStates.SUCCESS]: ({ linked, unlinked }) => (
+            INITIAL: null,
+            IN_PROGRESS: (<LoadingAnimation />),
+            SUCCESS: ({ linked, unlinked }) => (
                 <div className="Settings__replay-summary">
                     <div className="Settings__replay-count-wrapper">
                         <div className="Settings__replay-count">
@@ -55,22 +55,22 @@ const Settings = () => {
                     </div>
                 </div>
             ),
-            [loadingStates.ERROR]: (
+            ERROR: (
                 <p className="Settings__replay-summary">
                     Something went wrong.
                 </p>
             ),
         },
         linkCount: {
-            [loadingStates.INITIAL]: null,
-            [loadingStates.IN_PROGRESS]: (<SpinningRingAnimation />),
-            [loadingStates.SUCCESS]: data => (
+            INITIAL: null,
+            IN_PROGRESS: (<SpinningRingAnimation />),
+            SUCCESS: data => (
                 <p className="Settings__link-count">
                     Trying to link {data} replays.
                     Reload this page in a couple of minutes.
                 </p>
             ),
-            [loadingStates.ERROR]: (
+            ERROR: (
                 <p className="Settings__link-count">
                     Something went wrong.
                 </p>
@@ -91,19 +91,19 @@ const Settings = () => {
         const url = `${urlPrefix}api/replays/verify/`;
         setLinkCount(prevState => ({
             ...prevState,
-            loadingState: loadingStates.IN_PROGRESS,
+            loadingState: 'IN_PROGRESS',
         }));
         const linkCountResponse = await handleFetch(url, opts);
 
         if (linkCountResponse.ok) {
             setLinkCount({
                 data: linkCountResponse.data.count,
-                loadingState: loadingStates.SUCCESS,
+                loadingState: 'SUCCESS',
             });
         } else {
             setLinkCount({
                 data: false,
-                loadingState: loadingStates.ERROR,
+                loadingState: 'ERROR',
             });
         }
     };
@@ -113,19 +113,19 @@ const Settings = () => {
             const url = `${urlPrefix}api/replays/summary/`;
             setReplaySummary(prevState => ({
                 ...prevState,
-                loadingState: loadingStates.IN_PROGRESS,
+                loadingState: 'IN_PROGRESS',
             }));
             const summary = await handleFetch(url, opts);
 
             if (summary.ok) {
                 setReplaySummary({
                     data: summary.data,
-                    loadingState: loadingStates.SUCCESS,
+                    loadingState: 'SUCCESS',
                 });
             } else {
                 setReplaySummary({
                     data: false,
-                    loadingState: loadingStates.ERROR,
+                    loadingState: 'ERROR',
                 });
             }
         };
@@ -213,12 +213,12 @@ const Settings = () => {
                 <div className="Settings__link-replays">
                     <button
                         className="Settings__settings-action"
-                        disabled={linkCount.data}
+                        disabled={linkCount.loadingState === 'IN_PROGRESS'}
                         onClick={linkReplays}
                     >
                         Link Replays
                     </button>
-                    <LinkCountState specifiedState={loadingStates.IN_PROGRESS} />
+                    <LinkCountState specifiedState="IN_PROGRESS" />
                     <InfoTooltip
                         style={{ top: '8px', right: '-10px' }}
                         content={
@@ -237,7 +237,7 @@ const Settings = () => {
                         }
                     />
                 </div>
-                <LinkCountState />
+                <LinkCountState specifiedState={['SUCCESS', 'ERROR']} />
             </div>
         </div>
     );

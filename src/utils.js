@@ -38,10 +38,3 @@ export const handleFetch = async (url, opts = {}, timeoutMs = 60000) => { // esl
 
     return Promise.race([request, timeout]).catch(handleError);
 };
-
-export const loadingStates = {
-    INITIAL: 'INITIAL',
-    IN_PROGRESS: 'IN_PROGRESS',
-    SUCCESS: 'SUCCESS',
-    ERROR: 'ERROR',
-};
