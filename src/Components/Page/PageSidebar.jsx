@@ -85,7 +85,7 @@ const PageSidebar = ({ pages }) => {
             <Link
                 getProps={isActive}
                 to="/settings"
-                style={isHoverStateFixed ? { margin: '0 auto 20px' } : {}}
+                style={isHoverStateFixed ? { margin: '0 auto 10px' } : {}}
             >
                 <img
                     className="PageSidebar__settings-icon"
