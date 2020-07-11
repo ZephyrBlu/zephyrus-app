@@ -21,6 +21,23 @@ const ReplayView = ({ replay, timeline, gameloop, clanTagIndex, visibleState }) 
     });
 
     const dataStates = {
+        replay: {
+            INITIAL: (
+                <h2 className="ReplayView__default">
+                    Select a replay to view
+                </h2>
+            ),
+            SUCCESS: ({ _replay, _timeline, _clanTagIndex }) => (
+                <ReplayInfo
+                    replay={_replay.data}
+                    timeline={{
+                        stat: _timeline.stat,
+                        setStat: _timeline.setStat,
+                    }}
+                    clanTagIndex={_clanTagIndex}
+                />
+            ),
+        },
         timeline: {
             INITIAL: null,
             IN_PROGRESS: (<LoadingAnimation />),
@@ -45,7 +62,17 @@ const ReplayView = ({ replay, timeline, gameloop, clanTagIndex, visibleState }) 
         replayInfo = filteredReplay;
     }
 
-    const loadingData = ({
+    const replayLoadingData = {
+        data: {
+            _replay: replay,
+            _timeline: timeline,
+            _clanTagIndex: clanTagIndex,
+        },
+        loadingState: replay.loading,
+    };
+    const ReplayState = useLoadingState(replayLoadingData, dataStates.replay);
+
+    const timelineLoadingData = ({
         data: {
             _replay: replay,
             _timeline: timeline,
@@ -55,22 +82,13 @@ const ReplayView = ({ replay, timeline, gameloop, clanTagIndex, visibleState }) 
         },
         loadingState: timeline.loading,
     });
-    const TimelineState = useLoadingState(loadingData, dataStates.timeline);
-
+    const TimelineState = useLoadingState(timelineLoadingData, dataStates.timeline);
     return (
         <Fragment>
-            {replay.info &&
-                <ReplayInfo
-                    replay={replay.data}
-                    timeline={{
-                        stat: timeline.stat,
-                        setStat: timeline.setStat,
-                    }}
-                    clanTagIndex={clanTagIndex}
-                />}
+            <ReplayState />
             <TimelineState />
-            <div className={`ReplayView${replay.info ? '' : '--default'}`}>
-                {replay.info ?
+            <div className={`ReplayView${replay.data ? '' : '--default'}`}>
+                {replay.data &&
                     <div className="ReplayView__stats">
                         {statCategories.map(category => (
                             <StatCategory
@@ -80,9 +98,7 @@ const ReplayView = ({ replay, timeline, gameloop, clanTagIndex, visibleState }) 
                                 replayInfo={replayInfo}
                             />
                         ))}
-                    </div>
-                    :
-                    <h2 className="ReplayView__default">Select a replay to view</h2>}
+                    </div>}
             </div>
         </Fragment>
     );

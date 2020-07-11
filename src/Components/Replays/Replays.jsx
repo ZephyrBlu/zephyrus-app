@@ -22,8 +22,13 @@ const selectData = createSelector(
 const Replays = ({ visibleState }) => {
     const dispatch = useDispatch();
     const urlPrefix = useContext(UrlContext);
-    const [selectedReplay, setSelectedReplay] = useState(null);
-    const [selectedReplayInfo, setSelectedReplayInfo] = useState(null);
+    const [selectedReplayState, setSelectedReplayState] = useState({
+        data: {
+            data: null,
+            info: null,
+        },
+        loadingState: 'INITIAL',
+    });
     const [timelineState, setTimelineState] = useState({
         data: null,
         loadingState: 'INITIAL',
@@ -105,7 +110,6 @@ const Replays = ({ visibleState }) => {
     }, [replayTimeline]);
 
     useEffect(() => {
-        setSelectedReplayInfo(null);
         setTimelineState({
             data: null,
             loadingState: 'INITIAL',
@@ -114,12 +118,17 @@ const Replays = ({ visibleState }) => {
         const getSelectedReplay = () => {
             userReplays.forEach((replay) => {
                 if (replay.file_hash === selectedReplayHash) {
-                    setSelectedReplay(replay);
                     const infoList = { user_match_id: replay.user_match_id };
                     Object.entries(replay.match_data).forEach(([stat, values]) => {
                         infoList[stat] = values;
                     });
-                    setSelectedReplayInfo(infoList);
+                    setSelectedReplayState({
+                        data: {
+                            data: replay,
+                            info: infoList,
+                        },
+                        loadingState: 'SUCCESS',
+                    });
                 }
             });
         };
@@ -156,8 +165,8 @@ const Replays = ({ visibleState }) => {
             <div className="Replays__main-content">
                 <ReplayView
                     replay={{
-                        data: selectedReplay,
-                        info: selectedReplayInfo,
+                        ...selectedReplayState.data,
+                        loading: selectedReplayState.loadingState,
                         hash: selectedReplayHash,
                     }}
                     timeline={{
