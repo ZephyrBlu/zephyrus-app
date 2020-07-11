@@ -6,6 +6,7 @@ import {
     setFixedHoverState,
 } from '../../actions';
 import UrlContext from '../../index';
+import { handleFetch } from '../../utils';
 import PageNav from './PageNav';
 import './CSS/PageSidebar.css';
 
@@ -29,12 +30,12 @@ const PageSidebar = ({ pages }) => {
 
     const handleLogout = () => {
         const url = `${urlPrefix}api/logout/`;
-
-        fetch(url, {
+        const opts = {
             method: 'GET',
             headers: { Authorization: `Token ${user.token}` },
-        });
+        };
 
+        handleFetch(url, opts);
         localStorage.clear();
         dispatch(logoutReset());
     };

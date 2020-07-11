@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import Tippy from '@tippy.js/react';
 import { setUser } from '../actions';
 import UrlContext from '../index';
+import { handleFetch } from '../utils';
 import SpinningRingAnimation from './shared/SpinningRingAnimation';
 import './AccountSetup.css';
 
@@ -16,20 +17,18 @@ const AccountSetup = ({ setWaitingForUser }) => {
     const [isProfileSaving, setIsProfileSaving] = useState(false);
     const [profileError, setProfileError] = useState(null);
     const urlPrefix = useContext(UrlContext);
+    const opts = {
+        method: 'GET',
+        headers: { Authorization: `Token ${user.token}` },
+    };
 
     const checkAccountStatus = async () => {
         const url = `${urlPrefix}api/authorize/check/`;
+        const updatedUser = await handleFetch(url, opts);
 
-        const updatedUser = await fetch(url, {
-            method: 'GET',
-            headers: { Authorization: `Token ${user.token}` },
-        }).then(response => (
-            response.json()
-        ));
-
-        if (localStorage.user !== JSON.stringify(updatedUser.user)) {
-            dispatch(setUser(updatedUser.user));
-            localStorage.user = JSON.stringify(updatedUser.user);
+        if (updatedUser.ok && localStorage.user !== JSON.stringify(updatedUser.data.user)) {
+            dispatch(setUser(updatedUser.data.user));
+            localStorage.user = JSON.stringify(updatedUser.data.user);
         }
     };
 
@@ -42,12 +41,12 @@ const AccountSetup = ({ setWaitingForUser }) => {
     useEffect(() => {
         const setBattlenetAccount = async (authCode) => {
             const url = `${urlPrefix}api/authorize/code/`;
-
-            const battlenetAccountResponse = await fetch(url, {
+            const battlenetOpts = {
                 method: 'POST',
                 headers: { Authorization: `Token ${user.token}` },
                 body: JSON.stringify({ authCode }),
-            }).then(response => response);
+            };
+            const battlenetAccountResponse = await handleFetch(url, battlenetOpts);
 
             if (battlenetAccountResponse.ok) {
                 localStorage.removeItem('authCode');
@@ -67,11 +66,7 @@ const AccountSetup = ({ setWaitingForUser }) => {
         setIsEmailSending(true);
         setEmailError(null);
         const url = `${urlPrefix}api/resend/`;
-
-        const emailResponse = await fetch(url, {
-            method: 'GET',
-            headers: { Authorization: `Token ${user.token}` },
-        });
+        const emailResponse = await handleFetch(url, opts);
 
         if (emailResponse.ok) {
             setEmailError(null);
@@ -87,20 +82,10 @@ const AccountSetup = ({ setWaitingForUser }) => {
             return;
         }
         const url = `${urlPrefix}api/authorize/url/`;
+        const authorizeBattlenetResponse = await handleFetch(url, opts);
 
-        const authorizeBattlenetResponse = await fetch(url, {
-            method: 'GET',
-            headers: { Authorization: `Token ${user.token}` },
-        }).then(async (response) => {
-            if (response.ok) {
-                const data = await response.json();
-                return data;
-            }
-            return null;
-        });
-
-        if (authorizeBattlenetResponse) {
-            window.location.assign(authorizeBattlenetResponse.url);
+        if (authorizeBattlenetResponse.ok) {
+            window.location.assign(authorizeBattlenetResponse.data.url);
         }
     };
 
@@ -121,12 +106,12 @@ const AccountSetup = ({ setWaitingForUser }) => {
         setIsProfileSaving(true);
         setProfileError(null);
         const url = `${urlPrefix}api/profile/`;
-
-        const profileResponse = await fetch(url, {
+        const profileOpts = {
             method: 'POST',
             headers: { Authorization: `Token ${user.token}` },
             body: currentProfileUrl,
-        });
+        };
+        const profileResponse = await handleFetch(url, profileOpts);
 
         if (profileResponse.ok) {
             checkAccountStatus();

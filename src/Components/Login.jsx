@@ -4,6 +4,7 @@ import { setInitialUser } from '../actions';
 import SpinningRingAnimation from './shared/SpinningRingAnimation';
 import './Login.css';
 import UrlContext from '../index';
+import { handleFetch } from '../utils';
 
 const Login = ({ setWaitingForUser }) => {
     const dispatch = useDispatch();
@@ -54,19 +55,15 @@ const Login = ({ setWaitingForUser }) => {
             },
             body: JSON.stringify(data),
         };
+        const loginResponse = await handleFetch(`${urlPrefix}api/login/`, loginOpts);
 
-        const loginResponse = await fetch(
-            `${urlPrefix}api/login/`,
-            loginOpts,
-        ).then(async (response) => {
-            if (response.ok) {
-                const _data = await response.json();
-                return _data;
+        if (loginResponse.ok) {
+            if (loginResponse.data) {
+                _setUser(prevUser => ({ ...prevUser, user: loginResponse.data.user }));
+            } else {
+                setFormError('Something went wrong. Please try again');
+                _setUser(prevUser => ({ ...prevUser, waiting: false }));
             }
-            return false;
-        });
-        if (loginResponse.user) {
-            _setUser(prevUser => ({ ...prevUser, user: loginResponse.user }));
         } else {
             setFormError('Incorrect details');
             _setUser(prevUser => ({ ...prevUser, waiting: false }));

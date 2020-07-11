@@ -2,6 +2,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useState, Fragment, useContext } from 'react';
 // import Tippy from '@tippy.js/react';
 import UrlContext from '../../index';
+import { handleFetch } from '../../utils';
 import { logoutReset } from '../../actions';
 import useRouter from '../../useRouter';
 import Title from './Title';
@@ -22,12 +23,12 @@ const Page = () => {
 
     const handleLogout = () => {
         const url = `${urlPrefix}api/logout/`;
-
-        fetch(url, {
+        const opts = {
             method: 'GET',
             headers: { Authorization: `Token ${user.token}` },
-        });
+        };
 
+        handleFetch(url, opts);
         localStorage.clear();
         dispatch(logoutReset());
     };

@@ -33,7 +33,7 @@ const Upload = () => {
         fileList.forEach(async (file, index) => {
             opts.body = file;
             handleFetch(url, opts).then((result) => {
-                if (result) {
+                if (result.ok) {
                     success += 1;
                 } else {
                     fail += 1;
