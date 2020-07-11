@@ -366,7 +366,10 @@ const AccountSetup = ({ setWaitingForUser }) => {
                             Object.values(user.battlenetAccounts[0].profiles).map(profile => (
                                 <p key={profile.profile_id} className="AccountSetup__profile-info">
                                     {profile.region_name}:&nbsp;
-                                    {profile.profile_name} ({profile.profile_id[0]})&nbsp;
+                                    {profile.profile_name}&nbsp;
+                                    ({profile.profile_id.map((pId, i) => (
+                                        `${pId}${i + 1 !== profile.profile_id.length ? ',' : ''}`
+                                    ))})
                                 </p>
                             ))}
                 </li>
