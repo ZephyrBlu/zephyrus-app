@@ -44,6 +44,78 @@ const Replays = ({ visibleState }) => {
     const [user, replayInfo, selectedReplayHash] = useSelector(selectData);
     const [currentGameloop, setCurrentGameloop] = useState(0);
 
+    const gameMetrics = ['resource_collection_rate_all', 'total_army_value'];
+    const metricProperties = ['ahead', 'avgAhead', 'avgLeadLag'];
+    const generateMetrics = (m, p) => {
+        const generated = {};
+        m.forEach((_m) => {
+            const internal = {};
+            p.forEach((_p) => {
+                internal[_p] = null;
+            });
+            generated[_m] = internal;
+        });
+        return generated;
+    };
+    const [metrics, setMetrics] = useState(generateMetrics(gameMetrics, metricProperties));
+
+    console.log(metrics);
+    console.log('timeline', timelineState.data);
+    console.log(metrics);
+
+    useEffect(() => {
+        if (!timelineState.data) {
+            return;
+        }
+
+        const avg = (arr) => {
+            const res = [0, 0];
+
+            arr.forEach(([t, p]) => {
+                res[0] += t;
+                res[1] += p;
+            });
+
+            return [
+                Math.round(res[0] / arr.length),
+                Number((res[1] / arr.length).toFixed(3)),
+            ];
+        };
+        const currentMetrics = {};
+
+        gameMetrics.forEach((metric) => {
+            let ahead = 0;
+            const amountAhead = [];
+            const leadLag = [];
+
+            timelineState.data.data.forEach((gameState) => {
+                const userId = selectedReplayState.data.info.user_match_id;
+                const oppId = userId === 1 ? 2 : 1;
+
+                const diff = [
+                    gameState[userId][metric] - gameState[oppId][metric],
+                    gameState[oppId][metric] === 0 ?
+                        0 : (gameState[userId][metric] / gameState[oppId][metric]) - 1,
+                ];
+                if (gameState[userId][metric] > gameState[oppId][metric]) {
+                    ahead += 1;
+                    amountAhead.push(diff);
+                }
+                leadLag.push(diff);
+            });
+
+            console.log(amountAhead, leadLag);
+
+            currentMetrics[metric] = {
+                ahead: Number((ahead / timelineState.data.data.length).toFixed(3)),
+                avgAhead: avg(amountAhead),
+                avgLeadLag: avg(leadLag),
+            };
+        });
+
+        setMetrics(currentMetrics);
+    }, [timelineState.data]);
+
     const userReplays = useSelector(state => (
         state.selectedRace
             ? state.raceData[state.selectedRace].replays
@@ -85,10 +157,8 @@ const Replays = ({ visibleState }) => {
 
         if (userReplays) {
             filterReplayInfo();
-            setReplayListState({ loadingState: 'SUCCESS' });
+            setReplayListState({ loadingState: userReplays.length > 0 ? 'SUCCESS' : 'NOT_FOUND' });
         } else if (userReplays === false) {
-            setReplayListState({ loadingState: 'NOT_FOUND' });
-        } else {
             setReplayListState({ loadingState: 'ERROR' });
         }
     }, [userReplays]);
