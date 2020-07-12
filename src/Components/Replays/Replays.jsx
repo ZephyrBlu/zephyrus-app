@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
 import { useState, useEffect, useContext } from 'react';
 import { setReplayInfo } from '../../actions';
-import { useFetch, useAuthCode } from '../../hooks';
+import { useFetch, useAuthCode, useLoadingState } from '../../hooks';
 import UrlContext from '../../index';
 import ReplayView from './ReplayView';
 import ReplayList from './ReplayList';
@@ -23,6 +23,7 @@ const Replays = ({ visibleState }) => {
     useAuthCode();
     const dispatch = useDispatch();
     const urlPrefix = useContext(UrlContext);
+    const [replayListState, setReplayListState] = useState({ loadingState: 'IN_PROGRESS' });
     const [selectedReplayState, setSelectedReplayState] = useState({
         data: {
             data: null,
@@ -48,6 +49,15 @@ const Replays = ({ visibleState }) => {
             ? state.raceData[state.selectedRace].replays
             : null
     ));
+
+    const dataStates = {
+        replayList: {
+            IN_PROGRESS: (<LoadingAnimation />),
+            SUCCESS: data => (<ReplayList replays={data} />),
+            NOT_FOUND: (<DefaultResponse content="We couldn't find any replays" />),
+            ERROR: (<DefaultResponse content="Something went wrong" />),
+        },
+    };
 
     const clanTagIndex = name => (
         name.indexOf('>') === -1 ? 0 : name.indexOf('>') + 1
@@ -75,6 +85,11 @@ const Replays = ({ visibleState }) => {
 
         if (userReplays) {
             filterReplayInfo();
+            setReplayListState({ loadingState: 'SUCCESS' });
+        } else if (userReplays === false) {
+            setReplayListState({ loadingState: 'NOT_FOUND' });
+        } else {
+            setReplayListState({ loadingState: 'ERROR' });
         }
     }, [userReplays]);
 
@@ -146,17 +161,11 @@ const Replays = ({ visibleState }) => {
         }
     }, [selectedReplayHash]);
 
-    let sideBar;
-    if (userReplays !== false) {
-        sideBar = (
-            replayInfo.length > 0 ?
-                <ReplayList replays={replayInfo} />
-                :
-                <LoadingAnimation />
-        );
-    } else {
-        sideBar = (<DefaultResponse />);
-    }
+    const replayListData = {
+        data: replayInfo,
+        ...replayListState,
+    };
+    const ReplayListState = useLoadingState(replayListData, dataStates.replayList);
 
     return (
         <div
@@ -185,7 +194,7 @@ const Replays = ({ visibleState }) => {
                 />
             </div>
             <div className="Replays__sidebar">
-                {sideBar}
+                <ReplayListState />
             </div>
         </div>
     );

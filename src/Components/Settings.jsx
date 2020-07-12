@@ -179,8 +179,7 @@ const Settings = () => {
                     />
                 </div>
                 <div className="Settings__account-link-info">
-                    NOTE: Linking a new Battlenet Account will replace
-                    your existing one. Replays will not be affected.
+                    NOTE: You may need to use a Private/Incognito window. Replays will not be affected.
                 </div>
             </div>
             <div className="Settings__battlenet-profiles">

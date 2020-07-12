@@ -1,5 +1,7 @@
-const DefaultResponse = () => (
-    <p style={{ textAlign: 'center' }}>We couldn&apos;t find any replays</p>
+const DefaultResponse = ({ content }) => (
+    <p style={{ textAlign: 'center' }}>
+        {content}
+    </p>
 );
 
 export default DefaultResponse;
