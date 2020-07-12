@@ -2,8 +2,9 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useState, Fragment, useContext } from 'react';
 // import Tippy from '@tippy.js/react';
 import UrlContext from '../../index';
+import { handleFetch } from '../../utils';
 import { logoutReset } from '../../actions';
-import useRouter from '../../useRouter';
+import { useRouter } from '../../hooks';
 import Title from './Title';
 import RaceToggle from './RaceToggle';
 import PageSidebar from './PageSidebar';
@@ -20,18 +21,6 @@ const Page = () => {
     const router = useRouter(visibleState);
     const urlPrefix = useContext(UrlContext);
 
-    const handleLogout = () => {
-        const url = `${urlPrefix}api/logout/`;
-
-        fetch(url, {
-            method: 'GET',
-            headers: { Authorization: `Token ${user.token}` },
-        });
-
-        localStorage.clear();
-        dispatch(logoutReset());
-    };
-
     const pages = {
         Replays: 'Replays',
         Trends: 'Weekly Trends',
@@ -42,11 +31,23 @@ const Page = () => {
         str.charAt(0).toUpperCase() + str.slice(1)
     );
 
+    const handleLogout = () => {
+        const url = `${urlPrefix}api/logout/`;
+        const opts = {
+            method: 'GET',
+            headers: { Authorization: `Token ${user.token}` },
+        };
+
+        handleFetch(url, opts);
+        localStorage.clear();
+        dispatch(logoutReset());
+    };
+
     return (
         <div className="Page">
             <header className="Page__header">
                 <Title />
-                {currentPage && currentPage !== 'Login' &&
+                {currentPage && currentPage !== 'Login' && currentPage !== 'Settings' &&
                     <Fragment>
                         <div className={`Page__page-info Page__page-info--${currentPage}`}>
                             <h1 className="Page__page-name">

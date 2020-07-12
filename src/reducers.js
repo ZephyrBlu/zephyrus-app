@@ -8,7 +8,6 @@ import {
     SET_TRENDS,
     SET_SELECTED_REPLAY_HASH,
     SET_FIXED_HOVER_STATE,
-    UPLOAD_RESET,
     LOGOUT_RESET,
 } from './actions';
 
@@ -80,7 +79,6 @@ const raceData = (state = raceDataDefaultState, action) => {
             return { ...state, ...action.data };
 
         case LOGOUT_RESET:
-        case UPLOAD_RESET:
             return raceDataDefaultState;
 
         default:
@@ -94,7 +92,6 @@ const replayInfo = (state = [], action) => {
             return action.replayInfo;
 
         case LOGOUT_RESET:
-        case UPLOAD_RESET:
             return [];
 
         default:
@@ -108,7 +105,6 @@ const selectedReplayHash = (state = null, action) => {
             return action.replayHash;
 
         case LOGOUT_RESET:
-        case UPLOAD_RESET:
             return null;
 
         default:

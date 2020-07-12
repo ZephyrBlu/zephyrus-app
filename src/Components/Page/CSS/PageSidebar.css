@@ -31,10 +31,9 @@
 
 .PageSidebar__settings {
     grid-area: settings;
-    height: 30px;
-    margin: 0 auto 20px;
-    margin-left: 14px;
-    justify-self: center;
+    height: 50px;
+    margin: 0 auto 10px;
+    margin-left: 11px;
 }
 
 .PageSidebar__settings-icon {
