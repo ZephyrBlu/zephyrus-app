@@ -1,10 +1,10 @@
 import { Fragment } from 'react';
+import { useLoadingState } from '../../hooks';
 import ReplayInfo from './ReplayInfo';
 import TimelineArea from './TimelineArea';
 import StatCategory from '../shared/StatCategory';
 import LoadingAnimation from '../shared/LoadingAnimation';
 import './CSS/ReplayView.css';
-import useLoadingState from '../../useLoadingState';
 
 const ReplayView = ({ replay, timeline, gameloop, clanTagIndex, visibleState }) => {
     const getPlayers = _replay => ({

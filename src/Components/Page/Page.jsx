@@ -4,7 +4,7 @@ import { useState, Fragment, useContext } from 'react';
 import UrlContext from '../../index';
 import { handleFetch } from '../../utils';
 import { logoutReset } from '../../actions';
-import useRouter from '../../useRouter';
+import { useRouter } from '../../hooks';
 import Title from './Title';
 import RaceToggle from './RaceToggle';
 import PageSidebar from './PageSidebar';
@@ -21,6 +21,16 @@ const Page = () => {
     const router = useRouter(visibleState);
     const urlPrefix = useContext(UrlContext);
 
+    const pages = {
+        Replays: 'Replays',
+        Trends: 'Weekly Trends',
+        Upload: 'Upload Replays',
+    };
+
+    const capitalize = str => (
+        str.charAt(0).toUpperCase() + str.slice(1)
+    );
+
     const handleLogout = () => {
         const url = `${urlPrefix}api/logout/`;
         const opts = {
@@ -32,16 +42,6 @@ const Page = () => {
         localStorage.clear();
         dispatch(logoutReset());
     };
-
-    const pages = {
-        Replays: 'Replays',
-        Trends: 'Weekly Trends',
-        Upload: 'Upload Replays',
-    };
-
-    const capitalize = str => (
-        str.charAt(0).toUpperCase() + str.slice(1)
-    );
 
     return (
         <div className="Page">

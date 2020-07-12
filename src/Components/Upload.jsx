@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import { useState, useContext } from 'react';
-import useLoadingState from '../useLoadingState';
+import { useLoadingState } from '../hooks';
 import UrlContext from '../index';
 import { handleFetch } from '../utils';
 import './Upload.css';

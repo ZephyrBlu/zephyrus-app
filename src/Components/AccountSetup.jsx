@@ -1,14 +1,14 @@
-import { useEffect, useState, useRef, useContext } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useState, useRef, useContext } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Tippy from '@tippy.js/react';
-import useLoadingState from '../useLoadingState';
-import { setUser } from '../actions';
+import { useLoadingState, useAuthCode } from '../hooks';
 import UrlContext from '../index';
-import { handleFetch } from '../utils';
+import { handleFetch, updateUserAccount } from '../utils';
 import SpinningRingAnimation from './shared/SpinningRingAnimation';
 import './AccountSetup.css';
 
 const AccountSetup = ({ setWaitingForUser }) => {
+    useAuthCode();
     const dispatch = useDispatch();
     const user = useSelector(state => state.user);
     const profileInputRef = useRef();
@@ -53,43 +53,6 @@ const AccountSetup = ({ setWaitingForUser }) => {
             ),
         },
     };
-
-    const checkAccountStatus = async () => {
-        const url = `${urlPrefix}api/authorize/check/`;
-        const updatedUser = await handleFetch(url, opts);
-
-        if (updatedUser.ok && localStorage.user !== JSON.stringify(updatedUser.data.user)) {
-            dispatch(setUser(updatedUser.data.user));
-            localStorage.user = JSON.stringify(updatedUser.data.user);
-        }
-    };
-
-    useEffect(() => {
-        if (user.token) {
-            checkAccountStatus();
-        }
-    }, [user]);
-
-    useEffect(() => {
-        const setBattlenetAccount = async (authCode) => {
-            const url = `${urlPrefix}api/authorize/code/`;
-            const battlenetOpts = {
-                method: 'POST',
-                headers: { Authorization: `Token ${user.token}` },
-                body: JSON.stringify({ authCode }),
-            };
-            const battlenetAccountResponse = await handleFetch(url, battlenetOpts);
-
-            if (battlenetAccountResponse.ok) {
-                localStorage.removeItem('authCode');
-                checkAccountStatus();
-            }
-        };
-
-        if (localStorage.authCode) {
-            setBattlenetAccount(localStorage.authCode);
-        }
-    }, []);
 
     const resendEmail = async () => {
         if (user.verified) {
@@ -149,7 +112,7 @@ const AccountSetup = ({ setWaitingForUser }) => {
         const profileResponse = await handleFetch(url, profileOpts);
 
         if (profileResponse.ok) {
-            checkAccountStatus();
+            updateUserAccount(user, dispatch, urlPrefix);
             setProfileState(prevState => ({
                 ...prevState,
                 loadingState: 'SUCCESS',

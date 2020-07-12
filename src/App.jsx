@@ -1,13 +1,11 @@
-import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
-import useReplays from './useReplays';
-import useTrends from './useTrends';
+import { useAccount, useReplays, useTrends } from './hooks';
 import Page from './components/Page/Page';
 import './components/Page/CSS/Page.css';
 import './App.css';
 
 const App = () => {
-    const user = useSelector(state => state.user);
+    useAccount();
     useReplays(30000);
     useTrends();
 
@@ -19,7 +17,7 @@ const App = () => {
         if (authCode) {
             localStorage.authCode = authCode;
         }
-    }, [user]);
+    }, []);
 
     return (
         <div className="App">

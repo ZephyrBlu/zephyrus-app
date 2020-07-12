@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Location, Router, Redirect } from '@reach/router';
-import Login from './components/Login';
-import Replays from './components/Replays/Replays';
-import Trends from './components/Trends/Trends';
-import Upload from './components/Upload';
-import Settings from './components/Settings';
-import AccountSetup from './components/AccountSetup';
+import Login from '../components/Login';
+import Replays from '../components/Replays/Replays';
+import Trends from '../components/Trends/Trends';
+import Upload from '../components/Upload';
+import Settings from '../components/Settings';
+import AccountSetup from '../components/AccountSetup';
 
 const useRouter = (visibleState) => {
     const user = useSelector(state => state.user);

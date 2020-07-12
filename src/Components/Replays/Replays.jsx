@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
 import { useState, useEffect, useContext } from 'react';
 import { setReplayInfo } from '../../actions';
-import useFetch from '../../useFetch';
+import { useFetch, useAuthCode } from '../../hooks';
 import UrlContext from '../../index';
 import ReplayView from './ReplayView';
 import ReplayList from './ReplayList';
@@ -20,6 +20,7 @@ const selectData = createSelector(
 );
 
 const Replays = ({ visibleState }) => {
+    useAuthCode();
     const dispatch = useDispatch();
     const urlPrefix = useContext(UrlContext);
     const [selectedReplayState, setSelectedReplayState] = useState({

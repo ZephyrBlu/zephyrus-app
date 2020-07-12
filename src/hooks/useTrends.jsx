@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setTrends } from './actions';
-import UrlContext from './index';
+import { setTrends } from '../actions';
+import UrlContext from '../index';
 import useFetch from './useFetch';
 
 const useTrends = () => {

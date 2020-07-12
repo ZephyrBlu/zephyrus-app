@@ -1,6 +1,6 @@
 import { useContext, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import useLoadingState from '../useLoadingState';
+import { useLoadingState } from '../hooks';
 import UrlContext from '../index';
 import { handleFetch } from '../utils';
 import InfoTooltip from './shared/InfoTooltip';
@@ -30,11 +30,11 @@ const Settings = () => {
         replaySummary: {
             INITIAL: null,
             IN_PROGRESS: (<LoadingAnimation />),
-            SUCCESS: ({ linked, unlinked }) => (
+            SUCCESS: ({ linked, unlinked, other }) => (
                 <div className="Settings__replay-summary">
                     <div className="Settings__replay-count-wrapper">
                         <div className="Settings__replay-count">
-                            {linked + unlinked}
+                            {linked + unlinked + other}
                         </div>
                         replays uploaded
                     </div>
@@ -47,6 +47,13 @@ const Settings = () => {
                             {battlenetAccount.battletag}
                         </span>
                     </div>
+                    {other !== 0 &&
+                        <div className="Settings__replay-count-wrapper">
+                            <div className="Settings__replay-count">
+                                {other}
+                            </div>
+                            replays linked to another account
+                        </div>}
                     <div className="Settings__replay-count-wrapper">
                         <div className="Settings__replay-count">
                             {unlinked}

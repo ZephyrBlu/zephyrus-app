@@ -1,3 +1,5 @@
+import { setUser } from './actions';
+
 export const handleFetch = async (url, opts = {}, timeoutMs = 60000) => { // eslint-disable-line import/prefer-default-export
     const handleError = (err) => {
         console.error(err);
@@ -37,4 +39,22 @@ export const handleFetch = async (url, opts = {}, timeoutMs = 60000) => { // esl
     });
 
     return Promise.race([request, timeout]).catch(handleError);
+};
+
+export const updateUserAccount = async (user, dispatch, prefix) => {
+    if (!user.token) {
+        return;
+    }
+
+    const url = `${prefix}api/authorize/check/`;
+    const opts = {
+        method: 'GET',
+        headers: { Authorization: `Token ${user.token}` },
+    };
+    const updatedUser = await handleFetch(url, opts);
+
+    if (updatedUser.ok && localStorage.user !== JSON.stringify(updatedUser.data.user)) {
+        dispatch(setUser(updatedUser.data.user));
+        localStorage.user = JSON.stringify(updatedUser.data.user);
+    }
 };
