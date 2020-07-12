@@ -256,8 +256,11 @@ const AccountSetup = ({ setWaitingForUser }) => {
                         </p>
                     </span>
                     <p className="AccountSetup__instructions">
-                        Link your account and allow Zephyrus access to your StarCraft II profile.<br />
+                        Link your account and allow Zephyrus access to your StarCraft II profile.
+                        <br />
                         Once the authorization process is complete, you&#39;ll be redirected back to this page.
+                        <br />
+                        You can link a different account in Settings once the initial setup has been completed.
                     </p>
                     <button
                         className={`
