@@ -68,18 +68,38 @@ const Replays = ({ visibleState }) => {
             return;
         }
 
-        const avg = (arr) => {
-            const res = [0, 0];
+        const med = (arr) => {
+            const sep1 = [];
+            const sep2 = [];
 
             arr.forEach(([t, p]) => {
-                res[0] += t;
-                res[1] += p;
+                sep1.push(t);
+                sep2.push(p);
             });
 
-            return [
-                Math.round(res[0] / arr.length),
-                Number((res[1] / arr.length).toFixed(3)),
-            ];
+            sep1.sort((a, b) => (
+                a - b
+            ));
+
+            sep2.sort((a, b) => (
+                a - b
+            ));
+
+            const medians = [];
+
+            [sep1, sep2].forEach((a, i) => {
+                const half = Math.floor(a.length / 2);
+
+                console.log(a, half, a[half], a[half - 1]);
+
+                if (a.length % 2) {
+                    medians.push(i === 0 ? Math.round(a[half]) : Number(a[half].toFixed(3)));
+                } else {
+                    medians.push(i === 0 ? Math.round((a[half - 1] + a[half]) / 2.0) : Number(((a[half - 1] + a[half]) / 2.0).toFixed(3)));
+                }
+            });
+
+            return medians;
         };
         const currentMetrics = {};
 
@@ -108,8 +128,8 @@ const Replays = ({ visibleState }) => {
 
             currentMetrics[metric] = {
                 ahead: Number((ahead / timelineState.data.data.length).toFixed(3)),
-                avgAhead: avg(amountAhead),
-                avgLeadLag: avg(leadLag),
+                avgAhead: med(amountAhead),
+                avgLeadLag: med(leadLag),
             };
         });
 
