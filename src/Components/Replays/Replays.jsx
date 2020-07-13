@@ -101,7 +101,9 @@ const Replays = ({ visibleState }) => {
 
         gameMetrics.forEach((metric) => {
             let ahead = 0;
+            let behind = 0;
             const amountAhead = [];
+            const amountBehind = [];
             const leadLag = [];
 
             timelineState.data.data.forEach((gameState) => {
@@ -125,6 +127,9 @@ const Replays = ({ visibleState }) => {
                 if (userVal > oppVal) {
                     ahead += 1;
                     amountAhead.push(diff);
+                } else if (userVal < oppVal) {
+                    behind += 1;
+                    amountBehind.push(diff.map(val => val * -1));
                 }
                 leadLag.push(diff);
             });
@@ -134,7 +139,9 @@ const Replays = ({ visibleState }) => {
                 data: leadLagData.data,
                 summary: {
                     ahead: Math.round(((ahead / timelineState.data.data.length) * 100)),
+                    behind: Math.round(((behind / timelineState.data.data.length) * 100)),
                     avgAhead: med(amountAhead).medians,
+                    avgBehind: med(amountBehind).medians,
                     avgLeadLag: leadLagData.medians,
                 },
             };

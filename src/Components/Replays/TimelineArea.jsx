@@ -61,6 +61,8 @@ const TimelineArea = ({ metrics, timeline, gameloop, players, visibleState }) =>
         building: ['CreepTumor', 'CreepTumorQueen'],
     };
 
+    console.log(metrics);
+
     return (
         <div className="TimelineArea">
             <div className="TimelineArea__chart-area">
@@ -125,39 +127,42 @@ const TimelineArea = ({ metrics, timeline, gameloop, players, visibleState }) =>
                 </div>
                 {metrics &&
                     <div className="TimelineArea__summary-metrics">
-                        {Object.entries(metrics).map(([statKey, values]) => (
-                            <div className="TimelineArea__metric">
-                                <h3 className="TimelineArea__metric-stat">
-                                    {timelineStatCategories[statKey][0]}
-                                </h3>
-                                <LineChart width={200} height={100} data={values.data} margin={{ top: 5, bottom: 5 }}>
-                                    <ReferenceLine y={0} stroke="hsl(0, 0%, 47%)" strokeWidth={0.5} />
-                                    <YAxis domain={[-1.05, 1.05]} allowDataOverflow hide />
-                                    <Line
-                                        type="monotone"
-                                        dataKey="value"
-                                        stroke="hsl(210, 68%, 47%)"
-                                        strokeWidth={2}
-                                        dot={false}
-                                    />
-                                </LineChart>
-                                <p className="TimelineArea__metric-value">
-                                    You were ahead {values.summary.ahead}% of time
-                                </p>
-                                <p className="TimelineArea__metric-value">
-                                    On average, ahead by&nbsp;
-                                    {values.summary.avgAhead[0]}
-                                    &nbsp;({values.summary.avgAhead[0] >= 0 ? '+' : ''}
-                                    {values.summary.avgAhead[1]}%)
-                                </p>
-                                <p className="TimelineArea__metric-value">
-                                    {values.summary.avgLeadLag[0] >= 0 ? 'Lead' : 'Lagged'} by&nbsp;
-                                    {values.summary.avgLeadLag[0]}
-                                    &nbsp;({values.summary.avgLeadLag[0] >= 0 ? '+' : ''}
-                                    {values.summary.avgLeadLag[1]}%) on average
-                                </p>
-                            </div>
-                        ))}
+                        {Object.entries(metrics).map(([statKey, values]) => {
+                            const aheadOrBehind = values.summary.ahead - values.summary.behind >= 0 ? 'ahead' : 'behind';
+                            const avgAheadOrBehind = values.summary.ahead - values.summary.behind >= 0 ? values.summary.avgAhead : values.summary.avgBehind;
+
+                            return (
+                                <div className="TimelineArea__metric">
+                                    <h3 className="TimelineArea__metric-stat">
+                                        {timelineStatCategories[statKey][0]}
+                                    </h3>
+                                    <LineChart width={200} height={100} data={values.data} margin={{ top: 5, bottom: 5 }}>
+                                        <ReferenceLine y={0} stroke="hsl(0, 0%, 47%)" strokeWidth={0.5} />
+                                        <YAxis domain={[-1.05, 1.05]} allowDataOverflow hide />
+                                        <Line
+                                            type="monotone"
+                                            dataKey="value"
+                                            stroke="hsl(210, 68%, 47%)"
+                                            strokeWidth={2}
+                                            dot={false}
+                                        />
+                                    </LineChart>
+                                    <p className="TimelineArea__metric-value">
+                                        You were {aheadOrBehind} {values.summary[aheadOrBehind]}% of the time
+                                    </p>
+                                    <p className="TimelineArea__metric-value">
+                                        On average, {aheadOrBehind} by {avgAheadOrBehind[0]}
+                                        &nbsp;({aheadOrBehind === 'ahead' ? '' : '-'}{avgAheadOrBehind[1]}%)
+                                    </p>
+                                    <p className="TimelineArea__metric-value">
+                                        {values.summary.avgLeadLag[0] >= 0 ? 'Led' : 'Lagged'} by&nbsp;
+                                        {Math.abs(values.summary.avgLeadLag[0])}
+                                        &nbsp;({values.summary.avgLeadLag[0] >= 0 ? '+' : ''}
+                                        {values.summary.avgLeadLag[1]}%) on average
+                                    </p>
+                                </div>
+                            );
+                        })}
                     </div>}
             </div>
             {currentTimelineState &&
