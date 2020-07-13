@@ -43,27 +43,14 @@ const Replays = ({ visibleState }) => {
     const [timelineStat, setTimelineStat] = useState(localStorage.timelineStat);
     const [user, replayInfo, selectedReplayHash] = useSelector(selectData);
     const [currentGameloop, setCurrentGameloop] = useState(0);
-
-    const gameMetrics = ['resource_collection_rate_all', 'total_army_value'];
-    const metricProperties = ['ahead', 'avgAhead', 'avgLeadLag'];
-    const generateMetrics = (m, p) => {
-        const generated = {};
-        m.forEach((_m) => {
-            const internal = {};
-            p.forEach((_p) => {
-                internal[_p] = null;
-            });
-            generated[_m] = internal;
-        });
-        return generated;
-    };
-    const [metrics, setMetrics] = useState(generateMetrics(gameMetrics, metricProperties));
+    const [metrics, setMetrics] = useState(null);
 
     useEffect(() => {
         if (!timelineState.data) {
             return;
         }
 
+        const gameMetrics = ['resource_collection_rate_all', 'total_army_value'];
         const med = (arr) => {
             const sep1 = [];
             const sep2 = [];
@@ -71,6 +58,18 @@ const Replays = ({ visibleState }) => {
             arr.forEach(([t, p]) => {
                 sep1.push(t);
                 sep2.push(p);
+            });
+
+            const data = sep2.map((val) => {
+                let limitedVal = Number(val.toFixed(2));
+
+                if (limitedVal > 1) {
+                    limitedVal = 1;
+                } else if (limitedVal < -1) {
+                    limitedVal = -1;
+                }
+
+                return { value: limitedVal };
             });
 
             sep1.sort((a, b) => (
@@ -87,13 +86,16 @@ const Replays = ({ visibleState }) => {
                 const half = Math.floor(a.length / 2);
 
                 if (a.length % 2) {
-                    medians.push(i === 0 ? Math.round(a[half]) : Number(a[half].toFixed(3)));
+                    medians.push(i === 0 ? Math.round(a[half]) : Math.round((a[half] * 100)));
                 } else {
-                    medians.push(i === 0 ? Math.round((a[half - 1] + a[half]) / 2.0) : Number(((a[half - 1] + a[half]) / 2.0).toFixed(3)));
+                    medians.push(i === 0 ? Math.round((a[half - 1] + a[half]) / 2) : Math.round((((a[half - 1] + a[half]) * 100) / 2)));
                 }
             });
 
-            return medians;
+            return {
+                medians,
+                data,
+            };
         };
         const currentMetrics = {};
 
@@ -106,22 +108,35 @@ const Replays = ({ visibleState }) => {
                 const userId = selectedReplayState.data.info.user_match_id;
                 const oppId = userId === 1 ? 2 : 1;
 
-                const diff = [
-                    gameState[userId][metric] - gameState[oppId][metric],
-                    gameState[oppId][metric] === 0 ?
-                        0 : (gameState[userId][metric] / gameState[oppId][metric]) - 1,
-                ];
-                if (gameState[userId][metric] > gameState[oppId][metric]) {
+                const userVal = gameState[userId][metric];
+                const oppVal = gameState[oppId][metric];
+
+                let diff;
+                if (userVal === 0 && oppVal === 0) {
+                    diff = [0, 0];
+                } else {
+                    diff = [
+                        userVal - oppVal,
+                        ((Math.min(userVal, oppVal) === 0 ?
+                            0 : Math.max(userVal, oppVal) / Math.min(userVal, oppVal)) - 1)
+                            * (Math.max(userVal, oppVal) === userVal ? 1 : -1),
+                    ];
+                }
+                if (userVal > oppVal) {
                     ahead += 1;
                     amountAhead.push(diff);
                 }
                 leadLag.push(diff);
             });
 
+            const leadLagData = med(leadLag);
             currentMetrics[metric] = {
-                ahead: Number((ahead / timelineState.data.data.length).toFixed(3)),
-                avgAhead: med(amountAhead),
-                avgLeadLag: med(leadLag),
+                data: leadLagData.data,
+                summary: {
+                    ahead: Math.round(((ahead / timelineState.data.data.length) * 100)),
+                    avgAhead: med(amountAhead).medians,
+                    avgLeadLag: leadLagData.medians,
+                },
             };
         });
 
@@ -259,6 +274,7 @@ const Replays = ({ visibleState }) => {
                     replay={{
                         ...selectedReplayState.data,
                         loading: selectedReplayState.loadingState,
+                        metrics,
                         hash: selectedReplayHash,
                     }}
                     timeline={{

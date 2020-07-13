@@ -4,19 +4,22 @@
 
 .TimelineArea__chart-area {
     display: flex;
+    justify-content: space-between;
     margin-bottom: 20px;
 }
 
 .TimelineArea__chart-selector {
-    height: max-content;
-    margin: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 .TimelineArea__chart-stat {
     color: var(--text);
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
     font-size: 14px;
-    padding: 10px;
-    margin-right: 15px;
+    padding: 15px 10px;
     margin-bottom: 10px;
     display: grid;
     place-items: center;
@@ -25,7 +28,13 @@
     border: none;
 }
 
+.TimelineArea__chart-stat:last-child {
+    margin: 0;
+}
+
+.TimelineArea__chart-stat:hover,
 .TimelineArea__chart-stat:focus {
+    cursor: pointer;
     outline: none;
     box-shadow: 0 0 0 2px var(--primary-blue) inset;
 }
@@ -34,42 +43,32 @@
     box-shadow: 0 0 0 2px var(--primary-blue) inset;
 }
 
-.TimelineArea__resource-wrapper {
+.TimelineArea__summary-metrics {
     display: flex;
-    align-items: center;
+    padding: 0 10px;
 }
 
-.TimelineArea__resource-type {
-    width: 25px;
-    height: 25px;
-    color: var(--text);
-    padding: 10px;
-    margin-right: 15px;
-    display: grid;
-    place-items: center;
-    background-color: var(--primary-light-1);
-    border-radius: 20px;
-    border: none;
+.TimelineArea__metric {
+    padding: 0 5px;
 }
 
-.TimelineArea__chart-type:last-child,
-.TimelineArea__resource-type:last-child {
+.TimelineArea__metric-stat {
     margin: 0;
+    font-size: 18px;
+    font-weight: 400;
 }
 
-.TimelineArea__resource-type--minerals {
-    background-color: hsl(190, 100%, 35%);
-    box-shadow: 0 0 6px 2px hsl(190, 100%, 35%);
+.TimelineArea__metric-value {
+    margin: 10px 0;
+    font-size: 14px;
 }
 
-.TimelineArea__resource-type--gas {
-    background-color: hsl(120, 100%, 35%);
-    box-shadow: 0 0 6px 2px hsl(120, 100%, 35%);
+.TimelineArea__metric-value:first-of-type {
+    margin-top: 0;
 }
 
-.TimelineArea__chart-stat:hover,
-.TimelineArea__resource-type:hover {
-    cursor: pointer;
+.TimelineArea__metric-value:last-of-type {
+    margin-bottom: 0;
 }
 
 .timeline-state__players {

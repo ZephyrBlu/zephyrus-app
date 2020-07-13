@@ -2,8 +2,10 @@ import {
     ResponsiveContainer,
     LineChart,
     XAxis,
+    YAxis,
     Tooltip,
     Line,
+    ReferenceLine,
 } from 'recharts';
 import { Fragment, useState } from 'react';
 import RaceState from './RaceState';
@@ -13,7 +15,7 @@ import UpgradeState from './UpgradeState';
 import TimelineTooltip from './TimelineTooltip';
 import './CSS/TimelineArea.css';
 
-const TimelineArea = ({ timeline, gameloop, players, visibleState }) => {
+const TimelineArea = ({ metrics, timeline, gameloop, players, visibleState }) => {
     const [isTimelineFrozen, setTimelineState] = useState(false);
     const currentTimelineState = timeline.cached[gameloop.current];
 
@@ -62,7 +64,7 @@ const TimelineArea = ({ timeline, gameloop, players, visibleState }) => {
     return (
         <div className="TimelineArea">
             <div className="TimelineArea__chart-area">
-                <ResponsiveContainer width="84%" height={150}>
+                <ResponsiveContainer width={visibleState ? '55%' : '65%'} height={200}>
                     <LineChart
                         data={timeline.data}
                         margin={{ left: 30, right: 20 }}
@@ -121,6 +123,42 @@ const TimelineArea = ({ timeline, gameloop, players, visibleState }) => {
                         </button>
                     ))}
                 </div>
+                {metrics &&
+                    <div className="TimelineArea__summary-metrics">
+                        {Object.entries(metrics).map(([statKey, values]) => (
+                            <div className="TimelineArea__metric">
+                                <h3 className="TimelineArea__metric-stat">
+                                    {timelineStatCategories[statKey][0]}
+                                </h3>
+                                <LineChart width={200} height={100} data={values.data} margin={{ top: 5, bottom: 5 }}>
+                                    <ReferenceLine y={0} stroke="hsl(0, 0%, 47%)" strokeWidth={0.5} />
+                                    <YAxis domain={[-1.05, 1.05]} allowDataOverflow hide />
+                                    <Line
+                                        type="monotone"
+                                        dataKey="value"
+                                        stroke="hsl(210, 68%, 47%)"
+                                        strokeWidth={2}
+                                        dot={false}
+                                    />
+                                </LineChart>
+                                <p className="TimelineArea__metric-value">
+                                    You were ahead {values.summary.ahead}% of time
+                                </p>
+                                <p className="TimelineArea__metric-value">
+                                    On average, ahead by&nbsp;
+                                    {values.summary.avgAhead[0]}
+                                    &nbsp;({values.summary.avgAhead[0] >= 0 ? '+' : ''}
+                                    {values.summary.avgAhead[1]}%)
+                                </p>
+                                <p className="TimelineArea__metric-value">
+                                    {values.summary.avgLeadLag[0] >= 0 ? 'Lead' : 'Lagged'} by&nbsp;
+                                    {values.summary.avgLeadLag[0]}
+                                    &nbsp;({values.summary.avgLeadLag[0] >= 0 ? '+' : ''}
+                                    {values.summary.avgLeadLag[1]}%) on average
+                                </p>
+                            </div>
+                        ))}
+                    </div>}
             </div>
             {currentTimelineState &&
                 <div className="timeline-state">
