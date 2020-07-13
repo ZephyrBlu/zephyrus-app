@@ -17,6 +17,6 @@
 .Replays__sidebar {
     grid-area: sidebar;
     overflow-y: hidden;
-    border-left: 1px solid var(--primary-light-2);
+    border-left: 1px solid var(--primary-light-3);
     background-color: var(--primary-dark-2);
 }

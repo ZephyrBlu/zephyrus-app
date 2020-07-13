@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
 import { useState, useEffect, useContext } from 'react';
 import { setReplayInfo } from '../../actions';
-import useFetch from '../../useFetch';
+import { useFetch, useAuthCode, useLoadingState } from '../../hooks';
 import UrlContext from '../../index';
 import ReplayView from './ReplayView';
 import ReplayList from './ReplayList';
@@ -20,11 +20,21 @@ const selectData = createSelector(
 );
 
 const Replays = ({ visibleState }) => {
+    useAuthCode();
     const dispatch = useDispatch();
     const urlPrefix = useContext(UrlContext);
-    const [selectedReplay, setSelectedReplay] = useState(null);
-    const [selectedReplayInfo, setSelectedReplayInfo] = useState(null);
-    const [timelineError, setTimelineError] = useState(false);
+    const [replayListState, setReplayListState] = useState({ loadingState: 'IN_PROGRESS' });
+    const [selectedReplayState, setSelectedReplayState] = useState({
+        data: {
+            data: null,
+            info: null,
+        },
+        loadingState: 'INITIAL',
+    });
+    const [timelineState, setTimelineState] = useState({
+        data: null,
+        loadingState: 'INITIAL',
+    });
 
     if (!localStorage.timelineStat) {
         localStorage.timelineStat = 'resource_collection_rate_all';
@@ -32,15 +42,22 @@ const Replays = ({ visibleState }) => {
 
     const [timelineStat, setTimelineStat] = useState(localStorage.timelineStat);
     const [user, replayInfo, selectedReplayHash] = useSelector(selectData);
-    const [cachedTimeline, setCachedTimeline] = useState(null);
     const [currentGameloop, setCurrentGameloop] = useState(0);
-    const [timelineData, setTimelineData] = useState(null);
 
     const userReplays = useSelector(state => (
         state.selectedRace
             ? state.raceData[state.selectedRace].replays
             : null
     ));
+
+    const dataStates = {
+        replayList: {
+            IN_PROGRESS: (<LoadingAnimation />),
+            SUCCESS: data => (<ReplayList replays={data} />),
+            NOT_FOUND: (<DefaultResponse content="We couldn't find any replays" />),
+            ERROR: (<DefaultResponse content="Something went wrong" />),
+        },
+    };
 
     const clanTagIndex = name => (
         name.indexOf('>') === -1 ? 0 : name.indexOf('>') + 1
@@ -68,6 +85,11 @@ const Replays = ({ visibleState }) => {
 
         if (userReplays) {
             filterReplayInfo();
+            setReplayListState({ loadingState: 'SUCCESS' });
+        } else if (userReplays === false) {
+            setReplayListState({ loadingState: 'NOT_FOUND' });
+        } else {
+            setReplayListState({ loadingState: 'ERROR' });
         }
     }, [userReplays]);
 
@@ -83,52 +105,67 @@ const Replays = ({ visibleState }) => {
 
     useEffect(() => {
         if (replayTimeline) {
-            setTimelineData(replayTimeline);
-
             const timeline = {};
             replayTimeline.forEach((gamestate) => {
                 timeline[gamestate[1].gameloop] = gamestate;
             });
-            setCachedTimeline(timeline);
+
+            setTimelineState({
+                data: {
+                    data: replayTimeline,
+                    cached: timeline,
+                },
+                loadingState: 'SUCCESS',
+            });
         } else if (replayTimeline === false) {
-            setTimelineError(true);
+            setTimelineState(prevState => ({
+                ...prevState,
+                loadingState: 'ERROR',
+            }));
         }
     }, [replayTimeline]);
 
     useEffect(() => {
-        setSelectedReplayInfo(null);
-        setTimelineData(null);
-        setTimelineError(false);
+        setTimelineState({
+            data: null,
+            loadingState: 'INITIAL',
+        });
 
         const getSelectedReplay = () => {
             userReplays.forEach((replay) => {
                 if (replay.file_hash === selectedReplayHash) {
-                    setSelectedReplay(replay);
                     const infoList = { user_match_id: replay.user_match_id };
                     Object.entries(replay.match_data).forEach(([stat, values]) => {
                         infoList[stat] = values;
                     });
-                    setSelectedReplayInfo(infoList);
+                    setSelectedReplayState({
+                        data: {
+                            data: replay,
+                            info: infoList,
+                        },
+                        loadingState: 'SUCCESS',
+                    });
                 }
             });
         };
+
+        if (selectedReplayHash) {
+            setTimelineState({
+                data: null,
+                loadingState: 'IN_PROGRESS',
+            });
+        }
 
         if (userReplays) {
             getSelectedReplay();
         }
     }, [selectedReplayHash]);
 
-    let sideBar;
-    if (userReplays !== false) {
-        sideBar = (
-            replayInfo.length > 0 ?
-                <ReplayList replays={replayInfo} />
-                :
-                <LoadingAnimation />
-        );
-    } else {
-        sideBar = (<DefaultResponse />);
-    }
+    const replayListData = {
+        data: replayInfo,
+        ...replayListState,
+    };
+    const ReplayListState = useLoadingState(replayListData, dataStates.replayList);
 
     return (
         <div
@@ -138,16 +175,15 @@ const Replays = ({ visibleState }) => {
             <div className="Replays__main-content">
                 <ReplayView
                     replay={{
-                        data: selectedReplay,
-                        info: selectedReplayInfo,
+                        ...selectedReplayState.data,
+                        loading: selectedReplayState.loadingState,
                         hash: selectedReplayHash,
                     }}
                     timeline={{
-                        data: timelineData,
-                        cached: cachedTimeline,
+                        ...timelineState.data,
+                        loading: timelineState.loadingState,
                         stat: timelineStat,
                         setStat: setTimelineStat,
-                        error: timelineError,
                     }}
                     gameloop={{
                         current: currentGameloop,
@@ -158,7 +194,7 @@ const Replays = ({ visibleState }) => {
                 />
             </div>
             <div className="Replays__sidebar">
-                {sideBar}
+                <ReplayListState />
             </div>
         </div>
     );

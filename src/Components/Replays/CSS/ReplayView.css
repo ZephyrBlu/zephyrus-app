@@ -3,9 +3,9 @@
     margin: 20px auto 0;
 }
 
-.ReplayView--default {
+.ReplayView__default {
     width: max-content;
-    margin: 0 auto;
+    margin: 20px auto;
 }
 
 .ReplayView__stats {

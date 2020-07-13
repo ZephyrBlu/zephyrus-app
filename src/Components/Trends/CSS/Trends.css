@@ -52,7 +52,7 @@
 .timeline__stat-picker-title:focus,
 .timeline__stat-dropdown-button:focus {
     outline: none;
-    box-shadow: 0 0 0 1px var(--primary-light-2);
+    box-shadow: 0 0 0 1px var(--primary-light-3);
 }
 
 .timeline__stat-dropdown {

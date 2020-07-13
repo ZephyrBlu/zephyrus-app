@@ -1,0 +1,150 @@
+.Settings {
+    border: 1px solid var(--primary-light-3);
+    border-radius: 25px;
+    background-color: var(--secondary-dark-1);
+    width: 70%;
+    margin: 60px auto 0;
+    padding: 40px;
+}
+
+.Settings__header {
+    margin: 0 0 30px;
+    padding: 0 0 30px;
+    border-bottom: 1px solid var(--primary-light-3);
+}
+
+.Settings__battlenet-account {
+    display: flex;
+    margin: 0 0 20px;
+}
+
+.Settings__battletag {
+    font-size: 32px;
+    font-weight: 400;
+    margin: 0;
+    margin-right: 40px;
+    width: max-content;
+    display: inline-block;
+}
+
+.Settings__settings-action {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--primary-blue);
+    font: 400 16px 'Roboto', sans-serif;
+    transition: .3s;
+}
+
+.Settings__settings-action:hover,
+.Settings__settings-action:focus {
+    outline: none;
+    background-color: var(--primary-blue-hover);
+    cursor: pointer;
+}
+
+.Settings__settings-action:disabled {
+    color: black;
+}
+
+.Settings__settings-action:disabled:hover {
+    background-color: var(--primary-blue);
+    cursor: not-allowed;
+}
+
+.Settings__account-link-info {
+    padding: 10px;
+    background-color: var(--primary-light-2);
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: 400;
+    width: max-content;
+}
+
+.Settings__battlenet-profiles {
+    margin: 0 0 30px;
+    padding: 0 0 30px;
+    border-bottom: 1px solid var(--primary-light-3);
+}
+
+.Settings__section-title {
+    font-size: 28px;
+    font-weight: 400;
+    margin: 0 0 20px;
+}
+
+.Settings__battlenet-region {
+    margin: 0 0 20px;
+}
+
+.Settings__battlenet-region-info {
+    margin: 0 0 10px;
+    display: flex;
+    align-items: center;
+}
+
+.Settings__region-name {
+    font-size: 24px;
+    margin: 0;
+    margin-right: 15px;
+    display: inline-block;
+}
+
+.Settings__profile-name {
+    font-size: 18px;
+    margin: 0;
+    display: inline-block;
+    height: max-content;
+}
+
+.Settings__battlenet-profile-id {
+    font-size: 16px;
+    margin: 0 0 10px;
+}
+
+.Settings__battlenet-region:nth-child(3) {
+    margin: 0;
+}
+
+.Settings__battlenet-region:nth-child(3)
+.Settings__battlenet-profile-id {
+    margin: 0;
+}
+
+.Settings__replay-summary {
+    margin-bottom: 25px;
+}
+
+.Settings__replay-count-wrapper {
+    margin: 0 0 15px;
+}
+
+.Settings__replay-count {
+    height: 25px;
+    width: max-content;
+    min-width: 20px;
+    padding: 2px 5px;
+    margin-right: 8px;
+    font-size: 18px;
+    font-weight: 400;
+    text-align: center;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 5px;
+    background-color: var(--primary-light-2);
+}
+
+.Settings__link-replays {
+    display: flex;
+}
+
+.Settings__link-count {
+    margin: 20px 0 0;
+}
+
+@media (max-width: 1200px) {
+    .Settings__account-link-info {
+        font-size: 14px;
+    }
+}

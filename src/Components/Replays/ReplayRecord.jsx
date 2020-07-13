@@ -82,7 +82,7 @@ const ReplayRecord = ({ hash, stats }) => {
                     key={`${replayInfoField}`}
                     className={`ReplayRecord__${replayInfoField}`}
                 >
-                    {replayInfoField === 'result' ?
+                    {replayInfoField === 'result' ? // eslint-disable-line no-nested-ternary
                         <Fragment>
                             <span className={`ReplayRecord__stat--${
                                 stats[replayInfoField].split(',')[0] === 'Win' ?
@@ -95,7 +95,9 @@ const ReplayRecord = ({ hash, stats }) => {
                             </span>
                         </Fragment>
                         :
-                        formatDate(stats[replayInfoField])
+                        replayInfoField === 'date'
+                            ? formatDate(stats[replayInfoField])
+                            : stats[replayInfoField]
                     }
                 </span>
             ))}

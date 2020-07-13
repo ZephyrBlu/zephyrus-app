@@ -22,7 +22,7 @@ const PageNav = ({ pages, hoverState }) => {
             return {
                 width: '100px',
                 borderRadius: '27px',
-                backgroundColor: 'hsl(209, 77%, 14%)',
+                backgroundColor: 'hsl(210, 70%, 16%)',
             };
         }
         return {};

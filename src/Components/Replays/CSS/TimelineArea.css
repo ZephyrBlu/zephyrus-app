@@ -78,8 +78,8 @@
     grid-template-areas: 'timeline-state-player1 timeline-state-central timeline-state-player2';
     margin: 10px 0;
     margin-left: 15px;
-    padding-bottom: 10px;
-    border-bottom: 1px solid var(--primary-light-2);
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--primary-light-3);
 }
 
 .timeline-state__central {

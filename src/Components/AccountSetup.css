@@ -42,7 +42,7 @@
     right: 60px;
     top: 100px;
     background-color: var(--primary-dark-1);
-    border: 1px solid var(--primary-light-2);
+    border: 1px solid var(--primary-light-3);
     border-radius: 10px;
 }
 
@@ -187,7 +187,7 @@
     border: none;
     border-radius: 5px;
     background-color: var(--primary-blue);
-    font-size: 16px;
+    font: 400 16px 'Roboto', sans-serif;
     transition: .3s;
 }
 
