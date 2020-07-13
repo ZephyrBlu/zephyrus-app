@@ -21,6 +21,23 @@ const TimelineTooltip = ({ payload, players, gameloop, timeline }) => {
         'Resources Mined': ['resources_collected.minerals', 'resources_collected.gas'],
     };
 
+    const selectedStat = {
+        'Collection Rate': ['resource_collection_rate.minerals', 'resource_collection_rate.gas'],
+        'Army Value': ['army_value.minerals', 'army_value.gas'],
+        'Resources Lost': ['resources_lost.minerals', 'resources_lost.gas'],
+    };
+
+    const checkSelectedStat = (stat) => {
+        if (stat.includes('collection_rate')) {
+            return 'Collection Rate';
+        } else if (stat.includes('army_value')) {
+            return 'Army Value';
+        } else if (stat.includes('resources_lost')) {
+            return 'Resources Lost';
+        }
+        return false;
+    };
+
     const string2dot = (obj, str) => (
         str.split('.').reduce((o, i) => o[i], obj)
     );
@@ -111,6 +128,28 @@ const TimelineTooltip = ({ payload, players, gameloop, timeline }) => {
                                 </td>
                             </tr>
                         ))}
+                        {checkSelectedStat(timeline.stat) &&
+                            <tr className="tooltip__timeline-stat">
+                                <td className="tooltip__stat-name">
+                                    {checkSelectedStat(timeline.stat)}
+                                </td>
+                                <td className="tooltip__stat-values">
+                                    {selectedStat[checkSelectedStat(timeline.stat)].map((key, index) => (
+                                        <span className="tooltip__value tooltip__value--player1">
+                                            {string2dot(timeline.state[1], key)}&nbsp;
+                                            {index === selectedStat[checkSelectedStat(timeline.stat)].length - 1 ? '' : '/ '}
+                                        </span>
+                                    ))}
+                                </td>
+                                <td className="tooltip__stat-values">
+                                    {selectedStat[checkSelectedStat(timeline.stat)].map((key, index) => (
+                                        <span className="tooltip__value tooltip__value--player2">
+                                            {string2dot(timeline.state[2], key)}&nbsp;
+                                            {index === selectedStat[checkSelectedStat(timeline.stat)].length - 1 ? '' : '/ '}
+                                        </span>
+                                    ))}
+                                </td>
+                            </tr>}
                     </tbody>
                 </table>
             </div>

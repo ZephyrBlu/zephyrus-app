@@ -83,6 +83,7 @@ const ReplayView = ({ replay, timeline, gameloop, clanTagIndex, visibleState }) 
         loadingState: timeline.loading,
     });
     const TimelineState = useLoadingState(timelineLoadingData, dataStates.timeline);
+
     return (
         <Fragment>
             <ReplayState />
