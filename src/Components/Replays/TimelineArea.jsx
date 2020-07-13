@@ -2,8 +2,6 @@ import {
     ResponsiveContainer,
     LineChart,
     XAxis,
-    YAxis,
-    CartesianGrid,
     Tooltip,
     Line,
 } from 'recharts';
@@ -39,64 +37,91 @@ const TimelineArea = ({ timeline, gameloop, players, visibleState }) => {
             `${minutes}:${seconds}`;
     };
 
+    const timelineStatCategories = {
+        resource_collection_rate_all: ['Collection Rate', 'resource_collection_rate'],
+        // 'unspent_resources.minerals': 'Unspent Minerals',
+        // 'unspent_resources.gas': 'Unspent Gas',
+        total_army_value: ['Army Value', 'army_value'],
+        total_resources_lost: ['Resources Lost', 'resources_lost'],
+        // 'resources_lost.minerals': 'Minerals Lost',
+        // 'resources_lost.gas': 'Gas Lost',
+        // workers_active: 'Workers Active',
+        // workers_killed: 'Workers Lost',
+    };
+
     const objectStates = {
         unit: ['live', 'died'],
         building: ['live', 'died', 'in_progress'],
     };
 
     const ignoreObjects = {
-        unit: ['LocustMP', 'BroodlingEscort'],
+        unit: ['BroodlingEscort'],
         building: ['CreepTumor', 'CreepTumorQueen'],
     };
 
     return (
-        <Fragment>
-            <ResponsiveContainer width="100%" height={200}>
-                <LineChart
-                    data={timeline.data}
-                    margin={{ right: 25 }}
-                    onClick={
-                        () => (
-                            isTimelineFrozen ?
-                                setTimelineState(false) : setTimelineState(true)
-                        )
-                    }
-                >
-                    <XAxis
-                        dataKey="1.gameloop"
-                        tickFormatter={content => formatTick(content)}
-                    />
-                    <YAxis padding={{ top: 5 }} />
-                    <CartesianGrid horizontal={false} vertical={false} />
-                    <Tooltip
-                        content={
-                            <TimelineTooltip
-                                timeline={{
-                                    state: currentTimelineState,
-                                    frozen: isTimelineFrozen,
-                                }}
-                                gameloop={gameloop}
-                                players={players}
-                            />
+        <div className="TimelineArea">
+            <div className="TimelineArea__chart-area">
+                <ResponsiveContainer width="84%" height={150}>
+                    <LineChart
+                        data={timeline.data}
+                        margin={{ left: 30, right: 20 }}
+                        onClick={
+                            () => (
+                                isTimelineFrozen ?
+                                    setTimelineState(false) : setTimelineState(true)
+                            )
                         }
-                        position={{ y: -10 }}
-                    />
-                    <Line
-                        type="monotone"
-                        dataKey={`1.${timeline.stat}`}
-                        stroke="hsl(0, 100%, 55%)"
-                        activeDot={{ stroke: 'hsl(0, 100%, 55%)', fill: 'hsl(0, 100%, 55%)' }}
-                        dot={false}
-                    />
-                    <Line
-                        type="monotone"
-                        dataKey={`2.${timeline.stat}`}
-                        stroke="hsl(240, 80%, 55%)"
-                        activeDot={{ stroke: 'hsl(240, 80%, 55%)', fill: 'hsl(240, 80%, 55%)' }}
-                        dot={false}
-                    />
-                </LineChart>
-            </ResponsiveContainer>
+                    >
+                        <XAxis
+                            dataKey="1.gameloop"
+                            tickFormatter={content => formatTick(content)}
+                            hide
+                        />
+                        <Tooltip
+                            content={
+                                <TimelineTooltip
+                                    timeline={{
+                                        stat: timeline.stat,
+                                        state: currentTimelineState,
+                                        frozen: isTimelineFrozen,
+                                    }}
+                                    gameloop={gameloop}
+                                    players={players}
+                                />
+                            }
+                            position={{ y: -10 }}
+                        />
+                        <Line
+                            type="monotone"
+                            dataKey={`1.${timeline.stat}`}
+                            stroke="hsl(0, 100%, 55%)"
+                            activeDot={{ stroke: 'hsl(0, 100%, 55%)', fill: 'hsl(0, 100%, 55%)' }}
+                            dot={false}
+                        />
+                        <Line
+                            type="monotone"
+                            dataKey={`2.${timeline.stat}`}
+                            stroke="hsl(240, 80%, 55%)"
+                            activeDot={{ stroke: 'hsl(240, 80%, 55%)', fill: 'hsl(240, 80%, 55%)' }}
+                            dot={false}
+                        />
+                    </LineChart>
+                </ResponsiveContainer>
+                <div className="TimelineArea__chart-selector">
+                    {Object.entries(timelineStatCategories).map(([statKey, statNames]) => (
+                        <button
+                            className={`TimelineArea__chart-stat ${timeline.stat === statKey ? 'TimelineArea__chart-stat--active' : ''}`}
+                            onClick={() => {
+                                timeline.setStat(statKey);
+                                localStorage.timelineStat = statKey;
+                            }}
+                        >
+                            {statNames[0]}
+                        </button>
+                    ))}
+                </div>
+            </div>
             {currentTimelineState &&
                 <div className="timeline-state">
                     <div className="timeline-state__players">
@@ -191,7 +216,7 @@ const TimelineArea = ({ timeline, gameloop, players, visibleState }) => {
                         ignoreObjects={ignoreObjects.building}
                     />
                 </div>}
-        </Fragment>
+        </div>
     );
 };
 

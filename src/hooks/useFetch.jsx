@@ -43,6 +43,8 @@ const useFetch = (url, dep = 'default', dataKey = null, opts = null) => {
         */
         if (user && url && (dep || dep === 0)) {
             fetchData();
+        } else if (dep === false) {
+            _setState(false);
         }
 
         return () => {

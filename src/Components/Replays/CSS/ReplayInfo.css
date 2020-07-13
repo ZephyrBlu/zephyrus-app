@@ -9,7 +9,7 @@
     'date date share-replay share-replay'
     'download download download stat-selection';
     grid-gap: 0 20px;
-    margin: 10px 25px 30px 60px;
+    margin: 10px 25px 10px 60px;
 }
 
 .ReplayInfo__replay-download {

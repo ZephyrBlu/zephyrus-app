@@ -55,7 +55,7 @@ const useReplays = (interval) => {
         const races = ['protoss', 'zerg', 'terran'];
 
         races.forEach((race) => {
-            if (_cachedData[race].replays && _cachedData[race].count !== _prevCount[race]) {
+            if (_cachedData[race].count !== _prevCount[race]) {
                 const raceReplays = _cachedData[race].replays;
                 updatedReplays[race] = { replays: raceReplays };
             }
