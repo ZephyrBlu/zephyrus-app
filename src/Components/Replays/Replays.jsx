@@ -85,10 +85,8 @@ const Replays = ({ visibleState }) => {
 
         if (userReplays) {
             filterReplayInfo();
-            setReplayListState({ loadingState: 'SUCCESS' });
+            setReplayListState({ loadingState: userReplays.length > 0 ? 'SUCCESS' : 'NOT_FOUND' });
         } else if (userReplays === false) {
-            setReplayListState({ loadingState: 'NOT_FOUND' });
-        } else {
             setReplayListState({ loadingState: 'ERROR' });
         }
     }, [userReplays]);
