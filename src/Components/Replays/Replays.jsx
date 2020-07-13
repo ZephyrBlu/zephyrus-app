@@ -59,10 +59,6 @@ const Replays = ({ visibleState }) => {
     };
     const [metrics, setMetrics] = useState(generateMetrics(gameMetrics, metricProperties));
 
-    console.log(metrics);
-    console.log('timeline', timelineState.data);
-    console.log(metrics);
-
     useEffect(() => {
         if (!timelineState.data) {
             return;
@@ -89,8 +85,6 @@ const Replays = ({ visibleState }) => {
 
             [sep1, sep2].forEach((a, i) => {
                 const half = Math.floor(a.length / 2);
-
-                console.log(a, half, a[half], a[half - 1]);
 
                 if (a.length % 2) {
                     medians.push(i === 0 ? Math.round(a[half]) : Number(a[half].toFixed(3)));
@@ -123,8 +117,6 @@ const Replays = ({ visibleState }) => {
                 }
                 leadLag.push(diff);
             });
-
-            console.log(amountAhead, leadLag);
 
             currentMetrics[metric] = {
                 ahead: Number((ahead / timelineState.data.data.length).toFixed(3)),
