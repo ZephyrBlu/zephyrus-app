@@ -110,33 +110,15 @@ const TimelineArea = ({ timeline, gameloop, players, visibleState }) => {
                 </ResponsiveContainer>
                 <div className="TimelineArea__chart-selector">
                     {Object.entries(timelineStatCategories).map(([statKey, statNames]) => (
-                        <div className="TimelineArea__chart-type">
-                            <button
-                                className="TimelineArea__chart-stat"
-                                onClick={() => {
-                                    timeline.setStat(statKey);
-                                    localStorage.timelineStat = statKey;
-                                }}
-                            >
-                                {statNames[0]}
-                            </button>
-                            <div className="TimelineArea__resource-wrapper">
-                                <button
-                                    className="TimelineArea__resource-type TimelineArea__resource-type--minerals"
-                                    onClick={() => {
-                                        timeline.setStat(`${statNames[1]}.minerals`);
-                                        localStorage.timelineStat = `${statNames[1]}.minerals`;
-                                    }}
-                                />
-                                <button
-                                    className="TimelineArea__resource-type TimelineArea__resource-type--gas"
-                                    onClick={() => {
-                                        timeline.setStat(`${statNames[1]}.gas`);
-                                        localStorage.timelineStat = `${statNames[1]}.gas`;
-                                    }}
-                                />
-                            </div>
-                        </div>
+                        <button
+                            className={`TimelineArea__chart-stat ${timeline.stat === statKey ? 'TimelineArea__chart-stat--active' : ''}`}
+                            onClick={() => {
+                                timeline.setStat(statKey);
+                                localStorage.timelineStat = statKey;
+                            }}
+                        >
+                            {statNames[0]}
+                        </button>
                     ))}
                 </div>
             </div>
