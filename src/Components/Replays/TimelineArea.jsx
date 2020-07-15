@@ -66,7 +66,7 @@ const TimelineArea = ({ metrics, timeline, gameloop, players, visibleState }) =>
     return (
         <div className="TimelineArea">
             <div className="TimelineArea__chart-area">
-                <ResponsiveContainer width={visibleState ? '55%' : '65%'} height={200}>
+                <ResponsiveContainer className="TimelineArea__timeline" width="99%" height={100}>
                     <LineChart
                         data={timeline.data}
                         margin={{ left: 30, right: 20 }}
@@ -126,17 +126,17 @@ const TimelineArea = ({ metrics, timeline, gameloop, players, visibleState }) =>
                     ))}
                 </div>
                 {metrics &&
-                    <div className="TimelineArea__summary-metrics">
-                        {Object.entries(metrics).map(([statKey, values]) => {
-                            const aheadOrBehind = values.summary.ahead - values.summary.behind >= 0 ? 'ahead' : 'behind';
-                            const avgAheadOrBehind = values.summary.ahead - values.summary.behind >= 0 ? values.summary.avgAhead : values.summary.avgBehind;
+                    Object.entries(metrics).map(([statKey, values]) => { // eslint-disable-line arrow-body-style
+                        // const aheadOrBehind = values.summary.ahead - values.summary.behind >= 0 ? 'ahead' : 'behind';
+                        // const avgAheadOrBehind = values.summary.ahead - values.summary.behind >= 0 ? values.summary.avgAhead : values.summary.avgBehind;
 
-                            return (
-                                <div className="TimelineArea__metric">
-                                    <h3 className="TimelineArea__metric-stat">
-                                        {timelineStatCategories[statKey][0]}
-                                    </h3>
-                                    <LineChart width={200} height={100} data={values.data} margin={{ top: 5, bottom: 5 }}>
+                        return (
+                            <div className={`TimelineArea__metric TimelineArea__metric--${statKey}`}>
+                                <h3 className="TimelineArea__metric-stat">
+                                    {timelineStatCategories[statKey][0]}
+                                </h3>
+                                <ResponsiveContainer className="TimelineArea__metric-chart" width="80%" height={50}>
+                                    <LineChart data={values.data} margin={{ top: 5, bottom: 5 }}>
                                         <ReferenceLine y={0} stroke="hsl(0, 0%, 47%)" strokeWidth={0.5} />
                                         <YAxis domain={[-1.05, 1.05]} allowDataOverflow hide />
                                         <Line
@@ -147,23 +147,23 @@ const TimelineArea = ({ metrics, timeline, gameloop, players, visibleState }) =>
                                             dot={false}
                                         />
                                     </LineChart>
-                                    <p className="TimelineArea__metric-value">
-                                        You were {aheadOrBehind} {values.summary[aheadOrBehind]}% of the time
-                                    </p>
-                                    <p className="TimelineArea__metric-value">
-                                        On average, {aheadOrBehind} by {avgAheadOrBehind[0]}
-                                        &nbsp;({aheadOrBehind === 'ahead' ? '' : '-'}{avgAheadOrBehind[1]}%)
-                                    </p>
-                                    <p className="TimelineArea__metric-value">
-                                        {values.summary.avgLeadLag[0] >= 0 ? 'Led' : 'Lagged'} by&nbsp;
-                                        {Math.abs(values.summary.avgLeadLag[0])}
-                                        &nbsp;({values.summary.avgLeadLag[0] >= 0 ? '+' : ''}
-                                        {values.summary.avgLeadLag[1]}%) on average
-                                    </p>
-                                </div>
-                            );
-                        })}
-                    </div>}
+                                </ResponsiveContainer>
+                                {/* <p className="TimelineArea__metric-value">
+                                    You were {aheadOrBehind} {values.summary[aheadOrBehind]}% of the time
+                                </p>
+                                <p className="TimelineArea__metric-value">
+                                    On average, {aheadOrBehind} by {avgAheadOrBehind[0]}
+                                    &nbsp;({aheadOrBehind === 'ahead' ? '' : '-'}{avgAheadOrBehind[1]}%)
+                                </p>
+                                <p className="TimelineArea__metric-value">
+                                    {values.summary.avgLeadLag[0] >= 0 ? 'Led' : 'Lagged'} by&nbsp;
+                                    {Math.abs(values.summary.avgLeadLag[0])}
+                                    &nbsp;({values.summary.avgLeadLag[0] >= 0 ? '+' : ''}
+                                    {values.summary.avgLeadLag[1]}%) on average
+                                </p> */}
+                            </div>
+                        );
+                    })}
             </div>
             {currentTimelineState &&
                 <div className="timeline-state">

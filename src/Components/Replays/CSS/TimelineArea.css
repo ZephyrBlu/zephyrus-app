@@ -3,15 +3,27 @@
 }
 
 .TimelineArea__chart-area {
-    display: flex;
-    justify-content: space-between;
+    /* display: flex;
+    justify-content: space-between; */
+    display: grid;
+    grid-template: repeat(max-content, 4) / repeat(max-content, 3);
+    grid-template-areas:
+    'timeline timeline timeline chart-selector'
+    'collection-rate army-value resources-lost chart-selector';
+    grid-row-gap: 10px;
     margin-bottom: 20px;
 }
 
+.TimelineArea__timeline {
+    grid-area: timeline;
+}
+
 .TimelineArea__chart-selector {
+    grid-area: chart-selector;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    width: 130px;
 }
 
 .TimelineArea__chart-stat {
@@ -43,19 +55,36 @@
     box-shadow: 0 0 0 2px var(--primary-blue) inset;
 }
 
-.TimelineArea__summary-metrics {
+/* .TimelineArea__summary-metrics {
     display: flex;
     padding: 0 10px;
-}
+} */
 
 .TimelineArea__metric {
     padding: 0 5px;
 }
 
+.TimelineArea__metric-chart {
+    margin: 0 auto;
+}
+
+.TimelineArea__metric--resource_collection_rate_all {
+    grid-area: collection-rate;
+}
+
+.TimelineArea__metric--total_army_value {
+    grid-area: army-value;
+}
+
+.TimelineArea__metric--_resources_lost {
+    grid-area: resources-lost;
+}
+
 .TimelineArea__metric-stat {
-    margin: 0;
+    margin: 0 0 5px;
     font-size: 18px;
     font-weight: 400;
+    text-align: center;
 }
 
 .TimelineArea__metric-value {

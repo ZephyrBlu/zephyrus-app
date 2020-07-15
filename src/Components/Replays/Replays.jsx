@@ -50,7 +50,7 @@ const Replays = ({ visibleState }) => {
             return;
         }
 
-        const gameMetrics = ['resource_collection_rate_all', 'total_army_value'];
+        const gameMetrics = ['resource_collection_rate_all', 'total_army_value', 'total_resources_lost'];
         const med = (arr) => {
             const sep1 = [];
             const sep2 = [];
