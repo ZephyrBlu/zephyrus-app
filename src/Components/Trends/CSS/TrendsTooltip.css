@@ -6,6 +6,11 @@
     background-color: hsla(209, 77%, 14%, 0.9);
 }
 
+/* putting rendered charts at the back */
+.TimelineArea__metric-chart .recharts-wrapper {
+    z-index: -1;
+}
+
 .Tooltip__content {
     margin: 0;
     padding: 0;

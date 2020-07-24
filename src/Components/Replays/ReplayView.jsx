@@ -43,6 +43,7 @@ const ReplayView = ({ replay, timeline, gameloop, clanTagIndex, visibleState }) 
             IN_PROGRESS: (<LoadingAnimation />),
             SUCCESS: ({ _replay, _timeline, _gameloop, _getPlayers, _visibleState }) => (
                 <TimelineArea
+                    metrics={_replay.metrics}
                     timeline={_timeline}
                     gameloop={_gameloop}
                     players={_getPlayers(_replay)}

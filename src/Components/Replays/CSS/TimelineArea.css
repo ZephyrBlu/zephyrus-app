@@ -3,20 +3,35 @@
 }
 
 .TimelineArea__chart-area {
-    display: flex;
+    /* display: flex;
+    justify-content: space-between; */
+    display: grid;
+    grid-template: repeat(max-content, 4) / repeat(max-content, 3);
+    grid-template-areas:
+    'timeline timeline timeline chart-selector'
+    'collection-rate army-value resources-lost chart-selector';
+    grid-row-gap: 10px;
     margin-bottom: 20px;
 }
 
+.TimelineArea__timeline {
+    grid-area: timeline;
+}
+
 .TimelineArea__chart-selector {
-    height: max-content;
-    margin: auto;
+    grid-area: chart-selector;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 130px;
 }
 
 .TimelineArea__chart-stat {
     color: var(--text);
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
     font-size: 14px;
-    padding: 10px;
-    margin-right: 15px;
+    padding: 15px 10px;
     margin-bottom: 10px;
     display: grid;
     place-items: center;
@@ -25,7 +40,13 @@
     border: none;
 }
 
+.TimelineArea__chart-stat:last-child {
+    margin: 0;
+}
+
+.TimelineArea__chart-stat:hover,
 .TimelineArea__chart-stat:focus {
+    cursor: pointer;
     outline: none;
     box-shadow: 0 0 0 2px var(--primary-blue) inset;
 }
@@ -34,42 +55,49 @@
     box-shadow: 0 0 0 2px var(--primary-blue) inset;
 }
 
-.TimelineArea__resource-wrapper {
+/* .TimelineArea__summary-metrics {
     display: flex;
-    align-items: center;
+    padding: 0 10px;
+} */
+
+.TimelineArea__metric {
+    padding: 0 5px;
 }
 
-.TimelineArea__resource-type {
-    width: 25px;
-    height: 25px;
-    color: var(--text);
-    padding: 10px;
-    margin-right: 15px;
-    display: grid;
-    place-items: center;
-    background-color: var(--primary-light-1);
-    border-radius: 20px;
-    border: none;
+.TimelineArea__metric-chart {
+    margin: 0 auto;
 }
 
-.TimelineArea__chart-type:last-child,
-.TimelineArea__resource-type:last-child {
-    margin: 0;
+.TimelineArea__metric--resource_collection_rate_all {
+    grid-area: collection-rate;
 }
 
-.TimelineArea__resource-type--minerals {
-    background-color: hsl(190, 100%, 35%);
-    box-shadow: 0 0 6px 2px hsl(190, 100%, 35%);
+.TimelineArea__metric--total_army_value {
+    grid-area: army-value;
 }
 
-.TimelineArea__resource-type--gas {
-    background-color: hsl(120, 100%, 35%);
-    box-shadow: 0 0 6px 2px hsl(120, 100%, 35%);
+.TimelineArea__metric--_resources_lost {
+    grid-area: resources-lost;
 }
 
-.TimelineArea__chart-stat:hover,
-.TimelineArea__resource-type:hover {
-    cursor: pointer;
+.TimelineArea__metric-stat {
+    margin: 0 0 5px;
+    font-size: 18px;
+    font-weight: 400;
+    text-align: center;
+}
+
+.TimelineArea__metric-value {
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+.TimelineArea__metric-value:first-of-type {
+    margin-top: 0;
+}
+
+.TimelineArea__metric-value:last-of-type {
+    margin-bottom: 0;
 }
 
 .timeline-state__players {

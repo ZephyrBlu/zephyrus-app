@@ -2,8 +2,10 @@ import {
     ResponsiveContainer,
     LineChart,
     XAxis,
+    YAxis,
     Tooltip,
     Line,
+    ReferenceLine,
 } from 'recharts';
 import { Fragment, useState } from 'react';
 import RaceState from './RaceState';
@@ -13,7 +15,7 @@ import UpgradeState from './UpgradeState';
 import TimelineTooltip from './TimelineTooltip';
 import './CSS/TimelineArea.css';
 
-const TimelineArea = ({ timeline, gameloop, players, visibleState }) => {
+const TimelineArea = ({ metrics, timeline, gameloop, players, visibleState }) => {
     const [isTimelineFrozen, setTimelineState] = useState(false);
     const currentTimelineState = timeline.cached[gameloop.current];
 
@@ -59,10 +61,12 @@ const TimelineArea = ({ timeline, gameloop, players, visibleState }) => {
         building: ['CreepTumor', 'CreepTumorQueen'],
     };
 
+    console.log(metrics);
+
     return (
         <div className="TimelineArea">
             <div className="TimelineArea__chart-area">
-                <ResponsiveContainer width="84%" height={150}>
+                <ResponsiveContainer className="TimelineArea__timeline" width="99%" height={100}>
                     <LineChart
                         data={timeline.data}
                         margin={{ left: 30, right: 20 }}
@@ -121,6 +125,45 @@ const TimelineArea = ({ timeline, gameloop, players, visibleState }) => {
                         </button>
                     ))}
                 </div>
+                {metrics &&
+                    Object.entries(metrics).map(([statKey, values]) => { // eslint-disable-line arrow-body-style
+                        // const aheadOrBehind = values.summary.ahead - values.summary.behind >= 0 ? 'ahead' : 'behind';
+                        // const avgAheadOrBehind = values.summary.ahead - values.summary.behind >= 0 ? values.summary.avgAhead : values.summary.avgBehind;
+
+                        return (
+                            <div className={`TimelineArea__metric TimelineArea__metric--${statKey}`}>
+                                <h3 className="TimelineArea__metric-stat">
+                                    {timelineStatCategories[statKey][0]}
+                                </h3>
+                                <ResponsiveContainer className="TimelineArea__metric-chart" width="80%" height={50}>
+                                    <LineChart data={values.data} margin={{ top: 5, bottom: 5 }}>
+                                        <ReferenceLine y={0} stroke="hsl(0, 0%, 47%)" strokeWidth={0.5} />
+                                        <YAxis domain={[-1.05, 1.05]} allowDataOverflow hide />
+                                        <Line
+                                            type="monotone"
+                                            dataKey="value"
+                                            stroke="hsl(210, 68%, 47%)"
+                                            strokeWidth={2}
+                                            dot={false}
+                                        />
+                                    </LineChart>
+                                </ResponsiveContainer>
+                                {/* <p className="TimelineArea__metric-value">
+                                    You were {aheadOrBehind} {values.summary[aheadOrBehind]}% of the time
+                                </p>
+                                <p className="TimelineArea__metric-value">
+                                    On average, {aheadOrBehind} by {avgAheadOrBehind[0]}
+                                    &nbsp;({aheadOrBehind === 'ahead' ? '' : '-'}{avgAheadOrBehind[1]}%)
+                                </p>
+                                <p className="TimelineArea__metric-value">
+                                    {values.summary.avgLeadLag[0] >= 0 ? 'Led' : 'Lagged'} by&nbsp;
+                                    {Math.abs(values.summary.avgLeadLag[0])}
+                                    &nbsp;({values.summary.avgLeadLag[0] >= 0 ? '+' : ''}
+                                    {values.summary.avgLeadLag[1]}%) on average
+                                </p> */}
+                            </div>
+                        );
+                    })}
             </div>
             {currentTimelineState &&
                 <div className="timeline-state">
