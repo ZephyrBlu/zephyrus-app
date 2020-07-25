@@ -41,8 +41,8 @@ const Trends = () => {
         winrate: 'Winrate',
         mmr: 'MMR',
         sq: 'Spending Quotient',
-        apm: 'APM',
-        spm: 'SPM',
+        apm: 'Actions Per Minute',
+        spm: 'Screens Per Minute',
         supply_block: 'Supply Block',
         workers_produced: 'Workers Produced',
         workers_killed: 'Workers Killed',
@@ -93,8 +93,7 @@ const Trends = () => {
                             </div>
                             <span className="Trends__title-text">
                                 MMR
-                                {currentSeasonTrends && previousSeasonTrends &&
-                                    ` (${currentSeasonTrends.mmr.values[0].value - currentSeasonTrends.mmr.values[0].value >= 0 && '+'}${currentSeasonTrends.mmr.values[0].value - currentSeasonTrends.mmr.values[0].value})`}
+                                {` (${selectTrends().mmr.values.slice(-1)[0].value - selectTrends().mmr.values[0].value >= 0 ? '+' : ''}${selectTrends().mmr.values.slice(-1)[0].value - selectTrends().mmr.values[0].value})`}
                                 &nbsp;with a
                             </span>
                             <div className="Trends__title-value">
@@ -118,7 +117,7 @@ const Trends = () => {
                                             <LineChart
                                                 data={selectTrends()[stat].values}
                                                 className="Trends__season-stat-chart"
-                                                margin={{ left: -15, right: 2, top: 10, bottom: -10 }}
+                                                margin={{ left: -15, right: 2, top: 10, bottom: 10 }}
                                             >
                                                 <YAxis type="number" domain={['auto', 'auto']} interval={0} />
                                                 <ReferenceLine y={selectTrends()[stat].values[0].value} stroke="hsl(0, 0%, 47%)" strokeWidth={0.5} />
@@ -141,6 +140,7 @@ const Trends = () => {
                                                     type="monotone"
                                                     dataKey="value"
                                                     fill="hsl(210, 68%, 47%)"
+                                                    radius={[8, 8, 0, 0]}
                                                 />
                                             </BarChart>}
                                     </ResponsiveContainer>
