@@ -1,146 +1,123 @@
 .Trends {
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
     height: 100%;
 }
 
-.timeline {
-    margin: 20px 60px 0;
-    display: grid;
-    grid-template: min-content 1fr / 1fr 1fr;
-    grid-template-areas:
-    'timeline-title timeline-dropdown'
-    'timeline-chart timeline-chart';
+.Trends__title {
+    display: inline-block;
+    font-size: 32px;
+    margin: 10px 40px 30px 20px;
 }
 
-.timeline__title {
-    grid-area: timeline-title;
-    justify-self: flex-start;
-    width: max-content;
-    height: max-content;
-    margin: 0 0 10px;
-    margin-left: 15px;
+.Trends__title-stat {
     font-size: 28px;
 }
 
-.timeline__stat-picker {
-    grid-area: timeline-dropdown;
+.Trends__title-value {
+    height: 25px;
+    width: -webkit-max-content;
+    width: -moz-max-content;
     width: max-content;
-    height: max-content;
-    align-self: flex-end;
-    margin: 0;
-    margin-right: 40px;
-    justify-self: flex-end;
-}
-
-.timeline__stat-picker-title {
-    margin: 0;
-    padding-top: 2px;
-    padding-bottom: 2px;
-    border: none;
-    border-radius: 15px;
-    background-color: transparent;
-    color: hsl(0, 0%, 85%);
-    font-size: 16px;
-}
-
-.timeline__stat-picker-title:hover,
-.timeline__stat-dropdown-button:hover {
-    cursor: pointer;
-}
-
-.timeline__stat-picker-title:focus,
-.timeline__stat-dropdown-button:focus {
-    outline: none;
-    box-shadow: 0 0 0 1px var(--primary-light-3);
-}
-
-.timeline__stat-dropdown {
-    position: absolute;
-    opacity: 1;
-    max-height: 0;
-    list-style: none;
-    margin: 0;
-    margin-top: 5px;
-    padding: 5px;
-    transition: max-height 0.5s;
-    overflow: hidden;
-    background-color: var(--primary-light-1);
+    min-width: 20px;
+    padding: 4px 8px;
+    margin: 0 8px;
+    font-size: 24px;
+    font-weight: 400;
+    text-align: center;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
     border-radius: 5px;
+    background-color: var(--primary-light-2);
 }
 
-.timeline__stat-dropdown--open {
-    transition: max-height 0.5s, opacity 0.2s 0.4s, z-index 0.2s 0.4s;
+.Trends__title-text {
+    font-size: 18px;
 }
 
-.timeline__stat-dropdown-option {
-    width: max-content;
+.Trends__season {
+    margin: 20px 40px 40px;
 }
 
-.timeline__stat-dropdown-button {
-    background-color: transparent;
-    border: none;
-    border-radius: 15px;
-    width: max-content;
-    color: hsl(0, 0%, 85%);
-}
-
-.timeline__stat-dropdown-indicator {
-    transition: 0.3s;
-}
-
-.chart-area {
-    grid-area: timeline-chart;
-    padding: 10px 0;
-}
-
-.recent-trends {
-    width: max-content;
-    margin: 40px auto 0;
-    padding-bottom: 1px;
-}
-
-.recent-trends__one-week {
-    grid-area: timeline-chart;
-    width: max-content;
-    display: flex;
-    flex-direction: row;
-    align-self: center;
-    justify-self: center;
-}
-
-.recent-trends__title-area {
-    grid-area: trends-title;
-}
-
-.recent-trends__title {
-    margin: 0 0 5px;
-    width: max-content;
-    font-size: 28px;
-}
-
-.recent-trends__winrate {
-    width: max-content;
-    margin: 0 0 20px;
-    font-size: 20px;
-}
-
-.recent-trends__content {
+.Trends__season-stats {
     display: grid;
-    grid-template: min-content repeat(1, max-content) / repeat(4, max-content);
+    grid-template: max-content max-content max-content / repeat(6, 1fr);
     grid-template-areas:
-    'trends-title trends-title trends-title trends-title'
-    'general economic PAC efficiency';
-    grid-gap: 0px 30px;
+    'trends-mmr trends-mmr trends-apm trends-apm trends-spm trends-spm'
+    'trends-sq trends-sq trends-supply_block trends-supply_block trends-workers_produced trends-workers_produced'
+    'trends-filler1 trends-workers_killed trends-workers_killed trends-workers_lost trends-workers_lost trends-filler2';
+    grid-gap: 30px;
 }
 
-@media (max-width: 1525px) {
-    .recent-trends__content {
-        grid-template: min-content repeat(2, max-content) / repeat(2, max-content);
-        grid-template-areas:
-        'trends-title trends-title'
-        'general economic'
-        'PAC efficiency';
-        grid-gap: 40px;
+.Trends__season-stat-wrapper {
+    display: inline-block;
+    height: max-content;
+    padding: 20px;
+    background-color: var(--secondary-dark-2);
+    border-radius: 25px;
+}
+
+.Trends__season-stat-wrapper--mmr {
+    grid-area: trends-mmr;
+}
+
+.Trends__season-stat-wrapper--apm {
+    grid-area: trends-apm;
+}
+
+.Trends__season-stat-wrapper--spm {
+    grid-area: trends-spm;
+}
+
+.Trends__season-stat-wrapper--sq {
+    grid-area: trends-sq;
+}
+
+.Trends__season-stat-wrapper--supply_block {
+    grid-area: trends-supply_block;
+}
+
+.Trends__season-stat-wrapper--workers_produced {
+    grid-area: trends-workers_produced;
+}
+
+.Trends__season-stat-wrapper--workers_killed {
+    grid-area: trends-workers_killed;
+}
+
+.Trends__season-stat-wrapper--workers_lost {
+    grid-area: trends-workers_lost;
+}
+
+.Trends__season-stat {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.Trends__season-stat-name {
+    font-size: 24px;
+    display: inline-block;
+    margin: 0;
+    margin-right: 10px;
+}
+
+.Trends__season-stat-value {
+    display: inline-block;
+    margin: 0 0 -2px;
+}
+
+@media(max-width: 1200px) {
+    .Trends__title {
+        font-size: 28px;
+    }
+
+    .Trends__title-text {
+        font-size: 16px;
+    }
+
+    .Trends__title-value {
+        font-size: 24px;
     }
 }
