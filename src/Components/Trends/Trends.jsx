@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { Fragment } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import {
     BarChart,
     Bar,
@@ -10,10 +10,14 @@ import {
     ReferenceLine,
     ResponsiveContainer,
 } from 'recharts';
+import { useLoadingState } from '../../hooks';
+import LoadingAnimation from '../shared/LoadingAnimation';
 import './CSS/Trends.css';
+import DefaultResponse from '../shared/DefaultResponse';
 
 const Trends = () => {
     const currentTrends = useSelector(state => state.raceData[state.selectedRace].trends);
+    const [trendsMatchup, setTrendsMatchup] = useState('all');
 
     const checkTrends = (trends) => {
         let currentSeasonTrends = null;
@@ -23,14 +27,12 @@ const Trends = () => {
             return { currentSeasonTrends, previousSeasonTrends };
         }
 
-        console.log(trends);
-
-        if (trends.seasons.current) {
-            currentSeasonTrends = trends.seasons.current;
+        if (trends[trendsMatchup].seasons.current) {
+            currentSeasonTrends = trends[trendsMatchup].seasons.current;
         }
 
-        if (trends.seasons.previous) {
-            previousSeasonTrends = trends.seasons.previous;
+        if (trends[trendsMatchup].seasons.previous) {
+            previousSeasonTrends = trends[trendsMatchup].seasons.previous;
         }
 
         return { currentSeasonTrends, previousSeasonTrends };
@@ -40,9 +42,9 @@ const Trends = () => {
     const statNames = {
         winrate: 'Winrate',
         mmr: 'MMR',
-        sq: 'Spending Quotient',
-        apm: 'Actions Per Minute',
-        spm: 'Screens Per Minute',
+        sq: 'SQ',
+        apm: 'APM',
+        spm: 'SPM',
         supply_block: 'Supply Block',
         workers_produced: 'Workers Produced',
         workers_killed: 'Workers Killed',
@@ -60,36 +62,34 @@ const Trends = () => {
         'workers_lost',
     ];
 
-    const selectTrends = () => (
-        currentSeasonTrends || previousSeasonTrends
-    );
+    const dataStates = {
+        trends: {
+            IN_PROGRESS: (<LoadingAnimation />),
+            SUCCESS: ({ _currentSeasonTrends, _previousSeasonTrends }) => {
+                const selectTrends = () => (
+                    _currentSeasonTrends || _previousSeasonTrends
+                );
 
-    const calcStatDiff = (stat) => {
-        const currentStat = currentSeasonTrends[stat].avg;
-        const previousStat = previousSeasonTrends[stat].avg;
+                const calcStatDiff = (stat) => {
+                    const currentStat = _currentSeasonTrends[stat].avg;
+                    const previousStat = _previousSeasonTrends[stat].avg;
 
-        const seasonDiff = currentStat - previousStat;
-        return stat === 'mmr' ? seasonDiff : `${seasonDiff >= 0 ? '+' : ''}${Number(((seasonDiff / previousStat) * 100).toFixed(1))}%`;
-    };
+                    const seasonDiff = currentStat - previousStat;
+                    return `${seasonDiff >= 0 ? '+' : ''}${stat === 'mmr' ? seasonDiff : `${Number(((seasonDiff / previousStat) * 100).toFixed(1))}%`}`;
+                };
 
-    return (
-        <div className="Trends">
-            <div className="Trends__season">
-                <h1 className="Trends__title">
-                    Season Stats{!currentSeasonTrends && previousSeasonTrends && ' (Previous)'}
-                </h1>
-                {currentTrends &&
+                return (
                     <Fragment>
                         <span className="Trends__title-stat">
                             <span className="Trends__title-text">
-                                {currentSeasonTrends ? 'Currently at' : 'Finished the season at'}
+                                {_currentSeasonTrends ? 'Currently at' : 'Finished the previous season at'}
                             </span>
                             <div className="Trends__title-value">
                                 {selectTrends().mmr.end}
                             </div>
                             <span className="Trends__title-text">
                                 MMR
-                                {` (${selectTrends().mmr.values.slice(-1)[0].value - selectTrends().mmr.values[0].value >= 0 ? '+' : ''}${selectTrends().mmr.values.slice(-1)[0].value - selectTrends().mmr.values[0].value})`}
+                                {` (${selectTrends().mmr.values.slice(-1)[0].value - selectTrends().mmr.values[0].value >= 0 ? '+' : ''}${selectTrends().mmr.values.slice(-1)[0].value - selectTrends().mmr.values[0].value} this season)`}
                                 &nbsp;with a
                             </span>
                             <div className="Trends__title-value">
@@ -106,11 +106,11 @@ const Trends = () => {
                                     <div className="Trends__season-stat">
                                         <h2 className="Trends__season-stat-name">{statNames[stat]}</h2>
                                         <p className="Trends__season-stat-value">
-                                            Median: {selectTrends()[stat].avg}
-                                            {currentSeasonTrends && previousSeasonTrends && ` (${calcStatDiff(stat)})`}
+                                            Avg: {selectTrends()[stat].avg}
+                                            {_currentSeasonTrends && _previousSeasonTrends && ` (${calcStatDiff(stat)})`}
                                         </p>
                                     </div>
-                                    <ResponsiveContainer width="100%" height={150}>
+                                    <ResponsiveContainer width="99%" height={125}>
                                         {stat === 'mmr' ?
                                             <LineChart
                                                 data={selectTrends()[stat].values}
@@ -145,7 +145,38 @@ const Trends = () => {
                                 </div>
                             ))}
                         </div>
-                    </Fragment>}
+                    </Fragment>
+                );
+            },
+            ERROR: (<DefaultResponse content="We couldn't find any replays" />),
+        },
+    };
+
+    const checkTrendsLoadingState = () => {
+        if (currentTrends) {
+            return 'SUCCESS';
+        } else if (currentTrends === false) {
+            return 'ERROR';
+        }
+        return 'IN_PROGRESS';
+    };
+
+    const trendsLoadingData = {
+        data: {
+            _currentSeasonTrends: currentSeasonTrends,
+            _previousSeasonTrends: previousSeasonTrends,
+        },
+        loadingState: checkTrendsLoadingState(),
+    };
+    const TrendsState = useLoadingState(trendsLoadingData, dataStates.trends);
+
+    return (
+        <div className="Trends">
+            <div className="Trends__season">
+                <h1 className="Trends__title">
+                    Season Stats{!currentSeasonTrends && previousSeasonTrends && ' (Previous)'}
+                </h1>
+                <TrendsState />
             </div>
         </div>
     );

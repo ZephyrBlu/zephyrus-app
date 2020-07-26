@@ -7,7 +7,7 @@
 .Trends__title {
     display: inline-block;
     font-size: 32px;
-    margin: 10px 40px 25px 20px;
+    margin: 10px 40px 30px 10px;
 }
 
 .Trends__title-stat {
@@ -37,7 +37,7 @@
 }
 
 .Trends__season {
-    margin: 20px 40px 40px;
+    margin: 20px 5% 40px;
 }
 
 .Trends__season-stats {
@@ -47,7 +47,7 @@
     'trends-mmr trends-mmr trends-apm trends-apm trends-spm trends-spm'
     'trends-sq trends-sq trends-supply_block trends-supply_block trends-workers_produced trends-workers_produced'
     'trends-filler1 trends-workers_killed trends-workers_killed trends-workers_lost trends-workers_lost trends-filler2';
-    grid-gap: 30px;
+    grid-gap: 40px;
 }
 
 .Trends__season-stat-wrapper {
@@ -91,9 +91,10 @@
 }
 
 .Trends__season-stat {
-    display: inline-flex;
+    display: flex;
+    justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
     font-size: 18px;
 }
 
@@ -109,9 +110,23 @@
     margin: 0 0 -2px;
 }
 
+@media(max-width: 1400px) {
+    .Trends__season-stats {
+        display: grid;
+        grid-template: max-content max-content max-content max-content / repeat(2, 1fr);
+        grid-template-areas:
+        'trends-mmr trends-apm'
+        'trends-spm trends-sq'
+        'trends-supply_block trends-workers_produced'
+        'trends-workers_killed trends-workers_lost';
+        grid-gap: 30px;
+    }
+}
+
 @media(max-width: 1200px) {
     .Trends__title {
         font-size: 28px;
+        margin-right: 30px;
     }
 
     .Trends__title-text {
@@ -119,6 +134,7 @@
     }
 
     .Trends__title-value {
-        font-size: 24px;
+        font-size: 20px;
+        padding: 2px 6px;
     }
 }
