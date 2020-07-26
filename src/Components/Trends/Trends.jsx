@@ -60,8 +60,6 @@ const Trends = () => {
         'workers_lost',
     ];
 
-    console.log(currentTrends);
-
     const selectTrends = () => (
         currentSeasonTrends || previousSeasonTrends
     );
@@ -71,10 +69,8 @@ const Trends = () => {
         const previousStat = previousSeasonTrends[stat].avg;
 
         const seasonDiff = currentStat - previousStat;
-        return Number((seasonDiff / previousStat).toFixed(1));
+        return stat === 'mmr' ? seasonDiff : `${seasonDiff >= 0 ? '+' : ''}${Number(((seasonDiff / previousStat) * 100).toFixed(1))}%`;
     };
-
-    console.log(currentTrends);
 
     return (
         <div className="Trends">
@@ -86,7 +82,7 @@ const Trends = () => {
                     <Fragment>
                         <span className="Trends__title-stat">
                             <span className="Trends__title-text">
-                                Finished the season at
+                                {currentSeasonTrends ? 'Currently at' : 'Finished the season at'}
                             </span>
                             <div className="Trends__title-value">
                                 {selectTrends().mmr.end}
@@ -109,8 +105,10 @@ const Trends = () => {
                                 <div className={`Trends__season-stat-wrapper Trends__season-stat-wrapper--${stat}`}>
                                     <div className="Trends__season-stat">
                                         <h2 className="Trends__season-stat-name">{statNames[stat]}</h2>
-                                        <p className="Trends__season-stat-value">{selectTrends()[stat].avg}</p>
-                                        {currentSeasonTrends && previousSeasonTrends && `(${calcStatDiff(stat)})`}
+                                        <p className="Trends__season-stat-value">
+                                            Median: {selectTrends()[stat].avg}
+                                            {currentSeasonTrends && previousSeasonTrends && ` (${calcStatDiff(stat)})`}
+                                        </p>
                                     </div>
                                     <ResponsiveContainer width="100%" height={150}>
                                         {stat === 'mmr' ?

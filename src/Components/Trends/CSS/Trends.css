@@ -94,6 +94,7 @@
     display: inline-flex;
     align-items: center;
     margin-bottom: 10px;
+    font-size: 18px;
 }
 
 .Trends__season-stat-name {
