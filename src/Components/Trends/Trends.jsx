@@ -19,6 +19,22 @@ const Trends = () => {
     const currentTrends = useSelector(state => state.raceData[state.selectedRace].trends);
     const [trendsMatchup, setTrendsMatchup] = useState('all');
 
+    const generalStats = [
+        'mmr',
+        'apm',
+        'spm',
+        'sq',
+        'supply_block',
+        'workers_produced',
+        'workers_killed',
+        'workers_lost',
+    ];
+    const initialTrendTypes = {}
+    generalStats.forEach((stat) => {
+        initialTrendTypes[stat] = 'all';
+    });
+    const [trendTypes, setTrendTypes] = useState(initialTrendTypes);
+
     const checkTrends = (trends) => {
         let currentSeasonTrends = null;
         let previousSeasonTrends = null;
@@ -42,30 +58,19 @@ const Trends = () => {
     const statNames = {
         winrate: 'Winrate',
         mmr: 'MMR',
-        sq: 'SQ',
+        sq: 'Spending Quotient',
         apm: 'APM',
-        spm: 'SPM',
+        spm: 'Screens Per Minute',
         supply_block: 'Supply Block',
         workers_produced: 'Workers Produced',
         workers_killed: 'Workers Killed',
         workers_lost: 'Workers Lost',
     };
 
-    const generalStats = [
-        'mmr',
-        'apm',
-        'spm',
-        'sq',
-        'supply_block',
-        'workers_produced',
-        'workers_killed',
-        'workers_lost',
-    ];
-
     const dataStates = {
         trends: {
             IN_PROGRESS: (<LoadingAnimation />),
-            SUCCESS: ({ _currentSeasonTrends, _previousSeasonTrends }) => {
+            SUCCESS: ({ _currentSeasonTrends, _previousSeasonTrends, _trendTypes, _setTrendTypes }) => {
                 const selectTrends = () => (
                     _currentSeasonTrends || _previousSeasonTrends
                 );
@@ -104,11 +109,43 @@ const Trends = () => {
                             {generalStats.map(stat => (
                                 <div className={`Trends__season-stat-wrapper Trends__season-stat-wrapper--${stat}`}>
                                     <div className="Trends__season-stat">
-                                        <h2 className="Trends__season-stat-name">{statNames[stat]}</h2>
-                                        <p className="Trends__season-stat-value">
-                                            Avg: {selectTrends()[stat].avg}
-                                            {_currentSeasonTrends && _previousSeasonTrends && ` (${calcStatDiff(stat)})`}
-                                        </p>
+                                        <div className="Trends__season-stat-data">
+                                            <h2 className="Trends__season-stat-name">{statNames[stat]}</h2>
+                                            <p className="Trends__season-stat-value">
+                                                {selectTrends()[stat].avg}
+                                                {_currentSeasonTrends && _previousSeasonTrends && ` (${calcStatDiff(stat)})`}
+                                            </p>
+                                        </div>
+                                        {stat !== 'mmr' &&
+                                            <div className="Trends__season-stat-type-wrapper">
+                                                {console.log(stat, _trendTypes[stat])}
+                                                <button
+                                                    className={`
+                                                        Trends__season-stat-type 
+                                                        Trends__season-stat-type--all
+                                                        ${_trendTypes[stat] === 'all' ?
+                                                            'Trends__season-stat-type--active' : ''}
+                                                    `}
+                                                    onClick={() => _setTrendTypes(prevState => ({
+                                                        ...prevState, [stat]: 'all'
+                                                    }))}
+                                                >
+                                                    All
+                                                </button>
+                                                <button
+                                                    className={`
+                                                        Trends__season-stat-type 
+                                                        Trends__season-stat-type--win-loss
+                                                        ${_trendTypes[stat] === 'win_loss' ?
+                                                            'Trends__season-stat-type--active' : ''}
+                                                    `}
+                                                    onClick={() => _setTrendTypes(prevState => ({
+                                                        ...prevState, [stat]: 'win_loss'
+                                                    }))}
+                                                >
+                                                    W/L
+                                                </button>
+                                            </div>}
                                     </div>
                                     <ResponsiveContainer width="99%" height={125}>
                                         {stat === 'mmr' ?
@@ -129,17 +166,34 @@ const Trends = () => {
                                             </LineChart>
                                             :
                                             <BarChart
-                                                data={selectTrends()[stat].values}
+                                                data={selectTrends()[stat].values[_trendTypes[stat]]}
                                                 className="Trends__season-stat-chart"
                                                 margin={{ bottom: -10 }}
                                             >
+                                                {console.log(selectTrends()[stat].values[_trendTypes[stat]], stat)}
                                                 <XAxis dataKey="bin" />
-                                                <Bar
-                                                    type="monotone"
-                                                    dataKey="value"
-                                                    fill="hsl(210, 68%, 47%)"
-                                                    radius={[8, 8, 0, 0]}
-                                                />
+                                                {_trendTypes[stat] === 'all' &&
+                                                    <Bar
+                                                        type="monotone"
+                                                        dataKey="value"
+                                                        fill="hsl(210, 68%, 47%)"
+                                                        radius={[8, 8, 0, 0]}
+                                                    />}
+                                                {_trendTypes[stat] === 'win_loss' &&
+                                                    <Bar
+                                                        type="monotone"
+                                                        dataKey="win"
+                                                        stackId="wl"
+                                                        fill="hsl(120, 100%, 40%)"
+                                                    />}
+                                                {_trendTypes[stat] === 'win_loss' &&
+                                                    <Bar
+                                                        type="monotone"
+                                                        dataKey="loss"
+                                                        stackId="wl"
+                                                        fill="hsl(0, 100%, 30%)"
+                                                        radius={[8, 8, 0, 0]}
+                                                    />}
                                             </BarChart>}
                                     </ResponsiveContainer>
                                 </div>
@@ -165,6 +219,8 @@ const Trends = () => {
         data: {
             _currentSeasonTrends: currentSeasonTrends,
             _previousSeasonTrends: previousSeasonTrends,
+            _trendTypes: trendTypes,
+            _setTrendTypes: setTrendTypes,
         },
         loadingState: checkTrendsLoadingState(),
     };
