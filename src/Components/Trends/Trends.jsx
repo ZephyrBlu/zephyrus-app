@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { useState, useEffect, Fragment } from 'react';
+import { useState, Fragment } from 'react';
 import {
     BarChart,
     Bar,
@@ -17,7 +17,7 @@ import DefaultResponse from '../shared/DefaultResponse';
 
 const Trends = () => {
     const currentTrends = useSelector(state => state.raceData[state.selectedRace].trends);
-    const [trendsMatchup, setTrendsMatchup] = useState('all');
+    const [trendsMatchup] = useState('all');
 
     const generalStats = [
         'mmr',
@@ -29,7 +29,7 @@ const Trends = () => {
         'workers_killed',
         'workers_lost',
     ];
-    const initialTrendTypes = {}
+    const initialTrendTypes = {};
     generalStats.forEach((stat) => {
         initialTrendTypes[stat] = 'all';
     });
@@ -87,7 +87,7 @@ const Trends = () => {
                     <Fragment>
                         <span className="Trends__title-stat">
                             <span className="Trends__title-text">
-                                {_currentSeasonTrends ? 'Currently at' : 'Finished the previous season at'}
+                                {_currentSeasonTrends ? 'Currently at' : 'Finished at'}
                             </span>
                             <div className="Trends__title-value">
                                 {selectTrends().mmr.end}
@@ -118,16 +118,15 @@ const Trends = () => {
                                         </div>
                                         {stat !== 'mmr' &&
                                             <div className="Trends__season-stat-type-wrapper">
-                                                {console.log(stat, _trendTypes[stat])}
                                                 <button
                                                     className={`
                                                         Trends__season-stat-type 
                                                         Trends__season-stat-type--all
-                                                        ${_trendTypes[stat] === 'all' ?
-                                                            'Trends__season-stat-type--active' : ''}
+                                                        ${_trendTypes[stat] === 'all' ? 'Trends__season-stat-type--active' : ''}
                                                     `}
                                                     onClick={() => _setTrendTypes(prevState => ({
-                                                        ...prevState, [stat]: 'all'
+                                                        ...prevState,
+                                                        [stat]: 'all',
                                                     }))}
                                                 >
                                                     All
@@ -136,11 +135,11 @@ const Trends = () => {
                                                     className={`
                                                         Trends__season-stat-type 
                                                         Trends__season-stat-type--win-loss
-                                                        ${_trendTypes[stat] === 'win_loss' ?
-                                                            'Trends__season-stat-type--active' : ''}
+                                                        ${_trendTypes[stat] === 'win_loss' ? 'Trends__season-stat-type--active' : ''}
                                                     `}
                                                     onClick={() => _setTrendTypes(prevState => ({
-                                                        ...prevState, [stat]: 'win_loss'
+                                                        ...prevState,
+                                                        [stat]: 'win_loss',
                                                     }))}
                                                 >
                                                     W/L
@@ -170,7 +169,6 @@ const Trends = () => {
                                                 className="Trends__season-stat-chart"
                                                 margin={{ bottom: -10 }}
                                             >
-                                                {console.log(selectTrends()[stat].values[_trendTypes[stat]], stat)}
                                                 <XAxis dataKey="bin" />
                                                 {_trendTypes[stat] === 'all' &&
                                                     <Bar
@@ -184,14 +182,14 @@ const Trends = () => {
                                                         type="monotone"
                                                         dataKey="win"
                                                         stackId="wl"
-                                                        fill="hsl(120, 100%, 40%)"
+                                                        fill="hsla(120, 80%, 25%, 0.9)"
                                                     />}
                                                 {_trendTypes[stat] === 'win_loss' &&
                                                     <Bar
                                                         type="monotone"
                                                         dataKey="loss"
                                                         stackId="wl"
-                                                        fill="hsl(0, 100%, 30%)"
+                                                        fill="hsla(0, 70%, 25%, 0.9)"
                                                         radius={[8, 8, 0, 0]}
                                                     />}
                                             </BarChart>}

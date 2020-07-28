@@ -37,7 +37,7 @@
 }
 
 .Trends__season {
-    margin: 20px 5% 40px;
+    margin: 20px 4% 40px;
 }
 
 .Trends__season-stats {
@@ -47,7 +47,7 @@
     'trends-mmr trends-mmr trends-apm trends-apm trends-spm trends-spm'
     'trends-sq trends-sq trends-supply_block trends-supply_block trends-workers_produced trends-workers_produced'
     'trends-filler1 trends-workers_killed trends-workers_killed trends-workers_lost trends-workers_lost trends-filler2';
-    grid-gap: 40px;
+    grid-gap: 30px;
 }
 
 .Trends__season-stat-wrapper {
@@ -119,7 +119,7 @@
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
     font-size: 14px;
-    width: 30px;
+    width: 50px;
     text-align: center;
     margin: 0 5px;
     padding: 5px 8px;
@@ -140,7 +140,7 @@
 
 .Trends__season-stat-value {
     display: inline-block;
-    margin: 0 0 -2px;
+    margin: 0 0 -1px;
 }
 
 @media(max-width: 1600px) {
