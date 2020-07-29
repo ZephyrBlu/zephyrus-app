@@ -136,6 +136,14 @@ const Upload = () => {
             </div>
             <UploadState />
             <p className="Upload__message">
+                Updated for&nbsp;
+                <a
+                    href="https://news.blizzard.com/en-us/starcraft2/23482838/starcraft-ii-5-0-patch-notes"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    Patch 5.0
+                </a><br /><br />
                 Having trouble uploading replays?<br />
                 Contact me on&nbsp;
                 <a
