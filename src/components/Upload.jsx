@@ -33,10 +33,10 @@ const Upload = () => {
         const files = event.target.files;
 
         const fileList = [];
-        Object.keys(files).forEach((fileNum, index) => {
-            if (index < 100 && fileNum !== 'length') {
-                fileList.push(files[fileNum]);
-            }
+        Object.keys(files).forEach((fileNum) => {
+            // if (index < 100 && fileNum !== 'length') {
+            fileList.push(files[fileNum]);
+            // }
         });
 
         setUploadState(prevState => ({
