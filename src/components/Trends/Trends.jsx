@@ -133,7 +133,13 @@ const Trends = () => {
                             </div>
                             <span className="Trends__title-text">
                                 winrate over&nbsp;
-                                {selectTrends().count} games
+                                {selectTrends().count} games against INSERT RACE HERE&nbsp;
+                            </span>
+                            <div className="Trends__title-value">
+                                {trendsMatchup}
+                            </div>
+                            <span className="Trends__title-text">
+                                FIX WIN LOSS EDGES
                             </span>
                         </span>
                         <div className="Trends__season-stat-controls Trends__season-stat-controls--global">
@@ -179,7 +185,7 @@ const Trends = () => {
                                 <div className={`Trends__season-stat-wrapper Trends__season-stat-wrapper--${stat}`}>
                                     <div className="Trends__season-stat">
                                         <div className="Trends__season-stat-data">
-                                            <h2 className="Trends__season-stat-name">{statNames[stat]}</h2>
+                                            <h2 className="Trends__season-stat-name">{statNames[stat]} ADD INFO TOOLTIP</h2>
                                             <p className="Trends__season-stat-value">
                                                 {selectTrends()[stat].avg}
                                                 {_currentSeasonTrends && _previousSeasonTrends && ` (${calcStatDiff(stat)})`}
@@ -293,6 +299,7 @@ const Trends = () => {
             <div className="Trends__season">
                 <h1 className="Trends__title">
                     Season Stats{!currentSeasonTrends && previousSeasonTrends && ' (Previous)'}
+                    ADD INFO TOOLTIP, IMPROVE ERROR/NO REPLAYS MESSAGE, GENERATE PDF INSTEAD OF HIST?
                 </h1>
                 <TrendsState />
             </div>
