@@ -7,11 +7,12 @@
 .Trends__title {
     display: inline-block;
     font-size: 32px;
-    margin: 10px 40px 20px 10px;
+    margin: 0 10px;
 }
 
 .Trends__title-stat {
     font-size: 28px;
+    margin: 10px 10px 20px;
 }
 
 .Trends__title-value {
@@ -115,7 +116,8 @@
 
 .Trends__season-stat-name {
     font-size: 24px;
-    display: inline-block;
+    display: flex;
+    align-items: center;
     margin: 0;
     margin-right: 20px;
 }
@@ -124,6 +126,10 @@
     display: inline-block;
     margin: 0 0 -2px;
     font-size: 18px;
+}
+
+.Trends__season-stat-description {
+    margin: 0;
 }
 
 .Trends__season-stat-controls--global {
@@ -159,14 +165,14 @@
 .Trends__season-stat-option--type.Trends__season-stat-option--active,
 .Trends__season-stat-option--type:hover,
 .Trends__season-stat-option--type:focus {
-    background-color: var(--primary-light-3);
+    background-color: var(--primary-light-2);
 }
 
 .Trends__season-stat-option--matchup.Trends__season-stat-option--all.Trends__season-stat-option--active,
 .Trends__season-stat-option--matchup.Trends__season-stat-option--all:hover,
 .Trends__season-stat-option--matchup.Trends__season-stat-option--all:focus {
     border-color: transparent;
-    background-color: var(--primary-light-3);
+    background-color: var(--primary-light-2);
 }
 
 .Trends__season-stat-option--protoss,
@@ -206,7 +212,7 @@
     background-color: var(--terran);
 }
 
-@media(max-width: 1400px) {
+@media(max-width: 1500px) {
     .Trends__season-stat-name {
         font-size: 18px;
     }
@@ -217,18 +223,21 @@
     }
 }
 
+@media(max-width: 1400px) {
+    .Trends__season-stat-option--stat {
+        width: 65px;
+        margin: 0 5px;
+    }
+}
+
+@media(max-width: 1300px) {
+    .Trends__season-stat-option--stat {
+        width: 50px;
+    }
+}
+
 @media(max-width: 1200px) {
-    .Trends__title {
-        font-size: 28px;
-        margin-right: 30px;
-    }
-
-    .Trends__title-text {
-        font-size: 16px;
-    }
-
-    .Trends__title-value {
-        font-size: 20px;
-        padding: 2px 6px;
+    .Trends__season-stat-name {
+        margin-right: 10px;
     }
 }

@@ -12,10 +12,12 @@ import {
 } from 'recharts';
 import { useLoadingState } from '../../hooks';
 import LoadingAnimation from '../shared/LoadingAnimation';
-import './CSS/Trends.css';
 import DefaultResponse from '../shared/DefaultResponse';
+import InfoTooltip from '../shared/InfoTooltip';
+import './CSS/Trends.css';
 
 const Trends = () => {
+    const selectedRace = useSelector(state => state.selectedRace);
     const currentTrends = useSelector(state => state.raceData[state.selectedRace].trends);
     const [trendsMatchup, setTrendsMatchup] = useState('all');
 
@@ -64,14 +66,27 @@ const Trends = () => {
         winrate: 'Winrate',
         mmr: 'MMR',
         match_length: 'Match Length',
-        sq: 'Spending Quotient',
+        sq: 'SQ',
         apm: 'APM',
-        spm: 'Screens Per Minute',
+        spm: 'SPM',
         supply_block: 'Supply Block',
-        workers_killed_lost_diff: 'Workers Killed/Lost Diff',
+        workers_killed_lost_diff: 'Workers K/L',
         workers_produced: 'Workers Produced',
         workers_killed: 'Workers Killed',
         workers_lost: 'Workers Lost',
+    };
+
+    const statDescriptions = {
+        mmr: (<p className="Trends__season-stat-description">This shows your median MMR and MMR over the course of the season.<br /><br />The grey line is your starting MMR</p>),
+        match_length: (<p className="Trends__season-stat-description">This shows your median Match Length and the distribution of different Match Lengths</p>),
+        sq: (<p className="Trends__season-stat-description">Spending Quotient (SQ) measures how well you spend resources.<br /><br />This shows your median SQ and the distribution of your SQ performance</p>),
+        apm: (<p className="Trends__season-stat-description">This shows your median APM and the distribution of your APM performance</p>),
+        spm: (<p className="Trends__season-stat-description">Screens Per Minute (SPM) measures how often you move your screen during a match.<br /><br />This shows your median SPM and the distribution of your SPM performance</p>),
+        supply_block: (<p className="Trends__season-stat-description">This shows your median Supply Block and the distribution of your Supply Block performance</p>),
+        workers_killed_lost_diff: (<p className="Trends__season-stat-description">Workers Killed/Lost is the difference between the number of workers you killed and the number of workers you lost in any given game.<br /><br />This shows your median Workers Killed/Lost difference and the distribution of your performance</p>),
+        workers_produced: (<p className="Trends__season-stat-description">This shows your median Workers Produced and the distribution of your Workers Produced performance</p>),
+        workers_killed: (<p className="Trends__season-stat-description">This shows your median Workers Produced and the distribution of your Workers Killed performance</p>),
+        workers_lost: (<p className="Trends__season-stat-description">This shows your median Workers Produced and the distribution of your Workers Lost performance</p>),
     };
 
     const statControls = {
@@ -87,8 +102,6 @@ const Trends = () => {
         },
     };
 
-    console.log(currentTrends);
-
     const dataStates = {
         trends: {
             IN_PROGRESS: (<LoadingAnimation />),
@@ -101,6 +114,7 @@ const Trends = () => {
                 _trendOptions,
                 _setTrendOptions,
                 _statControls,
+                _selectedRace,
             }) => {
                 const selectTrends = (type = false) => (
                     type === 'mmr' ? _mmrTrends : (_currentSeasonTrends || _previousSeasonTrends)
@@ -116,7 +130,7 @@ const Trends = () => {
 
                 return (
                     <Fragment>
-                        <span className="Trends__title-stat">
+                        <div className="Trends__title-stat">
                             <span className="Trends__title-text">
                                 {_currentSeasonTrends ? 'Currently at' : 'Finished at'}
                             </span>
@@ -133,15 +147,18 @@ const Trends = () => {
                             </div>
                             <span className="Trends__title-text">
                                 winrate over&nbsp;
-                                {selectTrends().count} games against INSERT RACE HERE&nbsp;
+                                {selectTrends().count}
                             </span>
-                            <div className="Trends__title-value">
-                                {trendsMatchup}
-                            </div>
+                            {_trendsMatchup !== 'all' &&
+                                <Fragment>
+                                    <div className="Trends__title-value">
+                                        {`${_selectedRace.charAt(0).toUpperCase()}v${_trendsMatchup.charAt(0).toUpperCase()}`}
+                                    </div>
+                                </Fragment>}
                             <span className="Trends__title-text">
-                                FIX WIN LOSS EDGES
+                                {_trendsMatchup === 'all' && ' '}games
                             </span>
-                        </span>
+                        </div>
                         <div className="Trends__season-stat-controls Trends__season-stat-controls--global">
                             <span className="Trends__season-stat-options-wrapper">
                                 {Object.entries(statControls.type).map(([controlKey, controlText]) => (
@@ -185,9 +202,15 @@ const Trends = () => {
                                 <div className={`Trends__season-stat-wrapper Trends__season-stat-wrapper--${stat}`}>
                                     <div className="Trends__season-stat">
                                         <div className="Trends__season-stat-data">
-                                            <h2 className="Trends__season-stat-name">{statNames[stat]} ADD INFO TOOLTIP</h2>
+                                            <h2 className="Trends__season-stat-name">
+                                                {statNames[stat]}
+                                                <InfoTooltip
+                                                    content={statDescriptions[stat]}
+                                                    style={{ top: 0 }}
+                                                />
+                                            </h2>
                                             <p className="Trends__season-stat-value">
-                                                {selectTrends()[stat].avg}
+                                                Med: {selectTrends()[stat].avg}
                                                 {_currentSeasonTrends && _previousSeasonTrends && ` (${calcStatDiff(stat)})`}
                                             </p>
                                         </div>
@@ -197,6 +220,7 @@ const Trends = () => {
                                                     <button
                                                         className={`
                                                             Trends__season-stat-option
+                                                            Trends__season-stat-option--stat
                                                             Trends__season-stat-option--type
                                                             Trends__season-stat-option--${controlKey}
                                                             ${_trendOptions[stat] === controlKey ? 'Trends__season-stat-option--active' : ''}
@@ -234,7 +258,11 @@ const Trends = () => {
                                                 className="Trends__season-stat-chart"
                                                 margin={{ bottom: -10 }}
                                             >
-                                                <XAxis dataKey="bin" />
+                                                <XAxis
+                                                    dataKey="bin"
+                                                    interval={0}
+                                                    style={stat === 'match_length' ? { fontSize: '14px' } : {}}
+                                                />
                                                 {_trendOptions[stat] === 'all' &&
                                                     <Bar
                                                         type="monotone"
@@ -246,17 +274,16 @@ const Trends = () => {
                                                     <Bar
                                                         type="monotone"
                                                         dataKey="win"
-                                                        // stackId="wl"
+                                                        stackId="wl"
                                                         fill="hsla(120, 80%, 25%, 0.9)"
-                                                        radius={[5, 5, 0, 0]}
                                                     />}
                                                 {_trendOptions[stat] === 'win_loss' &&
                                                     <Bar
                                                         type="monotone"
                                                         dataKey="loss"
-                                                        // stackId="wl"
+                                                        stackId="wl"
                                                         fill="hsla(0, 70%, 25%, 0.9)"
-                                                        radius={[5, 5, 0, 0]}
+                                                        radius={[8, 8, 0, 0]}
                                                     />}
                                             </BarChart>}
                                     </ResponsiveContainer>
@@ -289,17 +316,30 @@ const Trends = () => {
             _setTrendsMatchup: setTrendsMatchup,
             _trendOptions: trendOptions,
             _setTrendOptions: setTrendOptions,
+            _selectedRace: selectedRace,
         },
         loadingState: checkTrendsLoadingState(),
     };
     const TrendsState = useLoadingState(trendsLoadingData, dataStates.trends);
+
+    const seasonStatsDescription = (
+        <p className="Trends__season-stat-description">
+            Season Stats shows you an overview of your performance in a given season, and compares it to the previous season if there is data available.
+            <br />
+            <br />
+            You can view stats for any matchup and see how your performance differs between Wins and Losses.
+            <br />
+            <br />
+            We discard the top and bottom 5% of values to eliminate outliers. Non-ladder games are automatically filtered out.
+        </p>
+    );
 
     return (
         <div className="Trends">
             <div className="Trends__season">
                 <h1 className="Trends__title">
                     Season Stats{!currentSeasonTrends && previousSeasonTrends && ' (Previous)'}
-                    ADD INFO TOOLTIP, IMPROVE ERROR/NO REPLAYS MESSAGE, GENERATE PDF INSTEAD OF HIST?
+                    <InfoTooltip content={seasonStatsDescription} />
                 </h1>
                 <TrendsState />
             </div>
