@@ -12,7 +12,7 @@
 
 .Trends__title-stat {
     font-size: 28px;
-    margin: 10px 10px 20px;
+    margin: 10px 10px 0;
 }
 
 .Trends__title-value {
@@ -51,6 +51,12 @@
     'trends-workers_produced trends-workers_killed_lost_diff'
     'trends-workers_killed trends-workers_lost';
     grid-gap: 40px;
+}
+
+.Trends__season-stats--default {
+    display: inline-block;
+    text-align: center;
+    width: 100%;
 }
 
 .Trends__season-stat-wrapper {
@@ -133,7 +139,7 @@
 }
 
 .Trends__season-stat-controls--global {
-    margin-bottom: 30px;
+    margin: 20px 0 30px;
 }
 
 .Trends__season-stat-options-wrapper {
