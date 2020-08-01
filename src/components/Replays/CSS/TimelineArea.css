@@ -173,6 +173,19 @@
     width: 50px;
 }
 
+#tooltip {
+    height: max-content;
+    margin: 0 30px;
+    padding: 10px;
+    border-radius: 15px;
+    background-color: hsla(209, 77%, 14%, 0.9);
+}
+
+/* putting rendered charts at the back */
+.TimelineArea__metric-chart .recharts-wrapper {
+    z-index: -1;
+}
+
 .tooltip__content {
     padding: 0;
     margin: 0;

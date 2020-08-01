@@ -10,6 +10,10 @@
     --green-highlight: hsla(120, 80%, 25%, 0.6);
     --red-highlight: hsla(0, 70%, 25%, 0.6);
 
+    --protoss: hsl(51, 80%, 50%);
+    --zerg: hsl(274, 100%, 30%);
+    --terran: hsl(27, 80%, 41%);
+
     --primary-blue: hsl(210, 68%, 47%);
     --primary-blue-hover: hsl(210, 85%, 60%);
     --primary-dark-1: hsl(230, 70%, 6%);
