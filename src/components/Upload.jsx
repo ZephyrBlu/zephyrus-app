@@ -34,9 +34,7 @@ const Upload = () => {
 
         const fileList = [];
         Object.keys(files).forEach((fileNum) => {
-            // if (index < 100 && fileNum !== 'length') {
             fileList.push(files[fileNum]);
-            // }
         });
 
         setUploadState(prevState => ({
@@ -85,10 +83,10 @@ const Upload = () => {
         <div className="Upload">
             <ul className="Upload__info">
                 <li className="Upload__info-item">
-                    Only ladder 1v1&#39;s are supported. Other replays will be skipped
+                    Only ladder 1v1&#39;s are officially supported
                 </li>
                 <li className="Upload__info-item">
-                    Max 100 replays per upload. Each one will take a few seconds
+                    You can upload an unlimited amount of replays
                 </li>
                 <li className="Upload__info-item">
                     Stay on this page to see your upload progress (Optional)
@@ -142,7 +140,18 @@ const Upload = () => {
                     rel="noopener noreferrer"
                 >
                     Patch 5.0
-                </a> is not supported yet<br /><br />
+                </a> and 5.1 are supported
+                <br />
+                <br />
+                Replays from new patches may not be supported for&nbsp;
+                <span style={{ textDecoration: 'underline' }}>1-2 days</span>
+                &nbsp;after the patch drops<br /><br />
+                Please be patient until the site is updated
+                <br />
+                <br />
+                There is currently a bug with AI replays being parsed. It will be investigated soon
+                <br />
+                <br />
                 Having trouble uploading replays?<br />
                 Contact me on&nbsp;
                 <a
@@ -158,12 +167,6 @@ const Upload = () => {
                 >
                     hello@zephyrus.gg
                 </a>
-                <br />
-                <br />
-                Replays from new patches may not be supported for&nbsp;
-                <span style={{ textDecoration: 'underline' }}>1-2 days</span>
-                &nbsp;after the patch drops.<br /><br />
-                Please be patient until the site is updated.
             </p>
         </div>
     );
