@@ -1,7 +1,7 @@
 import { useState, useEffect, useContext } from 'react';
 import { useSelector } from 'react-redux';
 import UrlContext from '../../index';
-import useFetch from '../../useFetch';
+import { useFetch } from '../../hooks';
 import InfoTooltip from '../shared/InfoTooltip';
 import SpinningRingAnimation from '../shared/SpinningRingAnimation';
 import './CSS/FeatureVote.css';

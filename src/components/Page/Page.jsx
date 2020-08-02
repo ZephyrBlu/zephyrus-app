@@ -61,6 +61,11 @@ const Page = () => {
                         {currentPage !== 'Setup' &&
                             <Fragment>
                                 <RaceToggle />
+                                <div className="Page__premium">
+                                    <button className={`Page__premium-cta ${selectedRace ? `Page__premium-cta--${selectedRace}` : ''}`}>
+                                        <span className="Page__cta-text">UPGRADE</span>
+                                    </button>
+                                </div>
                                 {/* <Tippy
                                     className="Page__feature-vote-content"
                                     content={<FeatureVote />}
