@@ -1,21 +1,21 @@
-.Trends {
+.Performance {
     overflow-y: auto;
     overflow-x: hidden;
     height: 100%;
 }
 
-.Trends__title {
+.Performance__title {
     display: inline-block;
     font-size: 32px;
     margin: 0 10px;
 }
 
-.Trends__title-stat {
+.Performance__title-stat {
     font-size: 28px;
     margin: 10px 10px 0;
 }
 
-.Trends__title-value {
+.Performance__title-value {
     height: 25px;
     width: -webkit-max-content;
     width: -moz-max-content;
@@ -33,15 +33,15 @@
     background-color: var(--primary-light-2);
 }
 
-.Trends__title-text {
+.Performance__title-text {
     font-size: 18px;
 }
 
-.Trends__season {
+.Performance__season {
     margin: 20px 4% 40px;
 }
 
-.Trends__season-stats {
+.Performance__season-stats {
     display: grid;
     grid-template: max-content max-content max-content max-content / repeat(2, 1fr);
     grid-template-areas:
@@ -53,13 +53,13 @@
     grid-gap: 40px;
 }
 
-.Trends__season-stats--default {
+.Performance__season-stats--default {
     display: inline-block;
     text-align: center;
     width: 100%;
 }
 
-.Trends__season-stat-wrapper {
+.Performance__season-stat-wrapper {
     display: inline-block;
     height: max-content;
     padding: 20px;
@@ -67,47 +67,47 @@
     border-radius: 25px;
 }
 
-.Trends__season-stat-wrapper--mmr {
+.Performance__season-stat-wrapper--mmr {
     grid-area: trends-mmr;
 }
 
-.Trends__season-stat-wrapper--match_length {
+.Performance__season-stat-wrapper--match_length {
     grid-area: trends-match_length;
 }
 
-.Trends__season-stat-wrapper--apm {
+.Performance__season-stat-wrapper--apm {
     grid-area: trends-apm;
 }
 
-.Trends__season-stat-wrapper--spm {
+.Performance__season-stat-wrapper--spm {
     grid-area: trends-spm;
 }
 
-.Trends__season-stat-wrapper--sq {
+.Performance__season-stat-wrapper--sq {
     grid-area: trends-sq;
 }
 
-.Trends__season-stat-wrapper--supply_block {
+.Performance__season-stat-wrapper--supply_block {
     grid-area: trends-supply_block;
 }
 
-.Trends__season-stat-wrapper--workers_produced {
+.Performance__season-stat-wrapper--workers_produced {
     grid-area: trends-workers_produced;
 }
 
-.Trends__season-stat-wrapper--workers_killed_lost_diff {
+.Performance__season-stat-wrapper--workers_killed_lost_diff {
     grid-area: trends-workers_killed_lost_diff;
 }
 
-.Trends__season-stat-wrapper--workers_killed {
+.Performance__season-stat-wrapper--workers_killed {
     grid-area: trends-workers_killed;
 }
 
-.Trends__season-stat-wrapper--workers_lost {
+.Performance__season-stat-wrapper--workers_lost {
     grid-area: trends-workers_lost;
 }
 
-.Trends__season-stat {
+.Performance__season-stat {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -115,12 +115,12 @@
     font-size: 18px;
 }
 
-.Trends__season-stat-data {
+.Performance__season-stat-data {
     display: flex;
     align-items: center;
 }
 
-.Trends__season-stat-name {
+.Performance__season-stat-name {
     font-size: 24px;
     display: flex;
     align-items: center;
@@ -128,25 +128,25 @@
     margin-right: 20px;
 }
 
-.Trends__season-stat-value {
+.Performance__season-stat-value {
     display: inline-block;
     margin: 0 0 -2px;
     font-size: 18px;
 }
 
-.Trends__season-stat-description {
+.Performance__season-stat-description {
     margin: 0;
 }
 
-.Trends__season-stat-controls--global {
+.Performance__season-stat-controls--global {
     margin: 20px 0 30px;
 }
 
-.Trends__season-stat-options-wrapper {
+.Performance__season-stat-options-wrapper {
     margin-right: 80px;
 }
 
-.Trends__season-stat-option {
+.Performance__season-stat-option {
     font-family: 'Roboto', sans-serif;
     font-weight: 400;
     font-size: 16px;
@@ -162,88 +162,88 @@
     transition: .3s;
 }
 
-.Trends__season-stat-option:hover,
-.Trends__season-stat-option:focus {
+.Performance__season-stat-option:hover,
+.Performance__season-stat-option:focus {
     outline: none;
     cursor: pointer;
 }
 
-.Trends__season-stat-option--type.Trends__season-stat-option--active,
-.Trends__season-stat-option--type:hover,
-.Trends__season-stat-option--type:focus {
+.Performance__season-stat-option--type.Performance__season-stat-option--active,
+.Performance__season-stat-option--type:hover,
+.Performance__season-stat-option--type:focus {
     background-color: var(--primary-light-2);
 }
 
-.Trends__season-stat-option--matchup.Trends__season-stat-option--all.Trends__season-stat-option--active,
-.Trends__season-stat-option--matchup.Trends__season-stat-option--all:hover,
-.Trends__season-stat-option--matchup.Trends__season-stat-option--all:focus {
+.Performance__season-stat-option--matchup.Performance__season-stat-option--all.Performance__season-stat-option--active,
+.Performance__season-stat-option--matchup.Performance__season-stat-option--all:hover,
+.Performance__season-stat-option--matchup.Performance__season-stat-option--all:focus {
     border-color: transparent;
     background-color: var(--primary-light-2);
 }
 
-.Trends__season-stat-option--protoss,
-.Trends__season-stat-option--zerg,
-.Trends__season-stat-option--terran {
+.Performance__season-stat-option--protoss,
+.Performance__season-stat-option--zerg,
+.Performance__season-stat-option--terran {
     color: transparent;
     background-color: var(--primary-dark-1);
 }
 
-.Trends__season-stat-option--protoss {
+.Performance__season-stat-option--protoss {
     border-color: var(--protoss);
 }
 
-.Trends__season-stat-option--zerg {
+.Performance__season-stat-option--zerg {
     border-color: var(--zerg);
 }
 
-.Trends__season-stat-option--terran {
+.Performance__season-stat-option--terran {
     border-color: var(--terran);
 }
 
-.Trends__season-stat-option--protoss.Trends__season-stat-option--active,
-.Trends__season-stat-option--protoss:hover,
-.Trends__season-stat-option--protoss:focus {
+.Performance__season-stat-option--protoss.Performance__season-stat-option--active,
+.Performance__season-stat-option--protoss:hover,
+.Performance__season-stat-option--protoss:focus {
     background-color: var(--protoss);
 }
 
-.Trends__season-stat-option--zerg.Trends__season-stat-option--active,
-.Trends__season-stat-option--zerg:hover,
-.Trends__season-stat-option--zerg:focus {
+.Performance__season-stat-option--zerg.Performance__season-stat-option--active,
+.Performance__season-stat-option--zerg:hover,
+.Performance__season-stat-option--zerg:focus {
     background-color: var(--zerg);
 }
 
-.Trends__season-stat-option--terran.Trends__season-stat-option--active,
-.Trends__season-stat-option--terran:hover,
-.Trends__season-stat-option--terran:focus {
+.Performance__season-stat-option--terran.Performance__season-stat-option--active,
+.Performance__season-stat-option--terran:hover,
+.Performance__season-stat-option--terran:focus {
     background-color: var(--terran);
 }
 
 @media(max-width: 1500px) {
-    .Trends__season-stat-name {
+    .Performance__season-stat-name {
         font-size: 18px;
     }
 
-    .Trends__season-stat-value {
+    .Performance__season-stat-value {
         margin: 0 0 -1px;
         font-size: 16px;
     }
 }
 
 @media(max-width: 1400px) {
-    .Trends__season-stat-option--stat {
+    .Performance__season-stat-option--stat {
         width: 65px;
         margin: 0 5px;
     }
 }
 
 @media(max-width: 1300px) {
-    .Trends__season-stat-option--stat {
+    .Performance__season-stat-option--stat {
         width: 50px;
     }
 }
 
 @media(max-width: 1200px) {
-    .Trends__season-stat-name {
+    .Performance__season-stat-name {
         margin-right: 10px;
     }
 }

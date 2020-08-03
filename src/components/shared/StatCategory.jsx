@@ -1,5 +1,5 @@
 import ReplayStat from '../Replays/ReplayStat';
-import TrendStat from '../Trends/TrendStat';
+import TrendStat from '../Performance/TrendStat';
 import InfoTooltip from '../shared/InfoTooltip';
 import './CSS/StatCategory.css';
 

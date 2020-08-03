@@ -36,6 +36,10 @@
 }
 
 .Page__page-info--Trends {
+    width: 165px;
+}
+
+.Page__page-info--Performance {
     width: 230px;
 }
 

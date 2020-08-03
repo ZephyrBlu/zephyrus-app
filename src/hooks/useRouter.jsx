@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux';
 import { Location, Router, Redirect } from '@reach/router';
 import Login from '../components/Login';
 import Replays from '../components/Replays/Replays';
-import Trends from '../components/Trends/Trends';
+import Performance from '../components/Performance/Performance';
 import Upload from '../components/Upload';
 import Settings from '../components/Settings';
 import AccountSetup from '../components/AccountSetup';
@@ -31,8 +31,8 @@ const useRouter = (visibleState) => {
                     path="/replays"
                     visibleState={visibleState}
                 />
-                <Trends
-                    path="/trends"
+                <Performance
+                    path="/performance"
                 />
                 <Settings
                     path="/settings"
