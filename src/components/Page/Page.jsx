@@ -27,6 +27,12 @@ const Page = () => {
         Upload: 'Upload Replays',
     };
 
+    const raceCTA = {
+        protoss: 'JOIN THE KHALA',
+        zerg: 'JOIN THE SWARM',
+        terran: 'JOIN THE DOMINION',
+    };
+
     const capitalize = str => (
         str.charAt(0).toUpperCase() + str.slice(1)
     );
@@ -63,7 +69,7 @@ const Page = () => {
                                 <RaceToggle />
                                 <div className="Page__premium">
                                     <button className={`Page__premium-cta ${selectedRace ? `Page__premium-cta--${selectedRace}` : ''}`}>
-                                        <span className="Page__cta-text">UPGRADE</span>
+                                        <span className="Page__cta-text">{selectedRace && raceCTA[selectedRace]}</span>
                                     </button>
                                 </div>
                                 {/* <Tippy
