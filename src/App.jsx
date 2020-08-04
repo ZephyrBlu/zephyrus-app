@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { useAccount, useReplays, useTrends } from './hooks';
+import { useAccount, useReplays, usePerformance, useTrends } from './hooks';
 import Page from './components/Page/Page';
 import './components/Page/CSS/Page.css';
 import './App.css';
@@ -7,6 +7,7 @@ import './App.css';
 const App = () => {
     useAccount();
     useReplays(30000);
+    usePerformance();
     useTrends();
 
     // one time check for OAuth authorization code

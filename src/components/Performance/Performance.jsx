@@ -18,7 +18,7 @@ import './CSS/Performance.css';
 
 const Performance = () => {
     const selectedRace = useSelector(state => state.selectedRace);
-    const currentTrends = useSelector(state => state.raceData[state.selectedRace].trends);
+    const currentPerformance = useSelector(state => state.raceData[state.selectedRace].stats);
     const [trendsMatchup, setTrendsMatchup] = useState('all');
 
     const generalStats = [
@@ -60,7 +60,7 @@ const Performance = () => {
 
         return { mmrTrends, currentSeasonTrends, previousSeasonTrends };
     };
-    const { mmrTrends, currentSeasonTrends, previousSeasonTrends } = checkTrends(currentTrends);
+    const { mmrTrends, currentSeasonTrends, previousSeasonTrends } = checkTrends(currentPerformance);
 
     const statNames = {
         winrate: 'Winrate',
@@ -304,9 +304,9 @@ const Performance = () => {
     };
 
     const checkTrendsLoadingState = () => {
-        if (currentTrends) {
+        if (currentPerformance) {
             return 'SUCCESS';
-        } else if (currentTrends === false) {
+        } else if (currentPerformance === false) {
             return 'ERROR';
         }
         return 'IN_PROGRESS';
@@ -326,7 +326,7 @@ const Performance = () => {
         },
         loadingState: checkTrendsLoadingState(),
     };
-    const TrendsState = useLoadingState(trendsLoadingData, dataStates.trends);
+    const PerformanceState = useLoadingState(trendsLoadingData, dataStates.trends);
 
     const seasonStatsDescription = (
         <p className="Performance__season-stat-description">
@@ -347,7 +347,7 @@ const Performance = () => {
                     Season Stats{!currentSeasonTrends && previousSeasonTrends && ' (Previous)'}
                     <InfoTooltip content={seasonStatsDescription} />
                 </h1>
-                <TrendsState />
+                <PerformanceState />
             </div>
         </div>
     );

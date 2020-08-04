@@ -5,6 +5,7 @@ import {
     SET_SELECTED_RACE,
     SET_REPLAYS,
     SET_REPLAY_INFO,
+    SET_STATS,
     SET_TRENDS,
     SET_SELECTED_REPLAY_HASH,
     SET_FIXED_HOVER_STATE,
@@ -12,7 +13,7 @@ import {
 } from './actions';
 
 const races = ['protoss', 'terran', 'zerg'];
-const raceDefaultState = { replays: null, trends: null };
+const raceDefaultState = { replays: null, stats: null, trends: null };
 const raceDataDefaultState = {};
 
 races.forEach((race) => {
@@ -68,6 +69,14 @@ const raceData = (state = raceDataDefaultState, action) => {
     switch (action.type) {
         case SET_REPLAYS:
             Object.entries(action.data).forEach(([race, info]) => {
+                info.stats = state[race].stats;
+                info.trends = state[race].trends;
+            });
+            return { ...state, ...action.data };
+
+        case SET_STATS:
+            Object.entries(action.data).forEach(([race, info]) => {
+                info.replays = state[race].replays;
                 info.trends = state[race].trends;
             });
             return { ...state, ...action.data };
@@ -75,6 +84,7 @@ const raceData = (state = raceDataDefaultState, action) => {
         case SET_TRENDS:
             Object.entries(action.data).forEach(([race, info]) => {
                 info.replays = state[race].replays;
+                info.stats = state[race].stats;
             });
             return { ...state, ...action.data };
 
