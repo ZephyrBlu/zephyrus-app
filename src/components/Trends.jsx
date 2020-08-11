@@ -8,11 +8,13 @@ import {
     ResponsiveContainer,
     XAxis,
     ReferenceLine,
+    Tooltip,
 } from 'recharts';
 import { useLoadingState } from '../hooks';
 import LoadingAnimation from './shared/LoadingAnimation';
 import DefaultResponse from './shared/DefaultResponse';
 import InfoTooltip from './shared/InfoTooltip';
+import TrendsTooltip from './TrendsTooltip';
 import './Trends.css';
 
 const Trends = () => {
@@ -156,9 +158,21 @@ const Trends = () => {
                                         className="Trends__season-stat-chart"
                                         margin={{ left: -15, right: 2, top: 10, bottom: 10 }}
                                     >
-                                        <XAxis dataKey="time" />
+                                        <XAxis dataKey="gameloop" />
                                         <YAxis type="number" domain={['dataMin', 'dataMax']} />
                                         <ReferenceLine y={0} stroke="hsl(0, 0%, 47%)" strokeWidth={1} />
+                                        <Tooltip
+                                            content={
+                                                <TrendsTooltip
+                                                    trends={{
+                                                        stat: _selectedStat,
+                                                        matchup: _trendsMatchup,
+                                                        type: _selectedMatchType,
+                                                    }}
+                                                />
+                                            }
+                                            position={{ y: -10 }}
+                                        />
                                         <Line
                                             type="monotone"
                                             dataKey="all.median"
@@ -185,9 +199,21 @@ const Trends = () => {
                                         className="Trends__season-stat-chart"
                                         margin={{ left: -15, right: 2, top: 10, bottom: 10 }}
                                     >
-                                        <XAxis dataKey="time" />
+                                        <XAxis dataKey="gameloop" />
                                         <YAxis type="number" domain={['dataMin', 'dataMax']} />
                                         <ReferenceLine y={0} stroke="hsl(0, 0%, 47%)" strokeWidth={1} />
+                                        <Tooltip
+                                            content={
+                                                <TrendsTooltip
+                                                    trends={{
+                                                        stat: _selectedStat,
+                                                        matchup: _trendsMatchup,
+                                                        type: _selectedMatchType,
+                                                    }}
+                                                />
+                                            }
+                                            position={{ y: -10 }}
+                                        />
                                         <Line
                                             type="monotone"
                                             dataKey="win.median"
