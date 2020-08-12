@@ -168,9 +168,15 @@
     cursor: pointer;
 }
 
+.Trends__season-stat-option--type.Trends__season-stat-option--active,
+.Trends__season-stat-option--type:hover,
+.Trends__season-stat-option--type:focus,
 .Trends__season-stat-option--stats.Trends__season-stat-option--active,
 .Trends__season-stat-option--stats:hover,
-.Trends__season-stat-option--stats:focus {
+.Trends__season-stat-option--stats:focus,
+.Trends__season-stat-option--length.Trends__season-stat-option--active,
+.Trends__season-stat-option--length:hover,
+.Trends__season-stat-option--length:focus {
     background-color: var(--primary-light-2);
 }
 

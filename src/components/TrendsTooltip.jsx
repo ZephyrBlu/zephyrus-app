@@ -5,11 +5,9 @@ const TrendsTooltip = ({ payload, trends }) => {
     const [currentGameloop, setCurrentGameloop] = useState(0);
     const [prevGameloop, setPrevGameloop] = useState(0);
 
-    console.log(payload);
-
     useEffect(() => {
         setTimeout(async () => {
-            if (payload.length > 0) {
+            if (payload && payload.length > 0) {
                 setPrevGameloop(currentGameloop);
                 setCurrentGameloop(payload[0].payload.gameloop);
             }
@@ -48,7 +46,7 @@ const TrendsTooltip = ({ payload, trends }) => {
             : `${minutes}:${seconds}`;
     };
 
-    if (payload.length > 0) {
+    if (payload && payload.length > 0) {
         const newGameloop = payload[0].payload.gameloop;
         if (!currentTimeout && newGameloop !== prevGameloop) {
             setCurrentTimeout(true);
@@ -57,7 +55,7 @@ const TrendsTooltip = ({ payload, trends }) => {
 
     let content;
 
-    if (payload.length > 0) {
+    if (payload && payload.length > 0) {
         const stat = payload[0].payload[payload[0].name.split('.')[0]];
         const statMedian = stat.median;
         const statQuartiles = stat.quartile_range;
@@ -72,6 +70,9 @@ const TrendsTooltip = ({ payload, trends }) => {
                     <h2 className="tooltip__stat-name">
                         {selectedStat[trends.stat]}
                     </h2>
+                    <h3 className="tooltip__match-count">
+                        {payload[0].payload.count}
+                    </h3>
                     <h3 className="tooltip__matchup">
                         {selectedMatchup[trends.matchup]}
                     </h3>

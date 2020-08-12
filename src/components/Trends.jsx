@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { useState, Fragment } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import {
     ComposedChart,
     Area,
@@ -10,6 +10,7 @@ import {
     ReferenceLine,
     Tooltip,
 } from 'recharts';
+import { jStat } from 'jstat';
 import { useLoadingState } from '../hooks';
 import LoadingAnimation from './shared/LoadingAnimation';
 import DefaultResponse from './shared/DefaultResponse';
@@ -20,19 +21,71 @@ import './Trends.css';
 const Trends = () => {
     const selectedRace = useSelector(state => state.selectedRace);
     const currentTrends = useSelector(state => state.raceData[state.selectedRace].trends);
+    const [selectedTrends, setSelectedTrends] = useState(null);
     const [trendsMatchup, setTrendsMatchup] = useState('all');
     const [selectedStat, setSelectedStat] = useState('workers_active');
     const [selectedMatchType, setSelectedMatchType] = useState('all');
+    const [selectedMatchLength, setSelectedMatchLength] = useState('all');
 
-    console.log('TRENDS', currentTrends);
+    console.log('RAW TRENDS', currentTrends);
+    console.log('SELECTED SIZE', selectedTrends ? selectedTrends.length : 0);
+    console.log('SELECTED TRENDS', selectedTrends);
 
-    const checkTrends = (trends) => {
-        if (!trends || !trends[trendsMatchup]) {
-            return null;
+    useEffect(() => {
+        const filterTrends = (trends) => {
+            const filteredTrends = [];
+            Object.entries(trends[selectedStat]).forEach(([gameloop, matchData]) => {
+                const filteredValues = matchData.filter(match => (
+                    (trendsMatchup === 'all' || trendsMatchup === match.matchup)
+                    && (selectedMatchLength === 'all' || selectedMatchLength === match.stage)
+                ));
+
+                if (filteredValues.length < 10) {
+                    return;
+                }
+
+                const rawValues = {
+                    all: [],
+                    win: [],
+                    loss: [],
+                };
+                filteredValues.forEach((value) => {
+                    rawValues.all.push(value.value);
+                    if (value.win) {
+                        rawValues.win.push(value.value);
+                    } else if (!value.win) {
+                        rawValues.loss.push(value.value);
+                    }
+                });
+
+                const gameloopStats = {};
+                Object.entries(rawValues).forEach(([outcome, values]) => {
+                    let outcomeQuantiles = jStat.quantiles(
+                        values,
+                        [0.1, 0.25, 0.5, 0.75, 0.9],
+                    );
+
+                    outcomeQuantiles = outcomeQuantiles.map(v => Math.round(v));
+                    gameloopStats[outcome] = {
+                        median: outcomeQuantiles[2],
+                        quartile_range: [outcomeQuantiles[1], outcomeQuantiles[3]],
+                        total_range: [outcomeQuantiles[0], outcomeQuantiles[4]],
+                    };
+                });
+
+                filteredTrends.push({
+                    gameloop: Number(gameloop),
+                    count: filteredValues.length,
+                    ...gameloopStats,
+                });
+            });
+
+            return filteredTrends;
+        };
+        if (currentTrends) {
+            setSelectedTrends(filterTrends(currentTrends));
         }
-        return trends[trendsMatchup];
-    };
-    const recentTrends = checkTrends(currentTrends);
+    }, [currentTrends, trendsMatchup, selectedStat, selectedMatchType, selectedMatchLength]);
 
     // const statNames = {
     //     winrate: 'Winrate',
@@ -72,6 +125,12 @@ const Trends = () => {
             zerg: 'Zerg',
             terran: 'Terran',
         },
+        length: {
+            all: 'All',
+            early: '<7min',
+            mid: '7-12min',
+            late: '>12min',
+        },
         stats: {
             workers_active: 'Workers Active',
             workers_killed: 'Workers Killed',
@@ -95,20 +154,21 @@ const Trends = () => {
                 _setSelectedStat,
                 _selectedMatchType,
                 _setSelectedMatchType,
+                _selectedMatchLength,
+                _setSelectedMatchLength,
                 _statControls,
                 _selectedRace,
             }) => (
                 <Fragment>
-                    {console.log('SELECTED', _selectedTrends)}
                     <div className="Trends__season-stat-controls Trends__season-stat-controls--global">
-                        <span className="Performance__season-stat-options-wrapper">
-                            {Object.entries(statControls.type).map(([controlKey, controlText]) => (
+                        <span className="Trends__season-stat-options-wrapper">
+                            {Object.entries(_statControls.type).map(([controlKey, controlText]) => (
                                 <button
                                     className={`
-                                        Performance__season-stat-option
-                                        Performance__season-stat-option--type
-                                        Performance__season-stat-option--${controlKey}
-                                        ${_selectedMatchType === controlKey ? 'Performance__season-stat-option--active' : ''}
+                                        Trends__season-stat-option
+                                        Trends__season-stat-option--type
+                                        Trends__season-stat-option--${controlKey}
+                                        ${_selectedMatchType === controlKey ? 'Trends__season-stat-option--active' : ''}
                                     `}
                                     onClick={() => _setSelectedMatchType(controlKey)}
                                 >
@@ -126,6 +186,21 @@ const Trends = () => {
                                         ${_trendsMatchup === controlKey ? 'Trends__season-stat-option--active' : ''}
                                     `}
                                     onClick={() => _setTrendsMatchup(controlKey)}
+                                >
+                                    {controlText}
+                                </button>
+                            ))}
+                        </span>
+                        <span className="Trends__season-stat-options-wrapper">
+                            {Object.entries(_statControls.length).map(([controlKey, controlText]) => (
+                                <button
+                                    className={`
+                                        Trends__season-stat-option
+                                        Trends__season-stat-option--length
+                                        Trends__season-stat-option--${controlKey}
+                                        ${_selectedMatchLength === controlKey ? 'Trends__season-stat-option--active' : ''}
+                                    `}
+                                    onClick={() => _setSelectedMatchLength(controlKey)}
                                 >
                                     {controlText}
                                 </button>
@@ -154,7 +229,7 @@ const Trends = () => {
                             <ResponsiveContainer width="99%" height={600}>
                                 {_selectedMatchType === 'all' ?
                                     <ComposedChart
-                                        data={_selectedTrends[_selectedStat]}
+                                        data={_selectedTrends}
                                         className="Trends__season-stat-chart"
                                         margin={{ left: -15, right: 2, top: 10, bottom: 10 }}
                                     >
@@ -195,7 +270,7 @@ const Trends = () => {
                                     </ComposedChart>
                                     :
                                     <ComposedChart
-                                        data={_selectedTrends[_selectedStat]}
+                                        data={_selectedTrends}
                                         className="Trends__season-stat-chart"
                                         margin={{ left: -15, right: 2, top: 10, bottom: 10 }}
                                     >
@@ -228,18 +303,18 @@ const Trends = () => {
                                             strokeWidth={2}
                                             dot={false}
                                         />
-                                        {/* <Area
+                                        <Area
                                             type="monotone"
                                             dataKey="win.quartile_range"
                                             stroke="hsla(120, 80%, 25%, 1)"
                                             fill="hsla(120, 80%, 25%, 0.2)"
-                                        /> */}
-                                        {/* <Area
+                                        />
+                                        <Area
                                             type="monotone"
                                             dataKey="loss.quartile_range"
                                             stroke="hsla(0, 70%, 25%, 1)"
                                             fill="hsla(0, 70%, 25%, 0.2)"
-                                        /> */}
+                                        />
                                     </ComposedChart>}
                             </ResponsiveContainer>
                         </div>}
@@ -264,7 +339,7 @@ const Trends = () => {
 
     const trendsLoadingData = {
         data: {
-            _selectedTrends: recentTrends,
+            _selectedTrends: selectedTrends,
             _statControls: statControls,
             _trendsMatchup: trendsMatchup,
             _setTrendsMatchup: setTrendsMatchup,
@@ -272,6 +347,8 @@ const Trends = () => {
             _setSelectedStat: setSelectedStat,
             _selectedMatchType: selectedMatchType,
             _setSelectedMatchType: setSelectedMatchType,
+            _selectedMatchLength: selectedMatchLength,
+            _setSelectedMatchLength: setSelectedMatchLength,
             _selectedRace: selectedRace,
         },
         loadingState: checkTrendsLoadingState(),
