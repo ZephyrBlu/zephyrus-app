@@ -21,20 +21,25 @@ import './Trends.css';
 const Trends = () => {
     const selectedRace = useSelector(state => state.selectedRace);
     const currentTrends = useSelector(state => state.raceData[state.selectedRace].trends);
-    const [selectedTrends, setSelectedTrends] = useState(null);
+    const [selectedTrends, setSelectedTrends] = useState({
+        replays: {
+            winrate: null,
+            count: null,
+        },
+        trends: null,
+    });
     const [trendsMatchup, setTrendsMatchup] = useState('all');
     const [selectedStat, setSelectedStat] = useState('workers_active');
     const [selectedMatchType, setSelectedMatchType] = useState('all');
     const [selectedMatchLength, setSelectedMatchLength] = useState('all');
 
     console.log('RAW TRENDS', currentTrends);
-    console.log('SELECTED SIZE', selectedTrends ? selectedTrends.length : 0);
     console.log('SELECTED TRENDS', selectedTrends);
 
     useEffect(() => {
-        const filterTrends = (trends) => {
+        const filterTrends = (trendData) => {
             const filteredTrends = [];
-            Object.entries(trends[selectedStat]).forEach(([gameloop, matchData]) => {
+            Object.entries(trendData.trends[selectedStat]).forEach(([gameloop, matchData]) => {
                 const filteredValues = matchData.filter(match => (
                     (trendsMatchup === 'all' || trendsMatchup === match.matchup)
                     && (selectedMatchLength === 'all' || selectedMatchLength === match.stage)
@@ -80,7 +85,23 @@ const Trends = () => {
                 });
             });
 
-            return filteredTrends;
+            const replays = {
+                wins: 0,
+                losses: 0,
+            };
+            trendData.replays.forEach((replay) => {
+                if ((trendsMatchup === 'all' || trendsMatchup === replay.matchup) && (selectedMatchLength === 'all' || selectedMatchLength === replay.stage)) {
+                    replay.win ? replays.wins += 1 : replays.losses += 1;
+                }
+            });
+
+            return {
+                replays: {
+                    winrate: Number(((replays.wins / (replays.wins + replays.losses)) * 100).toFixed(1)),
+                    count: replays.wins + replays.losses,
+                },
+                trends: filteredTrends,
+            };
         };
         if (currentTrends) {
             setSelectedTrends(filterTrends(currentTrends));
@@ -127,21 +148,25 @@ const Trends = () => {
         },
         length: {
             all: 'All',
-            early: '<7min',
-            mid: '7-12min',
-            late: '>12min',
+            early: '<2 Base',
+            mid: '2-3 Base',
+            late: '>3 Base',
         },
         stats: {
             workers_active: 'Workers Active',
-            workers_killed: 'Workers Killed',
-            workers_lost: 'Workers Lost',
-            total_army_value: 'Army Value',
-            total_resources_lost: 'Resources Lost',
-            total_unspent_resources: 'Time-to-Mine',
-            supply_block: 'Supply Block',
             total_collection_rate: 'Collection Rate',
+            total_army_value: 'Army Value',
+            workers_lost: 'Workers Lost',
+            workers_killed: 'Workers Killed',
+            total_resources_lost: 'Resources Lost',
+            supply_block: 'Supply Block',
+            total_unspent_resources: 'Time-to-Mine',
         },
     };
+
+    const capitalize = str => (
+        str.charAt(0).toUpperCase() + str.slice(1)
+    );
 
     const dataStates = {
         trends: {
@@ -160,6 +185,31 @@ const Trends = () => {
                 _selectedRace,
             }) => (
                 <Fragment>
+                    <div className="Trends__title-stat">
+                        <div className="Trends__title-value">
+                            {_selectedTrends.replays.winrate}%
+                        </div>
+                        <span className="Trends__title-text">
+                            winrate {(_trendsMatchup !== 'all' || _selectedMatchLength !== 'all') && 'in'}
+                        </span>
+                        {_selectedMatchLength !== 'all' &&
+                            <div className="Trends__title-value">
+                                {_selectedMatchLength !== 'all' ? `${capitalize(_selectedMatchLength)}-game ` : ''}
+                            </div>}
+                        {_trendsMatchup !== 'all' &&
+                            <div className="Trends__title-value">
+                                {`${_selectedRace.charAt(0).toUpperCase()}v${_trendsMatchup.charAt(0).toUpperCase()}`}
+                            </div>}
+                        <span className="Trends__title-text">
+                            over
+                        </span>
+                        <div className="Trends__title-value">
+                            {_selectedTrends.replays.count}
+                        </div>
+                        <span className="Trends__title-text">
+                            games
+                        </span>
+                    </div>
                     <div className="Trends__season-stat-controls Trends__season-stat-controls--global">
                         <span className="Trends__season-stat-options-wrapper">
                             {Object.entries(_statControls.type).map(([controlKey, controlText]) => (
@@ -224,12 +274,12 @@ const Trends = () => {
                             ))}
                         </span>
                     </div>
-                    {_selectedTrends &&
+                    {_selectedTrends.trends &&
                         <div className="Trends__season-stats">
                             <ResponsiveContainer width="99%" height={600}>
                                 {_selectedMatchType === 'all' ?
                                     <ComposedChart
-                                        data={_selectedTrends}
+                                        data={_selectedTrends.trends}
                                         className="Trends__season-stat-chart"
                                         margin={{ left: -15, right: 2, top: 10, bottom: 10 }}
                                     >
@@ -270,7 +320,7 @@ const Trends = () => {
                                     </ComposedChart>
                                     :
                                     <ComposedChart
-                                        data={_selectedTrends}
+                                        data={_selectedTrends.trends}
                                         className="Trends__season-stat-chart"
                                         margin={{ left: -15, right: 2, top: 10, bottom: 10 }}
                                     >
@@ -303,22 +353,22 @@ const Trends = () => {
                                             strokeWidth={2}
                                             dot={false}
                                         />
-                                        <Area
+                                        {/* <Area
                                             type="monotone"
                                             dataKey="win.quartile_range"
                                             stroke="hsla(120, 80%, 25%, 1)"
                                             fill="hsla(120, 80%, 25%, 0.2)"
-                                        />
-                                        <Area
+                                        /> */}
+                                        {/* <Area
                                             type="monotone"
                                             dataKey="loss.quartile_range"
                                             stroke="hsla(0, 70%, 25%, 1)"
                                             fill="hsla(0, 70%, 25%, 0.2)"
-                                        />
+                                        /> */}
                                     </ComposedChart>}
                             </ResponsiveContainer>
                         </div>}
-                    {!_selectedTrends &&
+                    {!_selectedTrends.trends &&
                         <div className="Trends__season-stats Trends__season-stats--default">
                             No {`${_selectedRace.charAt(0).toUpperCase()}v${_trendsMatchup.charAt(0).toUpperCase()}`} replays found
                         </div>}
