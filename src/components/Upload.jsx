@@ -135,12 +135,12 @@ const Upload = () => {
             <UploadState />
             <p className="Upload__message">
                 <a
-                    href="https://news.blizzard.com/en-us/starcraft2/23482838/starcraft-ii-5-0-patch-notes"
+                    href="https://news.blizzard.com/en-us/starcraft2/23495670/starcraft-ii-5-0-2-patch-notes"
                     target="_blank"
                     rel="noopener noreferrer"
                 >
-                    Patch 5.0
-                </a> and 5.1 are supported
+                    Patch 5.0.2
+                </a> is supported
                 <br />
                 <br />
                 Replays from new patches may not be supported for&nbsp;
