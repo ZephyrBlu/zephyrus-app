@@ -11,12 +11,12 @@ import {
     Tooltip,
 } from 'recharts';
 import { jStat } from 'jstat';
-import { useLoadingState } from '../hooks';
-import LoadingAnimation from './shared/LoadingAnimation';
-import DefaultResponse from './shared/DefaultResponse';
-import InfoTooltip from './shared/InfoTooltip';
+import { useLoadingState } from '../../hooks';
+import LoadingAnimation from '../shared/LoadingAnimation';
+import DefaultResponse from '../shared/DefaultResponse';
+import InfoTooltip from '../shared/InfoTooltip';
 import TrendsTooltip from './TrendsTooltip';
-import './Trends.css';
+import './CSS/Trends.css';
 
 const Trends = () => {
     const selectedRace = useSelector(state => state.selectedRace);
@@ -32,9 +32,6 @@ const Trends = () => {
     const [selectedStat, setSelectedStat] = useState('workers_active');
     const [selectedMatchType, setSelectedMatchType] = useState('all');
     const [selectedMatchLength, setSelectedMatchLength] = useState('all');
-
-    console.log('RAW TRENDS', currentTrends);
-    console.log('SELECTED TRENDS', selectedTrends);
 
     useEffect(() => {
         const filterTrends = (trendData) => {
@@ -67,7 +64,7 @@ const Trends = () => {
                 Object.entries(rawValues).forEach(([outcome, values]) => {
                     let outcomeQuantiles = jStat.quantiles(
                         values,
-                        [0.1, 0.25, 0.5, 0.75, 0.9],
+                        [0.05, 0.25, 0.5, 0.75, 0.95],
                     );
 
                     outcomeQuantiles = outcomeQuantiles.map(v => Math.round(v));
@@ -108,33 +105,6 @@ const Trends = () => {
         }
     }, [currentTrends, trendsMatchup, selectedStat, selectedMatchType, selectedMatchLength]);
 
-    // const statNames = {
-    //     winrate: 'Winrate',
-    //     mmr: 'MMR',
-    //     match_length: 'Match Length',
-    //     sq: 'SQ',
-    //     apm: 'APM',
-    //     spm: 'SPM',
-    //     supply_block: 'Supply Block',
-    //     workers_killed_lost_diff: 'Workers K/L',
-    //     workers_produced: 'Workers Produced',
-    //     workers_killed: 'Workers Killed',
-    //     workers_lost: 'Workers Lost',
-    // };
-
-    // const statDescriptions = {
-    //     mmr: (<p className="Trends__season-stat-description">This shows your median MMR and MMR over the course of the season.<br /><br />The grey line is your starting MMR</p>),
-    //     match_length: (<p className="Trends__season-stat-description">This shows your median Match Length and the distribution of different Match Lengths</p>),
-    //     sq: (<p className="Trends__season-stat-description">Spending Quotient (SQ) measures how well you spend resources.<br /><br />This shows your median SQ and the distribution of your SQ performance</p>),
-    //     apm: (<p className="Trends__season-stat-description">This shows your median APM and the distribution of your APM performance</p>),
-    //     spm: (<p className="Trends__season-stat-description">Screens Per Minute (SPM) measures how often you move your screen during a match.<br /><br />This shows your median SPM and the distribution of your SPM performance</p>),
-    //     supply_block: (<p className="Trends__season-stat-description">This shows your median Supply Block and the distribution of your Supply Block performance</p>),
-    //     workers_killed_lost_diff: (<p className="Trends__season-stat-description">Workers Killed/Lost is the difference between the number of workers you killed and the number of workers you lost in any given game.<br /><br />This shows your median Workers Killed/Lost difference and the distribution of your performance</p>),
-    //     workers_produced: (<p className="Trends__season-stat-description">This shows your median Workers Produced and the distribution of your Workers Produced performance</p>),
-    //     workers_killed: (<p className="Trends__season-stat-description">This shows your median Workers Produced and the distribution of your Workers Killed performance</p>),
-    //     workers_lost: (<p className="Trends__season-stat-description">This shows your median Workers Produced and the distribution of your Workers Lost performance</p>),
-    // };
-
     const statControls = {
         type: {
             all: 'All',
@@ -148,9 +118,9 @@ const Trends = () => {
         },
         length: {
             all: 'All',
-            early: '<2 Base',
-            mid: '2-3 Base',
-            late: '>3 Base',
+            early: 'Early',
+            mid: 'Mid',
+            late: 'Late',
         },
         stats: {
             workers_active: 'Workers Active',
@@ -159,8 +129,7 @@ const Trends = () => {
             workers_lost: 'Workers Lost',
             workers_killed: 'Workers Killed',
             total_resources_lost: 'Resources Lost',
-            supply_block: 'Supply Block',
-            total_unspent_resources: 'Time-to-Mine',
+            total_unspent_resources: 'Unspent Resources',
         },
     };
 
@@ -168,9 +137,33 @@ const Trends = () => {
         str.charAt(0).toUpperCase() + str.slice(1)
     );
 
+    const formatTick = (content) => {
+        const totalSeconds = Math.floor(Number(content) / 22.4);
+        const minutes = Math.floor(totalSeconds / 60);
+        const seconds = totalSeconds - (minutes * 60);
+        if (String(seconds).length === 1) {
+            return `${minutes}:0${seconds}`;
+        }
+        return `${minutes}:${seconds}`;
+    };
+
     const dataStates = {
         trends: {
-            IN_PROGRESS: (<LoadingAnimation />),
+            IN_PROGRESS: (
+                <Fragment>
+                    <div
+                        style={{
+                            display: 'block',
+                            width: '100%',
+                            textAlign: 'center',
+                            marginBottom: '-20px',
+                        }}
+                    >
+                        This might take a minute or so...
+                    </div>
+                    <LoadingAnimation />
+                </Fragment>
+            ),
             SUCCESS: ({
                 _selectedTrends,
                 _trendsMatchup,
@@ -186,7 +179,7 @@ const Trends = () => {
             }) => (
                 <Fragment>
                     <div className="Trends__title-stat">
-                        <div className="Trends__title-value">
+                        <div className="Trends__title-value Trends__title-value--first">
                             {_selectedTrends.replays.winrate}%
                         </div>
                         <span className="Trends__title-text">
@@ -274,7 +267,7 @@ const Trends = () => {
                             ))}
                         </span>
                     </div>
-                    {_selectedTrends.trends &&
+                    {_selectedTrends.trends && _selectedTrends.trends.length >= 10 &&
                         <div className="Trends__season-stats">
                             <ResponsiveContainer width="99%" height={600}>
                                 {_selectedMatchType === 'all' ?
@@ -283,20 +276,20 @@ const Trends = () => {
                                         className="Trends__season-stat-chart"
                                         margin={{ left: -15, right: 2, top: 10, bottom: 10 }}
                                     >
-                                        <XAxis dataKey="gameloop" />
-                                        <YAxis type="number" domain={['dataMin', 'dataMax']} />
+                                        <XAxis dataKey="gameloop" tickFormatter={content => formatTick(content)} />
+                                        <YAxis type="number" />
                                         <ReferenceLine y={0} stroke="hsl(0, 0%, 47%)" strokeWidth={1} />
                                         <Tooltip
                                             content={
                                                 <TrendsTooltip
                                                     trends={{
                                                         stat: _selectedStat,
-                                                        matchup: _trendsMatchup,
+                                                        stage: _selectedMatchLength,
+                                                        matchup: `${_selectedRace.charAt(0).toUpperCase()}v${_trendsMatchup.charAt(0).toUpperCase()}`,
                                                         type: _selectedMatchType,
                                                     }}
                                                 />
                                             }
-                                            position={{ y: -10 }}
                                         />
                                         <Line
                                             type="monotone"
@@ -304,18 +297,24 @@ const Trends = () => {
                                             stroke="hsl(210, 68%, 47%)"
                                             strokeWidth={2}
                                             dot={false}
+                                            activeDot={{
+                                                stroke: 'hsl(210, 68%, 47%)',
+                                                fill: 'hsl(210, 68%, 47%)',
+                                            }}
                                         />
                                         <Area
                                             type="monotone"
                                             dataKey="all.quartile_range"
                                             stroke="hsl(210, 85%, 60%)"
                                             fill="hsla(210, 85%, 60%, 0.2)"
+                                            activeDot={false}
                                         />
                                         <Area
                                             type="monotone"
                                             dataKey="all.total_range"
                                             stroke="hsla(210, 85%, 60%, 0.4)"
                                             fill="hsla(210, 85%, 60%, 0.1)"
+                                            activeDot={false}
                                         />
                                     </ComposedChart>
                                     :
@@ -324,20 +323,46 @@ const Trends = () => {
                                         className="Trends__season-stat-chart"
                                         margin={{ left: -15, right: 2, top: 10, bottom: 10 }}
                                     >
-                                        <XAxis dataKey="gameloop" />
-                                        <YAxis type="number" domain={['dataMin', 'dataMax']} />
+                                        <XAxis dataKey="gameloop" tickFormatter={content => formatTick(content)} />
+                                        <YAxis type="number" />
                                         <ReferenceLine y={0} stroke="hsl(0, 0%, 47%)" strokeWidth={1} />
                                         <Tooltip
                                             content={
                                                 <TrendsTooltip
                                                     trends={{
                                                         stat: _selectedStat,
-                                                        matchup: _trendsMatchup,
+                                                        stage: _selectedMatchLength,
+                                                        matchup: `${_selectedRace.charAt(0).toUpperCase()}v${_trendsMatchup.charAt(0).toUpperCase()}`,
                                                         type: _selectedMatchType,
                                                     }}
                                                 />
                                             }
-                                            position={{ y: -10 }}
+                                        />
+                                        {/* <Area
+                                            type="monotone"
+                                            dataKey="win.total_range"
+                                            stroke="hsla(120, 80%, 25%, 0.2)"
+                                            fill="hsla(120, 80%, 25%, 0.05)"
+                                        />
+                                        <Area
+                                            type="monotone"
+                                            dataKey="loss.total_range"
+                                            stroke="hsla(0, 70%, 25%, 0.2)"
+                                            fill="hsla(0, 70%, 25%, 0.05)"
+                                        /> */}
+                                        <Area
+                                            type="monotone"
+                                            dataKey="win.quartile_range"
+                                            stroke="hsla(120, 80%, 25%, 0.6)"
+                                            fill="hsla(120, 80%, 25%, 0.1)"
+                                            activeDot={false}
+                                        />
+                                        <Area
+                                            type="monotone"
+                                            dataKey="loss.quartile_range"
+                                            stroke="hsla(0, 70%, 25%, 0.6)"
+                                            fill="hsla(0, 70%, 25%, 0.1)"
+                                            activeDot={false}
                                         />
                                         <Line
                                             type="monotone"
@@ -345,6 +370,10 @@ const Trends = () => {
                                             stroke="hsla(120, 80%, 25%, 1)"
                                             strokeWidth={2}
                                             dot={false}
+                                            activeDot={{
+                                                stroke: 'hsla(120, 80%, 25%, 1)',
+                                                fill: 'hsla(120, 80%, 25%, 1)',
+                                            }}
                                         />
                                         <Line
                                             type="monotone"
@@ -352,25 +381,17 @@ const Trends = () => {
                                             stroke="hsla(0, 70%, 25%, 1)"
                                             strokeWidth={2}
                                             dot={false}
+                                            activeDot={{
+                                                stroke: 'hsla(0, 70%, 25%, 1)',
+                                                fill: 'hsla(0, 70%, 25%, 1)',
+                                            }}
                                         />
-                                        {/* <Area
-                                            type="monotone"
-                                            dataKey="win.quartile_range"
-                                            stroke="hsla(120, 80%, 25%, 1)"
-                                            fill="hsla(120, 80%, 25%, 0.2)"
-                                        /> */}
-                                        {/* <Area
-                                            type="monotone"
-                                            dataKey="loss.quartile_range"
-                                            stroke="hsla(0, 70%, 25%, 1)"
-                                            fill="hsla(0, 70%, 25%, 0.2)"
-                                        /> */}
                                     </ComposedChart>}
                             </ResponsiveContainer>
                         </div>}
-                    {!_selectedTrends.trends &&
+                    {(!_selectedTrends.trends || _selectedTrends.trends.length < 10) &&
                         <div className="Trends__season-stats Trends__season-stats--default">
-                            No {`${_selectedRace.charAt(0).toUpperCase()}v${_trendsMatchup.charAt(0).toUpperCase()}`} replays found
+                            Insufficient data for selected filters
                         </div>}
                 </Fragment>
             ),
@@ -407,13 +428,19 @@ const Trends = () => {
 
     const seasonStatsDescription = (
         <p className="Trends__season-stat-description">
-            Season Stats shows you an overview of your performance in a given season, and compares it to the previous season if there is data available.
+            Recent Trends aggregates the timelines of all your recent games (Up to 500) and creates an average timeline of all your games
             <br />
             <br />
-            You can view stats for any matchup and see how your performance differs between Wins and Losses.
+            Games with a length of &lt;60sec are eliminated.
             <br />
             <br />
-            We discard the top and bottom 5% of values to eliminate outliers. Non-ladder games are automatically filtered out.
+            Early, Mid and Late game are determined by the Max Collection Rate of both players.
+            <br />
+            <br />
+            &lt;2 Base Saturation for Early-game, 2-3 Base Saturation for Mid-game and &gt;3 Base Saturation for Late-game
+            <br />
+            <br />
+            Both players must have Max Collection Rates above these thresholds for a game to be counted in that category.
         </p>
     );
 
@@ -422,7 +449,7 @@ const Trends = () => {
             <div className="Trends__season">
                 <h1 className="Trends__title">
                     Recent Trends
-                    <InfoTooltip content={seasonStatsDescription} />
+                    <InfoTooltip content={seasonStatsDescription} style={{ top: '3px' }} />
                 </h1>
                 <TrendsState />
             </div>
