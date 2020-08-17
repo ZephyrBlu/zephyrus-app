@@ -55,8 +55,6 @@ const TrendsTooltip = ({ payload, trends }) => {
         const winStat = payload[0].payload.win;
         const lossStat = payload[0].payload.loss;
 
-        console.log(payload, trends);
-
         content = (
             <div className="TrendsTooltip__timeline-stat">
                 <div className="TrendsTooltip__stat-header">
