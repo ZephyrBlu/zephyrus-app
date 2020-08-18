@@ -2,6 +2,7 @@ export const SET_USER = 'SET_USER';
 export const SET_INITIAL_USER = 'SET_INITIAL_USER';
 export const SET_SELECTED_RACE = 'SET_SELECTED_RACE';
 export const SET_REPLAYS = 'SET_REPLAYS';
+export const SET_STATS = 'SET_STATS';
 export const SET_TRENDS = 'SET_TRENDS';
 export const SET_REPLAY_INFO = 'SET_REPLAY_INFO';
 export const SET_SELECTED_REPLAY_HASH = 'SET_SELECTED_REPLAY_HASH';
@@ -22,6 +23,10 @@ export const setSelectedRace = selectedRace => (
 
 export const setReplays = data => (
     { type: SET_REPLAYS, data }
+);
+
+export const setStats = data => (
+    { type: SET_STATS, data }
 );
 
 export const setTrends = data => (

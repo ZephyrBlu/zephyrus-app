@@ -23,7 +23,8 @@ const Page = () => {
 
     const pages = {
         Replays: 'Replays',
-        Trends: 'Season Stats',
+        Performance: 'Season Stats',
+        Trends: 'Trends',
         Upload: 'Upload Replays',
     };
 

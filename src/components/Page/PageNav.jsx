@@ -15,12 +15,12 @@ const PageNav = ({ pages, hoverState }) => {
     const createLinkStyle = (pageName) => {
         if (hoverState.fixed) {
             return {
-                width: '100px',
+                width: '140px',
                 borderRadius: '27px',
             };
         } else if (hoverState.state[pageName]) {
             return {
-                width: '100px',
+                width: '140px',
                 borderRadius: '27px',
                 backgroundColor: 'hsl(210, 70%, 16%)',
             };

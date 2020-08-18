@@ -3,7 +3,7 @@ import { Fragment } from 'react';
 const NavIcon = ({ icon, text }) => (
     <Fragment>
         <img
-            src={`../../icons/${icon}-icon.svg`}
+            src={`../../icons/${icon}-icon2.svg`}
             style={{
                 width: '22px',
                 height: '22px',

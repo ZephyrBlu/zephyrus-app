@@ -33,6 +33,10 @@
     background-color: var(--primary-light-2);
 }
 
+.Trends__title-value--first {
+    margin-left: 0;
+}
+
 .Trends__title-text {
     font-size: 18px;
 }
@@ -42,15 +46,6 @@
 }
 
 .Trends__season-stats {
-    display: grid;
-    grid-template: max-content max-content max-content max-content / repeat(2, 1fr);
-    grid-template-areas:
-    'trends-mmr trends-match_length'
-    'trends-sq trends-apm'
-    'trends-spm  trends-supply_block'
-    'trends-workers_produced trends-workers_killed_lost_diff'
-    'trends-workers_killed trends-workers_lost';
-    grid-gap: 40px;
 }
 
 .Trends__season-stats--default {
@@ -139,11 +134,15 @@
 }
 
 .Trends__season-stat-controls--global {
-    margin: 20px 0 30px;
+    margin: 20px 0;
+}
+
+.Trends__season-stat-controls--stats {
+    margin-bottom: 30px;
 }
 
 .Trends__season-stat-options-wrapper {
-    margin-right: 80px;
+    margin-right: 40px;
 }
 
 .Trends__season-stat-option {
@@ -162,6 +161,13 @@
     transition: .3s;
 }
 
+.Trends__season-stat-option--stats,
+.Trends__season-stat-option--length {
+    min-width: 80px;
+    width: max-content;
+    padding: 5px 10px;
+}
+
 .Trends__season-stat-option:hover,
 .Trends__season-stat-option:focus {
     outline: none;
@@ -170,7 +176,13 @@
 
 .Trends__season-stat-option--type.Trends__season-stat-option--active,
 .Trends__season-stat-option--type:hover,
-.Trends__season-stat-option--type:focus {
+.Trends__season-stat-option--type:focus,
+.Trends__season-stat-option--stats.Trends__season-stat-option--active,
+.Trends__season-stat-option--stats:hover,
+.Trends__season-stat-option--stats:focus,
+.Trends__season-stat-option--length.Trends__season-stat-option--active,
+.Trends__season-stat-option--length:hover,
+.Trends__season-stat-option--length:focus {
     background-color: var(--primary-light-2);
 }
 
@@ -247,3 +259,4 @@
         margin-right: 10px;
     }
 }
+

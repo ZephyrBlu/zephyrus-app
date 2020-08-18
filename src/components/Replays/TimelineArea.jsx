@@ -61,8 +61,6 @@ const TimelineArea = ({ metrics, timeline, gameloop, players, visibleState }) =>
         building: ['CreepTumor', 'CreepTumorQueen'],
     };
 
-    console.log(metrics);
-
     return (
         <div className="TimelineArea">
             <div className="TimelineArea__chart-area">
