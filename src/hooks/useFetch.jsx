@@ -12,9 +12,6 @@ const useFetch = (url, dep = 'default', dataKey = null, opts = null) => {
         }
     }, [user]);
 
-    // gemini: 3596c770abd134327427137ea6ef63f6d745ca29
-    // lots of recent replays: 23bad5c87bd0df6c4c159f824a8389c3a2f34cb1
-
     useEffect(() => {
         const controller = new AbortController();
         const signal = controller.signal;
