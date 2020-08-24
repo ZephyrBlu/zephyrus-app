@@ -135,11 +135,11 @@ const Upload = () => {
             <UploadState />
             <p className="Upload__message">
                 <a
-                    href="https://news.blizzard.com/en-us/starcraft2/23495670/starcraft-ii-5-0-2-patch-notes"
+                    href="https://news.blizzard.com/en-us/starcraft2/23492556/starcraft-ii-5-0-3-patch-notes"
                     target="_blank"
                     rel="noopener noreferrer"
                 >
-                    Patch 5.0.2
+                    Patch 5.0.3
                 </a> is supported
                 <br />
                 <br />
@@ -147,9 +147,6 @@ const Upload = () => {
                 <span style={{ textDecoration: 'underline' }}>1-2 days</span>
                 &nbsp;after the patch drops<br /><br />
                 Please be patient until the site is updated
-                <br />
-                <br />
-                There is currently a bug with AI replays being parsed. It will be investigated soon
                 <br />
                 <br />
                 Having trouble uploading replays?<br />
