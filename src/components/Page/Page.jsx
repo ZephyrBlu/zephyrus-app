@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
 import { useState, Fragment, useContext } from 'react';
-// import Tippy from '@tippy.js/react';
+import Tippy from '@tippy.js/react';
 import UrlContext from '../../index';
 import { handleFetch } from '../../utils';
 import { logoutReset } from '../../actions';
@@ -8,7 +8,7 @@ import { useRouter } from '../../hooks';
 import Title from './Title';
 import RaceToggle from './RaceToggle';
 import PageSidebar from './PageSidebar';
-// import FeatureVote from './FeatureVote';
+import FeatureVote from './FeatureVote';
 import './CSS/Page.css';
 
 const Page = () => {
@@ -16,7 +16,7 @@ const Page = () => {
     const user = useSelector(state => state.user);
     const selectedRace = useSelector(state => state.selectedRace);
     const [currentPage, setCurrentPage] = useState(null);
-    // const [showFeatureVote, setShowFeatureVote] = useState(false);
+    const [showFeatureVote, setShowFeatureVote] = useState(false);
     const [visibleState, setVisibleState] = useState(true);
     const router = useRouter(visibleState);
     const urlPrefix = useContext(UrlContext);
@@ -62,7 +62,7 @@ const Page = () => {
                         {currentPage !== 'Setup' &&
                             <Fragment>
                                 <RaceToggle />
-                                {/* <Tippy
+                                <Tippy
                                     className="Page__feature-vote-content"
                                     content={<FeatureVote />}
                                     placement="top-end"
@@ -80,7 +80,7 @@ const Page = () => {
                                                     setShowFeatureVote(false) : setShowFeatureVote(true)
                                             )}
                                         >
-                                            Vote on New Features&nbsp;
+                                            Give Feedback&nbsp;
                                             <img
                                                 className="Page__feature-vote-arrow"
                                                 src="../../icons/arrow-right-black.svg"
@@ -88,7 +88,7 @@ const Page = () => {
                                             />
                                         </button>
                                     </div>
-                                </Tippy> */}
+                                </Tippy>
                             </Fragment>}
                         {currentPage === 'Replays' &&
                             <span className="Page__hide-wrapper">
