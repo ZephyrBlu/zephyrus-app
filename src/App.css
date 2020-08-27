@@ -2,8 +2,9 @@
 
 :root {
     --text: hsl(0, 0%, 85%);
-    --grey: hsl(0, 0%, 47%);
     --light-grey: hsl(0, 0%, 70%);
+    --grey: hsl(0, 0%, 47%);
+    --dark-grey: hsl(0, 0%, 40%);
     --purple: hsl(270, 80%, 30%);
     --green: hsl(120, 100%, 40%);
     --red: hsl(0, 100%, 30%);
