@@ -93,7 +93,9 @@ const FeedbackForm = ({ titleQuote, setShowFeedbackForm }) => {
                 <textarea
                     className="FeedbackForm__text-input"
                     type="text"
-                    placeholder=""
+                    placeholder={feedbackType === 'issue'
+                        ? 'I\'m having trouble with...'
+                        : 'It would be cool if...'}
                     disabled={!feedbackType || isFormSubmitted}
                     value={textInput}
                     onChange={updateTextInput}
