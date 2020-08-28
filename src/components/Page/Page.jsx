@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { useState, Fragment, useContext } from 'react';
-// import Tippy from '@tippy.js/react';
+import { useState, Fragment, useContext, useEffect } from 'react';
+import Tippy from '@tippy.js/react';
 import UrlContext from '../../index';
 import { handleFetch } from '../../utils';
 import { logoutReset } from '../../actions';
@@ -8,7 +8,7 @@ import { useRouter } from '../../hooks';
 import Title from './Title';
 import RaceToggle from './RaceToggle';
 import PageSidebar from './PageSidebar';
-// import FeatureVote from './FeatureVote';
+import FeedbackForm from './FeedbackForm';
 import './CSS/Page.css';
 
 const Page = () => {
@@ -16,7 +16,8 @@ const Page = () => {
     const user = useSelector(state => state.user);
     const selectedRace = useSelector(state => state.selectedRace);
     const [currentPage, setCurrentPage] = useState(null);
-    // const [showFeatureVote, setShowFeatureVote] = useState(false);
+    const [showFeedbackForm, setShowFeedbackForm] = useState(false);
+    const [currentHelpQuote, setCurrentHelpQuote] = useState(null);
     const [visibleState, setVisibleState] = useState(true);
     const router = useRouter(visibleState);
     const urlPrefix = useContext(UrlContext);
@@ -26,6 +27,23 @@ const Page = () => {
         Performance: 'Season Stats',
         Trends: 'Trends',
         Upload: 'Upload Replays',
+    };
+
+    const helpQuotes = {
+        'Yes, Executor?': 'Adept',
+        'What would you ask of us?': 'Dark Templar',
+        'Speak and be heard': 'Disruptor',
+        'I hear the call': 'Immortal',
+        'You require my skills?': 'Stalker',
+        'It shall be done': 'Void Ray',
+        'You seek guidance?': 'Oracle',
+        'Who called in the fleet?': 'Battlecruiser',
+        'I hear you': 'Hellbat',
+        'Talk to me, boss!': 'Hellion',
+        'You gonna give me orders?': 'Marine',
+        'Where\'s the emergency?': 'Medivac',
+        'State your request': 'Raven',
+        'I\'m listenin\'': 'Reaper',
     };
 
     const capitalize = str => (
@@ -43,6 +61,18 @@ const Page = () => {
         localStorage.clear();
         dispatch(logoutReset());
     };
+
+    useEffect(() => {
+        if (!showFeedbackForm) {
+            const debounce = showFeedbackForm ? 0 : 200;
+            setTimeout(() => {
+                const quoteKeys = Object.keys(helpQuotes);
+                const selectedQuote = quoteKeys[Math.floor(Math.random() * quoteKeys.length)];
+                const selectedQuoteUnit = helpQuotes[selectedQuote];
+                setCurrentHelpQuote({ quote: selectedQuote, unit: selectedQuoteUnit });
+            }, debounce);
+        }
+    }, [showFeedbackForm]);
 
     return (
         <div className="Page">
@@ -62,25 +92,30 @@ const Page = () => {
                         {currentPage !== 'Setup' &&
                             <Fragment>
                                 <RaceToggle />
-                                {/* <Tippy
+                                <Tippy
                                     className="Page__feature-vote-content"
-                                    content={<FeatureVote />}
+                                    content={
+                                        <FeedbackForm
+                                            titleQuote={currentHelpQuote}
+                                            setShowFeedbackForm={setShowFeedbackForm}
+                                        />
+                                    }
                                     placement="top-end"
                                     trigger="manual"
-                                    maxWidth={360}
-                                    visible={showFeatureVote}
+                                    maxWidth={400}
+                                    visible={showFeedbackForm}
                                     hideOnClick={false}
                                     interactive
                                 >
-                                    <div className="Page__feature-vote">
+                                    <div className="Page__feedback">
                                         <button
                                             className="Page__show-vote"
                                             onClick={() => (
-                                                showFeatureVote ?
-                                                    setShowFeatureVote(false) : setShowFeatureVote(true)
+                                                showFeedbackForm ?
+                                                    setShowFeedbackForm(false) : setShowFeedbackForm(true)
                                             )}
                                         >
-                                            Vote on New Features&nbsp;
+                                            Talk to a Human&nbsp;
                                             <img
                                                 className="Page__feature-vote-arrow"
                                                 src="../../icons/arrow-right-black.svg"
@@ -88,7 +123,7 @@ const Page = () => {
                                             />
                                         </button>
                                     </div>
-                                </Tippy> */}
+                                </Tippy>
                             </Fragment>}
                         {currentPage === 'Replays' &&
                             <span className="Page__hide-wrapper">
