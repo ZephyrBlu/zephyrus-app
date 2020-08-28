@@ -22,7 +22,7 @@ const FeedbackForm = ({ titleQuote, setShowFeedbackForm }) => {
             method: 'POST',
             headers: { Authorization: `Token ${user.token}` },
             body: JSON.stringify({
-                text: textInput,
+                feedback: textInput,
                 type: feedbackType,
             }),
         }).catch(() => null);
@@ -43,8 +43,11 @@ const FeedbackForm = ({ titleQuote, setShowFeedbackForm }) => {
     };
 
     const updateTextInput = (e) => {
-        const currentText = e.target.value;
-        setTextInput(currentText.slice(0, 300));
+        let currentText = e.target.value;
+        if (currentText.length > 300) {
+            currentText = currentText.slice(0, 300);
+        }
+        setTextInput(currentText);
     };
 
     return (
@@ -96,7 +99,7 @@ const FeedbackForm = ({ titleQuote, setShowFeedbackForm }) => {
                     placeholder={feedbackType === 'issue'
                         ? 'I\'m having trouble with...'
                         : 'It would be cool if...'}
-                    disabled={!feedbackType || isFormSubmitted}
+                    disabled={isFormSubmitted}
                     value={textInput}
                     onChange={updateTextInput}
                     rows="9"
@@ -109,7 +112,6 @@ const FeedbackForm = ({ titleQuote, setShowFeedbackForm }) => {
                         disabled={
                             !feedbackType
                             || isFormSubmitted
-                            || !textInput
                             || textInput.length < 10
                         }
                     >
