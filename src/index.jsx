@@ -1,7 +1,6 @@
 import { render } from 'react-dom';
-import { createStore, applyMiddleware } from 'redux';
+import { createStore } from 'redux';
 import { Provider } from 'react-redux';
-import thunk from 'redux-thunk';
 import * as Sentry from '@sentry/browser';
 import profileInfo from './reducers';
 import ProfileApp from './ProfileApp';
