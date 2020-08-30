@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { useState, Fragment, useContext, useEffect } from 'react';
+import React, { useState, Fragment, useContext, useEffect } from 'react';
 import Tippy from '@tippy.js/react';
 import UrlContext from '../../index';
 import { handleFetch } from '../../utils';

@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import React, { Fragment } from 'react';
 import { useLoadingState } from '../../hooks';
 import ReplayInfo from './ReplayInfo';
 import TimelineArea from './TimelineArea';

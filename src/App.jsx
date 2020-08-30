@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { useAccount, useReplays, usePerformance, useTrends } from './hooks';
 import Page from './components/Page/Page';
 import './components/Page/CSS/Page.css';

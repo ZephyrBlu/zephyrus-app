@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { Fragment } from 'react';
+import React, { Fragment } from 'react';
 import { setSelectedReplayHash } from '../../actions';
 import './CSS/ReplayRecord.css';
 

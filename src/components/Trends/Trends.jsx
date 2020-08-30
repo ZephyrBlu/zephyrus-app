@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import {
     ComposedChart,
     Area,

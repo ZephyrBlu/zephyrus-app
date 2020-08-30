@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const TimelineTooltip = ({ payload, players, gameloop, timeline }) => {
     const [currentTimeout, setCurrentTimeout] = useState(false);

@@ -1,4 +1,4 @@
-import { useEffect, useState, Fragment } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import './CSS/TimelineState.css';
 
 const ObjectState = (props) => {

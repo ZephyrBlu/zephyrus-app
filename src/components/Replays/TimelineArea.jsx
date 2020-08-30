@@ -7,7 +7,7 @@ import {
     Line,
     ReferenceLine,
 } from 'recharts';
-import { Fragment, useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import RaceState from './RaceState';
 import ObjectState from './ObjectState';
 // import CurrentSelectionState from './CurrentSelectionState';

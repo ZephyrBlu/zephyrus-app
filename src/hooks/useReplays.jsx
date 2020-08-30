@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { setReplayInfo, setReplays } from '../actions';
 import UrlContext from '../index';
 import useFetch from './useFetch';
