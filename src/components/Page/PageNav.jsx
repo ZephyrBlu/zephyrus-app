@@ -1,3 +1,4 @@
+import React from 'react';
 import { Link } from '@reach/router';
 import NavIcon from './NavIcon';
 import './CSS/PageNav.css';
