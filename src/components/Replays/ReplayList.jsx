@@ -1,3 +1,4 @@
+import React from 'react';
 import ReplayRecord from './ReplayRecord';
 import './CSS/ReplayList.css';
 

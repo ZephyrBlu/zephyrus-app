@@ -44,9 +44,10 @@ module.exports = {
     }),
     react({
       hot: true,
+      publicPath: '/',
       html: {
         title: 'Zephyrus | SC2 Replay Analysis',
-        // template: 'src/template.ejs',
+        template: 'src/template.ejs',
       },
     }),
     (neutrino) => {

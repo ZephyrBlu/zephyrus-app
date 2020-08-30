@@ -80,7 +80,7 @@
 .ReplayRecord__compare-replay {
     margin-left: -5px;
     text-align: center;
-    background-color: var(--tertiary-background-light);
+    background-color: var(--primary-light-3);
     border-radius: 50%;
     border: none;
     width: 20px;
@@ -92,7 +92,7 @@
 .ReplayRecord__compare-replay:focus {
     outline: none;
     cursor: pointer;
-    box-shadow: 0 0 0 1px var(--light-blue) inset;
+    box-shadow: 0 0 0 1px var(--primary-blue) inset;
     border-radius: 50%;
 }
 

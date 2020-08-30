@@ -112,12 +112,15 @@ const ReplayRecord = ({ hash, stats, compareReplay }) => {
                             : stats[replayInfoField]}
                 </span>
             ))}
-            <button onClick={() => compareReplay(hash, 1)} className="ReplayRecord__compare-replay ReplayRecord__compare-replay--player1">
-                &#43;
-            </button>
-            <button onClick={() => compareReplay(hash, 2)} className="ReplayRecord__compare-replay ReplayRecord__compare-replay--player2">
-                &#43;
-            </button>
+            {selectedReplayHash && hash !== selectedReplayHash &&
+                <Fragment>
+                    <button onClick={() => compareReplay(hash, 1)} className="ReplayRecord__compare-replay ReplayRecord__compare-replay--player1">
+                        &#43;
+                    </button>
+                    <button onClick={() => compareReplay(hash, 2)} className="ReplayRecord__compare-replay ReplayRecord__compare-replay--player2">
+                        &#43;
+                    </button>
+                </Fragment>}
         </div>
     );
 };

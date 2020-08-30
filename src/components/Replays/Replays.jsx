@@ -53,6 +53,8 @@ const Replays = ({ visibleState }) => {
     const [splicedTimelineData, setSplicedTimelineData] = useState(null);
     const [cachedSplicedTimeline, setCachedSplicedTimeline] = useState(null);
 
+    console.log(comparisonPlayer, splicedTimelineData, cachedSplicedTimeline);
+
     useEffect(() => {
         if (!timelineState.data) {
             return;
@@ -163,15 +165,6 @@ const Replays = ({ visibleState }) => {
             ? state.raceData[state.selectedRace].replays
             : null
     ));
-
-    const dataStates = {
-        replayList: {
-            IN_PROGRESS: (<LoadingAnimation />),
-            SUCCESS: data => (<ReplayList replays={data} />),
-            NOT_FOUND: (<DefaultResponse content="We couldn't find any replays" />),
-            ERROR: (<DefaultResponse content="Something went wrong" />),
-        },
-    };
 
     const clanTagIndex = name => (
         name.indexOf('>') === -1 ? 0 : name.indexOf('>') + 1
@@ -323,7 +316,7 @@ const Replays = ({ visibleState }) => {
 
     useEffect(() => {
         const spliceComparisonTimeline = () => {
-            const splicedData = timelineState.data.map((gameState, index) => {
+            const splicedData = timelineState.data.data.map((gameState, index) => {
                 const gameStateCopy = JSON.parse(JSON.stringify(gameState));
                 gameStateCopy.comparison = comparisonTimelineData[index];
                 return gameStateCopy;
@@ -355,6 +348,26 @@ const Replays = ({ visibleState }) => {
         }
     };
 
+    const getComparisonPlayer = () => ({
+        id: comparisonPlayer,
+        name: selectedComparisonReplay.players[comparisonPlayer].name.slice(clanTagIndex(selectedComparisonReplay.players[comparisonPlayer].name)),
+        race: selectedComparisonReplay.players[comparisonPlayer].race,
+    });
+
+    const dataStates = {
+        replayList: {
+            IN_PROGRESS: (<LoadingAnimation />),
+            SUCCESS: data => (
+                <ReplayList
+                    replays={data}
+                    handleReplayComparison={handleReplayComparison}
+                />
+            ),
+            NOT_FOUND: (<DefaultResponse content="We couldn't find any replays" />),
+            ERROR: (<DefaultResponse content="Something went wrong" />),
+        },
+    };
+
     const replayListData = {
         data: replayInfo,
         ...replayListState,
@@ -376,6 +389,11 @@ const Replays = ({ visibleState }) => {
                     }}
                     timeline={{
                         ...timelineState.data,
+                        spliced: splicedTimelineData,
+                        comparison: {
+                            cached: cachedSplicedTimeline,
+                            player: selectedComparisonReplay ? getComparisonPlayer() : null,
+                        },
                         loading: timelineState.loadingState,
                         stat: timelineStat,
                         setStat: setTimelineStat,

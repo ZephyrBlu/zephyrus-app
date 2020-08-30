@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import React, { useEffect, useContext } from 'react';
+import { useEffect, useContext } from 'react';
 import { updateUserAccount } from '../utils';
 import UrlContext from '../index';
 

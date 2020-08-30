@@ -1,3 +1,4 @@
+import React from 'react';
 import Tippy from '@tippy.js/react';
 
 const InfoTooltip = ({ content, width, height, style }) => (

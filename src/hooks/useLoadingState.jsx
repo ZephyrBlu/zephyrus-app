@@ -1,4 +1,4 @@
-import React, { useRef, useCallback } from 'react';
+import { useRef, useCallback } from 'react';
 
 const useLoadingState = (currentState, returnValues) => {
     const _state = useRef(currentState);

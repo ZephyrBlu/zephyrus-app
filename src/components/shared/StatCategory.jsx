@@ -1,3 +1,4 @@
+import React from 'react';
 import ReplayStat from '../Replays/ReplayStat';
 import TrendStat from '../Performance/TrendStat';
 import InfoTooltip from './InfoTooltip';
