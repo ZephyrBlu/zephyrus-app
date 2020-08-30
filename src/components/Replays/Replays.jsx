@@ -262,6 +262,12 @@ const Replays = ({ visibleState }) => {
         }
 
         if (userReplays) {
+            setComparisonTimelineData(null);
+            setSplicedTimelineData(null);
+            setCachedSplicedTimeline(null);
+            setSelectedComparisonReplay(null);
+            setSelectedComparisonReplayHash(null);
+            setComparisonPlayer(null);
             getSelectedReplay();
         }
     }, [selectedReplayHash]);
