@@ -1,0 +1,222 @@
+.recharts-surface:hover {
+    cursor: pointer;
+}
+
+.TimelineArea__chart-area {
+    /* display: flex;
+    justify-content: space-between; */
+    display: grid;
+    grid-template: repeat(max-content, 4) / repeat(max-content, 3);
+    grid-template-areas:
+    'timeline timeline timeline chart-selector'
+    'collection-rate army-value resources-lost chart-selector';
+    grid-row-gap: 10px;
+    margin-bottom: 20px;
+}
+
+.TimelineArea__timeline {
+    grid-area: timeline;
+}
+
+.TimelineArea__chart-selector {
+    grid-area: chart-selector;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 130px;
+}
+
+.TimelineArea__chart-stat {
+    color: var(--text);
+    font-family: 'Roboto', sans-serif;
+    font-weight: 300;
+    font-size: 14px;
+    padding: 15px 10px;
+    margin-bottom: 10px;
+    display: grid;
+    place-items: center;
+    background-color: var(--primary-light-1);
+    border-radius: 20px;
+    border: none;
+}
+
+.TimelineArea__chart-stat:last-child {
+    margin: 0;
+}
+
+.TimelineArea__chart-stat:hover,
+.TimelineArea__chart-stat:focus {
+    cursor: pointer;
+    outline: none;
+    box-shadow: 0 0 0 2px var(--primary-blue) inset;
+}
+
+.TimelineArea__chart-stat--active {
+    box-shadow: 0 0 0 2px var(--primary-blue) inset;
+}
+
+/* .TimelineArea__summary-metrics {
+    display: flex;
+    padding: 0 10px;
+} */
+
+.TimelineArea__metric {
+    padding: 0 5px;
+}
+
+.TimelineArea__metric-chart {
+    margin: 0 auto;
+}
+
+.TimelineArea__metric--resource_collection_rate_all {
+    grid-area: collection-rate;
+}
+
+.TimelineArea__metric--total_army_value {
+    grid-area: army-value;
+}
+
+.TimelineArea__metric--_resources_lost {
+    grid-area: resources-lost;
+}
+
+.TimelineArea__metric-stat {
+    margin: 0 0 5px;
+    font-size: 18px;
+    font-weight: 400;
+    text-align: center;
+}
+
+.TimelineArea__metric-value {
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+.TimelineArea__metric-value:first-of-type {
+    margin-top: 0;
+}
+
+.TimelineArea__metric-value:last-of-type {
+    margin-bottom: 0;
+}
+
+.timeline-state__players {
+    display: grid;
+    grid-template-columns: 250px 1fr 250px;
+    grid-template-areas: 'timeline-state-player1 timeline-state-central timeline-state-player2';
+    margin: 10px 0;
+    margin-left: 15px;
+    padding-bottom: 5px;
+    border-bottom: 1px solid var(--primary-light-3);
+}
+
+.timeline-state__central {
+    align-self: flex-end;
+    align-items: flex-end;
+    justify-self: center;
+    display: grid;
+    grid-template-columns: 80px min-content 80px;
+}
+
+.timeline-state__current-time {
+    font-size: 32px;
+    margin: 0 10px;
+}
+
+.timeline-state__supply-value {
+    font-size: 16px;
+    text-align: center;
+}
+
+.timeline-state__supply-block-value {
+    font-size: 14px;
+    color: var(--grey);
+    text-align: center;
+}
+
+.timeline-state__player-supply--player1 {
+    text-align: right;
+}
+
+.timeline-state__player-supply--player2 {
+    text-align: left;
+}
+
+.timeline-state__player {
+    display: flex;
+    align-items: center;
+    width: max-content;
+    font-size: 24px;
+}
+
+.timeline-state__player--player1 {
+    grid-area: timeline-state-player1;
+    justify-self: flex-start;
+}
+
+.timeline-state__player--player2 {
+    grid-area: timeline-state-player2;
+    justify-self: flex-end;
+}
+
+.timeline-state__player-info * {
+    display: block;
+}
+
+.timeline-state__player-mmr {
+    font-size: 16px;
+    color: var(--grey);
+}
+
+.timeline-state__race-icon {
+    height: 50px;
+    width: 50px;
+}
+
+#tooltip {
+    height: max-content;
+    margin: 0 30px;
+    padding: 10px;
+    border-radius: 15px;
+    background-color: hsla(209, 77%, 14%, 0.9);
+}
+
+/* putting rendered charts at the back */
+.TimelineArea__metric-chart .recharts-wrapper {
+    z-index: -1;
+}
+
+.tooltip__content {
+    padding: 0;
+    margin: 0;
+}
+
+.tooltip__current-time {
+    font-size: 24px;
+}
+
+.tooltip__player--player1 {
+    padding-right: 10px;
+}
+
+.tooltip__player--player2 {
+
+}
+
+.tooltip__player {
+    text-align: center;
+    font-size: 18px;
+}
+
+.tooltip__player-indicator {
+    margin-right: 5px;
+    margin-bottom: 2px;
+}
+
+.tooltip__stat-name {
+    padding-right: 10px;
+}
+
+.tooltip__stat-values {
+    text-align: center;
+}
