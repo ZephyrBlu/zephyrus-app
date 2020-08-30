@@ -88,7 +88,11 @@ const Trends = () => {
             };
             trendData.replays.forEach((replay) => {
                 if ((trendsMatchup === 'all' || trendsMatchup === replay.matchup) && (selectedMatchLength === 'all' || selectedMatchLength === replay.stage)) {
-                    replay.win ? replays.wins += 1 : replays.losses += 1;
+                    if (replay.win) {
+                        replays.wins += 1;
+                    } else {
+                        replays.losses += 1;
+                    }
                 }
             });
 
@@ -402,7 +406,9 @@ const Trends = () => {
     const checkTrendsLoadingState = () => {
         if (currentTrends) {
             return 'SUCCESS';
-        } else if (currentTrends === false) {
+        }
+
+        if (currentTrends === false) {
             return 'ERROR';
         }
         return 'IN_PROGRESS';

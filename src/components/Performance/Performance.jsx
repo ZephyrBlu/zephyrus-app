@@ -306,7 +306,9 @@ const Performance = () => {
     const checkTrendsLoadingState = () => {
         if (currentPerformance) {
             return 'SUCCESS';
-        } else if (currentPerformance === false) {
+        }
+
+        if (currentPerformance === false) {
             return 'ERROR';
         }
         return 'IN_PROGRESS';

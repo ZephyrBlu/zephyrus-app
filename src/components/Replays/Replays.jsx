@@ -45,6 +45,14 @@ const Replays = ({ visibleState }) => {
     const [currentGameloop, setCurrentGameloop] = useState(0);
     const [metrics, setMetrics] = useState(null);
 
+    // replay comparison state
+    const [selectedComparisonReplay, setSelectedComparisonReplay] = useState(null);
+    const [selectedComparisonReplayHash, setSelectedComparisonReplayHash] = useState(null);
+    const [comparisonPlayer, setComparisonPlayer] = useState(null);
+    const [comparisonTimelineData, setComparisonTimelineData] = useState(null);
+    const [splicedTimelineData, setSplicedTimelineData] = useState(null);
+    const [cachedSplicedTimeline, setCachedSplicedTimeline] = useState(null);
+
     useEffect(() => {
         if (!timelineState.data) {
             return;
@@ -264,6 +272,88 @@ const Replays = ({ visibleState }) => {
             getSelectedReplay();
         }
     }, [selectedReplayHash]);
+
+    useEffect(() => {
+        const getSelectedComparisonReplay = () => {
+            userReplays.forEach((replay) => {
+                if (replay.file_hash === selectedComparisonReplayHash) {
+                    setSelectedComparisonReplay(replay);
+                }
+            });
+        };
+
+        const getReplayTimeline = async () => {
+            setComparisonTimelineData([]);
+            const comparisonUrl = `${urlPrefix}api/replays/timeline/${selectedComparisonReplayHash}/`;
+            const timelineUrlResponse = await fetch(comparisonUrl, {
+                method: 'GET',
+                headers: {
+                    Authorization: `Token ${user.token}`,
+                    'Accept-Encoding': 'gzip',
+                },
+            }).then(response => (
+                response.json()
+            )).then(responseBody => (
+                responseBody
+            )).catch(() => null);
+
+            if (timelineUrlResponse) {
+                const newTimelineUrl = timelineUrlResponse.timeline_url;
+                const data = await fetch(
+                    newTimelineUrl,
+                    { method: 'GET' },
+                ).then(response => (
+                    response.json()
+                )).then(responseBody => (
+                    responseBody
+                )).catch(() => null);
+
+                setComparisonTimelineData(data.timeline);
+            }
+        };
+
+        if (userReplays && (userReplays.length > 0)) {
+            getSelectedComparisonReplay();
+        }
+
+        if (selectedComparisonReplayHash) {
+            getReplayTimeline();
+        }
+    }, [selectedComparisonReplayHash]);
+
+    useEffect(() => {
+        const spliceComparisonTimeline = () => {
+            const splicedData = timelineState.data.map((gameState, index) => {
+                const gameStateCopy = JSON.parse(JSON.stringify(gameState));
+                gameStateCopy.comparison = comparisonTimelineData[index];
+                return gameStateCopy;
+            });
+            const timeline = {};
+            splicedData.forEach((gamestate) => {
+                timeline[gamestate[1].gameloop] = gamestate;
+            });
+            setCachedSplicedTimeline(timeline);
+            setSplicedTimelineData(splicedData);
+        };
+
+        if (selectedComparisonReplayHash) {
+            spliceComparisonTimeline();
+        }
+    }, [timelineState, comparisonTimelineData]);
+
+    const handleReplayComparison = (fileHash, player) => {
+        if (selectedComparisonReplayHash === fileHash && comparisonPlayer === player) {
+            setComparisonTimelineData(null);
+            setSplicedTimelineData(null);
+            setCachedSplicedTimeline(null);
+            setSelectedComparisonReplay(null);
+            setSelectedComparisonReplayHash(null);
+            setComparisonPlayer(null);
+        } else {
+            setSelectedComparisonReplayHash(fileHash);
+            setComparisonPlayer(player);
+        }
+    };
 
     const replayListData = {
         data: replayInfo,

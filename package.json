@@ -20,7 +20,8 @@
     "react-hot-loader": "^4.12.10",
     "react-redux": "^7.1.0",
     "recharts": "^1.7.1",
-    "redux": "^4.0.4"
+    "redux": "^4.0.4",
+    "reselect": "^4.0.0"
   },
   "devDependencies": {
     "@neutrinojs/airbnb": "^9.4.0",

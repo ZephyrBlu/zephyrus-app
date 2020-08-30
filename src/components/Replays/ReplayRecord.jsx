@@ -3,16 +3,16 @@ import { Fragment } from 'react';
 import { setSelectedReplayHash } from '../../actions';
 import './CSS/ReplayRecord.css';
 
-const ReplayRecord = ({ hash, stats }) => {
+const ReplayRecord = ({ hash, stats, compareReplay }) => {
     const dispatch = useDispatch();
     const selectedReplayHash = useSelector(state => state.selectedReplayHash);
 
-    const handleReplaySelection = async (e) => {
+    const handleReplaySelection = (e) => {
         // return when we just want to compare a replay
         if (e.target.classList.contains('ReplayRecord__compare-replay')) {
             return;
         }
-        dispatch(setSelectedReplayHash(props.hash));
+        dispatch(setSelectedReplayHash(hash));
     };
 
     const handleKeyDown = (key) => {
@@ -49,13 +49,21 @@ const ReplayRecord = ({ hash, stats }) => {
         if (date.indexOf('*') !== -1) {
             const [start, fraction] = formatString();
             return `${start.trim()}${fraction} Months ago`;
-        } else if (date.slice(1, 2) === 'm') {
+        }
+
+        if (date.slice(1, 2) === 'm') {
             return `${date.slice(0, 1)} Months ago`;
-        } else if (date.slice(2, 3) === 'm') {
+        }
+
+        if (date.slice(2, 3) === 'm') {
             return `${date.slice(0, 2)} Months ago`;
-        } else if (date.slice(1, 2) === 'w') {
+        }
+
+        if (date.slice(1, 2) === 'w') {
             return `${date.slice(0, 1)} Weeks Ago`;
-        } else if (date.slice(1, 2) === 'd') {
+        }
+
+        if (date.slice(1, 2) === 'd') {
             return `${date.slice(0, 1)} Days Ago`;
         }
         return date;
@@ -101,14 +109,13 @@ const ReplayRecord = ({ hash, stats }) => {
                         :
                         replayInfoField === 'date'
                             ? formatDate(stats[replayInfoField])
-                            : stats[replayInfoField]
-                    }
+                            : stats[replayInfoField]}
                 </span>
             ))}
-            <button onClick={() => props.compareReplay(props.hash, 1)} className="ReplayRecord__compare-replay ReplayRecord__compare-replay--player1">
+            <button onClick={() => compareReplay(hash, 1)} className="ReplayRecord__compare-replay ReplayRecord__compare-replay--player1">
                 &#43;
             </button>
-            <button onClick={() => props.compareReplay(props.hash, 2)} className="ReplayRecord__compare-replay ReplayRecord__compare-replay--player2">
+            <button onClick={() => compareReplay(hash, 2)} className="ReplayRecord__compare-replay ReplayRecord__compare-replay--player2">
                 &#43;
             </button>
         </div>

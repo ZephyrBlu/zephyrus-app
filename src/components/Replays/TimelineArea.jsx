@@ -223,8 +223,7 @@ const TimelineArea = ({ metrics, timeline, gameloop, players, visibleState }) =>
                                             alt={player.race}
                                             className="timeline-state__race-icon"
                                         />
-                                    </Fragment>
-                                }
+                                    </Fragment>}
                             </div>
                         ))}
                     </div>

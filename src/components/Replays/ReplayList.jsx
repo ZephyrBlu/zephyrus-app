@@ -1,7 +1,7 @@
 import ReplayRecord from './ReplayRecord';
 import './CSS/ReplayList.css';
 
-const ReplayList = ({ replays }) => (
+const ReplayList = ({ replays, handleReplayComparison }) => (
     <section className="ReplayList">
         {replays.map((replayInfo) => {
             const stats = replayInfo;
@@ -12,7 +12,7 @@ const ReplayList = ({ replays }) => (
                     key={fileHash}
                     hash={fileHash}
                     stats={newStats}
-                    compareReplay={props.handleReplayComparison}
+                    compareReplay={handleReplayComparison}
                 />
             );
         })}

@@ -30,6 +30,7 @@ module.exports = {
           "jsx-a11y/mouse-events-have-key-events": 0,
           "jsx-a11y/label-has-for": 0,
           "jsx-a11y/anchor-is-valid": 0,
+          "jsx-a11y/label-has-associated-control": 0,
           "react/no-array-index-key": 0,
           "prefer-destructuring": ["error", {"object": false, "array": false}],
           "no-unused-expressions": ["error", { "allowTernary": true }],
@@ -37,13 +38,15 @@ module.exports = {
           "arrow-parens": [2, "as-needed", { "requireForBlockBody": true }],
           "object-curly-newline": ["error", { "multiline": true }],
           "no-underscore-dangle": 0,
+          "import/no-cycle": 0,
         }
       }
     }),
     react({
+      hot: true,
       html: {
         title: 'Zephyrus | SC2 Replay Analysis',
-        template: 'src/template.ejs',
+        // template: 'src/template.ejs',
       },
     }),
     (neutrino) => {

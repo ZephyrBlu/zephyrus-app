@@ -1,6 +1,6 @@
 import ReplayStat from '../Replays/ReplayStat';
 import TrendStat from '../Performance/TrendStat';
-import InfoTooltip from '../shared/InfoTooltip';
+import InfoTooltip from './InfoTooltip';
 import './CSS/StatCategory.css';
 
 const StatCategory = ({ type, category, replayInfo, trends, recentPercentDiff }) => {

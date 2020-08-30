@@ -30,9 +30,13 @@ const TimelineTooltip = ({ payload, players, gameloop, timeline }) => {
     const checkSelectedStat = (stat) => {
         if (stat.includes('collection_rate')) {
             return 'Collection Rate';
-        } else if (stat.includes('army_value')) {
+        }
+
+        if (stat.includes('army_value')) {
             return 'Army Value';
-        } else if (stat.includes('resources_lost')) {
+        }
+
+        if (stat.includes('resources_lost')) {
             return 'Resources Lost';
         }
         return false;
@@ -61,11 +65,6 @@ const TimelineTooltip = ({ payload, players, gameloop, timeline }) => {
     }
 
     let content;
-    const playerColours = {
-        1: 'red',
-        2: 'blue',
-    };
-
     if (payload.length > 0 && players && timeline.state) {
         content = (
             <div className="tooltip">

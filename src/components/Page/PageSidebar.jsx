@@ -97,13 +97,11 @@ const PageSidebar = ({ pages }) => {
                 className="PageSidebar__logout"
                 onMouseEnter={() => setHoverState(prevState => ({ ...prevState, Logout: true }))}
                 onMouseLeave={() => (isHoverStateFixed ?
-                    null : setHoverState(prevState => ({ ...prevState, Logout: false })))
-                }
+                    null : setHoverState(prevState => ({ ...prevState, Logout: false })))}
                 // onMouseMove={() => (hoverState ? null : setHoverState(true))}
                 onFocus={() => setHoverState(prevState => ({ ...prevState, Logout: true }))}
                 onBlur={() => (isHoverStateFixed ?
-                    null : setHoverState(prevState => ({ ...prevState, Logout: false })))
-                }
+                    null : setHoverState(prevState => ({ ...prevState, Logout: false })))}
                 onClick={handleLogout}
                 style={hoverState.Logout ?
                     {

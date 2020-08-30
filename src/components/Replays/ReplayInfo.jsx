@@ -20,8 +20,7 @@ const ReplayInfo = ({ replay, clanTagIndex }) => {
                 {replay.win ?
                     <span className="ReplayInfo__result--win">Win</span>
                     :
-                    <span className="ReplayInfo__result--loss">Loss</span>
-                }
+                    <span className="ReplayInfo__result--loss">Loss</span>}
                 {`\xa0\xa0\xa0\xa0${Math.ceil(replay.match_length / 60)} min`}
             </span>
             <div className="ReplayInfo__players">
