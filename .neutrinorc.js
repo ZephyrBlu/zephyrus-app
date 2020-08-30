@@ -7,14 +7,6 @@ module.exports = {
     output: 'build',
   },
   use: [
-    // ['@neutrinojs/dev-server', {
-    //   publicPath: '/',
-    //   headers: {
-    //     stats: {
-    //       publicPath: true,
-    //     },
-    //   },
-    // }],
     airbnb({
       eslint: {
         rules: {
@@ -39,10 +31,12 @@ module.exports = {
           "jsx-a11y/label-has-for": 0,
           "jsx-a11y/anchor-is-valid": 0,
           "react/no-array-index-key": 0,
-          "prefer-destructuring": ["error", {"object": false, "array": true}],
+          "prefer-destructuring": ["error", {"object": false, "array": false}],
           "no-unused-expressions": ["error", { "allowTernary": true }],
           "no-param-reassign": ["error", { "props": false }],
           "arrow-parens": [2, "as-needed", { "requireForBlockBody": true }],
+          "object-curly-newline": ["error", { "multiline": true }],
+          "no-underscore-dangle": 0,
         }
       }
     }),

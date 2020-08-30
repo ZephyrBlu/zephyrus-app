@@ -1,5 +1,5 @@
 .idea/
-source images/
+Blizzard Icons/
 node_modules/
 build/
 .env*

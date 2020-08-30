@@ -1,0 +1,188 @@
+.Page {
+    display: grid;
+    margin: 0;
+    height: 100vh;
+    grid-template: min-content 1fr / min-content 1fr;
+    grid-template-areas:
+    'header header'
+    'page-sidebar page-content';
+}
+
+.Page__header {
+    grid-area: header;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 60px;
+    width: 100%;
+    background-color: var(--primary-dark-2);
+    color: var(--text);
+    border-bottom: 1px solid var(--primary-light-3);
+}
+
+.Page__page-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 32px;
+    padding: 0 25px;
+    margin: 0 25px;
+    border-left: 2px solid var(--primary-light-3);
+    border-right: 2px solid var(--primary-light-3);
+}
+
+.Page__page-info--Replays {
+    width: 175px;
+}
+
+.Page__page-info--Trends {
+    width: 165px;
+}
+
+.Page__page-info--Performance {
+    width: 230px;
+}
+
+.Page__page-info--Upload {
+    width: 255px;
+}
+
+.Page__page-name {
+    display: inline-block;
+    margin: 0;
+    font-size: 24px;
+    margin-right: 10px;
+}
+
+.Page__data-info {
+    margin: 0;
+    width: 81px;
+    text-align: center;
+    display: inline-block;
+    color: var(--grey);
+    font-size: 24px;
+}
+
+.Page__feedback {
+    padding-left: 25px;
+    margin-left: 25px;
+    border-left: 2px solid var(--primary-light-3);
+    height: 32px;
+    display: flex;
+    font-weight: 400;
+    flex-direction: row;
+    align-items: center;
+}
+
+.Page__show-vote {
+    padding: 8px 12px;
+    padding-right: 6px;
+    background-color: var(--primary-blue);
+    border-radius: 8px;
+    border: none;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    transition: .3s;
+}
+
+.Page__show-vote:hover,
+.Page__show-vote:focus {
+    outline: none;
+    cursor: pointer;
+    background-color: var(--primary-blue-hover);
+}
+
+.Page__feature-vote-arrow {
+    width: 20px;
+    height: 20px;
+    transform: rotate(90deg);
+}
+
+.tippy-backdrop {
+    background-color: var(--primary-light-1);
+}
+
+.Page__feature-vote-content {
+    padding: 10px 30px 20px;
+    border-radius: 15px;
+}
+
+.Page__logout {
+    text-decoration: underline;
+    font-size: 18px;
+    width: max-content;
+    margin: 0 auto;
+    margin-right: 30px;
+    border: none;
+    background-color: transparent;
+    font-weight: 300;
+    font-family: 'Roboto', sans-serif;
+}
+
+.Page__logout:hover {
+    cursor: pointer;
+}
+
+.Page__logout,
+.Page__logout:visited {
+    color: var(--text);
+}
+
+.Page__page-content {
+    grid-area: page-content;
+    display: inline-block;
+    margin: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+}
+
+.Page__page-content--Login .Router {
+    height: 100%;
+}
+
+.Page__page-content--Login {
+    overflow-y: hidden;
+    margin-right: 0;
+}
+
+.Page__page-content--Replays {
+    margin-right: 0;
+}
+
+.Page__page-content--Replays .Router {
+    height: 100%;
+}
+
+.Page__hide-wrapper {
+    width: max-content;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.Page__hide-side-bar {
+    padding: 0;
+    border: none;
+    height: 35px;
+    border-radius: 50% 0 0 50%;
+    background-color: inherit;
+}
+
+.Page__hide-side-bar:hover,
+.Page__hide-side-bar:focus {
+    outline: none;
+    cursor: pointer;
+}
+
+.Page__hide-icon {
+    padding: 0;
+    border-radius: 50% 0 0 50%;
+    height: 35px;
+}

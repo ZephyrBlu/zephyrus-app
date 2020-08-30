@@ -1,0 +1,262 @@
+.Trends {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100%;
+}
+
+.Trends__title {
+    display: inline-block;
+    font-size: 32px;
+    margin: 0 10px;
+}
+
+.Trends__title-stat {
+    font-size: 28px;
+    margin: 10px 10px 0;
+}
+
+.Trends__title-value {
+    height: 25px;
+    width: -webkit-max-content;
+    width: -moz-max-content;
+    width: max-content;
+    min-width: 20px;
+    padding: 4px 8px;
+    margin: 0 8px;
+    font-size: 24px;
+    font-weight: 400;
+    text-align: center;
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    border-radius: 5px;
+    background-color: var(--primary-light-2);
+}
+
+.Trends__title-value--first {
+    margin-left: 0;
+}
+
+.Trends__title-text {
+    font-size: 18px;
+}
+
+.Trends__season {
+    margin: 20px 4% 40px;
+}
+
+.Trends__season-stats {
+}
+
+.Trends__season-stats--default {
+    display: inline-block;
+    text-align: center;
+    width: 100%;
+}
+
+.Trends__season-stat-wrapper {
+    display: inline-block;
+    height: max-content;
+    padding: 20px;
+    background-color: var(--secondary-dark-2);
+    border-radius: 25px;
+}
+
+.Trends__season-stat-wrapper--mmr {
+    grid-area: trends-mmr;
+}
+
+.Trends__season-stat-wrapper--match_length {
+    grid-area: trends-match_length;
+}
+
+.Trends__season-stat-wrapper--apm {
+    grid-area: trends-apm;
+}
+
+.Trends__season-stat-wrapper--spm {
+    grid-area: trends-spm;
+}
+
+.Trends__season-stat-wrapper--sq {
+    grid-area: trends-sq;
+}
+
+.Trends__season-stat-wrapper--supply_block {
+    grid-area: trends-supply_block;
+}
+
+.Trends__season-stat-wrapper--workers_produced {
+    grid-area: trends-workers_produced;
+}
+
+.Trends__season-stat-wrapper--workers_killed_lost_diff {
+    grid-area: trends-workers_killed_lost_diff;
+}
+
+.Trends__season-stat-wrapper--workers_killed {
+    grid-area: trends-workers_killed;
+}
+
+.Trends__season-stat-wrapper--workers_lost {
+    grid-area: trends-workers_lost;
+}
+
+.Trends__season-stat {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 18px;
+}
+
+.Trends__season-stat-data {
+    display: flex;
+    align-items: center;
+}
+
+.Trends__season-stat-name {
+    font-size: 24px;
+    display: flex;
+    align-items: center;
+    margin: 0;
+    margin-right: 20px;
+}
+
+.Trends__season-stat-value {
+    display: inline-block;
+    margin: 0 0 -2px;
+    font-size: 18px;
+}
+
+.Trends__season-stat-description {
+    margin: 0;
+}
+
+.Trends__season-stat-controls--global {
+    margin: 20px 0;
+}
+
+.Trends__season-stat-controls--stats {
+    margin-bottom: 30px;
+}
+
+.Trends__season-stat-options-wrapper {
+    margin-right: 40px;
+}
+
+.Trends__season-stat-option {
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    height: 30px;
+    width: 80px;
+    margin: 0 10px;
+    text-align: center;
+    padding: 5px 8px;
+    background-color: transparent;
+    color: var(--text);
+    border: 2px solid transparent;
+    border-radius: 15px;
+    transition: .3s;
+}
+
+.Trends__season-stat-option--stats,
+.Trends__season-stat-option--length {
+    min-width: 80px;
+    width: max-content;
+    padding: 5px 10px;
+}
+
+.Trends__season-stat-option:hover,
+.Trends__season-stat-option:focus {
+    outline: none;
+    cursor: pointer;
+}
+
+.Trends__season-stat-option--type.Trends__season-stat-option--active,
+.Trends__season-stat-option--type:hover,
+.Trends__season-stat-option--type:focus,
+.Trends__season-stat-option--stats.Trends__season-stat-option--active,
+.Trends__season-stat-option--stats:hover,
+.Trends__season-stat-option--stats:focus,
+.Trends__season-stat-option--length.Trends__season-stat-option--active,
+.Trends__season-stat-option--length:hover,
+.Trends__season-stat-option--length:focus {
+    background-color: var(--primary-light-2);
+}
+
+.Trends__season-stat-option--matchup.Trends__season-stat-option--all.Trends__season-stat-option--active,
+.Trends__season-stat-option--matchup.Trends__season-stat-option--all:hover,
+.Trends__season-stat-option--matchup.Trends__season-stat-option--all:focus {
+    border-color: transparent;
+    background-color: var(--primary-light-2);
+}
+
+.Trends__season-stat-option--protoss,
+.Trends__season-stat-option--zerg,
+.Trends__season-stat-option--terran {
+    color: transparent;
+    background-color: var(--primary-dark-1);
+}
+
+.Trends__season-stat-option--protoss {
+    border-color: var(--protoss);
+}
+
+.Trends__season-stat-option--zerg {
+    border-color: var(--zerg);
+}
+
+.Trends__season-stat-option--terran {
+    border-color: var(--terran);
+}
+
+.Trends__season-stat-option--protoss.Trends__season-stat-option--active,
+.Trends__season-stat-option--protoss:hover,
+.Trends__season-stat-option--protoss:focus {
+    background-color: var(--protoss);
+}
+
+.Trends__season-stat-option--zerg.Trends__season-stat-option--active,
+.Trends__season-stat-option--zerg:hover,
+.Trends__season-stat-option--zerg:focus {
+    background-color: var(--zerg);
+}
+
+.Trends__season-stat-option--terran.Trends__season-stat-option--active,
+.Trends__season-stat-option--terran:hover,
+.Trends__season-stat-option--terran:focus {
+    background-color: var(--terran);
+}
+
+@media(max-width: 1500px) {
+    .Trends__season-stat-name {
+        font-size: 18px;
+    }
+
+    .Trends__season-stat-value {
+        margin: 0 0 -1px;
+        font-size: 16px;
+    }
+}
+
+@media(max-width: 1400px) {
+    .Trends__season-stat-option--stat {
+        width: 65px;
+        margin: 0 5px;
+    }
+}
+
+@media(max-width: 1300px) {
+    .Trends__season-stat-option--stat {
+        width: 50px;
+    }
+}
+
+@media(max-width: 1200px) {
+    .Trends__season-stat-name {
+        margin-right: 10px;
+    }
+}
+

@@ -1,0 +1,120 @@
+.FeedbackForm__title-quote {
+    font-size: 24px;
+    margin: 0;
+    color: var(--text);
+}
+
+.FeedbackForm__quote-unit {
+    font-size: 16px;
+    font-weight: 400;
+    margin: 0;
+    color: var(--dark-grey);
+}
+
+.FeedbackForm__info {
+    font-size: 14px;
+    color: var(--text);
+    margin: 15px 0 0;
+}
+
+.FeedbackForm__select-feedback-type {
+    margin: 20px 0;
+}
+
+.FeedbackForm__feedback-type {
+    border: none;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 400;
+    font-size: 16px;
+    color: var(--dark-grey);
+    padding: 15px;
+    width: 175px;
+    margin: 0 5px;
+    transition: .3s;
+}
+
+.FeedbackForm__feedback-type:hover {
+    cursor: pointer;
+}
+
+.FeedbackForm__feedback-type:disabled.FeedbackForm__feedback-type:hover {
+    cursor: not-allowed;
+}
+
+.FeedbackForm__feedback-type--issue {
+    border-radius: 15px 5px 5px 15px;
+    background-color: hsla(0, 70%, 25%, 0.4);
+}
+
+.FeedbackForm__feedback-type--suggestion {
+    border-radius: 5px 15px 15px 5px;
+    background-color: hsla(120, 75%, 25%, 0.4);
+}
+
+.FeedbackForm__feedback-type--issue.FeedbackForm__feedback-type--active,
+.FeedbackForm__feedback-type--issue.FeedbackForm__feedback-type:focus {
+    outline: none;
+    background-color: hsla(0, 70%, 25%, 1);
+    color: var(--text);
+}
+
+.FeedbackForm__feedback-type--suggestion.FeedbackForm__feedback-type--active,
+.FeedbackForm__feedback-type--suggestion.FeedbackForm__feedback-type:focus {
+    outline: none;
+    background-color: hsla(120, 75%, 25%, 1);
+    color: var(--text);
+}
+
+.FeedbackForm__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.FeedbackForm__text-input {
+    border-radius: 8px;
+    border: none;
+    resize: none;
+    padding: 4px;
+    margin: 0 0 20px;
+}
+
+.FeedbackForm__submit-wrapper {
+    width: 75%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.FeedbackForm__form-submit {
+    border: none;
+    border-radius: 8px;
+    background-color: var(--primary-blue);
+    padding: 12px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: 500;
+    font-size: 16px;
+    height: 44px;
+    width: 75%;
+    transition: .5s;
+}
+
+.FeedbackForm__form-submit:hover,
+.FeedbackForm__form-submit:focus {
+    outline: none;
+    cursor: pointer;
+    background-color: var(--primary-blue-hover);
+}
+
+.FeedbackForm__form-submit:disabled {
+    background-color: var(--secondary-dark-2);
+    color: var(--light-grey);
+}
+
+.FeedbackForm__form-submit:disabled:hover {
+    cursor: not-allowed;
+}
+
+.FeedbackForm__message {
+    margin: 10px 0 -10px;
+}

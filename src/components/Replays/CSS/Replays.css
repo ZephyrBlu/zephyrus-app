@@ -1,0 +1,22 @@
+.Replays {
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 530px;
+    grid-template-areas: 'main-content sidebar';
+    overflow: hidden;
+}
+
+.Replays__main-content {
+    grid-area: main-content;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 5px 5px 20px;
+    padding-left: 0;
+}
+
+.Replays__sidebar {
+    grid-area: sidebar;
+    overflow-y: hidden;
+    border-left: 1px solid var(--primary-light-3);
+    background-color: var(--primary-dark-2);
+}

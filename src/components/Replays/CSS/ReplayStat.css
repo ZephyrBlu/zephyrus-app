@@ -1,0 +1,88 @@
+.ReplayStat__stat--last {
+    margin: 0;
+}
+
+.ReplayStat__stat-title {
+    grid-area: replay-stat-title;
+    margin: 0 0 8px;
+    font-size: 20px;
+}
+
+.ReplayStat__player-header {
+    width: 40px;
+    height: 40px;
+    text-align: center;
+}
+
+.ReplayStat__stat-value {
+    grid-area: replay-stat-info;
+    margin-top: 2px;
+    width: 40px;
+    height: 40px;
+    text-align: center;
+    border: 1px solid var(--primary-light-3);
+}
+
+.ReplayStat__stat-value--win {
+    background-color: var(--green-highlight);
+}
+
+.ReplayStat__stat-value--last {
+    margin-bottom: 0;
+}
+
+.ReplayStat__user-identifier {
+    color: var(--grey);
+    font-size: 14px;
+    margin-top: 2px;
+    width: max-content; 
+    justify-self: center;
+}
+
+.ReplayStat__user-identifier--1 {
+    grid-area: 3 / 1 / 4 / 2;
+}
+
+.ReplayStat__user-identifier--2 {
+    grid-area: 3 / 2 / 4 / 3;
+}
+
+@media (max-width: 1400px) {
+    .ReplayStat__stat-title {
+        font-size: 18px;
+    }
+
+    .ReplayStat__stat-value {
+        font-size: 16px;
+    }
+}
+
+@media (max-width: 1350px) {
+    .ReplayStat__stat-title {
+        font-size: 16px;
+    }
+
+    .ReplayStat__stat-value {
+        font-size: 16px;
+    }
+}
+
+.ReplayStat__stat-value--avg_pac_action_latency-win,
+.ReplayStat__stat-value--avg_pac_gap-win,
+.ReplayStat__stat-value--workers_lost-win,
+.ReplayStat__stat-value--avg_unspent_resources_minerals-win,
+.ReplayStat__stat-value--avg_unspent_resources_gas-win,
+.ReplayStat__stat-value--resources_lost_minerals-win,
+.ReplayStat__stat-value--resources_lost_gas-win {
+    background-color: transparent;
+}
+
+.ReplayStat__stat-value--avg_pac_action_latency-loss,
+.ReplayStat__stat-value--avg_pac_gap-loss,
+.ReplayStat__stat-value--workers_lost-loss,
+.ReplayStat__stat-value--avg_unspent_resources_minerals-loss,
+.ReplayStat__stat-value--avg_unspent_resources_gas-loss,
+.ReplayStat__stat-value--resources_lost_minerals-loss,
+.ReplayStat__stat-value--resources_lost_gas-loss {
+    background-color: var(--green-highlight);
+}

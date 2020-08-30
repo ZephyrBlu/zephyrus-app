@@ -1,40 +1,33 @@
 import { combineReducers } from 'redux';
 import {
     SET_USER,
-    SET_DEFAULT_USER,
+    SET_INITIAL_USER,
     SET_SELECTED_RACE,
     SET_REPLAYS,
     SET_REPLAY_INFO,
+    SET_STATS,
     SET_TRENDS,
-    SET_REPLAY_COUNT,
     SET_SELECTED_REPLAY_HASH,
     SET_FIXED_HOVER_STATE,
+    LOGOUT_RESET,
 } from './actions';
 
 const races = ['protoss', 'terran', 'zerg'];
-const raceDefaultState = { replays: null, trends: null, count: 0 };
+const raceDefaultState = { replays: null, stats: null, trends: null };
 const raceDataDefaultState = {};
 
 races.forEach((race) => {
     raceDataDefaultState[race] = raceDefaultState;
 });
 
-const defaultUserState = {
-    email: null,
-    verified: false,
-    battlenet_accounts: null,
-    token: null,
-    main_race: null,
-};
-
-const user = (state = defaultUserState, action) => {
+const user = (state = null, action) => {
     // checks if the state shape is fresh/loading from
     // localStorage or is being fetched from hook
     // then handles appropriately
     const handleStateShape = (currentState) => {
         // if snake case key exists, then fresh state
         // else hook fetching
-        if ('battlenet_accounts' in currentState) {
+        if (currentState && ('battlenet_accounts' in currentState)) {
             const { battlenet_accounts, main_race, ...userInfo } = currentState;
             return {
                 ...userInfo,
@@ -47,10 +40,11 @@ const user = (state = defaultUserState, action) => {
 
     switch (action.type) {
         case SET_USER:
+        case SET_INITIAL_USER:
             return handleStateShape(action.user);
 
-        case SET_DEFAULT_USER:
-            return defaultUserState;
+        case LOGOUT_RESET:
+            return null;
 
         default:
             return handleStateShape(state);
@@ -60,7 +54,11 @@ const user = (state = defaultUserState, action) => {
 const selectedRace = (state = null, action) => {
     switch (action.type) {
         case SET_SELECTED_RACE:
+        case SET_INITIAL_USER:
             return action.selectedRace;
+
+        case LOGOUT_RESET:
+            return null;
 
         default:
             return state;
@@ -70,31 +68,28 @@ const selectedRace = (state = null, action) => {
 const raceData = (state = raceDataDefaultState, action) => {
     switch (action.type) {
         case SET_REPLAYS:
-            return {
-                ...state,
-                [action.race]: {
-                    ...state[action.race],
-                    replays: action.replays,
-                },
-            };
+            Object.entries(action.data).forEach(([race, info]) => {
+                info.stats = state[race].stats;
+                info.trends = state[race].trends;
+            });
+            return { ...state, ...action.data };
+
+        case SET_STATS:
+            Object.entries(action.data).forEach(([race, info]) => {
+                info.replays = state[race].replays;
+                info.trends = state[race].trends;
+            });
+            return { ...state, ...action.data };
 
         case SET_TRENDS:
-            return {
-                ...state,
-                [action.race]: {
-                    ...state[action.race],
-                    trends: action.trends,
-                },
-            };
+            Object.entries(action.data).forEach(([race, info]) => {
+                info.replays = state[race].replays;
+                info.stats = state[race].stats;
+            });
+            return { ...state, ...action.data };
 
-        case SET_REPLAY_COUNT:
-            return {
-                ...state,
-                [action.race]: {
-                    ...state[action.race],
-                    count: action.count,
-                },
-            };
+        case LOGOUT_RESET:
+            return raceDataDefaultState;
 
         default:
             return state;
@@ -106,6 +101,9 @@ const replayInfo = (state = [], action) => {
         case SET_REPLAY_INFO:
             return action.replayInfo;
 
+        case LOGOUT_RESET:
+            return [];
+
         default:
             return state;
     }
@@ -115,6 +113,9 @@ const selectedReplayHash = (state = null, action) => {
     switch (action.type) {
         case SET_SELECTED_REPLAY_HASH:
             return action.replayHash;
+
+        case LOGOUT_RESET:
+            return null;
 
         default:
             return state;

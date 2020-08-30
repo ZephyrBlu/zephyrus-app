@@ -1,0 +1,296 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:600,700&display=swap');
+
+.AccountSetup {
+    margin: 0 auto;
+    padding-top: 40px;
+    width: 80%;
+}
+
+.AccountSetup__heading {
+    margin: 0 0 60px;
+}
+
+.AccountSetup__main-title {
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 600;
+    font-size: 42px;
+    margin: 0;
+}
+
+.AccountSetup__tagline {
+    margin: 0;
+    font-size: 18px;
+    color: var(--light-grey);
+}
+
+.AccountSetup__title {
+    font-size: 24px;
+    margin: 0 0 10px;
+    margin-right: 20px;
+    display: inline;
+}
+
+.AccountSetup__title--progress {
+    margin: 0 0 5px;
+}
+
+.AccountSetup__all-task-progress {
+    margin: 0;
+    padding: 10px;
+    position: absolute;
+    width: 275px;
+    right: 60px;
+    top: 100px;
+    background-color: var(--primary-dark-1);
+    border: 1px solid var(--primary-light-3);
+    border-radius: 10px;
+}
+
+.AccountSetup__info {
+    margin: 0px;
+    font-size: 14px;
+    color: var(--light-grey);
+    width: max-content;
+    display: inline-block;
+}
+
+.AccountSetup__info--completed {
+    height: min-content;
+    color: var(--text);
+    margin-left: 20px;
+}
+
+.AccountSetup__progress-list {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.AccountSetup__task-progress {
+    font-size: 16px;
+    margin-top: 15px;
+    padding: 6px 10px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    transition: 1s;
+}
+
+.AccountSetup__task-progress--completed {
+    border: 1px solid var(--success);
+    border-radius: 5px;
+}
+
+.AccountSetup__completion-message {
+    font-size: 14px;
+    color: var(--light-grey);
+    animation: fadeIn ease 1s;
+}
+
+@keyframes fadeIn {
+    0% {
+      opacity:0;
+    }
+    100% {
+      opacity:1;
+    }
+}
+
+.AccountSetup__task-list {
+    margin: 0;
+    padding: 0;
+    padding-left: 30px;
+    font-size: 24px;
+}
+
+.AccountSetup__task {
+    margin-bottom: 60px;
+}
+
+.AccountSetup__task-header {
+    width: max-content;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.AccountSetup__instructions {
+    font-size: 14px;
+    line-height: 1.5em;
+    margin: 0;
+}
+
+.AccountSetup__task-status {
+    margin: 0 0 10px;
+    font-size: 16px;
+    font-weight: bolder;
+    transition: .3s;
+    display: inline;
+}
+
+.AccountSetup__task-status * {
+    padding: 6px 12px;
+}
+
+.AccountSetup__status-name {
+    background-color: var(--primary-light-1);
+    border-radius: 17px 0 0 17px;
+}
+
+.AccountSetup__status {
+    font-size: 18px;
+    font-weight: lighter;
+    height: 100%;
+    border-radius: 0 17px 17px 0;
+    transition: .3s;
+}
+
+.AccountSetup__status--failed {
+    background-color: var(--error);
+}
+
+.AccountSetup__status--in-progress {
+    background-color: var(--info);
+}
+
+.AccountSetup__status--completed {
+    background-color: var(--success);
+}
+
+.AccountSetup__status-name {
+    font-weight: 700;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.AccountSetup__setup-action-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin: 0;
+}
+
+.AccountSetup__setup-action-wrapper--email {
+    margin-top: 20px;
+}
+
+.AccountSetup__setup-action-wrapper--profile {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 10px;
+    height: 36px;
+}
+
+.AccountSetup__setup-action {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    background-color: var(--primary-blue);
+    font: 400 16px 'Roboto', sans-serif;
+    transition: .3s;
+}
+
+.AccountSetup__setup-action--battlenet {
+    margin: 20px 0 0;
+}
+
+.AccountSetup__setup-action--finish {
+    margin-top: 15px;
+    width: 100%;
+}
+
+.AccountSetup__setup-action--completed {
+    box-shadow: 0 0 0 1px var(--primary-blue) inset;
+    background-color: var(--primary-dark-1);
+    color: var(--text);
+    width: max-content;
+}
+
+.AccountSetup__setup-action:hover,
+.AccountSetup__setup-action:focus {
+    outline: none;
+    background-color: var(--primary-blue-hover);
+    cursor: pointer;
+}
+
+.AccountSetup__setup-action--completed:hover,
+.AccountSetup__setup-action--completed:focus {
+    background-color: var(--primary-dark-1);
+    cursor: default;
+}
+
+.AccountSetup__profile-form {
+    width: max-content;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.AccountSetup__profile-input {
+    background-color: var(--text);
+    border: none;
+    border-radius: 5px;
+    padding: 6px 8px;
+    margin-right: 5px;
+}
+
+.AccountSetup__profile-input:focus {
+    outline: none;
+}
+
+.AccountSetup__save-profile {
+    font-size: 14px;
+    font-weight: bolder;
+    margin: 0;
+    padding: 6px 8px;
+    color: black;
+}
+
+.AccountSetup__profile-info {
+    margin: 15px 0 0;
+    font-size: 18px;
+}
+
+.AccountSetup__link,
+.AccountSetup__link:visited {
+    color: var(--text);
+}
+
+.AccountSetup__email {
+    text-decoration: underline;
+}
+
+.AccountSetup__authorize-info {
+    text-decoration: underline;
+    font-size: 12px;
+    margin: 20px 0 0;
+    margin-left: 5px;
+    width: max-content;
+}
+
+.AccountSetup__authorize-info:hover {
+    cursor: pointer;
+}
+
+.AccountSetup__authorize-tooltip {
+    position: relative;
+    top: 7px;
+    left: 5px;
+}
+
+.AccountSetup__email-verification {
+    color: var(--text);
+    font-size: 16px;
+}
+
+.AccountSetup__message {
+    text-align: center;
+    font-size: 14px;
+    margin-top: 40px;
+}
+
+.AccountSetup__message a,
+.AccountSetup__message a:visited {
+    color: var(--text);
+}

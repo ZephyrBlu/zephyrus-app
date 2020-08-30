@@ -1,0 +1,52 @@
+.RaceToggle {
+    height: min-content;
+    width: max-content;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.RaceToggle__race-toggle {
+    height: min-content;
+    width: max-content;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.RaceToggle__toggle-indicator {
+    position: absolute;
+    z-index: 1;
+    box-shadow: 0 0 0 2px var(--primary-blue) inset;
+    border-radius: 50%;
+    height: 46px;
+    width: 46px;
+    transition: .3s;
+}
+
+.RaceToggle__toggle-button {
+    height: 46px;
+    width: 46px;
+    padding: 0;
+    margin: 0 5px;
+    transition: .3s;
+    border: none;
+    border-radius: 50%;
+    background-color: transparent;
+}
+
+.RaceToggle__race-icon {
+    height: 30px;
+    width: 30px;
+    padding: 8px;
+    border-radius: 50%;
+    transition: .3s;
+}
+
+.RaceToggle__toggle-button:hover,
+.RaceToggle__toggle-button:focus,
+.RaceToggle__race-icon:hover,
+.RaceToggle__race-icon:focus {
+    outline: none;
+    cursor: pointer;
+}

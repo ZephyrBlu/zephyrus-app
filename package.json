@@ -14,13 +14,13 @@
     "@reach/router": "^1.2.1",
     "@sentry/browser": "^5.9.0",
     "@tippy.js/react": "^2.2.2",
+    "jstat": "^1.9.3",
     "react": "^16.9.0",
     "react-dom": "^16.9.0",
     "react-hot-loader": "^4.12.10",
     "react-redux": "^7.1.0",
     "recharts": "^1.7.1",
-    "redux": "^4.0.4",
-    "reselect": "^4.0.0"
+    "redux": "^4.0.4"
   },
   "devDependencies": {
     "@neutrinojs/airbnb": "^9.4.0",

@@ -1,0 +1,33 @@
+.ReplayView {
+    width: max-content;
+    margin: 20px auto 0;
+}
+
+.ReplayView__default {
+    width: max-content;
+    margin: 20px auto;
+}
+
+.ReplayView__stats {
+    display: grid;
+    grid-template: repeat(2, max-content) / repeat(2, 1fr);
+    grid-template-areas:
+    'general economic'
+    'PAC efficiency';
+    justify-self: center;
+    margin: 0 auto;
+    border-radius: 15px;
+}
+
+@media (max-width: 1400px) {
+    .ReplayView__stats {
+        grid-column-gap: 0;
+    }
+}
+
+@media (max-width: 1350px) {
+    .ReplayView__stats {
+        grid-template: repeat(2, max-content) / repeat(2, min-content);
+        margin: 0 0 30px;
+    }
+}
