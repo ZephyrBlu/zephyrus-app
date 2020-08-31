@@ -150,7 +150,7 @@ const TimelineTooltip = ({ payload, players, comparisonPlayer, gameloop, timelin
                                     <td key={`${statName}-values-3`} className="tooltip__stat-values">
                                         {statKeys.map((key, index) => (
                                             <span key={`${statName}-${key}-cell-3`} className="tooltip__value tooltip__value--comparison">
-                                                {string2dot(timeline.comparison.comparison[comparisonPlayer.id], key)}&nbsp;
+                                                {string2dot(timeline.comparison[comparisonPlayer.id], key)}&nbsp;
                                                 {index === statKeys.length - 1 ? '' : '/ '}
                                             </span>
                                         ))}
@@ -182,7 +182,7 @@ const TimelineTooltip = ({ payload, players, comparisonPlayer, gameloop, timelin
                                     <td className="tooltip__stat-values">
                                         {selectedStat[checkSelectedStat(timeline.stat)].map((key, index) => (
                                             <span className="tooltip__value tooltip__value--comparison">
-                                                {string2dot(timeline.comparison.comparison[comparisonPlayer.id], key)}&nbsp;
+                                                {string2dot(timeline.comparison[comparisonPlayer.id], key)}&nbsp;
                                                 {index === selectedStat[checkSelectedStat(timeline.stat)].length - 1 ? '' : '/ '}
                                             </span>
                                         ))}

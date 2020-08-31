@@ -3,7 +3,7 @@ import React, { Fragment } from 'react';
 import { setSelectedReplayHash } from '../../actions';
 import './CSS/ReplayRecord.css';
 
-const ReplayRecord = ({ hash, stats, compareReplay }) => {
+const ReplayRecord = ({ hash, comparisonHash, stats, compareReplay }) => {
     const dispatch = useDispatch();
     const selectedReplayHash = useSelector(state => state.selectedReplayHash);
 
@@ -73,19 +73,12 @@ const ReplayRecord = ({ hash, stats, compareReplay }) => {
         <div
             role="button"
             tabIndex={0}
-            className={
-                selectedReplayHash && selectedReplayHash === hash ?
-                    `
-                        ReplayRecord
-                        ReplayRecord--${stats.result.toLowerCase().split(',')[0]}
-                        ReplayRecord--selected
-                    `
-                    :
-                    `
-                        ReplayRecord
-                        ReplayRecord--${stats.result.toLowerCase().split(',')[0]}
-                    `
-            }
+            className={`
+                ReplayRecord
+                ReplayRecord--${stats.result.toLowerCase().split(',')[0]}
+                ${selectedReplayHash && selectedReplayHash === hash ? 'ReplayRecord--selected' : ''}
+                ${comparisonHash && comparisonHash === hash ? 'ReplayRecord--comparison' : ''}
+            `}
             onClick={handleReplaySelection}
             onKeyDown={e => handleKeyDown(e.key)}
         >

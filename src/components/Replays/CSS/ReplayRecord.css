@@ -37,6 +37,10 @@
     background-color: var(--primary-light-2);
 }
 
+.ReplayRecord--comparison {
+    box-shadow: 0 0 0 2px var(--primary-blue) inset;
+}
+
 .ReplayRecord__matchup {
     grid-area: matchup;
     font-size: 24px;

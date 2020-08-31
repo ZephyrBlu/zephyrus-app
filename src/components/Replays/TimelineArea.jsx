@@ -19,10 +19,8 @@ const TimelineArea = ({ metrics, timeline, gameloop, players, visibleState }) =>
     const [isTimelineFrozen, setTimelineState] = useState(false);
     const currentTimelineState = timeline.cached[gameloop.current];
     const currentComparisonTimelineState = timeline.comparison.cached
-        ? timeline.comparison.cached[gameloop.current]
+        ? timeline.comparison.cached[gameloop.current]?.comparison
         : null;
-
-    console.log('CURRENT COMPARISON', currentComparisonTimelineState);
 
     const formatTick = (content) => {
         const totalSeconds = Math.floor(Number(content) / 22.4);

@@ -53,8 +53,6 @@ const Replays = ({ visibleState }) => {
     const [splicedTimelineData, setSplicedTimelineData] = useState(null);
     const [cachedSplicedTimeline, setCachedSplicedTimeline] = useState(null);
 
-    console.log(comparisonPlayer, splicedTimelineData, cachedSplicedTimeline);
-
     useEffect(() => {
         if (!timelineState.data) {
             return;
@@ -363,9 +361,10 @@ const Replays = ({ visibleState }) => {
     const dataStates = {
         replayList: {
             IN_PROGRESS: (<LoadingAnimation />),
-            SUCCESS: data => (
+            SUCCESS: ({ _replayInfo, _selectedComparisonReplayHash }) => (
                 <ReplayList
-                    replays={data}
+                    replays={_replayInfo}
+                    comparisonHash={_selectedComparisonReplayHash}
                     handleReplayComparison={handleReplayComparison}
                 />
             ),
@@ -375,7 +374,10 @@ const Replays = ({ visibleState }) => {
     };
 
     const replayListData = {
-        data: replayInfo,
+        data: {
+            _replayInfo: replayInfo,
+            _selectedComparisonReplayHash: selectedComparisonReplayHash,
+        },
         ...replayListState,
     };
     const ReplayListState = useLoadingState(replayListData, dataStates.replayList);
