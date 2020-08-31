@@ -5,6 +5,54 @@ import './CSS/ReplayInfo.css';
 const ReplayInfo = ({ replay, clanTagIndex }) => {
     const urlPrefix = useContext(UrlContext);
 
+    const formatDate = (date) => {
+        const formatString = () => {
+            const strPieces = date.split('*');
+            const [start] = strPieces;
+            let fraction;
+
+            switch (strPieces[1].slice(0, 1)) {
+                case '1':
+                    fraction = '\xBC';
+                    break;
+
+                case '2':
+                    fraction = '\xBD';
+                    break;
+
+                case '3':
+                    fraction = '\xBE';
+                    break;
+
+                default:
+                    break;
+            }
+            return [start, fraction];
+        };
+
+        if (date.indexOf('*') !== -1) {
+            const [start, fraction] = formatString();
+            return `${start.trim()}${fraction} Months ago`;
+        }
+
+        if (date.slice(1, 2) === 'm') {
+            return `${date.slice(0, 1)} Months ago`;
+        }
+
+        if (date.slice(2, 3) === 'm') {
+            return `${date.slice(0, 2)} Months ago`;
+        }
+
+        if (date.slice(1, 2) === 'w') {
+            return `${date.slice(0, 1)} Weeks Ago`;
+        }
+
+        if (date.slice(1, 2) === 'd') {
+            return `${date.slice(0, 1)} Days Ago`;
+        }
+        return date;
+    };
+
     return (
         <div className="ReplayInfo__title-area">
             <h2 className="ReplayInfo__matchup">
@@ -14,7 +62,7 @@ const ReplayInfo = ({ replay, clanTagIndex }) => {
                 {replay.map}
             </h2>
             <span className="ReplayInfo__date">
-                {replay.played_at.slice(0, 1)} Months Ago
+                {formatDate(replay.played_at)}
             </span>
             <span className="ReplayInfo__result">
                 {replay.win ?
