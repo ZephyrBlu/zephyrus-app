@@ -1,3 +1,4 @@
+import React from 'react';
 import './CSS/ReplayStat.css';
 
 const ReplayStat = ({ stat, statName, replayInfo, category, modifier }) => {

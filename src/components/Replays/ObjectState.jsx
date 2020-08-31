@@ -1,4 +1,4 @@
-import { useEffect, useState, Fragment } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import './CSS/TimelineState.css';
 
 const ObjectState = (props) => {
@@ -57,19 +57,25 @@ const ObjectState = (props) => {
                     ? objectName.slice(startIndex, -8)
                     : objectName.slice(-8)
             );
-        } else if (objectName.includes('Flying')) {
+        }
+
+        if (objectName.includes('Flying')) {
             return (
                 startIndex === 0
                     ? objectName.slice(startIndex, -6)
                     : 'Morphing'
             );
-        } else if (objectName !== 'Egg' && objectName.includes('Egg')) {
+        }
+
+        if (objectName !== 'Egg' && objectName.includes('Egg')) {
             return (
                 startIndex === 0
                     ? objectName.slice(startIndex, -3)
                     : objectName.slice(-6)
             );
-        } else if (objectName.includes('Cocoon')) {
+        }
+
+        if (objectName.includes('Cocoon')) {
             return (
                 startIndex === 0
                     ? objectName.slice(startIndex, -6)

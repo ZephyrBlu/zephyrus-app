@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
-const TimelineTooltip = ({ payload, players, gameloop, timeline }) => {
+const TimelineTooltip = ({ payload, players, comparisonPlayer, gameloop, timeline }) => {
     const [currentTimeout, setCurrentTimeout] = useState(false);
     const [prevGameloop, setPrevGameloop] = useState(0);
 
@@ -30,9 +30,13 @@ const TimelineTooltip = ({ payload, players, gameloop, timeline }) => {
     const checkSelectedStat = (stat) => {
         if (stat.includes('collection_rate')) {
             return 'Collection Rate';
-        } else if (stat.includes('army_value')) {
+        }
+
+        if (stat.includes('army_value')) {
             return 'Army Value';
-        } else if (stat.includes('resources_lost')) {
+        }
+
+        if (stat.includes('resources_lost')) {
             return 'Resources Lost';
         }
         return false;
@@ -61,7 +65,6 @@ const TimelineTooltip = ({ payload, players, gameloop, timeline }) => {
     }
 
     let content;
-
     if (payload.length > 0 && players && timeline.state) {
         content = (
             <div className="tooltip">
@@ -104,6 +107,23 @@ const TimelineTooltip = ({ payload, players, gameloop, timeline }) => {
                                 {players[2].name}
                                 &nbsp;({players[2].race.slice(0, 1)})
                             </td>
+                            {comparisonPlayer &&
+                                <td className="tooltip__player tooltip__player--comparison">
+                                    <svg
+                                        className="tooltip__player-indicator"
+                                        height="10"
+                                        width="10"
+                                    >
+                                        <circle
+                                            cx="5"
+                                            cy="5"
+                                            r="5"
+                                            fill="hsl(0, 0%, 85%)"
+                                        />
+                                    </svg>
+                                    {comparisonPlayer.name}
+                                    &nbsp;({comparisonPlayer.race.slice(0, 1)})
+                                </td>}
                         </tr>
                         {Object.entries(timelineStatCategories).map(([statName, statKeys]) => (
                             <tr key={`${statName}-row`} className="tooltip__timeline-stat">
@@ -126,6 +146,15 @@ const TimelineTooltip = ({ payload, players, gameloop, timeline }) => {
                                         </span>
                                     ))}
                                 </td>
+                                {timeline.comparison &&
+                                    <td key={`${statName}-values-3`} className="tooltip__stat-values">
+                                        {statKeys.map((key, index) => (
+                                            <span key={`${statName}-${key}-cell-3`} className="tooltip__value tooltip__value--comparison">
+                                                {string2dot(timeline.comparison[comparisonPlayer.id], key)}&nbsp;
+                                                {index === statKeys.length - 1 ? '' : '/ '}
+                                            </span>
+                                        ))}
+                                    </td>}
                             </tr>
                         ))}
                         {checkSelectedStat(timeline.stat) &&
@@ -149,6 +178,15 @@ const TimelineTooltip = ({ payload, players, gameloop, timeline }) => {
                                         </span>
                                     ))}
                                 </td>
+                                {timeline.comparison &&
+                                    <td className="tooltip__stat-values">
+                                        {selectedStat[checkSelectedStat(timeline.stat)].map((key, index) => (
+                                            <span className="tooltip__value tooltip__value--comparison">
+                                                {string2dot(timeline.comparison[comparisonPlayer.id], key)}&nbsp;
+                                                {index === selectedStat[checkSelectedStat(timeline.stat)].length - 1 ? '' : '/ '}
+                                            </span>
+                                        ))}
+                                    </td>}
                             </tr>}
                     </tbody>
                 </table>

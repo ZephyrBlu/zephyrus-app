@@ -46,8 +46,7 @@ const TrendStat = ({ stat, statName, trends, recentPercentDiff, modifier }) => (
                             :
                             <span key={`${stat}-win-diff`}>
                                 {trends.win_diff[stat]}%
-                            </span>
-                        })
+                            </span>})
                     </span>
                 </li>
                 <li key={`${stat}-loss`} className="TrendStat__loss">
@@ -61,8 +60,7 @@ const TrendStat = ({ stat, statName, trends, recentPercentDiff, modifier }) => (
                             :
                             <span key={`${stat}-loss-diff`}>
                                 {trends.loss_diff[stat]}%
-                            </span>
-                        })
+                            </span>})
                     </span>
                 </li>
             </ul>

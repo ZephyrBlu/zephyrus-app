@@ -1,4 +1,4 @@
-import { Fragment } from 'react';
+import React, { Fragment } from 'react';
 
 const UpgradeState = (props) => {
     let unitsRendered = 0;

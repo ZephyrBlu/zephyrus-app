@@ -26,7 +26,7 @@ const useLoadingState = (currentState, returnValues) => {
             // lists of states are supported as well
             // so we need to wrap singular values in an array
             if (typeof specifiedState === 'string') {
-                specifiedState = [specifiedState];
+                specifiedState = [specifiedState]; // eslint-disable-line no-param-reassign
             }
 
             // check if the current loading state is supported, otherwise render nothing

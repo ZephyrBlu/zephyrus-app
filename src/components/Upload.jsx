@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { useState, useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import { useLoadingState } from '../hooks';
 import UrlContext from '../index';
 import { handleFetch } from '../utils';
@@ -115,7 +115,7 @@ const Upload = () => {
                 &nbsp;to download it (Win only).
                 <br />
                 <br />
-                <span style={{ textDecoration: 'underline' }} >
+                <span style={{ textDecoration: 'underline' }}>
                     PLEASE NOTE:
                 </span>
                 &nbsp;This app is currently unsigned. You will need to give it permission

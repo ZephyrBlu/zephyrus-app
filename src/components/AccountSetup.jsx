@@ -1,4 +1,4 @@
-import { useState, useRef, useContext } from 'react';
+import React, { useState, useRef, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Tippy from '@tippy.js/react';
 import { useLoadingState, useAuthCode } from '../hooks';

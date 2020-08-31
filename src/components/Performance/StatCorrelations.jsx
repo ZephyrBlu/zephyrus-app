@@ -1,4 +1,4 @@
-import { useLayoutEffect, useState } from 'react';
+import React, { useLayoutEffect, useState } from 'react';
 import InfoTooltip from '../shared/InfoTooltip';
 import './CSS/StatCorrelations.css';
 

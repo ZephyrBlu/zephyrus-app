@@ -1,13 +1,17 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { Fragment } from 'react';
+import React, { Fragment } from 'react';
 import { setSelectedReplayHash } from '../../actions';
 import './CSS/ReplayRecord.css';
 
-const ReplayRecord = ({ hash, stats }) => {
+const ReplayRecord = ({ hash, comparisonHash, stats, compareReplay }) => {
     const dispatch = useDispatch();
     const selectedReplayHash = useSelector(state => state.selectedReplayHash);
 
-    const handleReplaySelection = () => {
+    const handleReplaySelection = (e) => {
+        // return when we just want to compare a replay
+        if (e.target.classList.contains('ReplayRecord__compare-replay')) {
+            return;
+        }
         dispatch(setSelectedReplayHash(hash));
     };
 
@@ -45,13 +49,21 @@ const ReplayRecord = ({ hash, stats }) => {
         if (date.indexOf('*') !== -1) {
             const [start, fraction] = formatString();
             return `${start.trim()}${fraction} Months ago`;
-        } else if (date.slice(1, 2) === 'm') {
+        }
+
+        if (date.slice(1, 2) === 'm') {
             return `${date.slice(0, 1)} Months ago`;
-        } else if (date.slice(2, 3) === 'm') {
+        }
+
+        if (date.slice(2, 3) === 'm') {
             return `${date.slice(0, 2)} Months ago`;
-        } else if (date.slice(1, 2) === 'w') {
+        }
+
+        if (date.slice(1, 2) === 'w') {
             return `${date.slice(0, 1)} Weeks Ago`;
-        } else if (date.slice(1, 2) === 'd') {
+        }
+
+        if (date.slice(1, 2) === 'd') {
             return `${date.slice(0, 1)} Days Ago`;
         }
         return date;
@@ -61,19 +73,12 @@ const ReplayRecord = ({ hash, stats }) => {
         <div
             role="button"
             tabIndex={0}
-            className={
-                selectedReplayHash && selectedReplayHash === hash ?
-                    `
-                        ReplayRecord
-                        ReplayRecord--${stats.result.toLowerCase().split(',')[0]}
-                        ReplayRecord--selected
-                    `
-                    :
-                    `
-                        ReplayRecord
-                        ReplayRecord--${stats.result.toLowerCase().split(',')[0]}
-                    `
-            }
+            className={`
+                ReplayRecord
+                ReplayRecord--${stats.result.toLowerCase().split(',')[0]}
+                ${selectedReplayHash && selectedReplayHash === hash ? 'ReplayRecord--selected' : ''}
+                ${comparisonHash && comparisonHash === hash ? 'ReplayRecord--comparison' : ''}
+            `}
             onClick={handleReplaySelection}
             onKeyDown={e => handleKeyDown(e.key)}
         >
@@ -97,10 +102,18 @@ const ReplayRecord = ({ hash, stats }) => {
                         :
                         replayInfoField === 'date'
                             ? formatDate(stats[replayInfoField])
-                            : stats[replayInfoField]
-                    }
+                            : stats[replayInfoField]}
                 </span>
             ))}
+            {selectedReplayHash && hash !== selectedReplayHash &&
+                <Fragment>
+                    <button onClick={() => compareReplay(hash, 1)} className="ReplayRecord__compare-replay ReplayRecord__compare-replay--player1">
+                        &#43;
+                    </button>
+                    <button onClick={() => compareReplay(hash, 2)} className="ReplayRecord__compare-replay ReplayRecord__compare-replay--player2">
+                        &#43;
+                    </button>
+                </Fragment>}
         </div>
     );
 };

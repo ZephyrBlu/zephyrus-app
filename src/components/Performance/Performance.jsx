@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { useState, Fragment } from 'react';
+import React, { useState, Fragment } from 'react';
 import {
     BarChart,
     Bar,
@@ -306,7 +306,9 @@ const Performance = () => {
     const checkTrendsLoadingState = () => {
         if (currentPerformance) {
             return 'SUCCESS';
-        } else if (currentPerformance === false) {
+        }
+
+        if (currentPerformance === false) {
             return 'ERROR';
         }
         return 'IN_PROGRESS';

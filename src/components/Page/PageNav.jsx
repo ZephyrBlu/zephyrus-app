@@ -1,3 +1,4 @@
+import React from 'react';
 import { Link } from '@reach/router';
 import NavIcon from './NavIcon';
 import './CSS/PageNav.css';
@@ -18,7 +19,9 @@ const PageNav = ({ pages, hoverState }) => {
                 width: '140px',
                 borderRadius: '27px',
             };
-        } else if (hoverState.state[pageName]) {
+        }
+
+        if (hoverState.state[pageName]) {
             return {
                 width: '140px',
                 borderRadius: '27px',
@@ -63,10 +66,10 @@ const PageNav = ({ pages, hoverState }) => {
                                 }}
                                 onMouseLeave={() => {
                                     if (!hoverState.fixed) {
-                                        hoverTimeout = setTimeout(() =>
+                                        hoverTimeout = setTimeout(() => (
                                             hoverState.set(prevState => (
                                                 { ...prevState, [pageName]: false }
-                                            )), 400);
+                                            ))), 400);
                                     }
                                 }}
                                 onMouseMove={() => {

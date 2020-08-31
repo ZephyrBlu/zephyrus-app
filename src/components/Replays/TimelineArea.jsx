@@ -7,7 +7,7 @@ import {
     Line,
     ReferenceLine,
 } from 'recharts';
-import { Fragment, useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import RaceState from './RaceState';
 import ObjectState from './ObjectState';
 // import CurrentSelectionState from './CurrentSelectionState';
@@ -18,6 +18,9 @@ import './CSS/TimelineArea.css';
 const TimelineArea = ({ metrics, timeline, gameloop, players, visibleState }) => {
     const [isTimelineFrozen, setTimelineState] = useState(false);
     const currentTimelineState = timeline.cached[gameloop.current];
+    const currentComparisonTimelineState = timeline.comparison.cached
+        ? timeline.comparison.cached[gameloop.current]?.comparison
+        : null;
 
     const formatTick = (content) => {
         const totalSeconds = Math.floor(Number(content) / 22.4);
@@ -66,7 +69,7 @@ const TimelineArea = ({ metrics, timeline, gameloop, players, visibleState }) =>
             <div className="TimelineArea__chart-area">
                 <ResponsiveContainer className="TimelineArea__timeline" width="99%" height={100}>
                     <LineChart
-                        data={timeline.data}
+                        data={timeline.spliced || timeline.data}
                         margin={{ left: 30, right: 20 }}
                         onClick={
                             () => (
@@ -86,10 +89,12 @@ const TimelineArea = ({ metrics, timeline, gameloop, players, visibleState }) =>
                                     timeline={{
                                         stat: timeline.stat,
                                         state: currentTimelineState,
+                                        comparison: currentComparisonTimelineState,
                                         frozen: isTimelineFrozen,
                                     }}
                                     gameloop={gameloop}
                                     players={players}
+                                    comparisonPlayer={timeline.comparison.player}
                                 />
                             }
                             position={{ y: -10 }}
@@ -108,6 +113,14 @@ const TimelineArea = ({ metrics, timeline, gameloop, players, visibleState }) =>
                             activeDot={{ stroke: 'hsl(240, 80%, 55%)', fill: 'hsl(240, 80%, 55%)' }}
                             dot={false}
                         />
+                        {timeline.comparison.player && timeline.comparison.player.id &&
+                            <Line
+                                type="monotone"
+                                dataKey={`comparison.${timeline.comparison.player.id}.${timeline.stat}`}
+                                stroke="hsl(0, 0%, 85%)"
+                                activeDot={{ stroke: 'hsl(0, 0%, 85%)', fill: 'hsl(0, 0%, 85%)' }}
+                                dot={false}
+                            />}
                     </LineChart>
                 </ResponsiveContainer>
                 <div className="TimelineArea__chart-selector">
@@ -223,8 +236,7 @@ const TimelineArea = ({ metrics, timeline, gameloop, players, visibleState }) =>
                                             alt={player.race}
                                             className="timeline-state__race-icon"
                                         />
-                                    </Fragment>
-                                }
+                                    </Fragment>}
                             </div>
                         ))}
                     </div>

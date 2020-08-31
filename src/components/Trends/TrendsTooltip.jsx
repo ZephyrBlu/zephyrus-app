@@ -1,4 +1,4 @@
-import { useEffect, useState, Fragment } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import './CSS/TrendsTooltip.css';
 
 const TrendsTooltip = ({ payload, trends }) => {
