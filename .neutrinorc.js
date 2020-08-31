@@ -49,9 +49,37 @@ module.exports = {
         title: 'Zephyrus | SC2 Replay Analysis',
         template: 'src/template.ejs',
       },
+      style: {
+        extract: {
+          plugin: {
+            filename: '[name].[hash].css',
+          },
+        },
+      },
     }),
     (neutrino) => {
       neutrino.config
+        .optimization.merge({
+          splitChunks: {
+            chunks: 'all',
+            name: 'index',
+            cacheGroups: {
+              vendor: {
+               test: /node_modules/,
+               chunks: 'initial',
+               name: 'index',
+               enforce: true,
+              },
+            },
+          },
+        })
+          .end()
+        .entry('index')
+          .add('./src/App.jsx')
+          .end()
+        .output
+          .filename('[name].[hash].js')
+          .end()
         .module
           .rule('postcss')
             .test(/\.css$/)
