@@ -2,7 +2,7 @@
 Blizzard Icons/
 node_modules/
 build/
-images/
-icons/
+/images/
+/icons/
 .env*
 yarn-error.log
