@@ -1,0 +1,58 @@
+.WinrateSummary__data-point {
+    display: grid;
+    grid-template: 1fr / max-content 1fr max-content;
+    grid-template-areas: 'matchup value-bar value';
+    align-items: center;
+    margin-bottom: 5px;
+}
+
+.WinrateSummary__value-name {
+    grid-area: matchup;
+    display: inline-block;
+    margin: 0;
+    margin-right: 5px;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.WinrateSummary__value-name--matchup {
+    width: 32px;
+}
+
+.WinrateSummary__value-name--player {
+    width: 100px;
+}
+
+.WinrateSummary__value-bar-wrapper {
+    grid-area: value-bar;
+    display: inline;
+}
+
+.WinrateSummary__value-bar-wrapper--all {
+    filter: drop-shadow(0 0 4px var(--primary-blue));
+}
+
+.WinrateSummary__value-bar-wrapper--protoss {
+    filter: drop-shadow(0 0 4px hsl(50, 80%, 45%));
+}
+
+.WinrateSummary__value-bar-wrapper--zerg {
+    filter: drop-shadow(0 0 4px hsl(270, 80%, 35%));
+}
+
+.WinrateSummary__value-bar-wrapper--terran {
+    filter: drop-shadow(0 0 4px hsl(15, 90%, 40%));
+}
+
+.WinrateSummary__values {
+    grid-area: value;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 20px;
+    margin: 0;
+    margin-left: 5px;
+    width: 100px;
+    font-size: 16px;
+    font-weight: 400;
+}

@@ -7,13 +7,19 @@ import {
     SET_REPLAY_INFO,
     SET_STATS,
     SET_TRENDS,
+    SET_WINRATE,
     SET_SELECTED_REPLAY_HASH,
     SET_FIXED_HOVER_STATE,
     LOGOUT_RESET,
 } from './actions';
 
 const races = ['protoss', 'terran', 'zerg'];
-const raceDefaultState = { replays: null, stats: null, trends: null };
+const raceDefaultState = {
+    replays: null,
+    stats: null,
+    trends: null,
+    winrate: null,
+};
 const raceDataDefaultState = {};
 
 races.forEach((race) => {
@@ -71,6 +77,7 @@ const raceData = (state = raceDataDefaultState, action) => {
             Object.entries(action.data).forEach(([race, info]) => {
                 info.stats = state[race].stats;
                 info.trends = state[race].trends;
+                info.winrate = state[race].winrate;
             });
             return { ...state, ...action.data };
 
@@ -78,6 +85,7 @@ const raceData = (state = raceDataDefaultState, action) => {
             Object.entries(action.data).forEach(([race, info]) => {
                 info.replays = state[race].replays;
                 info.trends = state[race].trends;
+                info.winrate = state[race].winrate;
             });
             return { ...state, ...action.data };
 
@@ -85,6 +93,15 @@ const raceData = (state = raceDataDefaultState, action) => {
             Object.entries(action.data).forEach(([race, info]) => {
                 info.replays = state[race].replays;
                 info.stats = state[race].stats;
+                info.winrate = state[race].winrate;
+            });
+            return { ...state, ...action.data };
+
+        case SET_WINRATE:
+            Object.entries(action.data).forEach(([race, info]) => {
+                info.replays = state[race].replays;
+                info.stats = state[race].stats;
+                info.trends = state[race].trends;
             });
             return { ...state, ...action.data };
 
