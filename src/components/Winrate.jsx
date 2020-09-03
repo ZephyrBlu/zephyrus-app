@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { useSelector } from 'react-redux';
 import './Winrate.css';
 
@@ -33,8 +33,8 @@ const Winrate = () => {
                 });
             });
             setFormattedData({
-                matchup: matchupData,
-                map: mapData,
+                matchups: matchupData,
+                maps: mapData,
             });
         }
     }, [currentWinrate]);
@@ -64,37 +64,70 @@ const Winrate = () => {
     };
 
     return (
-        formattedData &&
-            <div className="WinrateSummary__winrate-data">
-                {Object.entries(formattedData.matchup).map(([matchup, values], index) => (
-                    <div key={`${values.winrate}`} className="WinrateSummary__data-point">
-                        <h2 className={`WinrateSummary__value-name`}>
-                            {matchup}
-                        </h2>
-                        {console.log('COLOURS', matchup, raceColours[matchup])}
-                        <svg
-                            className={`WinrateSummary__value-bar-wrapper WinrateSummary__value-bar-wrapper--${matchup}`}
-                            viewBox="0 0 102 5"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                data-value={values.winrate + 1}
-                                data-delay={100 + (70 * (index))}
-                                d={`M1,4 L${values.winrate + 1},4`}
-                                className={`WinrateSummary__value-bar WinrateSummary__value-bar--${matchup}`}
-                                stroke={raceColours[matchup]}
-                                strokeWidth={4}
-                                strokeLinecap="round"
-                                strokeDasharray={values.winrate + 1}
-                                strokeDashoffset={values.winrate + 1}
-                            />
-                        </svg>
-                        <h2 className={`WinrateSummary__values`}>
-                            {values.winrate}%<small>({values.wins}/{values.wins + values.losses})</small>
-                        </h2>
+        <div className="WinrateSummary">
+            {formattedData &&
+                <Fragment>
+                    <div className="WinrateSummary__winrate-data">
+                        {Object.entries(formattedData.matchups).map(([matchup, values], index) => (
+                            <div key={`${values.winrate}`} className="WinrateSummary__data-point">
+                                <h2 className={`WinrateSummary__value-name`}>
+                                    {matchup.charAt(0).toUpperCase() + matchup.slice(1)}
+                                </h2>
+                                <svg
+                                    className={`WinrateSummary__value-bar-wrapper WinrateSummary__value-bar-wrapper--${matchup}`}
+                                    viewBox="0 0 102 3"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <rect
+                                        data-value={values.winrate + 1}
+                                        data-delay={100 + (70 * (index))}
+                                        width={values.winrate}
+                                        height={3}
+                                        fill={raceColours[matchup]}
+                                        rx={1}
+                                        ry={1}
+                                        className={`WinrateSummary__value-bar WinrateSummary__value-bar--${matchup}`}
+                                    />
+                                </svg>
+                                <h2 className={`WinrateSummary__values`}>
+                                    {values.winrate}%<small>({values.wins}/{values.wins + values.losses})</small>
+                                </h2>
+                            </div>
+                        ))}
                     </div>
-                ))}
-            </div>
+                    {Object.entries(formattedData.maps).map(([mapName, matchupData]) => (
+                        <div className="WinrateSummary__map">
+                            {Object.entries(matchupData).map(([matchup, values], index) => (
+                                <div key={`${values.winrate}`} className="WinrateSummary__data-point">
+                                    <h2 className={`WinrateSummary__value-name`}>
+                                        {matchup.charAt(0).toUpperCase() + matchup.slice(1)}
+                                    </h2>
+                                    <svg
+                                        className={`WinrateSummary__value-bar-wrapper WinrateSummary__value-bar-wrapper--${matchup}`}
+                                        viewBox="0 0 102 1"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            data-value={values.winrate + 1}
+                                            data-delay={100 + (70 * (index))}
+                                            d={`M1,0.5 L${values.winrate + 1},0.5`}
+                                            className={`WinrateSummary__value-bar WinrateSummary__value-bar--${matchup}`}
+                                            stroke={raceColours[matchup]}
+                                            strokeWidth={0.5}
+                                            strokeLinecap="round"
+                                            strokeDasharray={values.winrate + 1}
+                                            strokeDashoffset={values.winrate + 1}
+                                        />
+                                    </svg>
+                                    <h2 className={`WinrateSummary__values`}>
+                                        {values.winrate}%<small>({values.wins}/{values.wins + values.losses})</small>
+                                    </h2>
+                                </div>
+                            ))}
+                        </div>
+                    ))}
+                </Fragment>}
+        </div>
     );
 };
 
