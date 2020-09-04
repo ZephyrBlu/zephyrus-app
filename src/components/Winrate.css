@@ -1,52 +1,31 @@
-.WinrateSummary__map {
+.Winrate__data-container--map {
     margin-bottom: 40px;
 }
 
-.WinrateSummary__map .WinrateSummary__data-point {
+.Winrate__data-container--map .Winrate__values-container {
     margin-bottom: 0px;
 }
 
-.WinrateSummary__data-point {
+.Winrate__values-container {
     display: grid;
-    grid-template: 1fr / max-content 1fr max-content;
-    grid-template-areas: 'matchup value-bar value';
+    grid-template: 1fr / max-content max-content 1fr;
+    grid-template-areas: 'matchup value value-bar';
     align-items: center;
     margin-bottom: 15px;
 }
 
-.WinrateSummary__value-name {
+.Winrate__values-name {
     grid-area: matchup;
     display: inline-block;
-    width: 56px;
+    width: 125px;
     text-align: center;
     margin: 0;
-    margin-right: 20px;
+    margin-right: 10px;
     font-size: 16px;
     font-weight: 400;
 }
 
-.WinrateSummary__value-bar-wrapper {
-    grid-area: value-bar;
-    display: inline;
-}
-
-.WinrateSummary__value-bar-wrapper--all {
-    filter: drop-shadow(0 0 4px var(--primary-blue));
-}
-
-.WinrateSummary__value-bar-wrapper--protoss {
-    filter: drop-shadow(0 0 4px hsl(50, 80%, 45%));
-}
-
-.WinrateSummary__value-bar-wrapper--zerg {
-    filter: drop-shadow(0 0 4px hsl(270, 80%, 35%));
-}
-
-.WinrateSummary__value-bar-wrapper--terran {
-    filter: drop-shadow(0 0 4px hsl(15, 90%, 40%));
-}
-
-.WinrateSummary__values {
+.Winrate__values {
     grid-area: value;
     display: flex;
     align-items: center;
@@ -54,7 +33,29 @@
     height: 20px;
     margin: 0;
     margin-left: 5px;
+    margin-right: 20px;
     width: 100px;
     font-size: 16px;
     font-weight: 400;
+}
+
+.Winrate__value-bar-wrapper {
+    grid-area: value-bar;
+    display: inline;
+}
+
+.Winrate__value-bar-wrapper--all {
+    filter: drop-shadow(0 0 4px var(--primary-blue));
+}
+
+.Winrate__value-bar-wrapper--protoss {
+    filter: drop-shadow(0 0 4px hsl(50, 80%, 45%));
+}
+
+.Winrate__value-bar-wrapper--zerg {
+    filter: drop-shadow(0 0 4px hsl(270, 80%, 35%));
+}
+
+.Winrate__value-bar-wrapper--terran {
+    filter: drop-shadow(0 0 4px hsl(15, 90%, 40%));
 }

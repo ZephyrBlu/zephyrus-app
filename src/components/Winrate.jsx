@@ -8,11 +8,11 @@ const Winrate = () => {
     const [formattedData, setFormattedData] = useState(null);
 
     useEffect(() => {
-        if (currentWinrate) {
+        if (currentWinrate && !formattedData) {
             const isCurrentSeason = Object.values(currentWinrate).some(matchup => (
                 !!matchup.seasons.current
             ));
-            
+
             let season;
             if (isCurrentSeason) {
                 season = 'current';
@@ -20,25 +20,113 @@ const Winrate = () => {
                 season = 'previous';
             }
 
+            let overallWinrate;
             const matchupData = [];
-            const rawMapData = {};
+            const mapData = [];
+            const byMatchupData = [];
+            const byMapData = [];
+            const rawByMatchupData = {};
+            const rawByMapData = {};
             Object.entries(currentWinrate).forEach(([matchupName, values]) => {
                 const { maps, ...matchup } = values.seasons[season];
+                matchup.map = 'all';
                 matchup.matchup = matchupName;
-                matchupData.push(matchup);
+
+                if (matchupName !== 'all') {
+                    matchupData.push(matchup);
+                    rawByMatchupData[matchupName] = [matchup];
+                } else {
+                    overallWinrate = matchup;
+                }
+
                 Object.entries(maps).forEach(([mapName, mapValues]) => {
-                    if (!Object.keys(rawMapData).includes(mapName)) {
-                        rawMapData[mapName] = [];
+                    if (!Object.keys(rawByMapData).includes(mapName)) {
+                        rawByMapData[mapName] = [];
                     }
-                    // mapData[mapName][matchupName] = mapValues;
+
                     mapValues.map = mapName;
                     mapValues.matchup = matchupName;
-                    rawMapData[mapName].push(mapValues);
+                    rawByMapData[mapName].push(mapValues);
+
+                    if (matchupName !== 'all' && mapName !== 'all') {
+                        rawByMatchupData[matchupName].push(mapValues);
+                    }
                 });
             });
-            const mapData = Object.values(rawMapData).map(values => values);
 
-            const mapComparator = (a, b) => {
+            Object.values(rawByMatchupData).forEach((values) => {
+                byMatchupData.push(values);
+            });
+
+            Object.values(rawByMapData).forEach((values) => {
+                byMapData.push(values);
+                const currentMapData = {
+                    map: values[0].map,
+                    matchup: 'all',
+                    winrate: null,
+                    wins: 0,
+                    losses: 0,
+                };
+                values.forEach((matchup) => {
+                    currentMapData.wins += matchup.wins;
+                    currentMapData.losses += matchup.losses;
+                });
+                currentMapData.winrate = Number(((currentMapData.wins / (currentMapData.wins + currentMapData.losses)) * 100).toFixed(1));
+                mapData.push(currentMapData);
+            });
+
+            const winrateComparator = (a, b) => {
+                if (
+                    (b.map === 'all' && a.map !== 'all')
+                    || (b.matchup === 'all' && a.matchup !== 'all')
+                ) {
+                    return 1;
+                }
+
+                if (
+                    (b.map === 'all' && a.map !== 'all')
+                    || (a.matchup === 'all' && b.matchup !== 'all')
+                ) {
+                    return -1;
+                }
+
+                if (a.winrate < b.winrate) {
+                    return 1;
+                }
+
+                if (a.winrate > b.winrate) {
+                    return -1;
+                }
+
+                return 0;
+            };
+
+            const byMatchupComparator = (a, b) => {
+                let allWinrateA;
+                let allWinrateB;
+                a.forEach((values) => {
+                    if (values.map === 'all') {
+                        allWinrateA = values.winrate;
+                    }
+                });
+                b.forEach((values) => {
+                    if (values.map === 'all') {
+                        allWinrateB = values.winrate;
+                    }
+                });
+
+                if (allWinrateA < allWinrateB) {
+                    return 1;
+                }
+
+                if (allWinrateA > allWinrateB) {
+                    return -1;
+                }
+
+                return 0;
+            };
+
+            const byMapComparator = (a, b) => {
                 let allWinrateA;
                 let allWinrateB;
                 a.forEach((values) => {
@@ -55,45 +143,32 @@ const Winrate = () => {
                 if (allWinrateA < allWinrateB) {
                     return 1;
                 }
-                
+
                 if (allWinrateA > allWinrateB) {
-                    return -1;
-                }
-            };
-
-            const dataComparator = (a, b) => {
-                // 'all' is highest priority
-                if (a.matchup === 'all') {
-                    return -1;
-                }
-
-                if (b.matchup === 'all') {
-                    return 1;
-                }
-
-                if (a.winrate < b.winrate) {
-                    return 1;
-                }
-                
-                if (a.winrate > b.winrate) {
                     return -1;
                 }
 
                 return 0;
             };
-            mapData.sort(mapComparator);
-            mapData.forEach(map => map.sort(dataComparator));
-            matchupData.sort(dataComparator);
+            matchupData.sort(winrateComparator);
+            mapData.sort(winrateComparator);
+            byMatchupData.sort(byMatchupComparator);
+            byMatchupData.forEach(map => map.sort(winrateComparator));
+            byMapData.sort(byMapComparator);
+            byMapData.forEach(map => map.sort(winrateComparator));
 
             setFormattedData({
+                total: { ...overallWinrate },
                 matchups: matchupData,
                 maps: mapData,
+                byMatchup: byMatchupData,
+                byMap: byMapData,
             });
         }
     }, [currentWinrate]);
 
     useEffect(() => {
-        const bars = [...document.getElementsByClassName('WinrateSummary__value-bar')];
+        const bars = [...document.getElementsByClassName('Winrate__value-bar')];
         bars.forEach((bar) => {
             bar.animate([
                 { strokeDashoffset: Number(bar.dataset.value) },
@@ -107,6 +182,7 @@ const Winrate = () => {
         });
     }, [formattedData]);
 
+    console.log('RAW', currentWinrate);
     console.log('HELLO', formattedData);
 
     const raceColours = {
@@ -117,17 +193,20 @@ const Winrate = () => {
     };
 
     return (
-        <div className="WinrateSummary">
+        <div className="Winrate">
             {formattedData &&
                 <Fragment>
-                    <div className="WinrateSummary__winrate-data">
+                    <div className="Winrate__data-container Winrate__data-container--matchup">
                         {formattedData.matchups.map((values, index) => (
-                            <div key={`${values.winrate}`} className="WinrateSummary__data-point">
-                                <h2 className={`WinrateSummary__value-name`}>
+                            <div key={`${values.winrate}`} className="Winrate__values-container Winrate__values-container--matchup">
+                                <h2 className="Winrate__values-name">
                                     {values.matchup.charAt(0).toUpperCase() + values.matchup.slice(1)}
                                 </h2>
+                                <h2 className="Winrate__values">
+                                    {values.winrate}%<small>({values.wins}/{values.wins + values.losses})</small>
+                                </h2>
                                 <svg
-                                    className={`WinrateSummary__value-bar-wrapper WinrateSummary__value-bar-wrapper--${values.matchup}`}
+                                    className={`Winrate__value-bar-wrapper Winrate__value-bar-wrapper--${values.matchup}`}
                                     viewBox="0 0 100 3"
                                     xmlns="http://www.w3.org/2000/svg"
                                 >
@@ -139,24 +218,54 @@ const Winrate = () => {
                                         fill={raceColours[values.matchup]}
                                         rx={1}
                                         ry={1}
-                                        className={`WinrateSummary__value-bar WinrateSummary__value-bar--${values.matchup}`}
+                                        className={`Winrate__value-bar Winrate__value-bar--${values.matchup}`}
                                     />
                                 </svg>
-                                <h2 className={`WinrateSummary__values`}>
-                                    {values.winrate}%<small>({values.wins}/{values.wins + values.losses})</small>
-                                </h2>
                             </div>
                         ))}
                     </div>
-                    {formattedData.maps.map((matchupData) => (
-                        <div className="WinrateSummary__map">
+                    <div className="Winrate__data-container Winrate__data-container--matchup">
+                        {formattedData.maps.map((values, index) => (
+                            <div key={`${values.winrate}`} className="Winrate__values-container Winrate__values-container--matchup">
+                                <h2 className="Winrate__values-name">
+                                    {values.map.charAt(0).toUpperCase() + values.map.slice(1)}
+                                </h2>
+                                <h2 className="Winrate__values">
+                                    {values.winrate}%<small>({values.wins}/{values.wins + values.losses})</small>
+                                </h2>
+                                <svg
+                                    className={`Winrate__value-bar-wrapper Winrate__value-bar-wrapper--${values.matchup}`}
+                                    viewBox="0 0 100 3"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <rect
+                                        data-value={values.winrate}
+                                        data-delay={100 + (70 * (index))}
+                                        width={values.winrate}
+                                        height={3}
+                                        fill={raceColours[values.matchup]}
+                                        rx={1}
+                                        ry={1}
+                                        className={`Winrate__value-bar Winrate__value-bar--${values.matchup}`}
+                                    />
+                                </svg>
+                            </div>
+                        ))}
+                    </div>
+                    {formattedData.byMap.map(matchupData => (
+                        <div className="Winrate__data-container Winrate__data-container--map">
                             {matchupData.map((values, index) => (
-                                <div key={`${values.winrate}`} className="WinrateSummary__data-point">
-                                    <h2 className={`WinrateSummary__value-name`}>
-                                        {values.matchup.charAt(0).toUpperCase() + values.matchup.slice(1)}
+                                <div key={`${values.winrate}`} className="Winrate__values-container Winrate__values-container--map">
+                                    <h2 className="Winrate__values-name">
+                                        {index === 0
+                                            ? values.map
+                                            : `vs ${values.matchup.charAt(0).toUpperCase() + values.matchup.slice(1)}`}
+                                    </h2>
+                                    <h2 className="Winrate__values">
+                                        {values.winrate}%<small>({values.wins}/{values.wins + values.losses})</small>
                                     </h2>
                                     <svg
-                                        className={`WinrateSummary__value-bar-wrapper WinrateSummary__value-bar-wrapper--${values.matchup}`}
+                                        className={`Winrate__value-bar-wrapper Winrate__value-bar-wrapper--${values.matchup}`}
                                         viewBox="0 0 100.25 1"
                                         xmlns="http://www.w3.org/2000/svg"
                                     >
@@ -164,7 +273,7 @@ const Winrate = () => {
                                             data-value={values.winrate}
                                             data-delay={100 + (70 * (index))}
                                             d={`M0.25,0.5 L${values.winrate},0.5`}
-                                            className={`WinrateSummary__value-bar WinrateSummary__value-bar--${values.matchup}`}
+                                            className={`Winrate__value-bar Winrate__value-bar--${values.matchup}`}
                                             stroke={raceColours[values.matchup]}
                                             strokeWidth={0.5}
                                             strokeLinecap="round"
@@ -172,9 +281,39 @@ const Winrate = () => {
                                             strokeDashoffset={values.winrate}
                                         />
                                     </svg>
-                                    <h2 className={`WinrateSummary__values`}>
+                                </div>
+                            ))}
+                        </div>
+                    ))}
+                    {formattedData.byMatchup.map(mapData => (
+                        <div className="Winrate__data-container Winrate__data-container--map">
+                            {mapData.map((values, index) => (
+                                <div key={`${values.winrate}`} className="Winrate__values-container Winrate__values-container--map">
+                                    <h2 className="Winrate__values-name">
+                                        {index === 0
+                                            ? `vs ${values.matchup.charAt(0).toUpperCase() + values.matchup.slice(1)}`
+                                            : values.map}
+                                    </h2>
+                                    <h2 className="Winrate__values">
                                         {values.winrate}%<small>({values.wins}/{values.wins + values.losses})</small>
                                     </h2>
+                                    <svg
+                                        className={`Winrate__value-bar-wrapper Winrate__value-bar-wrapper--${index === 0 ? 'all' : values.matchup}`}
+                                        viewBox="0 0 100.25 1"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                    >
+                                        <path
+                                            data-value={values.winrate}
+                                            data-delay={100 + (70 * (index))}
+                                            d={`M0.25,0.5 L${values.winrate},0.5`}
+                                            className={`Winrate__value-bar Winrate__value-bar--${index === 0 ? 'all' : values.matchup}`}
+                                            stroke={index === 0 ? raceColours.all : raceColours[values.matchup]}
+                                            strokeWidth={0.5}
+                                            strokeLinecap="round"
+                                            strokeDasharray={values.winrate}
+                                            strokeDashoffset={values.winrate}
+                                        />
+                                    </svg>
                                 </div>
                             ))}
                         </div>
