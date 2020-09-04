@@ -128,11 +128,11 @@ const Winrate = () => {
                                 </h2>
                                 <svg
                                     className={`WinrateSummary__value-bar-wrapper WinrateSummary__value-bar-wrapper--${values.matchup}`}
-                                    viewBox="0 0 102 3"
+                                    viewBox="0 0 100 3"
                                     xmlns="http://www.w3.org/2000/svg"
                                 >
                                     <rect
-                                        data-value={values.winrate + 1}
+                                        data-value={values.winrate}
                                         data-delay={100 + (70 * (index))}
                                         width={values.winrate}
                                         height={3}
@@ -157,19 +157,19 @@ const Winrate = () => {
                                     </h2>
                                     <svg
                                         className={`WinrateSummary__value-bar-wrapper WinrateSummary__value-bar-wrapper--${values.matchup}`}
-                                        viewBox="0 0 102 1"
+                                        viewBox="0 0 100.25 1"
                                         xmlns="http://www.w3.org/2000/svg"
                                     >
                                         <path
-                                            data-value={values.winrate + 1}
+                                            data-value={values.winrate}
                                             data-delay={100 + (70 * (index))}
-                                            d={`M1,0.5 L${values.winrate + 1},0.5`}
+                                            d={`M0.25,0.5 L${values.winrate},0.5`}
                                             className={`WinrateSummary__value-bar WinrateSummary__value-bar--${values.matchup}`}
                                             stroke={raceColours[values.matchup]}
                                             strokeWidth={0.5}
                                             strokeLinecap="round"
-                                            strokeDasharray={values.winrate + 1}
-                                            strokeDashoffset={values.winrate + 1}
+                                            strokeDasharray={values.winrate}
+                                            strokeDashoffset={values.winrate}
                                         />
                                     </svg>
                                     <h2 className={`WinrateSummary__values`}>
