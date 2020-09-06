@@ -16,7 +16,7 @@ const useFetch = (url, dep = 'default', dataKey = null, opts = null) => {
         const controller = new AbortController();
         const signal = controller.signal;
         const fetchData = async () => {
-            const requestOpts = opts || { headers: { Authorization: `Token 23bad5c87bd0df6c4c159f824a8389c3a2f34cb1` } };
+            const requestOpts = opts || { headers: { Authorization: `Token ${user.token}` } };
             try {
                 const response = await fetch(url, {
                     ...requestOpts,
