@@ -9,6 +9,7 @@ import {
     Line,
     ReferenceLine,
     ResponsiveContainer,
+    Tooltip,
 } from 'recharts';
 import { useLoadingState } from '../../hooks';
 import LoadingAnimation from '../shared/LoadingAnimation';
@@ -264,6 +265,38 @@ const Performance = () => {
                                                         dataKey="bin"
                                                         interval={0}
                                                         style={stat === 'match_length' ? { fontSize: '14px' } : {}}
+                                                    />
+                                                    <Tooltip
+                                                        cursor={false}
+                                                        separator=" "
+                                                        formatter={(value, name, props) => {
+                                                            let formattedName;
+                                                            let formattedValue;
+                                                            switch (name) {
+                                                                case 'win':
+                                                                    formattedName = `${name.charAt(0).toUpperCase() + name.slice(1)}s`;
+                                                                    formattedValue = `${value} (${Math.round((props.payload.loss / (props.payload.win + props.payload.loss)) * 100)}%)`;
+                                                                    break;
+
+                                                                case 'loss':
+                                                                    formattedName = `${name.charAt(0).toUpperCase() + name.slice(1)}es`;
+                                                                    formattedValue = `${value} (${Math.round((props.payload.win / (props.payload.win + props.payload.loss)) * 100)}%)`;
+                                                                    break;
+
+                                                                default:
+                                                                    formattedName = 'Games';
+                                                                    formattedValue = value;
+                                                            }
+                                                            return [formattedValue, formattedName, props];
+                                                        }}
+                                                        itemStyle={{ color: 'hsl(0, 0%, 85%)' }}
+                                                        contentStyle={{
+                                                            margin: '0 30px',
+                                                            padding: '10px',
+                                                            border: 'none',
+                                                            borderRadius: '15px',
+                                                            backgroundColor: 'hsla(209, 77%, 14%, 0.9)',
+                                                        }}
                                                     />
                                                     {_trendOptions[stat] === 'all' &&
                                                         <Bar
