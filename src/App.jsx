@@ -3,12 +3,14 @@ import { useAccount, useReplays, usePerformance, useTrends } from './hooks';
 import Page from './components/Page/Page';
 import './components/Page/CSS/Page.css';
 import './App.css';
+import useWinrate from './hooks/useWinrate';
 
 const App = () => {
     useAccount();
     useReplays(30000);
     usePerformance();
     useTrends();
+    useWinrate();
 
     // one time check for OAuth authorization code
     const urlParams = new URLSearchParams(window.location.search);

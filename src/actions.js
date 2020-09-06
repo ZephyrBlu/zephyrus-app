@@ -4,6 +4,7 @@ export const SET_SELECTED_RACE = 'SET_SELECTED_RACE';
 export const SET_REPLAYS = 'SET_REPLAYS';
 export const SET_STATS = 'SET_STATS';
 export const SET_TRENDS = 'SET_TRENDS';
+export const SET_WINRATE = 'SET_WINRATE';
 export const SET_REPLAY_INFO = 'SET_REPLAY_INFO';
 export const SET_SELECTED_REPLAY_HASH = 'SET_SELECTED_REPLAY_HASH';
 export const SET_FIXED_HOVER_STATE = 'SET_FIXED_HOVER_STATE';
@@ -31,6 +32,10 @@ export const setStats = data => (
 
 export const setTrends = data => (
     { type: SET_TRENDS, data }
+);
+
+export const setWinrate = data => (
+    { type: SET_WINRATE, data }
 );
 
 export const setReplayInfo = replayInfo => (
