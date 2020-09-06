@@ -130,14 +130,19 @@
 .Winrate__values-container--total {
     grid-area: total-winrate;
     margin: 0;
+    height: 30px;
     background-color: var(--secondary-dark-2);
     border-radius: 15px;
     padding: 10px 20px;
 }
 
 .Winrate__values-container--matchup {
-    #grid-template: 40px / max-content max-content 1fr;
     margin-bottom: 15px;
+    height: 40px;
+}
+
+.Winrate__values-container--map {
+    height: 20px;
 }
 
 .Winrate__values-container:last-child {
@@ -176,7 +181,8 @@
 }
 
 .Winrate__values-name--matchup {
-    width: 78px;
+    width: 86px;
+    font-size: 18px;
 }
 
 .Winrate__values-name--map {
@@ -190,7 +196,7 @@
     justify-content: space-between;
     height: 20px;
     margin: 0 15px;
-    width: 100px;
+    width: 110px;
     font-size: 16px;
     font-weight: 400;
 }
@@ -201,12 +207,17 @@
     margin: 5px 15px 0;
 }
 
-.Winrate__value-bar-wrapper {
-    grid-area: value-bar;
-    display: inline;
+.Winrate__values--matchup {
+    font-size: 18px;
 }
 
-.Winrate__value-bar-wrapper--all {
+.Winrate__value-bar-wrapper {
+    grid-area: value-bar;
+    height: 100%;
+    width: 100%;
+}
+
+/* .Winrate__value-bar-wrapper--all {
     filter: drop-shadow(0 0 4px var(--primary-blue));
 }
 
@@ -220,4 +231,4 @@
 
 .Winrate__value-bar-wrapper--terran {
     filter: drop-shadow(0 0 4px hsl(15, 90%, 40%));
-}
+} */

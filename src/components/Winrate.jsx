@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useRef, Fragment } from 'react';
 import { useSelector } from 'react-redux';
+import LoadingAnimation from './shared/LoadingAnimation';
+import DefaultResponse from './shared/DefaultResponse';
 import './Winrate.css';
 
 const Winrate = () => {
@@ -49,7 +51,6 @@ const Winrate = () => {
                     rawByMatchupData[matchupName] = [matchup];
                 } else {
                     overallWinrate = matchup;
-                    overallWinrate.winrate = 65;
                 }
 
                 Object.entries(maps).forEach(([mapName, mapValues]) => {
@@ -209,7 +210,7 @@ const Winrate = () => {
                 }
 
                 bar.animate(keyframes[barType](bar), {
-                    delay: prevSortBy.current ? 0 : Number(bar.dataset.delay),
+                    delay: prevSortBy.current ? Number(bar.dataset.delay) - 400 : Number(bar.dataset.delay),
                     duration: 800,
                     easing: 'cubic-bezier(.15, .2, .2, 1)',
                     fill: 'forwards',
@@ -218,10 +219,6 @@ const Winrate = () => {
         });
         prevSortBy.current = sortBy;
     }, [formattedData, sortBy]);
-
-    // const barSizeMultiplier = {
-    //     window.innerWidth
-    // }
 
     const raceColours = {
         all: 'hsl(210, 68%, 47%)',
@@ -237,6 +234,8 @@ const Winrate = () => {
             <h1 className="Winrate__title">
                 Winrate
             </h1>
+            {!currentWinrate && !formattedData && <LoadingAnimation />}
+            {currentWinrate === false && <DefaultResponse content="We couldn't find any replays" />}
             <div className="Winrate__winrate-data">
                 {formattedData &&
                     <Fragment>
@@ -249,16 +248,17 @@ const Winrate = () => {
                             </h2>
                             <svg
                                 className="Winrate__value-bar-wrapper Winrate__value-bar-wrapper--rect  Winrate__value-bar-wrapper--all"
-                                viewBox="0 0 100 6"
+                                viewBox="0 0 100 4"
+                                preserveAspectRatio="none"
                                 xmlns="http://www.w3.org/2000/svg"
                             >
                                 <rect
                                     data-value={formattedData.total.winrate}
-                                    data-delay={50}
+                                    data-delay={0}
                                     width={0}
-                                    height={6}
+                                    height={4}
                                     fill={raceColours.all}
-                                    rx={1}
+                                    rx={0.5}
                                     ry={1}
                                     className="Winrate__value-bar Winrate__value-bar--rect Winrate__value-bar-wrapper--all"
                                 />
@@ -270,7 +270,7 @@ const Winrate = () => {
                                     <h2 className="Winrate__values-name Winrate__values-name--matchup">
                                         vs {values.matchup.charAt(0).toUpperCase() + values.matchup.slice(1)}
                                     </h2>
-                                    <h2 className="Winrate__values">
+                                    <h2 className="Winrate__values Winrate__values--matchup">
                                         {values.winrate}%<small>({values.wins}/{values.wins + values.losses})</small>
                                     </h2>
                                     <svg
@@ -279,17 +279,18 @@ const Winrate = () => {
                                             Winrate__value-bar-wrapper--rect
                                             Winrate__value-bar-wrapper--${values.matchup}
                                         `}
-                                        viewBox="0 0 100 10"
+                                        viewBox="0 0 100 4"
+                                        preserveAspectRatio="none"
                                         xmlns="http://www.w3.org/2000/svg"
                                     >
                                         <rect
                                             data-value={values.winrate}
-                                            data-delay={100 + (70 * (index))}
+                                            data-delay={200 + (70 * (index))}
                                             width={0}
-                                            height={10}
+                                            height={4}
                                             fill={raceColours[values.matchup]}
                                             rx={2}
-                                            ry={2}
+                                            ry={1}
                                             className={`
                                                 Winrate__value-bar
                                                 Winrate__value-bar--rect
@@ -315,14 +316,15 @@ const Winrate = () => {
                                             Winrate__value-bar-wrapper--rect
                                             Winrate__value-bar-wrapper--${values.matchup}
                                         `}
-                                        viewBox="0 0 100 3"
+                                        viewBox="0 0 100 4"
+                                        preserveAspectRatio="none"
                                         xmlns="http://www.w3.org/2000/svg"
                                     >
                                         <rect
                                             data-value={values.winrate}
-                                            data-delay={100 + (70 * (index))}
+                                            data-delay={200 + (70 * (index))}
                                             width={0}
-                                            height={3}
+                                            height={4}
                                             fill={raceColours[values.matchup]}
                                             rx={1}
                                             ry={1}
@@ -383,20 +385,20 @@ const Winrate = () => {
                                                             Winrate__value-bar-wrapper--path
                                                             Winrate__value-bar-wrapper--${values.matchup}
                                                         `}
-                                                        viewBox="0 0 100.25 1"
+                                                        viewBox={`0 0 ${window.innerWidth <= 1200 ? 101 : 100.5} 1`}
                                                         xmlns="http://www.w3.org/2000/svg"
                                                     >
                                                         <path
                                                             data-value={values.winrate}
-                                                            data-delay={500 + (70 * (index))}
-                                                            d={`M0.25,0.5 L${values.winrate},0.5`}
+                                                            data-delay={400 + (70 * (index))}
+                                                            d={`M${window.innerWidth <= 1200 ? 1 : 0.5},0.5 L${values.winrate},0.5`}
                                                             className={`
                                                                 Winrate__value-bar
                                                                 Winrate__value-bar--path
                                                                 Winrate__value-bar--${values.matchup}
                                                             `}
                                                             stroke={raceColours[values.matchup]}
-                                                            strokeWidth={0.5}
+                                                            strokeWidth={window.innerWidth <= 1200 ? 2 : 1}
                                                             strokeLinecap="round"
                                                             strokeDasharray={values.winrate}
                                                             strokeDashoffset={values.winrate}
@@ -426,20 +428,20 @@ const Winrate = () => {
                                                             Winrate__value-bar-wrapper--path
                                                             Winrate__value-bar-wrapper--${index === 0 ? 'all' : values.matchup}
                                                         `}
-                                                        viewBox="0 0 100.25 1"
+                                                        viewBox={`0 0 ${window.innerWidth <= 1200 ? 101 : 100.5} 1`}
                                                         xmlns="http://www.w3.org/2000/svg"
                                                     >
                                                         <path
                                                             data-value={values.winrate}
-                                                            data-delay={500 + (70 * (index))}
-                                                            d={`M0.25,0.5 L${values.winrate},0.5`}
+                                                            data-delay={400 + (70 * (index))}
+                                                            d={`M${window.innerWidth <= 1200 ? 1 : 0.5},0.5 L${values.winrate},0.5`}
                                                             className={`
                                                                 Winrate__value-bar
                                                                 Winrate__value-bar--path
                                                                 Winrate__value-bar--${index === 0 ? 'all' : values.matchup}
                                                             `}
                                                             stroke={index === 0 ? raceColours.all : raceColours[values.matchup]}
-                                                            strokeWidth={0.5}
+                                                            strokeWidth={window.innerWidth <= 1200 ? 2 : 1}
                                                             strokeLinecap="round"
                                                             strokeDasharray={values.winrate}
                                                             strokeDashoffset={values.winrate}
