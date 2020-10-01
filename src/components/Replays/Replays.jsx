@@ -172,16 +172,28 @@ const Replays = ({ visibleState }) => {
         const filterReplayInfo = () => {
             const newReplays = [];
             userReplays.forEach((replay) => {
+                const userId = replay.user_match_id;
+                const oppId = userId === 1 ? 2 : 1;
                 const currentReplayInfo = {
                     fileHash: replay.file_hash,
-                    matchup: `${replay.players[1].race.slice(0, 1)}v${replay.players[2].race.slice(0, 1)}`,
+                    matchup: `${replay.players[userId].race.slice(0, 1)}v${replay.players[oppId].race.slice(0, 1)}`,
+                    opponentRace: replay.players[oppId].race,
                     map: replay.map,
                     result: `${replay.win ? 'Win' : 'Loss'},\xa0\xa0\xa0\xa0${Math.ceil(replay.match_length / 60)}`,
+                    matchLength: Math.ceil(replay.match_length / 60),
                     date: replay.played_at.slice(0, 10),
-                    player1: `${replay.players[1].name.slice(clanTagIndex(replay.players[1].name))},
-                    ${replay.match_data.mmr[1] === 0 ? '' : replay.match_data.mmr[1]}`,
-                    player2: `${replay.players[2].name.slice(clanTagIndex(replay.players[2].name))},
-                    ${replay.match_data.mmr[2] === 0 ? '' : replay.match_data.mmr[2]}`,
+                    players: {
+                        1: {
+                            name: replay.players[userId].name.slice(clanTagIndex(replay.players[userId].name)),
+                            race: replay.players[userId].race,
+                            mmr: replay.match_data.mmr[userId],
+                        },
+                        2: {
+                            name: replay.players[oppId].name.slice(clanTagIndex(replay.players[oppId].name)),
+                            race: replay.players[oppId].race,
+                            mmr: replay.match_data.mmr[oppId],
+                        },
+                    },
                 };
                 newReplays.push(currentReplayInfo);
             });
