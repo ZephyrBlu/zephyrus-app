@@ -7,13 +7,19 @@
     --dark-grey: hsl(0, 0%, 40%);
     --purple: hsl(270, 80%, 30%);
     --green: hsl(120, 100%, 40%);
-    --red: hsl(0, 100%, 30%);
     --green-highlight: hsla(120, 80%, 25%, 0.6);
+    --green-background: hsla(120, 80%, 25%, 0.08);
+    --red: hsl(0, 100%, 30%);
     --red-highlight: hsla(0, 70%, 25%, 0.6);
+    --red-background: hsla(0, 70%, 25%, 0.08);
 
     --protoss: hsl(51, 80%, 50%);
     --zerg: hsl(274, 100%, 30%);
     --terran: hsl(27, 80%, 41%);
+
+    --protoss-background: hsla(51, 100%, 50%, 0.08);
+    --zerg-background: hsla(274, 100%, 25%, 0.15);
+    --terran-background: hsla(27, 95%, 41%, 0.15);
 
     --primary-blue: hsl(210, 68%, 47%);
     --primary-blue-hover: hsl(210, 85%, 60%);
