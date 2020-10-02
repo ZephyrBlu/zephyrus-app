@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { useLoadingState } from '../../hooks';
 import ReplayInfo from './ReplayInfo';
+import ReplaySummary from './ReplaySummary';
 import TimelineArea from './TimelineArea';
 import StatCategory from '../shared/StatCategory';
 import LoadingAnimation from '../shared/LoadingAnimation';
@@ -42,13 +43,19 @@ const ReplayView = ({ replay, timeline, gameloop, clanTagIndex, visibleState }) 
             INITIAL: null,
             IN_PROGRESS: (<LoadingAnimation />),
             SUCCESS: ({ _replay, _timeline, _gameloop, _getPlayers, _visibleState }) => (
-                <TimelineArea
-                    metrics={_replay.metrics}
-                    timeline={_timeline}
-                    gameloop={_gameloop}
-                    players={_getPlayers(_replay)}
-                    visibleState={_visibleState}
-                />
+                <Fragment>
+                    <ReplaySummary
+                        replay={_replay}
+                        timeline={_timeline}
+                    />
+                    <TimelineArea
+                        metrics={_replay.metrics}
+                        timeline={_timeline}
+                        gameloop={_gameloop}
+                        players={_getPlayers(_replay)}
+                        visibleState={_visibleState}
+                    />
+                </Fragment>
             ),
             ERROR: 'An error occurred',
         },

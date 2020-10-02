@@ -8,7 +8,7 @@
     'replay-opponent-race replay-match-info replay-players'
     'replay-date share-replay download';
     grid-gap: 15px 10px;
-    margin: 10px 25px 10px 60px;
+    margin: 20px 40px;
     padding: 20px;
     border-radius: 15px;
     background-color: var(--secondary-dark-3);
