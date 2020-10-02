@@ -3,13 +3,14 @@
 .ReplayInfo {
     position: relative;
     display: grid;
-    grid-template: max-content min-content / repeat(2, max-content) 1fr;
+    grid-template: max-content min-content / max-content 300px 1fr;
     grid-template-areas:
     'replay-opponent-race replay-match-info replay-players'
     'replay-date share-replay download';
-    grid-gap: 15px 10px;
+    grid-gap: 10px 20px;
     margin: 20px 40px;
     padding: 20px;
+    padding-bottom: 10px;
     border-radius: 15px;
     background-color: var(--secondary-dark-3);
 }
@@ -35,13 +36,13 @@
 
 .ReplayInfo__share-replay {
     grid-area: share-replay;
+    width: 362px;
     position: relative;
     align-self: center;
     background-color: var(--secondary-dark-2);
     border-radius: 15px;
     border: 1px solid var(--primary-light-3);
     height: min-content;
-    left: 90px;
 }
 
 .ReplayInfo__share-replay * {
@@ -71,27 +72,18 @@
 
 .ReplayInfo__opponent-race {
     grid-area: replay-opponent-race;
-    width: 85px;
+    display: flex;
+    align-items: center;
+    width: 125px;
     text-align: center;
-    padding: 6px 12px;
     border-radius: 25px;
-    font-size: 18px;
+    font-size: 20px;
     font-weight: 400;
 }
 
-.ReplayInfo__opponent-race--Protoss {
-    box-shadow: 0 0 0 1px var(--protoss) inset;
-    background-color: var(--protoss-background);
-}
-
-.ReplayInfo__opponent-race--Terran {
-    box-shadow: 0 0 0 1.5px var(--terran) inset;
-    background-color: var(--terran-background);
-}
-
-.ReplayInfo__opponent-race--Zerg {
-    box-shadow: 0 0 0 1.5px var(--zerg) inset;
-    background-color: var(--zerg-background);
+.ReplayInfo__opponent-race-icon {
+    height: 25px;
+    margin-right: 8px;
 }
 
 .ReplayInfo__match-info {
@@ -99,8 +91,8 @@
     display: grid;
     grid-template-columns: repeat(3, max-content);
     align-items: center;
-    justify-self: center;
-    font-size: 24px;
+    justify-self: flex-start;
+    font-size: 20px;
 }
 
 .ReplayInfo__match-info * {
@@ -127,20 +119,20 @@
 
 .ReplayInfo__player {
     display: flex;
-    font-size: 24px;
 }
 
 .ReplayInfo__player:first-child {
-    margin-right: 20px;
+    margin-right: 15px;
 }
 
 .ReplayInfo__player-race-icon {
-    height: 30px;
+    height: 25px;
     margin-top: -2px;
     margin-right: 10px;
 }
 
 .ReplayInfo__match-info-field--name {
+    font-size: 20px;
     margin-right: 10px;
 }
 

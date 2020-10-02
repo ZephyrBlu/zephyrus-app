@@ -41,26 +41,18 @@
 
 .ReplayRecord__opponent-race {
     grid-area: opponent-race;
-    width: 80px;
+    display: flex;
+    align-items: center;
+    width: 100px;
     text-align: center;
-    padding: 6px 12px;
     border-radius: 25px;
+    font-size: 14px;
     font-weight: 400;
 }
 
-.ReplayRecord__opponent-race--Protoss {
-    box-shadow: 0 0 0 1px var(--protoss) inset;
-    background-color: var(--protoss-background);
-}
-
-.ReplayRecord__opponent-race--Terran {
-    box-shadow: 0 0 0 1.5px var(--terran) inset;
-    background-color: var(--terran-background);
-}
-
-.ReplayRecord__opponent-race--Zerg {
-    box-shadow: 0 0 0 1.5px var(--zerg) inset;
-    background-color: var(--zerg-background);
+.ReplayRecord__opponent-race-icon {
+    height: 25px;
+    margin-right: 8px;
 }
 
 .ReplayRecord__match-info {

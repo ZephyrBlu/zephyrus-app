@@ -83,7 +83,12 @@ const ReplayRecord = ({ hash, comparisonHash, stats, compareReplay }) => {
             onKeyDown={e => handleKeyDown(e.key)}
         >
             <div className={`ReplayRecord__opponent-race ReplayRecord__opponent-race--${stats.opponentRace}`}>
-                vs {stats.opponentRace}
+                <img
+                    src={`../../icons/${stats.players[2].race.toLowerCase()}-logo.svg`}
+                    alt={stats.players[2].race}
+                    className="ReplayRecord__opponent-race-icon"
+                />
+                vs {stats.players[2].race}
             </div>
             <div className="ReplayRecord__match-info">
                 <span className="ReplayRecord__match-info-field ReplayRecord__match-info-field--matchup">

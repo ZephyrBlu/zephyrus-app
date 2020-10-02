@@ -58,6 +58,11 @@ const ReplayInfo = ({ replay, clanTagIndex }) => {
     return (
         <div className="ReplayInfo">
             <div className={`ReplayInfo__opponent-race ReplayInfo__opponent-race--${replay.players[oppId].race}`}>
+                <img
+                    src={`../../icons/${replay.players[oppId].race.toLowerCase()}-logo.svg`}
+                    alt={replay.players[oppId].race}
+                    className="ReplayInfo__opponent-race-icon"
+                />
                 vs {replay.players[oppId].race}
             </div>
             <div className="ReplayInfo__match-info">
