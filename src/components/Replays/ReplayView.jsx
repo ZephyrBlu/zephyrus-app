@@ -96,7 +96,7 @@ const ReplayView = ({ replay, timeline, gameloop, clanTagIndex, visibleState }) 
         <Fragment>
             <ReplayState />
             <TimelineState />
-            <div className={`ReplayView${replay.data ? '' : '--default'}`}>
+            {/* <div className={`ReplayView${replay.data ? '' : '--default'}`}>
                 {replay.data &&
                     <div className="ReplayView__stats">
                         {statCategories.map(category => (
@@ -108,7 +108,7 @@ const ReplayView = ({ replay, timeline, gameloop, clanTagIndex, visibleState }) 
                             />
                         ))}
                     </div>}
-            </div>
+            </div> */}
         </Fragment>
     );
 };

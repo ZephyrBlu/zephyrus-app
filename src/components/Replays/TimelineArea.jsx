@@ -67,7 +67,7 @@ const TimelineArea = ({ metrics, timeline, gameloop, players, visibleState }) =>
     return (
         <div className="TimelineArea">
             <div className="TimelineArea__chart-area">
-                <ResponsiveContainer className="TimelineArea__timeline" width="99%" height={100}>
+                <ResponsiveContainer className="TimelineArea__timeline" width="99%" height="99%">
                     <LineChart
                         data={timeline.spliced || timeline.data}
                         margin={{ left: 30, right: 20 }}
@@ -136,7 +136,7 @@ const TimelineArea = ({ metrics, timeline, gameloop, players, visibleState }) =>
                         </button>
                     ))}
                 </div>
-                {metrics &&
+                {/* {metrics &&
                     Object.entries(metrics).map(([statKey, values]) => { // eslint-disable-line arrow-body-style
                         // const aheadOrBehind = values.summary.ahead - values.summary.behind >= 0 ? 'ahead' : 'behind';
                         // const avgAheadOrBehind = values.summary.ahead - values.summary.behind >= 0 ? values.summary.avgAhead : values.summary.avgBehind;
@@ -159,7 +159,7 @@ const TimelineArea = ({ metrics, timeline, gameloop, players, visibleState }) =>
                                         />
                                     </LineChart>
                                 </ResponsiveContainer>
-                                {/* <p className="TimelineArea__metric-value">
+                                <p className="TimelineArea__metric-value">
                                     You were {aheadOrBehind} {values.summary[aheadOrBehind]}% of the time
                                 </p>
                                 <p className="TimelineArea__metric-value">
@@ -171,10 +171,10 @@ const TimelineArea = ({ metrics, timeline, gameloop, players, visibleState }) =>
                                     {Math.abs(values.summary.avgLeadLag[0])}
                                     &nbsp;({values.summary.avgLeadLag[0] >= 0 ? '+' : ''}
                                     {values.summary.avgLeadLag[1]}%) on average
-                                </p> */}
+                                </p>
                             </div>
                         );
-                    })}
+                    })} */}
             </div>
             {currentTimelineState &&
                 <div className="timeline-state">
