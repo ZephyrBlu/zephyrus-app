@@ -7,11 +7,13 @@
     --dark-grey: hsl(0, 0%, 40%);
     --purple: hsl(270, 80%, 30%);
     --green: hsl(120, 100%, 40%);
+    --green-desat: hsl(120, 80%, 25%);
     --green-highlight: hsla(120, 80%, 25%, 0.6);
-    --green-background: hsla(120, 80%, 25%, 0.08);
+    --green-background: hsla(120, 80%, 25%, 0.15);
     --red: hsl(0, 100%, 30%);
+    --red-desat: hsl(0, 70%, 25%);
     --red-highlight: hsla(0, 70%, 25%, 0.6);
-    --red-background: hsla(0, 70%, 25%, 0.08);
+    --red-background: hsla(0, 70%, 25%, 0.15);
 
     --protoss: hsl(51, 80%, 50%);
     --zerg: hsl(274, 100%, 30%);
