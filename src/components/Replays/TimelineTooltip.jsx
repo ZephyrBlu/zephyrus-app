@@ -18,13 +18,13 @@ const TimelineTooltip = ({ payload, players, comparisonPlayer, gameloop, timelin
         'Workers Active': ['workers_active'],
         'Workers Lost': ['workers_killed'],
         'Unspent Resources': ['unspent_resources.minerals', 'unspent_resources.gas'],
-        'Resources Mined': ['resources_collected.minerals', 'resources_collected.gas'],
     };
 
     const selectedStat = {
         'Collection Rate': ['resource_collection_rate.minerals', 'resource_collection_rate.gas'],
         'Army Value': ['army_value.minerals', 'army_value.gas'],
         'Resources Lost': ['resources_lost.minerals', 'resources_lost.gas'],
+        'Resources Collected': ['resources_collected.minerals', 'resources_collected.gas'],
     };
 
     const checkSelectedStat = (stat) => {
@@ -38,6 +38,10 @@ const TimelineTooltip = ({ payload, players, comparisonPlayer, gameloop, timelin
 
         if (stat.includes('resources_lost')) {
             return 'Resources Lost';
+        }
+
+        if (stat.includes('resouces_collected')) {
+            return 'Resources Collected';
         }
         return false;
     };

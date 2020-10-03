@@ -11,8 +11,6 @@ const ReplaySummary = ({ replay, timeline }) => {
     const userId = replay.info.user_match_id;
     const oppId = userId === 1 ? 2 : 1;
 
-    console.log(summaryStats);
-
     useEffect(() => {
         console.log(replay, timeline);
 
@@ -72,14 +70,6 @@ const ReplaySummary = ({ replay, timeline }) => {
                 updatedSummaryStats.workersLostAt6[2] = gameState[2].unit[raceWorkers[replay.data.players[2].race]].died;
                 updatedSummaryStats.supplyBlocksAt6[2] = gameState[2].supply_block / 5;
             }
-            // unspentResources[1].push([
-            //     gameState[1].unspent_resources.minerals,
-            //     gameState[1].unspent_resources.gas,
-            // ]);
-            // unspentResources[2].push([
-            //     gameState[2].unspent_resources.minerals,
-            //     gameState[2].unspent_resources.gas,
-            // ]);
             collectionRates[1].push([
                 gameState[1].resource_collection_rate.minerals,
                 gameState[1].resource_collection_rate.gas,
@@ -89,17 +79,6 @@ const ReplaySummary = ({ replay, timeline }) => {
                 gameState[2].resource_collection_rate.gas,
             ]);
         });
-        // updatedSummaryStats.avgUnspentResources[1] = [];
-        // updatedSummaryStats.avgUnspentResources[2] = [];
-
-        // let p1MineralAvg = Math.round(unspentResources[1].map(unspentResourcesValues => unspentResourcesValues[0]).reduce((total, val) => total + val, 0) / unspentResources[1].length);
-        // let p1GasAvg = Math.round(unspentResources[1].map(unspentResourcesValues => unspentResourcesValues[1]).reduce((total, val) => total + val, 0) / unspentResources[1].length);
-        // updatedSummaryStats.avgUnspentResources[1].push(p1MineralAvg, p1GasAvg);
-
-        // let p2MineralAvg = Math.round(unspentResources[2].map(unspentResourcesValues => unspentResourcesValues[0]).reduce((total, val) => total + val, 0) / unspentResources[2].length);
-        // let p2GasAvg = Math.round(unspentResources[2].map(unspentResourcesValues => unspentResourcesValues[1]).reduce((total, val) => total + val, 0) / unspentResources[2].length);
-        // updatedSummaryStats.avgUnspentResources[2].push(p2MineralAvg, p2GasAvg);
-
         updatedSummaryStats.avgCollectionRate[1] = [];
         updatedSummaryStats.avgCollectionRate[2] = [];
 

@@ -48,6 +48,7 @@ const TimelineArea = ({ metrics, timeline, gameloop, players, visibleState }) =>
         // 'unspent_resources.gas': 'Unspent Gas',
         total_army_value: ['Army Value', 'army_value'],
         total_resources_lost: ['Resources Lost', 'resources_lost'],
+        total_resouces_collected: ['Resources Collected', 'resources_collected']
         // 'resources_lost.minerals': 'Minerals Lost',
         // 'resources_lost.gas': 'Gas Lost',
         // workers_active: 'Workers Active',
@@ -185,7 +186,7 @@ const TimelineArea = ({ metrics, timeline, gameloop, players, visibleState }) =>
                                     {currentTimelineState[1].supply} / {currentTimelineState[1].supply_cap}
                                 </div>
                                 <div className="timeline-state__supply-block-value">
-                                    {currentTimelineState[1].supply_block}s
+                                    {currentTimelineState[1].supply_block}s ({currentTimelineState[1].supply_block / 5})
                                 </div>
                             </div>
                             <span className="timeline-state__current-time">
@@ -196,7 +197,7 @@ const TimelineArea = ({ metrics, timeline, gameloop, players, visibleState }) =>
                                     {currentTimelineState[2].supply} / {currentTimelineState[2].supply_cap}
                                 </div>
                                 <div className="timeline-state__supply-block-value">
-                                    {currentTimelineState[2].supply_block}s
+                                    {currentTimelineState[2].supply_block}s ({currentTimelineState[2].supply_block / 5})
                                 </div>
                             </div>
                         </div>

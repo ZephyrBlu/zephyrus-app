@@ -30,7 +30,7 @@ const ReplayView = ({ replay, timeline, gameloop, clanTagIndex, visibleState }) 
             ),
             SUCCESS: ({ _replay, _timeline, _clanTagIndex }) => (
                 <ReplayInfo
-                    replay={_replay.data}
+                    replay={_replay}
                     timeline={{
                         stat: _timeline.stat,
                         setStat: _timeline.setStat,

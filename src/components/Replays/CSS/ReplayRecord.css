@@ -4,7 +4,7 @@
     grid-template-areas:
     'opponent-race match-info'
     'date match-players';
-    grid-gap: 5px 20px;
+    grid-gap: 5px 10px;
     height: min-content;
     width: 450px;
     margin: 10px auto;
@@ -39,26 +39,37 @@
     box-shadow: 0 0 0 2px var(--primary-blue) inset;
 }
 
-.ReplayRecord__opponent-race {
+.ReplayRecord__matchup {
     grid-area: opponent-race;
     display: flex;
     align-items: center;
-    width: 100px;
+    width: 110px;
     text-align: center;
     border-radius: 25px;
     font-size: 14px;
     font-weight: 400;
 }
 
-.ReplayRecord__opponent-race-icon {
+.ReplayRecord__matchup-race-icon {
     height: 25px;
-    margin-right: 8px;
+}
+
+.ReplayRecord__matchup-race-icon:first-child {
+    margin-right: 5px;
+}
+
+.ReplayRecord__matchup-race-icon:nth-child(2) {
+    margin-left: 5px;
+}
+
+.ReplayRecord__result {
+    margin-left: 5px;
 }
 
 .ReplayRecord__match-info {
     grid-area: match-info;
     display: grid;
-    grid-template-columns: repeat(3, max-content);
+    grid-template-columns: repeat(2, max-content);
     align-items: center;
     font-size: 18px;
 }
@@ -68,13 +79,12 @@
 }
 
 .ReplayRecord__match-info-field--map {
-    margin: 0 20px;
+    margin-right: 20px;
 }
 
 .ReplayRecord__match-info-field--date {
     grid-area: date;
     font-size: 14px;
-    text-align: center;
     align-self: flex-end;
     color: var(--grey);
 }

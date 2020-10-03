@@ -1,7 +1,7 @@
 .ReplaySummary {
     display: flex;
     flex-wrap: wrap;
-    background-color: var(--secondary-dark-3);
+    background-color: var(--secondary-dark-2);
     border-radius: 15px;
     margin: 10px 40px;
     padding: 10px;

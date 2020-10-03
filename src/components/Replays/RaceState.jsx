@@ -180,7 +180,7 @@ const RaceState = ({ players, timelineState }) => {
                                     </div>
                                 ))}
                         </div>}
-                    {playerState.race.energy &&
+                    {/* {playerState.race.energy &&
                         <div className="RaceState__energy">
                             <BarChart
                                 width={10 + (Object.values(playerState.race.energy)[0].length * 35)}
@@ -263,7 +263,7 @@ const RaceState = ({ players, timelineState }) => {
                                     </tr>
                                 </tbody>
                             </table>
-                        </div>}
+                        </div>} */}
                     {playerState.race.creep &&
                         <ul className="RaceState__creep">
                             <li className="RaceState__creep-stat">
