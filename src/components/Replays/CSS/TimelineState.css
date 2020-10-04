@@ -50,8 +50,8 @@
     margin-bottom: 10px;
     display: grid;
     grid-template-columns: 1fr max-content 1fr;
-    grid-template-rows: 40px;
     grid-template-areas: 'unit-info-player1 state-info-title unit-info-player2';
+    min-height: 40px;
     border-bottom: 1px solid var(--primary-light-3);
     padding-bottom: 5px;
 }
@@ -60,6 +60,7 @@
     grid-area: state-info-title;
     height: min-content;
     align-self: center;
+    margin: 0;
 }
 
 .timeline-state__info-player1 {

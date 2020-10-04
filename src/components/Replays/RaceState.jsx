@@ -140,8 +140,8 @@ const RaceState = ({ players, playerOrder, timelineState }) => {
                     <BarChart
                         layout="vertical"
                         barGap={2}
-                        barSize={15}
-                        maxBarSize={15}
+                        barSize={20}
+                        maxBarSize={20}
                         data={[formatResourceData(timelineState)[0]]}
                     >
                         <XAxis type="number" domain={[0, 1]} hide />
@@ -156,8 +156,8 @@ const RaceState = ({ players, playerOrder, timelineState }) => {
                     <BarChart
                         layout="vertical"
                         barGap={2}
-                        barSize={15}
-                        maxBarSize={15}
+                        barSize={20}
+                        maxBarSize={20}
                         data={[formatResourceData(timelineState)[1]]}
                     >
                         <XAxis type="number" domain={[0, 1]} hide />

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment } from 'react';
+import React, { useLayoutEffect, useState, Fragment } from 'react';
 import './CSS/TimelineState.css';
 
 const ObjectState = (props) => {
@@ -11,22 +11,30 @@ const ObjectState = (props) => {
     }
 
     let unitsRendered = 0;
-    const windowSize = window.innerWidth;
 
-    useEffect(() => {
-        if (props.visibleState) {
-            if (windowSize <= 1400) {
-                setUnitLimit(6);
-            } else if (windowSize <= 1500) {
-                setUnitLimit(7);
-            } else if (windowSize <= 1700) {
-                setUnitLimit(8);
+    useLayoutEffect(() => {
+        const updateIconLimit = () => {
+            const windowSize = window.innerWidth;
+            if (props.visibleState) {
+                if (windowSize < 1920) {
+                    const iconDiff = Math.ceil((1920 - windowSize) / 120);
+                    setUnitLimit(10 - iconDiff);
+                } else {
+                    setUnitLimit(10);
+                }
+            } else if (windowSize < 1920) {
+                const iconDiff = Math.ceil((1920 - windowSize) / 160);
+                setUnitLimit(12 - iconDiff);
             } else {
-                setUnitLimit(10);
+                setUnitLimit(12);
             }
-        } else {
-            setUnitLimit(14);
-        }
+        };
+        window.addEventListener('resize', updateIconLimit);
+        updateIconLimit();
+
+        return () => {
+            window.removeEventListener('resize', updateIconLimit);
+        };
     }, [props.visibleState]);
 
     const capitalize = str => (
