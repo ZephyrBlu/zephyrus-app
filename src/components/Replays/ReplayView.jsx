@@ -3,7 +3,7 @@ import { useLoadingState } from '../../hooks';
 import ReplayInfo from './ReplayInfo';
 import ReplaySummary from './ReplaySummary';
 import TimelineArea from './TimelineArea';
-import StatCategory from '../shared/StatCategory';
+// import StatCategory from '../shared/StatCategory';
 import LoadingAnimation from '../shared/LoadingAnimation';
 import './CSS/ReplayView.css';
 
@@ -50,6 +50,7 @@ const ReplayView = ({ replay, timeline, gameloop, clanTagIndex, visibleState }) 
                     />
                     <TimelineArea
                         metrics={_replay.metrics}
+                        replay={_replay}
                         timeline={_timeline}
                         gameloop={_gameloop}
                         players={_getPlayers(_replay)}
@@ -61,14 +62,14 @@ const ReplayView = ({ replay, timeline, gameloop, clanTagIndex, visibleState }) 
         },
     };
 
-    const statCategories = ['general', 'economic', 'PAC', 'efficiency'];
+    // const statCategories = ['general', 'economic', 'PAC', 'efficiency'];
 
     // remove race from replay.info as it is non-standard and not displayed for post-game summary
-    let replayInfo;
-    if (replay.info) {
-        const { race, ...filteredReplay } = replay.info;
-        replayInfo = filteredReplay;
-    }
+    // let replayInfo;
+    // if (replay.info) {
+    //     const { race, ...filteredReplay } = replay.info;
+    //     replayInfo = filteredReplay;
+    // }
 
     const replayLoadingData = {
         data: {
@@ -93,7 +94,7 @@ const ReplayView = ({ replay, timeline, gameloop, clanTagIndex, visibleState }) 
     const TimelineState = useLoadingState(timelineLoadingData, dataStates.timeline);
 
     return (
-        <Fragment>
+        <div className={`ReplayView ReplayView--${visibleState ? 'replays' : 'no-replays'}`}>
             <ReplayState />
             <TimelineState />
             {/* <div className={`ReplayView${replay.data ? '' : '--default'}`}>
@@ -109,7 +110,7 @@ const ReplayView = ({ replay, timeline, gameloop, clanTagIndex, visibleState }) 
                         ))}
                     </div>}
             </div> */}
-        </Fragment>
+        </div>
     );
 };
 

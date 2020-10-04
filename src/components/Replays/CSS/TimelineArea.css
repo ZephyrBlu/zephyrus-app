@@ -3,12 +3,10 @@
 }
 
 .TimelineArea {
-    margin: 40px;
+    margin: 40px 0;
 }
 
 .TimelineArea__chart-area {
-    /* display: flex;
-    justify-content: space-between; */
     display: grid;
     grid-template: max-content / 1fr max-content;
     grid-template-areas: 'timeline chart-selector';
@@ -56,11 +54,6 @@
 .TimelineArea__chart-stat--active {
     box-shadow: 0 0 0 2px var(--primary-blue) inset;
 }
-
-/* .TimelineArea__summary-metrics {
-    display: flex;
-    padding: 0 10px;
-} */
 
 .TimelineArea__metric {
     padding: 0 5px;
@@ -161,18 +154,12 @@
     justify-self: flex-end;
 }
 
-.timeline-state__player-info * {
-    display: block;
-}
-
-.timeline-state__player-mmr {
-    font-size: 16px;
-    color: var(--grey);
+.timeline-state__player-name {
+    margin: 0 10px;
 }
 
 .timeline-state__race-icon {
-    height: 50px;
-    width: 50px;
+    height: 30px;
 }
 
 #tooltip {

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-const TimelineTooltip = ({ payload, players, comparisonPlayer, gameloop, timeline }) => {
+const TimelineTooltip = ({ payload, players, playerOrder, comparisonPlayer, gameloop, timeline }) => {
     const [currentTimeout, setCurrentTimeout] = useState(false);
     const [prevGameloop, setPrevGameloop] = useState(0);
 
@@ -92,8 +92,8 @@ const TimelineTooltip = ({ payload, players, comparisonPlayer, gameloop, timelin
                                         fill="hsl(0, 100%, 55%)"
                                     />
                                 </svg>
-                                {players[1].name}
-                                &nbsp;({players[1].race.slice(0, 1)})
+                                {players[playerOrder[0]].name}
+                                &nbsp;({players[playerOrder[0]].race.slice(0, 1)})
                             </td>
                             <td className="tooltip__player tooltip__player--player1">
                                 <svg
@@ -108,8 +108,8 @@ const TimelineTooltip = ({ payload, players, comparisonPlayer, gameloop, timelin
                                         fill="hsl(240, 80%, 55%)"
                                     />
                                 </svg>
-                                {players[2].name}
-                                &nbsp;({players[2].race.slice(0, 1)})
+                                {players[playerOrder[1]].name}
+                                &nbsp;({players[playerOrder[1]].race.slice(0, 1)})
                             </td>
                             {comparisonPlayer &&
                                 <td className="tooltip__player tooltip__player--comparison">
@@ -168,7 +168,7 @@ const TimelineTooltip = ({ payload, players, comparisonPlayer, gameloop, timelin
                                 </td>
                                 <td className="tooltip__stat-values">
                                     {selectedStat[checkSelectedStat(timeline.stat)].map((key, index) => (
-                                        <span className="tooltip__value tooltip__value--player1">
+                                        <span key={`${key}-${index}`} className="tooltip__value tooltip__value--player1">
                                             {string2dot(timeline.state[1], key)}&nbsp;
                                             {index === selectedStat[checkSelectedStat(timeline.stat)].length - 1 ? '' : '/ '}
                                         </span>
@@ -176,7 +176,7 @@ const TimelineTooltip = ({ payload, players, comparisonPlayer, gameloop, timelin
                                 </td>
                                 <td className="tooltip__stat-values">
                                     {selectedStat[checkSelectedStat(timeline.stat)].map((key, index) => (
-                                        <span className="tooltip__value tooltip__value--player2">
+                                        <span key={`${key}-${index}`} className="tooltip__value tooltip__value--player2">
                                             {string2dot(timeline.state[2], key)}&nbsp;
                                             {index === selectedStat[checkSelectedStat(timeline.stat)].length - 1 ? '' : '/ '}
                                         </span>

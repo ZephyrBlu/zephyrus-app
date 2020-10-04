@@ -12,8 +12,6 @@ const ReplaySummary = ({ replay, timeline }) => {
     const oppId = userId === 1 ? 2 : 1;
 
     useEffect(() => {
-        console.log(replay, timeline);
-
         const updatedSummaryStats = {
             workersAt6: {
                 1: null,
@@ -27,7 +25,7 @@ const ReplaySummary = ({ replay, timeline }) => {
                 1: replay.info.apm[1],
                 2: replay.info.apm[2],
             },
-            spm:  {
+            spm: {
                 1: replay.info.spm[1],
                 2: replay.info.spm[2],
             },
@@ -148,6 +146,7 @@ const ReplaySummary = ({ replay, timeline }) => {
         <div className="ReplaySummary">
             {summaryStats && Object.keys(summaryStats).map(statName => (
                 <div
+                    key={statName}
                     className={`
                         ReplaySummary__summary-stat
                         ReplaySummary__summary-stat--${statName}
@@ -158,9 +157,9 @@ const ReplaySummary = ({ replay, timeline }) => {
                         {summaryStatNames[statName]}
                     </div>
                     <div className="ReplaySummary__summary-stat-info ReplaySummary__summary-stat-info--value">
-                    {['avgCollectionRate', 'resourcesLost'].includes(statName)
-                        ? splitValues(summaryStats[statName][userId])
-                        : summaryStats[statName][userId]}
+                        {['avgCollectionRate', 'resourcesLost'].includes(statName)
+                            ? splitValues(summaryStats[statName][userId])
+                            : summaryStats[statName][userId]}
                     </div>
                     <div className="ReplaySummary__summary-stat-info ReplaySummary__summary-stat-info--diff">
                         {calcStatDiff(statName)}%

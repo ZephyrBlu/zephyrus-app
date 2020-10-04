@@ -75,7 +75,7 @@ const ReplayInfo = ({ replay, clanTagIndex }) => {
                 {formatDate(replay.data.played_at)}
             </span>
             <div className="ReplayInfo__players">
-                <div className={`ReplayInfo__player ReplayInfo__player--${replay.data.players[userId].race}`}>
+                <div className="ReplayInfo__player">
                     <img
                         src={`../../icons/${replay.data.players[userId].race.toLowerCase()}-logo.svg`}
                         alt={replay.data.players[userId].race}
@@ -88,7 +88,7 @@ const ReplayInfo = ({ replay, clanTagIndex }) => {
                         {replay.info.mmr[userId]}
                     </span>
                 </div>
-                <div className={`ReplayInfo__player ReplayInfo__player--${replay.data.players[oppId].race}`}>
+                <div className="ReplayInfo__player">
                     <img
                         src={`../../icons/${replay.data.players[oppId].race.toLowerCase()}-logo.svg`}
                         alt={replay.data.players[oppId].race}

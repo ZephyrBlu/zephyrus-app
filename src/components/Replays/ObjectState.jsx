@@ -92,13 +92,13 @@ const ObjectState = (props) => {
                     {capitalize(props.objectType)}s&nbsp;
                     {state === 'in_progress' ? 'In-progress' : capitalize(state)}
                 </h2>
-                {Object.keys(props.timelineState).map((playerId) => {
+                {props.playerOrder.map((playerId, index) => {
                     unitsRendered = 0;
 
                     return (
                         <div
-                            key={`timeline-state__building-info-player${playerId}`}
-                            className={`timeline-state__info-player${playerId}`}
+                            key={`timeline-state__building-info-player${index + 1}`}
+                            className={`timeline-state__info-player${index + 1}`}
                         >
                             {props.timelineState[playerId][props.objectType] &&
                                 Object.entries(props.timelineState[playerId][props.objectType]).map(([objectName, objectInfo]) => (

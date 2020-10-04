@@ -3,24 +3,24 @@
 .ReplayInfo {
     position: relative;
     display: grid;
-    grid-template: max-content min-content / 70px 300px 1fr;
+    grid-template: max-content min-content / 80px 300px 1fr;
     grid-template-areas:
     'replay-result replay-match-info replay-players'
     'download share-replay replay-date';
-    grid-gap: 10px 20px;
-    margin: 20px 40px;
+    grid-gap: 15px 20px;
+    margin: 0 0 30px;
     padding: 15px 20px;
     border-radius: 15px;
-    background-color: var(--secondary-dark-2);
+    background-color: var(--secondary-dark-3);
 }
 
 .ReplayInfo__replay-download {
     grid-area: download;
-    padding: 6px 8px;
+    padding: 6px 12px;
     border: 1px solid var(--primary-light-3);
     background-color: var(--secondary-dark-2);
     font-family: 'Roboto', sans-serif;
-    font-size: 16px;
+    font-size: 18px;
     text-decoration: none;
     border-radius: 4px;
     width: max-content;
@@ -41,7 +41,7 @@
     border-radius: 15px;
     border: 1px solid var(--primary-light-3);
     height: min-content;
-    left: 75px;
+    left: 100px;
 }
 
 .ReplayInfo__share-replay * {
@@ -74,8 +74,8 @@
     background-color: var(--primary-light-3);
     border-radius: 4px;
     padding: 4px 12px;
-    width: 46px;
-    font-size: 18px;
+    width: 56px;
+    font-size: 24px;
     font-weight: 400;
     text-align: center;
 }
@@ -98,7 +98,7 @@
     grid-template-columns: repeat(3, max-content);
     align-items: center;
     justify-self: flex-start;
-    font-size: 20px;
+    font-size: 24px;
 }
 
 .ReplayInfo__match-info * {
@@ -111,7 +111,7 @@
 
 .ReplayInfo__date {
     grid-area: replay-date;
-    font-size: 16px;
+    font-size: 18px;
     align-self: center;
     justify-self: flex-end;
     color: var(--grey);
@@ -122,7 +122,7 @@
     display: flex;
     align-self: center;
     justify-self: flex-end;
-    font-size: 16px;
+    font-size: 24px;
 }
 
 .ReplayInfo__player {
@@ -130,11 +130,11 @@
 }
 
 .ReplayInfo__player:first-child {
-    margin-right: 15px;
+    margin-right: 40px;
 }
 
 .ReplayInfo__player-race-icon {
-    height: 25px;
+    height: 35px;
     margin-top: -2px;
     margin-right: 5px;
 }
@@ -146,6 +146,8 @@
 
 .ReplayInfo__match-info-field--mmr {
     align-self: center;
+    font-size: 18px;
+    margin-top: 2px;
 }
 
 .ReplayInfo__player-info {
@@ -168,41 +170,62 @@
     border-radius: 0 15px 15px 0;
 }
 
-@media (max-width: 1500px) {
-    .ReplayInfo__stats {
-        grid-column-gap: 20px;
-    }
-}
-
-@media (max-width: 1400px) {
-    .ReplayInfo {
-        margin-left: 20px;
-    }
-
-    .ReplayInfo__stats {
-        grid-column-gap: 0;
-    }
-}
-
-@media (max-width: 1350px) {
-    .ReplayInfo__stats {
-        grid-template: repeat(2, max-content) / repeat(2, min-content);
-        margin: 0 0 30px;
+/* only apply if the replays panel is active */
+@media (max-width: 1600px) {
+    .ReplayView--replays .ReplayInfo {
+        position: relative;
+        display: grid;
+        grid-template: max-content min-content / 70px 235px 1fr;
+        grid-template-areas:
+        'replay-result replay-match-info replay-players'
+        'download share-replay replay-date';
+        grid-gap: 15px;
     }
 
-    .ReplayInfo__players {
-        margin-right: 0;
-    }
-}
-
-@media (max-width: 1025px) {
-    .ReplayInfo__matchup,
-    .ReplayInfo__map {
-        font-size: 26px;
+    .ReplayView--replays .ReplayInfo__result {
+        border-radius: 4px;
+        padding: 4px 12px;
+        width: 46px;
+        font-size: 18px;
     }
 
-    .ReplayInfo__player-info,
-    .ReplayInfo__player-name {
+    .ReplayView--replays .ReplayInfo__match-info {
+        font-size: 16px;
+    }
+
+    .ReplayView--replays .ReplayInfo__map {
+        margin: 0 10px;
+    }
+
+    .ReplayView--replays .ReplayInfo__date {
         font-size: 14px;
+    }
+
+    .ReplayView--replays .ReplayInfo__players {
+        font-size: 16px;
+    }
+
+    .ReplayView--replays .ReplayInfo__player:first-child {
+        margin-right: 15px;
+    }
+
+    .ReplayView--replays .ReplayInfo__match-info-field--mmr {
+        font-size: 14px;
+    }
+
+    .ReplayView--replays .ReplayInfo__player-race-icon {
+        height: 25px;
+        margin-top: -2px;
+        margin-right: 2px;
+    }
+
+    .ReplayView--replays .ReplayInfo__replay-download {
+        padding: 6px 8px;
+        font-size: 16px;
+        border-radius: 4px;
+    }
+
+    .ReplayView--replays .ReplayInfo__share-replay {
+        left: 90px;
     }
 }

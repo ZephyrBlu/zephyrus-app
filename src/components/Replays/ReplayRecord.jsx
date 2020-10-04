@@ -1,9 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
-import React, { Fragment } from 'react';
+import React from 'react';
 import { setSelectedReplayHash } from '../../actions';
 import './CSS/ReplayRecord.css';
 
-const ReplayRecord = ({ hash, comparisonHash, stats, compareReplay }) => {
+const ReplayRecord = ({ hash, comparisonHash, stats }) => {
     const dispatch = useDispatch();
     const selectedReplayHash = useSelector(state => state.selectedReplayHash);
 

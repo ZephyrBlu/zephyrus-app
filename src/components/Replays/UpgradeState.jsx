@@ -19,7 +19,7 @@ const UpgradeState = (props) => {
     const currentUpgrades = { 1: {}, 2: {} };
 
     if (Object.keys(props.timelineState[1]).length > 1) {
-        Object.keys(props.timelineState).forEach(playerId => (
+        props.playerOrder.forEach(playerId => (
             props.timelineState[playerId].upgrade.forEach((upgradeName) => {
                 const upgradeType = upgradeName.slice(0, -1);
 
@@ -42,13 +42,13 @@ const UpgradeState = (props) => {
     return (
         <div className="timeline-state__info timeline-state__info--upgrades">
             <h2 className="state-info-title">Upgrades</h2>
-            {Object.keys(props.timelineState).map((playerId) => {
+            {props.playerOrder.map((playerId, index) => {
                 unitsRendered = 0;
 
                 return (
                     <div
-                        key={`timeline-state__unit-info-player${playerId}`}
-                        className={`timeline-state__info-player${playerId}`}
+                        key={`timeline-state__unit-info-player${index + 1}`}
+                        className={`timeline-state__info-player${index + 1}`}
                     >
                         {Object.values(currentUpgrades[playerId]).map(upgradeName => (
                             <Fragment key={`${upgradeName}-${playerId}-frag`}>

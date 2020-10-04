@@ -2,7 +2,7 @@ import React from 'react';
 import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip } from 'recharts';
 import './CSS/RaceState.css';
 
-const RaceState = ({ players, timelineState }) => {
+const RaceState = ({ players, playerOrder, timelineState }) => {
     const abilityNames = {
         ScannerSweep: 'Scan',
         SupplyDrop: 'Supply Drop',
@@ -11,44 +11,44 @@ const RaceState = ({ players, timelineState }) => {
         NexusMassRecall: 'Mass Recall',
     };
 
-    const energyCommandStructures = {
-        Protoss: 'Nexus',
-        Terran: 'OrbitalCommand',
-    };
+    // const energyCommandStructures = {
+    //     Protoss: 'Nexus',
+    //     Terran: 'OrbitalCommand',
+    // };
 
-    const formatEnergyData = (energyData, playerId) => {
-        const commandStructureEnergy = energyData[energyCommandStructures[players[playerId].race]];
-        const formattedData = {};
+    // const formatEnergyData = (energyData, playerId) => {
+    //     const commandStructureEnergy = energyData[energyCommandStructures[players[playerId].race]];
+    //     const formattedData = {};
 
-        commandStructureEnergy.forEach((building, index) => {
-            formattedData[`building${index}`] = building[0];
-        });
+    //     commandStructureEnergy.forEach((building, index) => {
+    //         formattedData[`building${index}`] = building[0];
+    //     });
 
-        return [formattedData];
-    };
+    //     return [formattedData];
+    // };
 
-    const formatInjectData = (injectData) => {
-        const formattedData = {};
+    // const formatInjectData = (injectData) => {
+    //     const formattedData = {};
 
-        injectData.forEach((building, index) => {
-            formattedData[`building${index}`] = building[0];
-        });
+    //     injectData.forEach((building, index) => {
+    //         formattedData[`building${index}`] = building[0];
+    //     });
 
-        return [formattedData];
-    };
+    //     return [formattedData];
+    // };
 
-    const transposeEnergyData = (energyData) => {
-        // energy values, energy efficiency, energy idle time
-        const formattedData = [[], [], []];
+    // const transposeEnergyData = (energyData) => {
+    //     // energy values, energy efficiency, energy idle time
+    //     const formattedData = [[], [], []];
 
-        Object.values(energyData)[0].forEach((building) => {
-            formattedData[0].push(Math.round(building[0], 0));
-            formattedData[1].push(`${Math.round(building[1] * 100, 0)}%`);
-            formattedData[2].push(`${Math.round(building[2], 0)}s`);
-        });
+    //     Object.values(energyData)[0].forEach((building) => {
+    //         formattedData[0].push(Math.round(building[0], 0));
+    //         formattedData[1].push(`${Math.round(building[1] * 100, 0)}%`);
+    //         formattedData[2].push(`${Math.round(building[2], 0)}s`);
+    //     });
 
-        return formattedData;
-    };
+    //     return formattedData;
+    // };
 
     const formatResourceData = (data) => {
         const resourceData = {
@@ -57,8 +57,8 @@ const RaceState = ({ players, timelineState }) => {
         };
 
         Object.entries(data).forEach(([playerId, gameState]) => {
-            resourceData.army_value[playerId] = gameState.army_value;
-            resourceData.resources_lost[playerId] = gameState.resources_lost;
+            resourceData.army_value[playerOrder[playerId - 1]] = gameState.army_value;
+            resourceData.resources_lost[playerOrder[playerId - 1]] = gameState.resources_lost;
         });
 
         const total_army_values = { minerals: 0, gas: 0 };
@@ -155,13 +155,13 @@ const RaceState = ({ players, timelineState }) => {
                     </BarChart>
                 </ResponsiveContainer>
             </div>
-            {Object.values(timelineState).map((playerState, index) => (
+            {playerOrder.map((playerId, index) => (
                 <div key={`player-state-${index + 1}`} className={`RaceState__player RaceState__player--player${index + 1}`}>
-                    {(players[index + 1].race === 'Protoss' || players[index + 1].race === 'Terran') &&
+                    {(players[playerId].race === 'Protoss' || players[playerId].race === 'Terran') &&
                         <div className="RaceState__energy-usage">
-                            {players[index + 1].race === 'Protoss' && playerState.race.ability_targets &&
-                                Object.entries(playerState.race.ability_targets).map(([building, count]) => (
-                                    <div className="RaceState__usage-values">
+                            {players[playerId].race === 'Protoss' && timelineState[playerId].race.ability_targets &&
+                                Object.entries(timelineState[playerId].race.ability_targets).map(([building, count]) => (
+                                    <div key={`${building}-${count}`} className="RaceState__usage-values">
                                         {building.split(/(?=[A-Z])/).map(name => (
                                             `${name} `
                                         ))}
@@ -170,9 +170,9 @@ const RaceState = ({ players, timelineState }) => {
                                         </div>
                                     </div>
                                 ))}
-                            {players[index + 1].race === 'Terran' && playerState.race.abilities_used &&
-                                Object.entries(playerState.race.abilities_used).map(([ability, count]) => (
-                                    <div className="RaceState__usage-values">
+                            {players[playerId].race === 'Terran' && timelineState[playerId].race.abilities_used &&
+                                Object.entries(timelineState[playerId].race.abilities_used).map(([ability, count]) => (
+                                    <div key={`${ability}-${count}`} className="RaceState__usage-values">
                                         {abilityNames[ability]}&nbsp;
                                         <div className="RaceState__usage-count">
                                             {count}
@@ -264,24 +264,24 @@ const RaceState = ({ players, timelineState }) => {
                                 </tbody>
                             </table>
                         </div>} */}
-                    {playerState.race.creep &&
+                    {timelineState[playerId].race.creep &&
                         <ul className="RaceState__creep">
                             <li className="RaceState__creep-stat">
                                 Creep Coverage
                                 <div className="RaceState__zerg-count">
-                                    {Math.round(playerState.race.creep.coverage[0] * 100, 0)}%
+                                    {Math.round(timelineState[playerId].race.creep.coverage[0] * 100, 0)}%
                                 </div>
                             </li>
                             <li className="RaceState__creep-stat">
                                 Creep Tiles
                                 <div className="RaceState__zerg-count">
-                                    {playerState.race.creep.coverage[1]}
+                                    {timelineState[playerId].race.creep.coverage[1]}
                                 </div>
                             </li>
                             <li className="RaceState__creep-stat">
                                 Active Tumors
                                 <div className="RaceState__zerg-count">
-                                    {playerState.race.creep.tumors}
+                                    {timelineState[playerId].race.creep.tumors}
                                 </div>
                             </li>
                         </ul>}
