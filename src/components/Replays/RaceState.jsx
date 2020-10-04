@@ -11,6 +11,11 @@ const RaceState = ({ players, playerOrder, timelineState }) => {
         NexusMassRecall: 'Mass Recall',
     };
 
+    const raceAbilityUsage = {
+        Protoss: 'Chronoboost Usage',
+        Terran: 'Orbital Ability Usage',
+    };
+
     // const energyCommandStructures = {
     //     Protoss: 'Nexus',
     //     Terran: 'OrbitalCommand',
@@ -73,6 +78,9 @@ const RaceState = ({ players, playerOrder, timelineState }) => {
             gasPercent: total_army_values.gas
                 ? resourceData.army_value[1].gas / total_army_values.gas
                 : 0,
+            totalPercent: (total_army_values.minerals || total_army_values.gas)
+                ? (resourceData.army_value[1].minerals + resourceData.army_value[1].gas) / (total_army_values.minerals + total_army_values.gas)
+                : 0,
         };
 
         resourceData.army_value[2] = {
@@ -82,6 +90,9 @@ const RaceState = ({ players, playerOrder, timelineState }) => {
                 : 0,
             gasPercent: total_army_values.gas
                 ? resourceData.army_value[2].gas / total_army_values.gas
+                : 0,
+            totalPercent: (total_army_values.minerals || total_army_values.gas)
+                ? (resourceData.army_value[2].minerals + resourceData.army_value[2].gas) / (total_army_values.minerals + total_army_values.gas)
                 : 0,
         };
 
@@ -97,6 +108,9 @@ const RaceState = ({ players, playerOrder, timelineState }) => {
             gasPercent: total_resources_lost.gas
                 ? resourceData.resources_lost[1].gas / total_resources_lost.gas
                 : 0,
+            totalPercent: (total_resources_lost.minerals || total_resources_lost.gas)
+                ? (resourceData.resources_lost[1].minerals + resourceData.resources_lost[1].gas) / (total_resources_lost.minerals + total_resources_lost.gas)
+                : 0,
         };
 
         resourceData.resources_lost[2] = {
@@ -106,6 +120,9 @@ const RaceState = ({ players, playerOrder, timelineState }) => {
                 : 0,
             gasPercent: total_resources_lost.gas
                 ? resourceData.resources_lost[2].gas / total_resources_lost.gas
+                : 0,
+            totalPercent: (total_resources_lost.minerals || total_resources_lost.gas)
+                ? (resourceData.resources_lost[2].minerals + resourceData.resources_lost[2].gas) / (total_resources_lost.minerals + total_resources_lost.gas)
                 : 0,
         };
 
@@ -123,17 +140,15 @@ const RaceState = ({ players, playerOrder, timelineState }) => {
                     <BarChart
                         layout="vertical"
                         barGap={2}
-                        barSize={10}
-                        maxBarSize={10}
+                        barSize={15}
+                        maxBarSize={15}
                         data={[formatResourceData(timelineState)[0]]}
                     >
                         <XAxis type="number" domain={[0, 1]} hide />
                         <YAxis type="category" hide />
                         <Tooltip wrapperStyle={{ zIndex: 9999 }} content={<RaceStateTooltip />} cursor={false} />
-                        <Bar dataKey="1.mineralsPercent" stackId="minerals" fill="hsla(0, 100%, 55%, 0.6)" strokeWidth={resourceBarStrokeWidth} strokeOpacity={resourceBarStrokeOpacity} radius={[10, 0, 0, 0]} isAnimationActive={false} />
-                        <Bar dataKey="1.gasPercent" stackId="gas" fill="hsla(0, 100%, 55%, 0.6)" strokeWidth={resourceBarStrokeWidth} strokeOpacity={resourceBarStrokeOpacity} radius={[0, 0, 0, 10]} isAnimationActive={false} />
-                        <Bar dataKey="2.mineralsPercent" stackId="minerals" fill="hsla(240, 80%, 55%, 0.6)" strokeWidth={resourceBarStrokeWidth} strokeOpacity={resourceBarStrokeOpacity} radius={[0, 10, 0, 0]} isAnimationActive={false} />
-                        <Bar dataKey="2.gasPercent" stackId="gas" fill="hsla(240, 80%, 55%, 0.6)" strokeWidth={resourceBarStrokeWidth} strokeOpacity={resourceBarStrokeOpacity} radius={[0, 0, 10, 0]} isAnimationActive={false} />
+                        <Bar dataKey="1.totalPercent" stackId="total" fill="hsla(0, 100%, 55%, 0.6)" strokeWidth={resourceBarStrokeWidth} strokeOpacity={resourceBarStrokeOpacity} radius={[5, 0, 0, 5]} isAnimationActive={false} />
+                        <Bar dataKey="2.totalPercent" stackId="total" fill="hsla(240, 80%, 55%, 0.6)" strokeWidth={resourceBarStrokeWidth} strokeOpacity={resourceBarStrokeOpacity} radius={[0, 5, 5, 0]} isAnimationActive={false} />
                     </BarChart>
                 </ResponsiveContainer>
                 <h2 className="RaceState__resource-chart-title">Resources Lost</h2>
@@ -141,22 +156,25 @@ const RaceState = ({ players, playerOrder, timelineState }) => {
                     <BarChart
                         layout="vertical"
                         barGap={2}
-                        barSize={10}
-                        maxBarSize={10}
+                        barSize={15}
+                        maxBarSize={15}
                         data={[formatResourceData(timelineState)[1]]}
                     >
                         <XAxis type="number" domain={[0, 1]} hide />
                         <YAxis type="category" hide />
                         <Tooltip content={<RaceStateTooltip />} cursor={false} />
-                        <Bar dataKey="1.mineralsPercent" stackId="minerals" fill="hsla(0, 100%, 55%, 0.6)" strokeWidth={resourceBarStrokeWidth} strokeOpacity={resourceBarStrokeOpacity} radius={[10, 0, 0, 0]} isAnimationActive={false} />
-                        <Bar dataKey="1.gasPercent" stackId="gas" fill="hsla(0, 100%, 55%, 0.6)" strokeWidth={resourceBarStrokeWidth} strokeOpacity={resourceBarStrokeOpacity} radius={[0, 0, 0, 10]} isAnimationActive={false} />
-                        <Bar dataKey="2.mineralsPercent" stackId="minerals" fill="hsla(240, 80%, 55%, 0.6)" strokeWidth={resourceBarStrokeWidth} strokeOpacity={resourceBarStrokeOpacity} radius={[0, 10, 0, 0]} isAnimationActive={false} />
-                        <Bar dataKey="2.gasPercent" stackId="gas" fill="hsla(240, 80%, 55%, 0.6)" strokeWidth={resourceBarStrokeWidth} strokeOpacity={resourceBarStrokeOpacity} radius={[0, 0, 10, 0]} isAnimationActive={false} />
+                        <Bar dataKey="1.totalPercent" stackId="total" fill="hsla(0, 100%, 55%, 0.6)" strokeWidth={resourceBarStrokeWidth} strokeOpacity={resourceBarStrokeOpacity} radius={[5, 0, 0, 5]} isAnimationActive={false} />
+                        <Bar dataKey="2.totalPercent" stackId="total" fill="hsla(240, 80%, 55%, 0.6)" strokeWidth={resourceBarStrokeWidth} strokeOpacity={resourceBarStrokeOpacity} radius={[0, 5, 5, 0]} isAnimationActive={false} />
                     </BarChart>
                 </ResponsiveContainer>
             </div>
             {playerOrder.map((playerId, index) => (
                 <div key={`player-state-${index + 1}`} className={`RaceState__player RaceState__player--player${index + 1}`}>
+                    <span className="RaceState__energy-usage-structure">
+                        {players[playerId].race !== 'Zerg'
+                            ? raceAbilityUsage[players[playerId].race]
+                            : 'Creep Spread'}
+                    </span>
                     {(players[playerId].race === 'Protoss' || players[playerId].race === 'Terran') &&
                         <div className="RaceState__energy-usage">
                             {players[playerId].race === 'Protoss' && timelineState[playerId].race.ability_targets &&
