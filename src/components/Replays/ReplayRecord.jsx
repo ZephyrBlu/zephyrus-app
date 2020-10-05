@@ -94,9 +94,6 @@ const ReplayRecord = ({ hash, comparisonHash, stats }) => {
                     alt={stats.players[2].race}
                     className="ReplayRecord__matchup-race-icon"
                 />
-                <span className="ReplayRecord__result">
-                    ( {stats.result.slice(0, 1)} )
-                </span>
             </div>
             <div className="ReplayRecord__match-info">
                 {/* <span className="ReplayRecord__match-info-field ReplayRecord__match-info-field--matchup">
@@ -107,6 +104,9 @@ const ReplayRecord = ({ hash, comparisonHash, stats }) => {
                 </span>
                 <span className="ReplayRecord__match-info-field ReplayRecord__match-info-field--match-length">
                     {stats.matchLength} min
+                </span>
+                <span className={`ReplayRecord__match-info-field ReplayRecord__match-info-field--result ReplayRecord__match-info-field--${stats.result.toLowerCase().split(',')[0]}`}>
+                    {stats.result.split(',')[0]}
                 </span>
             </div>
             <span className="ReplayRecord__match-info-field--date">
