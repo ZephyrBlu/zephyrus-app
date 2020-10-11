@@ -137,7 +137,7 @@ const TimelineTooltip = ({ payload, players, playerOrder, comparisonPlayer, game
                                 <td key={`${statName}-values-1`} className="tooltip__stat-values">
                                     {statKeys.map((key, index) => (
                                         <span key={`${statName}-${key}-cell-1`} className="tooltip__value tooltip__value--player1">
-                                            {string2dot(timeline.state[1], key)}&nbsp;
+                                            {string2dot(timeline.state[playerOrder[0]], key)}&nbsp;
                                             {index === statKeys.length - 1 ? '' : '/ '}
                                         </span>
                                     ))}
@@ -145,7 +145,7 @@ const TimelineTooltip = ({ payload, players, playerOrder, comparisonPlayer, game
                                 <td key={`${statName}-values-2`} className="tooltip__stat-values">
                                     {statKeys.map((key, index) => (
                                         <span key={`${statName}-${key}-cell-2`} className="tooltip__value tooltip__value--player2">
-                                            {string2dot(timeline.state[2], key)}&nbsp;
+                                            {string2dot(timeline.state[playerOrder[1]], key)}&nbsp;
                                             {index === statKeys.length - 1 ? '' : '/ '}
                                         </span>
                                     ))}
@@ -169,7 +169,7 @@ const TimelineTooltip = ({ payload, players, playerOrder, comparisonPlayer, game
                                 <td className="tooltip__stat-values">
                                     {selectedStat[checkSelectedStat(timeline.stat)].map((key, index) => (
                                         <span key={`${key}-${index}`} className="tooltip__value tooltip__value--player1">
-                                            {string2dot(timeline.state[1], key)}&nbsp;
+                                            {string2dot(timeline.state[playerOrder[0]], key)}&nbsp;
                                             {index === selectedStat[checkSelectedStat(timeline.stat)].length - 1 ? '' : '/ '}
                                         </span>
                                     ))}
@@ -177,7 +177,7 @@ const TimelineTooltip = ({ payload, players, playerOrder, comparisonPlayer, game
                                 <td className="tooltip__stat-values">
                                     {selectedStat[checkSelectedStat(timeline.stat)].map((key, index) => (
                                         <span key={`${key}-${index}`} className="tooltip__value tooltip__value--player2">
-                                            {string2dot(timeline.state[2], key)}&nbsp;
+                                            {string2dot(timeline.state[playerOrder[1]], key)}&nbsp;
                                             {index === selectedStat[checkSelectedStat(timeline.stat)].length - 1 ? '' : '/ '}
                                         </span>
                                     ))}
