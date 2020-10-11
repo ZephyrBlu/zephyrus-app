@@ -1,5 +1,5 @@
-import { useDispatch, useSelector } from 'react-redux';
 import React from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { setSelectedReplayHash } from '../../actions';
 import './CSS/ReplayRecord.css';
 
@@ -96,9 +96,6 @@ const ReplayRecord = ({ hash, comparisonHash, stats }) => {
                 />
             </div>
             <div className="ReplayRecord__match-info">
-                {/* <span className="ReplayRecord__match-info-field ReplayRecord__match-info-field--matchup">
-                    {stats.matchup}
-                </span> */}
                 <span className="ReplayRecord__match-info-field ReplayRecord__match-info-field--map">
                     {stats.map}
                 </span>

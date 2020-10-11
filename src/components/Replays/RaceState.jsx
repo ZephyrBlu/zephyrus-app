@@ -169,83 +169,48 @@ const RaceState = ({ players, playerOrder, timelineState }) => {
                 </ResponsiveContainer>
             </div>
             {playerOrder.map((playerId, index) => (
-                <div key={`player-state-${index + 1}`} className={`RaceState__player RaceState__player--player${index + 1}`}>
-                    <span className="RaceState__energy-usage-structure">
-                        {players[playerId].race !== 'Zerg'
-                            ? raceAbilityUsage[players[playerId].race]
-                            : 'Creep Spread'}
-                    </span>
-                    {(players[playerId].race === 'Protoss' || players[playerId].race === 'Terran') &&
-                        <div className="RaceState__energy-usage">
-                            {players[playerId].race === 'Protoss' && timelineState[playerId].race.ability_targets &&
-                                Object.entries(timelineState[playerId].race.ability_targets).map(([building, count]) => (
-                                    <div key={`${building}-${count}`} className="RaceState__usage-values">
-                                        {building.split(/(?=[A-Z])/).map(name => (
-                                            `${name} `
-                                        ))}
-                                        <div className="RaceState__usage-count">
-                                            {count}
-                                        </div>
-                                    </div>
-                                ))}
-                            {players[playerId].race === 'Terran' && timelineState[playerId].race.abilities_used &&
-                                Object.entries(timelineState[playerId].race.abilities_used).map(([ability, count]) => (
-                                    <div key={`${ability}-${count}`} className="RaceState__usage-values">
-                                        {abilityNames[ability]}&nbsp;
-                                        <div className="RaceState__usage-count">
-                                            {count}
-                                        </div>
-                                    </div>
-                                ))}
-                        </div>}
-                    {/* {playerState.race.energy &&
-                        <div className="RaceState__energy">
-                            <BarChart
-                                width={10 + (Object.values(playerState.race.energy)[0].length * 35)}
-                                height={50}
-                                barGap={10}
-                                data={formatEnergyData(playerState.race.energy, index + 1)}
-                            >
-                                <YAxis type="number" domain={[0, 200]} hide />
-                                {playerState.race.energy[energyCommandStructures[players[index + 1].race]].map((building, i) => (
-                                    <Bar
-                                        key={`energy-building-${building}`}
-                                        dataKey={`building${i}`}
-                                        fill="hsl(270, 100%, 45%)"
-                                        isAnimationActive={false}
-                                        barSize={25}
-                                        maxBarSize={25}
-                                        radius={5}
-                                    />
-                                ))}
-                            </BarChart>
-                            <table className="RaceState__energy-table">
-                                <tbody>
-                                    {transposeEnergyData(playerState.race.energy).map(energyMetric => (
-                                        <tr key={`energy-metric-${energyMetric}`} className="RaceState__energy-metric">
-                                            {energyMetric.map((value, i) => (
-                                                <td key={`energy-value-${value}-${i}`} className="RaceState__energy-metric-value">{value}</td>
+                timelineState[playerId].race &&
+                    <div key={`player-state-${index + 1}`} className={`RaceState__player RaceState__player--player${index + 1}`}>
+                        <span className="RaceState__energy-usage-structure">
+                            {players[playerId].race !== 'Zerg'
+                                ? raceAbilityUsage[players[playerId].race]
+                                : 'Creep Spread'}
+                        </span>
+                        {(players[playerId].race === 'Protoss' || players[playerId].race === 'Terran') &&
+                            <div className="RaceState__energy-usage">
+                                {players[playerId].race === 'Protoss' && timelineState[playerId].race.ability_targets &&
+                                    Object.entries(timelineState[playerId].race.ability_targets).map(([building, count]) => (
+                                        <div key={`${building}-${count}`} className="RaceState__usage-values">
+                                            {building.split(/(?=[A-Z])/).map(name => (
+                                                `${name} `
                                             ))}
-                                        </tr>
+                                            <div className="RaceState__usage-count">
+                                                {count}
+                                            </div>
+                                        </div>
                                     ))}
-                                </tbody>
-                            </table>
-                        </div>}
-                    {playerState.race.inject_efficiency &&
-                        <div className="RaceState__inject-efficiency-wrapper">
-                            <BarChart
-                                width={playerState.race.inject_efficiency.reduce((count, values) => (
-                                    values.length > 1 ? count + 1 : count
-                                ), 0) * 40}
-                                height={65}
-                                barGap={10}
-                                data={formatInjectData(playerState.race.inject_efficiency)}
-                            >
-                                <YAxis type="number" domain={[0, 1]} hide />
-                                {playerState.race.inject_efficiency.map((values, i) => (
-                                    values.length > 1 &&
+                                {players[playerId].race === 'Terran' && timelineState[playerId].race.abilities_used &&
+                                    Object.entries(timelineState[playerId].race.abilities_used).map(([ability, count]) => (
+                                        <div key={`${ability}-${count}`} className="RaceState__usage-values">
+                                            {abilityNames[ability]}&nbsp;
+                                            <div className="RaceState__usage-count">
+                                                {count}
+                                            </div>
+                                        </div>
+                                    ))}
+                            </div>}
+                        {/* {playerState.race.energy &&
+                            <div className="RaceState__energy">
+                                <BarChart
+                                    width={10 + (Object.values(playerState.race.energy)[0].length * 35)}
+                                    height={50}
+                                    barGap={10}
+                                    data={formatEnergyData(playerState.race.energy, index + 1)}
+                                >
+                                    <YAxis type="number" domain={[0, 200]} hide />
+                                    {playerState.race.energy[energyCommandStructures[players[index + 1].race]].map((building, i) => (
                                         <Bar
-                                            key={`inject-building-${i}`}
+                                            key={`energy-building-${building}`}
                                             dataKey={`building${i}`}
                                             fill="hsl(270, 100%, 45%)"
                                             isAnimationActive={false}
@@ -253,57 +218,93 @@ const RaceState = ({ players, playerOrder, timelineState }) => {
                                             maxBarSize={25}
                                             radius={5}
                                         />
-                                ))}
-                            </BarChart>
-                            <table className="RaceState__inject-efficiency">
-                                <tbody>
-                                    <tr className="RaceState__efficiency-metric">
-                                        {playerState.race.inject_efficiency.map((values, i) => (
-                                            values.length > 1 &&
-                                                <td
-                                                    key={`inject-value-${values[0]}-${i}`}
-                                                    className="RaceState__inject-efficiency-value"
-                                                >
-                                                    {Math.round(values[0] * 100, 0)}%
-                                                </td>
+                                    ))}
+                                </BarChart>
+                                <table className="RaceState__energy-table">
+                                    <tbody>
+                                        {transposeEnergyData(playerState.race.energy).map(energyMetric => (
+                                            <tr key={`energy-metric-${energyMetric}`} className="RaceState__energy-metric">
+                                                {energyMetric.map((value, i) => (
+                                                    <td key={`energy-value-${value}-${i}`} className="RaceState__energy-metric-value">{value}</td>
+                                                ))}
+                                            </tr>
                                         ))}
-                                    </tr>
-                                    <tr className="RaceState__efficiency-metric">
-                                        {playerState.race.inject_efficiency.map((values, i) => (
-                                            values.length > 1 &&
-                                                <td
-                                                    key={`inject-value-${values[1]}-${i}`}
-                                                    className="RaceState__inject-efficiency-value"
-                                                >
-                                                    {Math.round(values[1] / 22.4, 0)}s
-                                                </td>
-                                        ))}
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>} */}
-                    {timelineState[playerId].race.creep &&
-                        <ul className="RaceState__creep">
-                            <li className="RaceState__creep-stat">
-                                Creep Coverage
-                                <div className="RaceState__zerg-count">
-                                    {Math.round(timelineState[playerId].race.creep.coverage[0] * 100, 0)}%
-                                </div>
-                            </li>
-                            <li className="RaceState__creep-stat">
-                                Creep Tiles
-                                <div className="RaceState__zerg-count">
-                                    {timelineState[playerId].race.creep.coverage[1]}
-                                </div>
-                            </li>
-                            <li className="RaceState__creep-stat">
-                                Active Tumors
-                                <div className="RaceState__zerg-count">
-                                    {timelineState[playerId].race.creep.tumors}
-                                </div>
-                            </li>
-                        </ul>}
-                </div>
+                                    </tbody>
+                                </table>
+                            </div>}
+                        {playerState.race.inject_efficiency &&
+                            <div className="RaceState__inject-efficiency-wrapper">
+                                <BarChart
+                                    width={playerState.race.inject_efficiency.reduce((count, values) => (
+                                        values.length > 1 ? count + 1 : count
+                                    ), 0) * 40}
+                                    height={65}
+                                    barGap={10}
+                                    data={formatInjectData(playerState.race.inject_efficiency)}
+                                >
+                                    <YAxis type="number" domain={[0, 1]} hide />
+                                    {playerState.race.inject_efficiency.map((values, i) => (
+                                        values.length > 1 &&
+                                            <Bar
+                                                key={`inject-building-${i}`}
+                                                dataKey={`building${i}`}
+                                                fill="hsl(270, 100%, 45%)"
+                                                isAnimationActive={false}
+                                                barSize={25}
+                                                maxBarSize={25}
+                                                radius={5}
+                                            />
+                                    ))}
+                                </BarChart>
+                                <table className="RaceState__inject-efficiency">
+                                    <tbody>
+                                        <tr className="RaceState__efficiency-metric">
+                                            {playerState.race.inject_efficiency.map((values, i) => (
+                                                values.length > 1 &&
+                                                    <td
+                                                        key={`inject-value-${values[0]}-${i}`}
+                                                        className="RaceState__inject-efficiency-value"
+                                                    >
+                                                        {Math.round(values[0] * 100, 0)}%
+                                                    </td>
+                                            ))}
+                                        </tr>
+                                        <tr className="RaceState__efficiency-metric">
+                                            {playerState.race.inject_efficiency.map((values, i) => (
+                                                values.length > 1 &&
+                                                    <td
+                                                        key={`inject-value-${values[1]}-${i}`}
+                                                        className="RaceState__inject-efficiency-value"
+                                                    >
+                                                        {Math.round(values[1] / 22.4, 0)}s
+                                                    </td>
+                                            ))}
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>} */}
+                        {timelineState[playerId].race.creep &&
+                            <ul className="RaceState__creep">
+                                <li className="RaceState__creep-stat">
+                                    Creep Coverage
+                                    <div className="RaceState__zerg-count">
+                                        {Math.round(timelineState[playerId].race.creep.coverage[0] * 100, 0)}%
+                                    </div>
+                                </li>
+                                <li className="RaceState__creep-stat">
+                                    Creep Tiles
+                                    <div className="RaceState__zerg-count">
+                                        {timelineState[playerId].race.creep.coverage[1]}
+                                    </div>
+                                </li>
+                                <li className="RaceState__creep-stat">
+                                    Active Tumors
+                                    <div className="RaceState__zerg-count">
+                                        {timelineState[playerId].race.creep.tumors}
+                                    </div>
+                                </li>
+                            </ul>}
+                    </div>
             ))}
         </div>
     );
