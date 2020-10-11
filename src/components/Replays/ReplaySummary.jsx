@@ -21,14 +21,6 @@ const ReplaySummary = ({ replay, timeline }) => {
                 1: null,
                 2: null,
             },
-            apm: {
-                1: replay.info.apm[1],
-                2: replay.info.apm[2],
-            },
-            spm: {
-                1: replay.info.spm[1],
-                2: replay.info.spm[2],
-            },
             supplyBlocksAt6: {
                 1: null,
                 2: null,
@@ -37,9 +29,15 @@ const ReplaySummary = ({ replay, timeline }) => {
                 1: replay.info.sq[1],
                 2: replay.info.sq[2],
             },
-            resourcesLost: {
-                1: [replay.info.resources_lost_minerals[1], replay.info.resources_lost_gas[1]],
-                2: [replay.info.resources_lost_minerals[2], replay.info.resources_lost_gas[2]],
+            resourceEfficiency: {
+                1: [
+                    Math.round((1 - (replay.info.resources_lost_minerals[1] / replay.info.resources_collected_minerals[1])) * 100),
+                    Math.round((1 - (replay.info.resources_lost_gas[1] / replay.info.resources_collected_gas[1])) * 100),
+                ],
+                2: [
+                    Math.round((1 - (replay.info.resources_lost_minerals[2] / replay.info.resources_collected_minerals[2])) * 100),
+                    Math.round((1 - (replay.info.resources_lost_gas[2] / replay.info.resources_collected_gas[2])) * 100),
+                ],
             },
             avgCollectionRate: {
                 1: null,
@@ -47,10 +45,6 @@ const ReplaySummary = ({ replay, timeline }) => {
             },
         };
 
-        // const unspentResources = {
-        //     1: [],
-        //     2: [],
-        // };
         const collectionRates = {
             1: [],
             2: [],
@@ -98,7 +92,7 @@ const ReplaySummary = ({ replay, timeline }) => {
         spm: 'Screens Per Minute',
         supplyBlocksAt6: 'Number of Supply Blocks @6min',
         sq: 'Spending Quotient',
-        resourcesLost: 'Resources Lost',
+        resourceEfficiency: 'Resource Efficiency',
         avgCollectionRate: 'Avg Collection Rate',
     };
 
@@ -110,12 +104,17 @@ const ReplaySummary = ({ replay, timeline }) => {
         // resource collection rate
         let statDiff;
         if (Array.isArray(summaryStats[statName][1])) {
-            const userResourceTotal = summaryStats[statName][userId][0] + summaryStats[statName][userId][1];
-            const oppResourceTotal = summaryStats[statName][oppId][0] + summaryStats[statName][oppId][1];
-            statDiff = Math.round((1 - (oppResourceTotal / userResourceTotal)) * 100);
+            if (statName === 'resourceEfficiency') {
+                const userResourceAvg = (summaryStats[statName][userId][0] + summaryStats[statName][userId][1]) / 2;
+                const oppResourceAvg = (summaryStats[statName][oppId][0] + summaryStats[statName][oppId][1]) / 2;
+                statDiff = Math.round(userResourceAvg - oppResourceAvg);
+            } else {
+                const userResourceTotal = summaryStats[statName][userId][0] + summaryStats[statName][userId][1];
+                const oppResourceTotal = summaryStats[statName][oppId][0] + summaryStats[statName][oppId][1];
+                statDiff = Math.round((1 - (oppResourceTotal / userResourceTotal)) * 100);
+            }
         } else {
             // should calculate % from largest number
-            // const statValues = [summaryStats[statName][userId], summaryStats[statName][oppId]];
             statDiff = Math.round((1 - (summaryStats[statName][oppId] / summaryStats[statName][userId])) * 100);
         }
 
@@ -125,7 +124,7 @@ const ReplaySummary = ({ replay, timeline }) => {
         return statDiff >= 0 ? `+${statDiff}` : statDiff;
     };
 
-    const splitValues = (statValues) => {
+    const splitValues = (statName, statValues) => {
         // every value must be boolean true
         if (!statValues) {
             return '';
@@ -133,10 +132,18 @@ const ReplaySummary = ({ replay, timeline }) => {
 
         let valueString = '';
         statValues.forEach((val, index) => {
-            if (index === 0) {
-                valueString += val;
+            if (statName === 'resourceEfficiency') {
+                if (index === 0) {
+                    valueString += `${val}%`;
+                } else {
+                    valueString += ` / ${val}%`;
+                }
             } else {
-                valueString += ` / ${val}`;
+                if (index === 0) {
+                    valueString += val;
+                } else {
+                    valueString += ` / ${val}`;
+                }
             }
         });
         return valueString;
@@ -157,16 +164,16 @@ const ReplaySummary = ({ replay, timeline }) => {
                         {summaryStatNames[statName]}
                     </div>
                     <div className="ReplaySummary__summary-stat-info ReplaySummary__summary-stat-info--value">
-                        {['avgCollectionRate', 'resourcesLost'].includes(statName)
-                            ? splitValues(summaryStats[statName][userId])
+                        {['avgCollectionRate', 'resourceEfficiency'].includes(statName)
+                            ? splitValues(statName, summaryStats[statName][userId])
                             : summaryStats[statName][userId]}
                     </div>
                     <div className="ReplaySummary__summary-stat-info ReplaySummary__summary-stat-info--diff">
                         {calcStatDiff(statName)}%
                     </div>
                     <div className="ReplaySummary__summary-stat-info ReplaySummary__summary-stat-info--opp-value">
-                        (vs {['avgCollectionRate', 'resourcesLost'].includes(statName)
-                            ? splitValues(summaryStats[statName][oppId])
+                        (vs {['avgCollectionRate', 'resourceEfficiency'].includes(statName)
+                            ? splitValues(statName, summaryStats[statName][oppId])
                             : summaryStats[statName][oppId]})
                     </div>
                 </div>
