@@ -59,6 +59,14 @@ const ObjectState = (props) => {
         // without start index it returns the object's state
         // if the object has no state it returns the unaltered name
 
+        const terranFlyingBuildings = [
+            'BarracksFlying',
+            'FactoryFlying',
+            'StarportFlying',
+            'CommandCenterFlying',
+            'OrbitalCommandFlying',
+        ];
+
         if (objectName.includes('Burrowed')) {
             return (
                 startIndex === 0
@@ -68,6 +76,13 @@ const ObjectState = (props) => {
         }
 
         if (objectName.includes('Flying')) {
+            const isTerran = terranFlyingBuildings.includes(objectName);
+            const flyingIndex = (isTerran && (startIndex === false)) ? -6 : null;
+
+            if (flyingIndex) {
+                return objectName.slice(flyingIndex);
+            }
+
             return (
                 startIndex === 0
                     ? objectName.slice(startIndex, -6)
