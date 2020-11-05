@@ -3,7 +3,7 @@ import { useLoadingState } from '../../hooks';
 import ReplayInfo from './ReplayInfo';
 import ReplaySummary from './ReplaySummary';
 import TimelineArea from './TimelineArea';
-// import StatCategory from '../shared/StatCategory';
+import StatCategory from '../shared/StatCategory';
 import LoadingAnimation from '../shared/LoadingAnimation';
 import './CSS/ReplayView.css';
 
@@ -62,14 +62,7 @@ const ReplayView = ({ replay, timeline, gameloop, clanTagIndex, visibleState }) 
         },
     };
 
-    // const statCategories = ['general', 'economic', 'PAC', 'efficiency'];
-
-    // remove race from replay.info as it is non-standard and not displayed for post-game summary
-    // let replayInfo;
-    // if (replay.info) {
-    //     const { race, ...filteredReplay } = replay.info;
-    //     replayInfo = filteredReplay;
-    // }
+    const statCategories = ['general', 'economic', 'PAC', 'efficiency'];
 
     const replayLoadingData = {
         data: {
@@ -97,19 +90,18 @@ const ReplayView = ({ replay, timeline, gameloop, clanTagIndex, visibleState }) 
         <div className={`ReplayView ReplayView--${visibleState ? 'replays' : 'no-replays'}`}>
             <ReplayState />
             <TimelineState />
-            {/* <div className={`ReplayView${replay.data ? '' : '--default'}`}>
-                {replay.data &&
+            <div className="ReplayView__summary-stats">
+                {replay.info &&
                     <div className="ReplayView__stats">
                         {statCategories.map(category => (
                             <StatCategory
                                 key={category}
-                                type="replays"
                                 category={category}
-                                replayInfo={replayInfo}
+                                replay={replay}
                             />
                         ))}
                     </div>}
-            </div> */}
+            </div>
         </div>
     );
 };

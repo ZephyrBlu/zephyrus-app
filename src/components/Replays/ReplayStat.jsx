@@ -1,16 +1,67 @@
 import React from 'react';
 import './CSS/ReplayStat.css';
 
-const ReplayStat = ({ stat, statName, replayInfo, category, modifier }) => {
+const ReplayStat = ({ userId, stat, statName, statInfo, modifier }) => {
+    const oppId = userId === 1 ? 2 : 1;
     let player1Highlight;
     let player2Highlight;
-    if (replayInfo[stat][1] > replayInfo[stat][2]) {
+
+    const generateComparisonValues = (values) => {
+        if (!Array.isArray(values[1])) {
+            if (typeof values[1] === 'string') {
+                return {
+                    1: Number(values[userId]),
+                    2: Number(values[oppId]),
+                };
+            }
+            return {
+                1: values[userId],
+                2: values[oppId],
+            };
+        }
+
+        const calcAvg = v => (
+            v.reduce((a, b) => {
+                if (typeof a === 'string') {
+                    if (a.includes('k')) {
+                        return Number(a.slice(0, -1)) + Number(b.slice(0, -1));
+                    }
+                    return Number(a) + Number(b);
+                }
+                return a + b;
+            }, 0)
+        );
+
+        return {
+            1: calcAvg(values[userId]),
+            2: calcAvg(values[oppId]),
+        };
+    };
+
+    const statValues = generateComparisonValues(statInfo);
+    if (statValues[1] > statValues[2]) {
         player1Highlight = 'win';
         player2Highlight = 'loss';
     } else {
         player1Highlight = 'loss';
         player2Highlight = 'win';
     }
+
+    const renderValues = (values) => {
+        if (!Array.isArray(values)) {
+            return values;
+        }
+
+        let valueString = '';
+        values.forEach((val, index) => {
+            if (index === 0) {
+                valueString += val;
+            } else {
+                valueString += ` / ${val}`;
+            }
+        });
+        return valueString;
+    };
 
     return (
         <tr
@@ -22,20 +73,32 @@ const ReplayStat = ({ stat, statName, replayInfo, category, modifier }) => {
         >
             <td className="ReplayStat__stat-title">{statName}</td>
             <td
-                key={`${category}-${replayInfo[stat][1]}-span`}
-                className={`ReplayStat__stat-value ReplayStat__stat-value--${stat}-${player1Highlight} ReplayStat__stat-value--${player1Highlight}`}
+                key={`${statInfo[userId]}-span`}
+                className="ReplayStat__stat-value"
             >
-                {category === 'PAC'
-                    ? replayInfo[stat][1]
-                    : Math.round(replayInfo[stat][1])}
+                <div
+                    className={`
+                        ReplayStat__value-wrapper
+                        ReplayStat__value-wrapper--${player1Highlight}
+                        ReplayStat__value-wrapper--${stat}-${player1Highlight}
+                    `}
+                >
+                    {renderValues(statInfo[userId])}
+                </div>
             </td>
             <td
-                key={`${replayInfo[stat][2]}-span`}
-                className={`ReplayStat__stat-value ReplayStat__stat-value--${stat}-${player2Highlight} ReplayStat__stat-value--${player2Highlight}`}
+                key={`${statInfo[oppId]}-span`}
+                className="ReplayStat__stat-value"
             >
-                {category === 'PAC'
-                    ? replayInfo[stat][2]
-                    : Math.round(replayInfo[stat][2])}
+                <div
+                    className={`
+                        ReplayStat__value-wrapper
+                        ReplayStat__value-wrapper--${player2Highlight}
+                        ReplayStat__value-wrapper--${stat}-${player2Highlight}
+                    `}
+                >
+                    {renderValues(statInfo[oppId])}
+                </div>
             </td>
         </tr>
     );

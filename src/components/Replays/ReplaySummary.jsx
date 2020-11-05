@@ -138,12 +138,10 @@ const ReplaySummary = ({ replay, timeline }) => {
                 } else {
                     valueString += ` / ${val}%`;
                 }
+            } else if (index === 0) {
+                valueString += val;
             } else {
-                if (index === 0) {
-                    valueString += val;
-                } else {
-                    valueString += ` / ${val}`;
-                }
+                valueString += ` / ${val}`;
             }
         });
         return valueString;
