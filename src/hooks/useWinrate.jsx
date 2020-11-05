@@ -7,6 +7,7 @@ import useFetch from './useFetch';
 const useWinrate = () => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.user);
+    const userData = useSelector(state => state.raceData);
     const urlPrefix = useContext(UrlContext);
 
     const defaultData = {
@@ -45,11 +46,16 @@ const useWinrate = () => {
         const races = ['protoss', 'zerg', 'terran'];
 
         races.forEach((race) => {
-            if (_cachedData[race].winrate !== null) {
+            if (
+                _cachedData[race].winrate !== null
+                && !userData[race].winrate
+            ) {
                 updatedWinrate[race] = { winrate: JSON.parse(_cachedData[race].winrate) };
             }
         });
-        dispatch(setWinrate(updatedWinrate));
+        if (Object.keys(updatedWinrate).length > 0) {
+            dispatch(setWinrate(updatedWinrate));
+        }
     }, [_cachedData]);
 
     useEffect(() => {

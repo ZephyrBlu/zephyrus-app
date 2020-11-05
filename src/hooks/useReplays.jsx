@@ -8,6 +8,7 @@ const useReplays = (interval) => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.user);
     const selectedRace = useSelector(state => state.selectedRace);
+    const userData = useSelector(state => state.raceData);
     const urlPrefix = useContext(UrlContext);
 
     const defaultCount = { protoss: null, zerg: null, terran: null };
@@ -55,7 +56,10 @@ const useReplays = (interval) => {
         const races = ['protoss', 'zerg', 'terran'];
 
         races.forEach((race) => {
-            if (_cachedData[race].count !== _prevCount[race]) {
+            if (
+                (_cachedData[race].count !== _prevCount[race])
+                && !userData[race].replays
+            ) {
                 const raceReplays = _cachedData[race].replays;
                 updatedReplays[race] = { replays: raceReplays };
             }
@@ -66,12 +70,14 @@ const useReplays = (interval) => {
         Object.keys(updatedReplays).forEach((race) => { newCount[race] = _cachedData[race].count; });
         _setPrevCount(prevCount => ({ ...prevCount, ...newCount }));
 
-        // if the replays we're currently viewing are being changed then
-        // clear displayed data and show loading indicator
-        if (updatedReplays[selectedRace]) {
-            dispatch(setReplayInfo([]));
+        if (Object.keys(updatedReplays).length > 0) {
+            // if the replays we're currently viewing are being changed then
+            // clear displayed data and show loading indicator
+            if (updatedReplays[selectedRace]) {
+                dispatch(setReplayInfo([]));
+            }
+            dispatch(setReplays(updatedReplays));
         }
-        dispatch(setReplays(updatedReplays));
     }, [_cachedData]);
 
     useEffect(() => {
