@@ -267,7 +267,7 @@ const StatCategory = ({ category, replay }) => {
                 </h2>
                 <div className="StatCategory__players">
                     {[replay.info.user_match_id, replay.info.user_match_id === 1 ? 2 : 1].map(playerId => (
-                        <div className="StatCategory__player">
+                        <div key={playerId} className="StatCategory__player">
                             <img
                                 className="StatCategory__player-icon"
                                 src={`../../icons/${replay.data.players[playerId].race.toLowerCase()}-logo.svg`}

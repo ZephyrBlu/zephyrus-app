@@ -98,6 +98,9 @@ const ReplaySummary = ({ replay, timeline }) => {
 
     const calcStatDiff = (statName, returnType = null) => {
         if (!summaryStats || !summaryStats[statName][1] || !summaryStats[statName][2]) {
+            if (returnType === 'bool') {
+                return false;
+            }
             return 'N/A';
         }
 

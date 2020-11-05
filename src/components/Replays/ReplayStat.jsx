@@ -72,10 +72,7 @@ const ReplayStat = ({ userId, stat, statName, statInfo, modifier }) => {
             `}
         >
             <td className="ReplayStat__stat-title">{statName}</td>
-            <td
-                key={`${statInfo[userId]}-span`}
-                className="ReplayStat__stat-value"
-            >
+            <td className="ReplayStat__stat-value">
                 <div
                     className={`
                         ReplayStat__value-wrapper
@@ -86,10 +83,7 @@ const ReplayStat = ({ userId, stat, statName, statInfo, modifier }) => {
                     {renderValues(statInfo[userId])}
                 </div>
             </td>
-            <td
-                key={`${statInfo[oppId]}-span`}
-                className="ReplayStat__stat-value"
-            >
+            <td className="ReplayStat__stat-value">
                 <div
                     className={`
                         ReplayStat__value-wrapper
