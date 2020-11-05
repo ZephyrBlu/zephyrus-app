@@ -4,6 +4,8 @@ import './CSS/ReplayInfo.css';
 
 const ReplayInfo = ({ replay, clanTagIndex }) => {
     const urlPrefix = useContext(UrlContext);
+    const userId = replay.data.user_match_id;
+    const oppId = userId === 1 ? 2 : 1;
 
     const formatDate = (date) => {
         const formatString = () => {
@@ -11,7 +13,7 @@ const ReplayInfo = ({ replay, clanTagIndex }) => {
             const [start] = strPieces;
             let fraction;
 
-            switch (strPieces[1].slice(0, 1)) {
+            switch (strPieces[userId].slice(0, 1)) {
                 case '1':
                     fraction = '\xBC';
                     break;
@@ -54,50 +56,55 @@ const ReplayInfo = ({ replay, clanTagIndex }) => {
     };
 
     return (
-        <div className="ReplayInfo__title-area">
-            <h2 className="ReplayInfo__matchup">
-                {`${replay.players[1].race.slice(0, 1)}v${replay.players[2].race.slice(0, 1)}`}
-            </h2>
-            <h2 className="ReplayInfo__map">
-                {replay.map}
-            </h2>
-            <span className="ReplayInfo__date">
-                {formatDate(replay.played_at)}
+        <div className="ReplayInfo">
+            <span className={`ReplayInfo__result ReplayInfo__result--${replay.data.win ? 'win' : 'loss'}`}>
+                {replay.data.win ? 'Win' : 'Loss'}
             </span>
-            <span className="ReplayInfo__result">
-                {replay.win ?
-                    <span className="ReplayInfo__result--win">Win</span>
-                    :
-                    <span className="ReplayInfo__result--loss">Loss</span>}
-                {`\xa0\xa0\xa0\xa0${Math.ceil(replay.match_length / 60)} min`}
+            <div className="ReplayInfo__match-info">
+                <span className="ReplayInfo__matchup">
+                    {`${replay.data.players[userId].race.slice(0, 1)}v${replay.data.players[oppId].race.slice(0, 1)}`}
+                </span>
+                <span className="ReplayInfo__map">
+                    {replay.data.map}
+                </span>
+                <span className="ReplayInfo__match-length">
+                    {Math.ceil(replay.data.match_length / 60)} min
+                </span>
+            </div>
+            <span className="ReplayInfo__date">
+                {formatDate(replay.data.played_at)}
             </span>
             <div className="ReplayInfo__players">
-                <div
-                    className={
-                        `ReplayInfo__player-info ReplayInfo__player-info--player1
-                        ${replay.user_match_id === 1 ? 'ReplayInfo__player-info--user' : ''}`
-                    }
-                >
-                    <span className="ReplayInfo__player ReplayInfo__player--1">Player 1</span>
-                    <h2 className="ReplayInfo__player-name">
-                        {replay.players[1].name.slice(clanTagIndex(replay.players[1].name))}
-                    </h2>
+                <div className="ReplayInfo__player">
+                    <img
+                        src={`../../icons/${replay.data.players[userId].race.toLowerCase()}-logo.svg`}
+                        alt={replay.data.players[userId].race}
+                        className="ReplayInfo__player-race-icon"
+                    />
+                    <span className="ReplayInfo__match-info-field ReplayInfo__match-info-field--name">
+                        {replay.data.players[userId].name.slice(clanTagIndex(replay.data.players[userId].name))}
+                    </span>
+                    <span className="ReplayInfo__match-info-field ReplayInfo__match-info-field--mmr">
+                        {replay.info.mmr[userId]}
+                    </span>
                 </div>
-                <div
-                    className={
-                        `ReplayInfo__player-info ReplayInfo__player-info--player2
-                        ${replay.user_match_id === 2 ? 'ReplayInfo__player-info--user' : ''}`
-                    }
-                >
-                    <span className="ReplayInfo__player ReplayInfo__player--2">Player 2</span>
-                    <h2 className="ReplayInfo__player-name">
-                        {replay.players[2].name.slice(clanTagIndex(replay.players[2].name))}
-                    </h2>
+                <div className="ReplayInfo__player">
+                    <img
+                        src={`../../icons/${replay.data.players[oppId].race.toLowerCase()}-logo.svg`}
+                        alt={replay.data.players[oppId].race}
+                        className="ReplayInfo__player-race-icon"
+                    />
+                    <span className="ReplayInfo__match-info-field ReplayInfo__match-info-field--name">
+                        {replay.data.players[oppId].name.slice(clanTagIndex(replay.data.players[oppId].name))}
+                    </span>
+                    <span className="ReplayInfo__match-info-field ReplayInfo__match-info-field--mmr">
+                        {replay.info.mmr[oppId]}
+                    </span>
                 </div>
             </div>
             <a
                 className="ReplayInfo__replay-download"
-                href={`${urlPrefix}api/download/${replay.file_hash}/`}
+                href={`${urlPrefix}api/download/${replay.data.file_hash}/`}
                 download
             >
                 Download Replay
@@ -112,7 +119,7 @@ const ReplayInfo = ({ replay, clanTagIndex }) => {
                     type="text"
                     onClick={e => e.target.select()}
                     onFocus={e => e.target.select()}
-                    value={`${urlPrefix}replay/${replay.url}`}
+                    value={`${urlPrefix}replay/${replay.data.url}`}
                     readOnly
                 />
             </span>

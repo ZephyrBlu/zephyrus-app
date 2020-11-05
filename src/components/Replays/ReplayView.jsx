@@ -1,6 +1,7 @@
 import React, { Fragment } from 'react';
 import { useLoadingState } from '../../hooks';
 import ReplayInfo from './ReplayInfo';
+import ReplaySummary from './ReplaySummary';
 import TimelineArea from './TimelineArea';
 import StatCategory from '../shared/StatCategory';
 import LoadingAnimation from '../shared/LoadingAnimation';
@@ -29,7 +30,7 @@ const ReplayView = ({ replay, timeline, gameloop, clanTagIndex, visibleState }) 
             ),
             SUCCESS: ({ _replay, _timeline, _clanTagIndex }) => (
                 <ReplayInfo
-                    replay={_replay.data}
+                    replay={_replay}
                     timeline={{
                         stat: _timeline.stat,
                         setStat: _timeline.setStat,
@@ -42,26 +43,26 @@ const ReplayView = ({ replay, timeline, gameloop, clanTagIndex, visibleState }) 
             INITIAL: null,
             IN_PROGRESS: (<LoadingAnimation />),
             SUCCESS: ({ _replay, _timeline, _gameloop, _getPlayers, _visibleState }) => (
-                <TimelineArea
-                    metrics={_replay.metrics}
-                    timeline={_timeline}
-                    gameloop={_gameloop}
-                    players={_getPlayers(_replay)}
-                    visibleState={_visibleState}
-                />
+                <Fragment>
+                    <ReplaySummary
+                        replay={_replay}
+                        timeline={_timeline}
+                    />
+                    <TimelineArea
+                        metrics={_replay.metrics}
+                        replay={_replay}
+                        timeline={_timeline}
+                        gameloop={_gameloop}
+                        players={_getPlayers(_replay)}
+                        visibleState={_visibleState}
+                    />
+                </Fragment>
             ),
             ERROR: 'An error occurred',
         },
     };
 
     const statCategories = ['general', 'economic', 'PAC', 'efficiency'];
-
-    // remove race from replay.info as it is non-standard and not displayed for post-game summary
-    let replayInfo;
-    if (replay.info) {
-        const { race, ...filteredReplay } = replay.info;
-        replayInfo = filteredReplay;
-    }
 
     const replayLoadingData = {
         data: {
@@ -86,23 +87,22 @@ const ReplayView = ({ replay, timeline, gameloop, clanTagIndex, visibleState }) 
     const TimelineState = useLoadingState(timelineLoadingData, dataStates.timeline);
 
     return (
-        <Fragment>
+        <div className={`ReplayView ReplayView--${visibleState ? 'replays' : 'no-replays'}`}>
             <ReplayState />
             <TimelineState />
-            <div className={`ReplayView${replay.data ? '' : '--default'}`}>
-                {replay.data &&
+            <div className="ReplayView__summary-stats">
+                {replay.info &&
                     <div className="ReplayView__stats">
                         {statCategories.map(category => (
                             <StatCategory
                                 key={category}
-                                type="replays"
                                 category={category}
-                                replayInfo={replayInfo}
+                                replay={replay}
                             />
                         ))}
                     </div>}
             </div>
-        </Fragment>
+        </div>
     );
 };
 

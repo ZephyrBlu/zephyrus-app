@@ -2,12 +2,10 @@ import {
     ResponsiveContainer,
     LineChart,
     XAxis,
-    YAxis,
     Tooltip,
     Line,
-    ReferenceLine,
 } from 'recharts';
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useEffect } from 'react';
 import RaceState from './RaceState';
 import ObjectState from './ObjectState';
 // import CurrentSelectionState from './CurrentSelectionState';
@@ -15,12 +13,19 @@ import UpgradeState from './UpgradeState';
 import TimelineTooltip from './TimelineTooltip';
 import './CSS/TimelineArea.css';
 
-const TimelineArea = ({ metrics, timeline, gameloop, players, visibleState }) => {
+const TimelineArea = ({ replay, timeline, gameloop, players, visibleState }) => {
     const [isTimelineFrozen, setTimelineState] = useState(false);
+    const [playerOrder, setPlayerOrder] = useState(null);
     const currentTimelineState = timeline.cached[gameloop.current];
     const currentComparisonTimelineState = timeline.comparison.cached
         ? timeline.comparison.cached[gameloop.current]?.comparison
         : null;
+
+    useEffect(() => {
+        const userId = replay.info.user_match_id;
+        const oppId = userId === 1 ? 2 : 1;
+        setPlayerOrder([userId, oppId]);
+    }, []);
 
     const formatTick = (content) => {
         const totalSeconds = Math.floor(Number(content) / 22.4);
@@ -48,6 +53,7 @@ const TimelineArea = ({ metrics, timeline, gameloop, players, visibleState }) =>
         // 'unspent_resources.gas': 'Unspent Gas',
         total_army_value: ['Army Value', 'army_value'],
         total_resources_lost: ['Resources Lost', 'resources_lost'],
+        total_resouces_collected: ['Resources Collected', 'resources_collected'],
         // 'resources_lost.minerals': 'Minerals Lost',
         // 'resources_lost.gas': 'Gas Lost',
         // workers_active: 'Workers Active',
@@ -65,9 +71,10 @@ const TimelineArea = ({ metrics, timeline, gameloop, players, visibleState }) =>
     };
 
     return (
+        playerOrder &&
         <div className="TimelineArea">
             <div className="TimelineArea__chart-area">
-                <ResponsiveContainer className="TimelineArea__timeline" width="99%" height={100}>
+                <ResponsiveContainer className="TimelineArea__timeline" width="99%" height="99%">
                     <LineChart
                         data={timeline.spliced || timeline.data}
                         margin={{ left: 30, right: 20 }}
@@ -94,6 +101,7 @@ const TimelineArea = ({ metrics, timeline, gameloop, players, visibleState }) =>
                                     }}
                                     gameloop={gameloop}
                                     players={players}
+                                    playerOrder={playerOrder}
                                     comparisonPlayer={timeline.comparison.player}
                                 />
                             }
@@ -101,14 +109,14 @@ const TimelineArea = ({ metrics, timeline, gameloop, players, visibleState }) =>
                         />
                         <Line
                             type="monotone"
-                            dataKey={`1.${timeline.stat}`}
+                            dataKey={`${playerOrder[0]}.${timeline.stat}`}
                             stroke="hsl(0, 100%, 55%)"
                             activeDot={{ stroke: 'hsl(0, 100%, 55%)', fill: 'hsl(0, 100%, 55%)' }}
                             dot={false}
                         />
                         <Line
                             type="monotone"
-                            dataKey={`2.${timeline.stat}`}
+                            dataKey={`${playerOrder[1]}.${timeline.stat}`}
                             stroke="hsl(240, 80%, 55%)"
                             activeDot={{ stroke: 'hsl(240, 80%, 55%)', fill: 'hsl(240, 80%, 55%)' }}
                             dot={false}
@@ -126,6 +134,7 @@ const TimelineArea = ({ metrics, timeline, gameloop, players, visibleState }) =>
                 <div className="TimelineArea__chart-selector">
                     {Object.entries(timelineStatCategories).map(([statKey, statNames]) => (
                         <button
+                            key={statKey}
                             className={`TimelineArea__chart-stat ${timeline.stat === statKey ? 'TimelineArea__chart-stat--active' : ''}`}
                             onClick={() => {
                                 timeline.setStat(statKey);
@@ -136,7 +145,7 @@ const TimelineArea = ({ metrics, timeline, gameloop, players, visibleState }) =>
                         </button>
                     ))}
                 </div>
-                {metrics &&
+                {/* {metrics &&
                     Object.entries(metrics).map(([statKey, values]) => { // eslint-disable-line arrow-body-style
                         // const aheadOrBehind = values.summary.ahead - values.summary.behind >= 0 ? 'ahead' : 'behind';
                         // const avgAheadOrBehind = values.summary.ahead - values.summary.behind >= 0 ? values.summary.avgAhead : values.summary.avgBehind;
@@ -159,7 +168,7 @@ const TimelineArea = ({ metrics, timeline, gameloop, players, visibleState }) =>
                                         />
                                     </LineChart>
                                 </ResponsiveContainer>
-                                {/* <p className="TimelineArea__metric-value">
+                                <p className="TimelineArea__metric-value">
                                     You were {aheadOrBehind} {values.summary[aheadOrBehind]}% of the time
                                 </p>
                                 <p className="TimelineArea__metric-value">
@@ -171,21 +180,21 @@ const TimelineArea = ({ metrics, timeline, gameloop, players, visibleState }) =>
                                     {Math.abs(values.summary.avgLeadLag[0])}
                                     &nbsp;({values.summary.avgLeadLag[0] >= 0 ? '+' : ''}
                                     {values.summary.avgLeadLag[1]}%) on average
-                                </p> */}
+                                </p>
                             </div>
                         );
-                    })}
+                    })} */}
             </div>
-            {currentTimelineState &&
-                <div className="timeline-state">
-                    <div className="timeline-state__players">
+            <div className="timeline-state">
+                <div className="timeline-state__players">
+                    {currentTimelineState &&
                         <div className="timeline-state__central">
                             <div className="timeline-state__player-supply timeline-state__player-supply--player1">
                                 <div className="timeline-state__supply-value">
                                     {currentTimelineState[1].supply} / {currentTimelineState[1].supply_cap}
                                 </div>
                                 <div className="timeline-state__supply-block-value">
-                                    {currentTimelineState[1].supply_block}s
+                                    {currentTimelineState[1].supply_block}s ({currentTimelineState[1].supply_block / 5})
                                 </div>
                             </div>
                             <span className="timeline-state__current-time">
@@ -196,79 +205,100 @@ const TimelineArea = ({ metrics, timeline, gameloop, players, visibleState }) =>
                                     {currentTimelineState[2].supply} / {currentTimelineState[2].supply_cap}
                                 </div>
                                 <div className="timeline-state__supply-block-value">
-                                    {currentTimelineState[2].supply_block}s
+                                    {currentTimelineState[2].supply_block}s ({currentTimelineState[2].supply_block / 5})
                                 </div>
                             </div>
+                        </div>}
+                    {playerOrder.map((playerId, index) => (
+                        <div
+                            key={`player-${players[playerId].mmr}`}
+                            className={`timeline-state__player timeline-state__player--player${index + 1}`}
+                        >
+                            {index !== Object.values(players).length - 1 ?
+                                <Fragment>
+                                    <img
+                                        src={`../../icons/${players[playerId].race.toLowerCase()}-logo.svg`}
+                                        alt={players[playerId].race}
+                                        className="timeline-state__race-icon"
+                                    />
+                                    <span className="timeline-state__player-name">
+                                        {players[playerId].name}
+                                    </span>
+                                    <svg
+                                        className="timeline-state__player-indicator"
+                                        height="16"
+                                        width="16"
+                                    >
+                                        <circle
+                                            cx="8"
+                                            cy="8"
+                                            r="8"
+                                            fill="hsl(0, 100%, 55%)"
+                                        />
+                                    </svg>
+                                </Fragment>
+                                :
+                                <Fragment>
+                                    <svg
+                                        className="timeline-state__player-indicator"
+                                        height="16"
+                                        width="16"
+                                    >
+                                        <circle
+                                            cx="8"
+                                            cy="8"
+                                            r="8"
+                                            fill="hsl(240, 80%, 55%)"
+                                        />
+                                    </svg>
+                                    <span className="timeline-state__player-name" style={{ textAlign: 'right' }}>
+                                        {players[playerId].name}
+                                    </span>
+                                    <img
+                                        src={`../../icons/${players[playerId].race.toLowerCase()}-logo.svg`}
+                                        alt={players[playerId].race}
+                                        className="timeline-state__race-icon"
+                                    />
+                                </Fragment>}
                         </div>
-                        {Object.values(players).map((player, index) => (
-                            <div
-                                key={`player-${player.mmr}`}
-                                className={`timeline-state__player timeline-state__player--player${index + 1}`}
-                            >
-                                {index !== Object.values(players).length - 1 ?
-                                    <Fragment>
-                                        <img
-                                            src={`../../icons/${player.race.toLowerCase()}-logo.svg`}
-                                            alt={player.race}
-                                            className="timeline-state__race-icon"
-                                        />
-                                        <div className="timeline-state__player-info">
-                                            <span className="timeline-state__player-name">
-                                                {player.name}
-                                            </span>
-                                            <span className="timeline-state__player-mmr">
-                                                Player {index + 1}&nbsp;&nbsp;{player.mmr}
-                                            </span>
-                                        </div>
-                                    </Fragment>
-                                    :
-                                    <Fragment>
-                                        <div className="timeline-state__player-info" style={{ textAlign: 'right' }}>
-                                            <span className="timeline-state__player-name">
-                                                {player.name}
-                                            </span>
-                                            <span className="timeline-state__player-mmr">
-                                                Player {index + 1}&nbsp;&nbsp;{player.mmr}
-                                            </span>
-                                        </div>
-                                        <img
-                                            src={`../../icons/${player.race.toLowerCase()}-logo.svg`}
-                                            alt={player.race}
-                                            className="timeline-state__race-icon"
-                                        />
-                                    </Fragment>}
-                            </div>
-                        ))}
-                    </div>
-                    <RaceState
-                        timelineState={currentTimelineState}
-                        players={players}
-                    />
-                    {/* <CurrentSelectionState
-                        timelineState={currentTimelineState}
-                        players={players}
-                    /> */}
-                    <UpgradeState
-                        timelineState={currentTimelineState}
-                        players={players}
-                    />
-                    <ObjectState
-                        objectType="unit"
-                        timelineState={currentTimelineState}
-                        players={players}
-                        visibleState={visibleState}
-                        objectStates={objectStates.unit}
-                        ignoreObjects={ignoreObjects.unit}
-                    />
-                    <ObjectState
-                        objectType="building"
-                        timelineState={currentTimelineState}
-                        players={players}
-                        visibleState={visibleState}
-                        objectStates={objectStates.building}
-                        ignoreObjects={ignoreObjects.building}
-                    />
-                </div>}
+                    ))}
+                </div>
+                {currentTimelineState &&
+                    <Fragment>
+                        <RaceState
+                            timelineState={currentTimelineState}
+                            players={players}
+                            playerOrder={playerOrder}
+                        />
+                        {/* <CurrentSelectionState
+                            timelineState={currentTimelineState}
+                            players={players}
+                        /> */}
+                        <UpgradeState
+                            timelineState={currentTimelineState}
+                            players={players}
+                            playerOrder={playerOrder}
+                        />
+                        <ObjectState
+                            objectType="unit"
+                            timelineState={currentTimelineState}
+                            players={players}
+                            playerOrder={playerOrder}
+                            visibleState={visibleState}
+                            objectStates={objectStates.unit}
+                            ignoreObjects={ignoreObjects.unit}
+                        />
+                        <ObjectState
+                            objectType="building"
+                            timelineState={currentTimelineState}
+                            players={players}
+                            playerOrder={playerOrder}
+                            visibleState={visibleState}
+                            objectStates={objectStates.building}
+                            ignoreObjects={ignoreObjects.building}
+                        />
+                    </Fragment>}
+            </div>
         </div>
     );
 };

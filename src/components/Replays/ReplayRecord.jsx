@@ -1,9 +1,9 @@
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import React, { Fragment } from 'react';
 import { setSelectedReplayHash } from '../../actions';
 import './CSS/ReplayRecord.css';
 
-const ReplayRecord = ({ hash, comparisonHash, stats, compareReplay }) => {
+const ReplayRecord = ({ hash, comparisonHash, stats }) => {
     const dispatch = useDispatch();
     const selectedReplayHash = useSelector(state => state.selectedReplayHash);
 
@@ -82,30 +82,62 @@ const ReplayRecord = ({ hash, comparisonHash, stats, compareReplay }) => {
             onClick={handleReplaySelection}
             onKeyDown={e => handleKeyDown(e.key)}
         >
-            {Object.keys(stats).map(replayInfoField => (
-                <span
-                    key={`${replayInfoField}`}
-                    className={`ReplayRecord__${replayInfoField}`}
-                >
-                    {replayInfoField === 'result' ? // eslint-disable-line no-nested-ternary
-                        <Fragment>
-                            <span className={`ReplayRecord__stat--${
-                                stats[replayInfoField].split(',')[0] === 'Win' ?
-                                    'win' : 'loss'}`}
-                            >
-                                {stats[replayInfoField].split(',')[0]}
-                            </span>
-                            <span>
-                                {stats[replayInfoField].split(',')[1]} min
-                            </span>
-                        </Fragment>
-                        :
-                        replayInfoField === 'date'
-                            ? formatDate(stats[replayInfoField])
-                            : stats[replayInfoField]}
+            <div className="ReplayRecord__matchup">
+                <img
+                    src={`../../icons/${stats.players[1].race.toLowerCase()}-logo.svg`}
+                    alt={stats.players[1].race}
+                    className="ReplayRecord__matchup-race-icon"
+                />
+                vs
+                <img
+                    src={`../../icons/${stats.players[2].race.toLowerCase()}-logo.svg`}
+                    alt={stats.players[2].race}
+                    className="ReplayRecord__matchup-race-icon"
+                />
+            </div>
+            <div className="ReplayRecord__match-info">
+                <span className="ReplayRecord__match-info-field ReplayRecord__match-info-field--map">
+                    {stats.map}
                 </span>
-            ))}
-            {selectedReplayHash && hash !== selectedReplayHash &&
+                <span className="ReplayRecord__match-info-field ReplayRecord__match-info-field--match-length">
+                    {stats.matchLength} min
+                </span>
+                <span className={`ReplayRecord__match-info-field ReplayRecord__match-info-field--result ReplayRecord__match-info-field--${stats.result.toLowerCase().split(',')[0]}`}>
+                    {stats.result.split(',')[0]}
+                </span>
+            </div>
+            <span className="ReplayRecord__match-info-field--date">
+                {formatDate(stats.date)}
+            </span>
+            <div className="ReplayRecord__match-players">
+                <div className={`ReplayRecord__player ReplayRecord__player--${stats.players[1].race}`}>
+                    <img
+                        src={`../../icons/${stats.players[1].race.toLowerCase()}-logo.svg`}
+                        alt={stats.players[1].race}
+                        className="ReplayRecord__player-race-icon"
+                    />
+                    <span className="ReplayRecord__match-info-field ReplayRecord__match-info-field--name">
+                        {stats.players[1].name}
+                    </span>
+                    <span className="ReplayRecord__match-info-field ReplayRecord__match-info-field--mmr">
+                        {stats.players[1].mmr}
+                    </span>
+                </div>
+                <div className={`ReplayRecord__player ReplayRecord__player--${stats.players[2].race}`}>
+                    <img
+                        src={`../../icons/${stats.players[2].race.toLowerCase()}-logo.svg`}
+                        alt={stats.players[2].race}
+                        className="ReplayRecord__player-race-icon"
+                    />
+                    <span className="ReplayRecord__match-info-field ReplayRecord__match-info-field--name">
+                        {stats.players[2].name}
+                    </span>
+                    <span className="ReplayRecord__match-info-field ReplayRecord__match-info-field--mmr">
+                        {stats.players[2].mmr}
+                    </span>
+                </div>
+            </div>
+            {/* {selectedReplayHash && hash !== selectedReplayHash &&
                 <Fragment>
                     <button onClick={() => compareReplay(hash, 1)} className="ReplayRecord__compare-replay ReplayRecord__compare-replay--player1">
                         &#43;
@@ -113,7 +145,7 @@ const ReplayRecord = ({ hash, comparisonHash, stats, compareReplay }) => {
                     <button onClick={() => compareReplay(hash, 2)} className="ReplayRecord__compare-replay ReplayRecord__compare-replay--player2">
                         &#43;
                     </button>
-                </Fragment>}
+                </Fragment>} */}
         </div>
     );
 };

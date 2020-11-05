@@ -227,8 +227,6 @@ const Winrate = () => {
         zerg: 'hsl(270, 80%, 35%)',
     };
 
-    console.log(formattedData);
-
     return (
         <div className="Winrate">
             <h1 className="Winrate__title">

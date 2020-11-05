@@ -2,12 +2,13 @@
     display: grid;
     grid-template-columns: 3fr 2fr 3fr;
     grid-template-areas: 'race-stats-player1 race-stats-central race-stats-player2';
+    grid-column-gap: 40px;
     border-bottom: 1px solid var(--primary-light-3);
     margin-left: 15px;
     margin-bottom: 10px;
     font-size: 14px;
     padding-bottom: 10px;
-    height: 95px;
+    height: 120px;
 }
 
 .RaceState__resource-metrics {
@@ -26,12 +27,13 @@
 
 .RaceState__player {
     display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-self: center;
 }
 
 .RaceState__player--player1 {
     grid-area: race-stats-player1;
-    flex-direction: row;
-    justify-content: space-evenly;
 }
 
 .RaceState__player--player1 .RaceState__energy-usage {
@@ -52,8 +54,6 @@
 
 .RaceState__player--player2 {
     grid-area: race-stats-player2;
-    flex-direction: row;
-    justify-content: space-evenly;
 }
 
 .RaceState__energy .recharts-wrapper .recharts-surface,
@@ -96,10 +96,15 @@
 .RaceState__energy-usage {
     width: 300px;
     height: 86px;
-    margin: auto 0;
+    margin: 0;
     display: flex;
     flex-flow: column wrap;
     justify-content: center;
+}
+
+.RaceState__energy-usage-structure {
+    margin-bottom: 10px;
+    font-size: 18px;
 }
 
 .RaceState__usage-values {
@@ -160,6 +165,7 @@
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+    width: 150px;
 }
 
 .RaceState__zerg-count {

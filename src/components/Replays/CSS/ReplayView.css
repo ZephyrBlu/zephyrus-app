@@ -1,11 +1,19 @@
 .ReplayView {
-    width: max-content;
-    margin: 20px auto 0;
+    width: 90%;
+    margin: 30px auto 0;
+}
+
+.ReplayView--no-replays {
+    width: 80%;
 }
 
 .ReplayView__default {
     width: max-content;
     margin: 20px auto;
+}
+
+.ReplayView__summary-stats {
+    margin: 40px 0 20px;
 }
 
 .ReplayView__stats {
@@ -14,20 +22,31 @@
     grid-template-areas:
     'general economic'
     'PAC efficiency';
+    grid-gap: 40px 0;
     justify-self: center;
+    justify-items: center;
     margin: 0 auto;
     border-radius: 15px;
 }
 
-@media (max-width: 1400px) {
-    .ReplayView__stats {
-        grid-column-gap: 0;
+@media (max-width: 1800px) {
+    .ReplayView:not(.ReplayView--no-replays) .ReplayView__stats {
+        grid-template: repeat(4, max-content) / 1fr;
+        grid-template-areas:
+        'general'
+        'economic'
+        'PAC'
+        'efficiency';
     }
 }
 
-@media (max-width: 1350px) {
-    .ReplayView__stats {
-        grid-template: repeat(2, max-content) / repeat(2, min-content);
-        margin: 0 0 30px;
+@media (max-width: 1400px) {
+    .ReplayView--no-replays .ReplayView__stats {
+        grid-template: repeat(4, max-content) / 1fr;
+        grid-template-areas:
+        'general'
+        'economic'
+        'PAC'
+        'efficiency';
     }
 }

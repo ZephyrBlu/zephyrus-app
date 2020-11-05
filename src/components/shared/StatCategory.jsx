@@ -1,10 +1,9 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import ReplayStat from '../Replays/ReplayStat';
-import TrendStat from '../Performance/TrendStat';
 import InfoTooltip from './InfoTooltip';
 import './CSS/StatCategory.css';
 
-const StatCategory = ({ type, category, replayInfo, trends, recentPercentDiff }) => {
+const StatCategory = ({ category, replay }) => {
     const descriptions = {
         general: (
             <p style={{ margin: 0, textAlign: 'left' }}>
@@ -121,9 +120,8 @@ const StatCategory = ({ type, category, replayInfo, trends, recentPercentDiff })
 
     const statOrder = {
         general: {
-            winrate: 'Winrate',
             sq: 'Spending Quotient',
-            supply_block: 'Supply Block',
+            supply_block: 'Supply Block (s)',
             apm: 'Actions Per Minute',
             spm: 'Screens Per Minute',
         },
@@ -131,12 +129,8 @@ const StatCategory = ({ type, category, replayInfo, trends, recentPercentDiff })
             workers_produced: 'Workers Produced',
             workers_killed: 'Workers Killed',
             workers_lost: 'Workers Lost',
-            avg_resource_collection_rate_minerals: 'Avg Mineral Collection Rate',
-            avg_resource_collection_rate_gas: 'Avg Gas Collection Rate',
-            resources_collected_minerals: 'Minerals Collected',
-            resources_collected_gas: 'Gas Collected',
-            resources_lost_minerals: 'Minerals Lost',
-            resources_lost_gas: 'Gas Lost',
+            avg_collection_rate: 'Avg Collection Rate',
+            resources_collected: 'Resources Collected',
         },
         PAC: {
             avg_pac_actions: 'Avg PAC Actions',
@@ -145,66 +139,165 @@ const StatCategory = ({ type, category, replayInfo, trends, recentPercentDiff })
             avg_pac_gap: 'Avg PAC Gap (s)',
         },
         efficiency: {
-            avg_unspent_resources_minerals: 'Avg Unspent Minerals',
-            avg_unspent_resources_gas: 'Avg Unspent Gas',
-            resources_lost_minerals: 'Minerals Lost',
-            resources_lost_gas: 'Gas Lost',
+            avg_unspent_resources: 'Avg Unspent Resources',
+            resources_lost: 'Resources Lost',
         },
     };
 
+    const generatedStats = useMemo(() => {
+        switch (category) {
+            case 'general':
+                return {
+                    sq: {
+                        1: replay.info.sq[1],
+                        2: replay.info.sq[2],
+                    },
+                    supply_block: {
+                        1: replay.info.supply_block[1],
+                        2: replay.info.supply_block[2],
+                    },
+                    apm: {
+                        1: replay.info.apm[1],
+                        2: replay.info.apm[2],
+                    },
+                    spm: {
+                        1: Math.round(replay.info.spm[1]),
+                        2: Math.round(replay.info.spm[2]),
+                    },
+                };
+
+            case 'economic':
+                return {
+                    workers_produced: {
+                        1: replay.info.workers_produced[1],
+                        2: replay.info.sq[2],
+                    },
+                    workers_killed: {
+                        1: replay.info.workers_killed[1],
+                        2: replay.info.workers_killed[2],
+                    },
+                    workers_lost: {
+                        1: replay.info.workers_lost[1],
+                        2: replay.info.workers_lost[2],
+                    },
+                    avg_collection_rate: {
+                        1: [
+                            Math.round(replay.info.avg_resource_collection_rate_minerals[1]),
+                            Math.round(replay.info.avg_resource_collection_rate_gas[1]),
+                        ],
+                        2: [
+                            Math.round(replay.info.avg_resource_collection_rate_minerals[2]),
+                            Math.round(replay.info.avg_resource_collection_rate_gas[2]),
+                        ],
+                    },
+                    resources_collected: {
+                        1: [
+                            `${(replay.info.resources_collected_minerals[1] / 1000).toFixed(1)}k`,
+                            `${(replay.info.resources_collected_gas[1] / 1000).toFixed(1)}k`,
+                        ],
+                        2: [
+                            `${(replay.info.resources_collected_minerals[2] / 1000).toFixed(1)}k`,
+                            `${(replay.info.resources_collected_gas[2] / 1000).toFixed(1)}k`,
+                        ],
+                    },
+                };
+
+            case 'PAC':
+                return {
+                    avg_pac_actions: {
+                        1: replay.info.avg_pac_actions[1].toFixed(1),
+                        2: replay.info.avg_pac_actions[2].toFixed(1),
+                    },
+                    avg_pac_action_latency: {
+                        1: replay.info.avg_pac_action_latency[1].toFixed(1),
+                        2: replay.info.avg_pac_action_latency[2].toFixed(1),
+                    },
+                    avg_pac_per_min: {
+                        1: replay.info.avg_pac_per_min[1].toFixed(1),
+                        2: replay.info.avg_pac_per_min[2].toFixed(1),
+                    },
+                    avg_pac_gap: {
+                        1: replay.info.avg_pac_gap[1].toFixed(1),
+                        2: replay.info.avg_pac_gap[2].toFixed(1),
+                    },
+                };
+
+            case 'efficiency':
+                return {
+                    avg_unspent_resources: {
+                        1: [
+                            Math.round(replay.info.avg_unspent_resources_minerals[1]),
+                            Math.round(replay.info.avg_unspent_resources_gas[1]),
+                        ],
+                        2: [
+                            Math.round(replay.info.avg_unspent_resources_minerals[2]),
+                            Math.round(replay.info.avg_unspent_resources_gas[2]),
+                        ],
+                    },
+                    resources_lost: {
+                        1: [
+                            `${(replay.info.resources_lost_minerals[1] / 1000).toFixed(1)}k`,
+                            `${(replay.info.resources_lost_gas[1] / 1000).toFixed(1)}k`,
+                        ],
+                        2: [
+                            `${(replay.info.resources_lost_minerals[2] / 1000).toFixed(1)}k`,
+                            `${(replay.info.resources_lost_gas[2] / 1000).toFixed(1)}k`,
+                        ],
+                    },
+                };
+
+            default:
+                return {};
+        }
+    }, [category, replay.info]);
+
+    const clanTagIndex = name => (
+        name.indexOf('>') === -1 ? 0 : name.indexOf('>') + 1
+    );
+
     return (
         <div
-            className={`StatCategory StatCategory--${type ? 'replays' : 'trends'}`}
+            className="StatCategory"
             style={{ gridArea: category }}
         >
-            <h2 className="StatCategory__title">
-                {category.charAt(0).toUpperCase() + category.slice(1)}
-                <InfoTooltip content={descriptions[category] || 'Loading'} />
-            </h2>
-            {type === 'replays' ?
-                <table className="StatCategory__stats StatCategory__stats--replays">
-                    <tbody>
-                        <tr>
-                            <td />
-                            <td className="ReplayStat__player-header">
-                                {replayInfo.user_match_id === 1 && 'You'}
-                            </td>
-                            <td className="ReplayStat__player-header">
-                                {replayInfo.user_match_id === 2 && 'You'}
-                            </td>
-                        </tr>
-                        {Object.keys(statOrder[category]).map((stat, index) => (
-                            stat !== 'winrate' &&
-                            <ReplayStat
-                                key={stat}
-                                stat={stat}
-                                statName={statOrder[category][stat]}
-                                replayInfo={replayInfo}
-                                category={category}
-                                modifier={
-                                    index === Object.keys(statOrder[category]).length - 1 ?
-                                        'last' : false
-                                }
+            <div className="StatCategory__info">
+                <h2 className="StatCategory__title">
+                    {category.charAt(0).toUpperCase() + category.slice(1)}
+                    <InfoTooltip content={descriptions[category]} />
+                </h2>
+                <div className="StatCategory__players">
+                    {[replay.info.user_match_id, replay.info.user_match_id === 1 ? 2 : 1].map(playerId => (
+                        <div className="StatCategory__player">
+                            <img
+                                className="StatCategory__player-icon"
+                                src={`../../icons/${replay.data.players[playerId].race.toLowerCase()}-logo.svg`}
+                                alt={replay.data.players[playerId].race}
                             />
-                        ))}
-                    </tbody>
-                </table>
-                :
-                <div className="StatCategory__stats StatCategory__stats--trends">
+                            <h3 className="StatCategory__player-name">
+                                {replay.data.players[playerId].name.slice(clanTagIndex(replay.data.players[playerId].name))}
+                            </h3>
+                        </div>
+                    ))}
+                </div>
+            </div>
+            <table className="StatCategory__stats">
+                <tbody>
                     {Object.keys(statOrder[category]).map((stat, index) => (
-                        <TrendStat
+                        <ReplayStat
                             key={stat}
+                            userId={replay.info.user_match_id}
                             stat={stat}
                             statName={statOrder[category][stat]}
-                            trends={trends}
-                            recentPercentDiff={recentPercentDiff}
+                            statInfo={generatedStats[stat]}
+                            category={category}
                             modifier={
                                 index === Object.keys(statOrder[category]).length - 1 ?
                                     'last' : false
                             }
                         />
                     ))}
-                </div>}
+                </tbody>
+            </table>
         </div>
     );
 };

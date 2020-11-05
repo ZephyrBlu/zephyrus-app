@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment } from 'react';
+import React, { useLayoutEffect, useState, Fragment } from 'react';
 import './CSS/TimelineState.css';
 
 const ObjectState = (props) => {
@@ -11,22 +11,30 @@ const ObjectState = (props) => {
     }
 
     let unitsRendered = 0;
-    const windowSize = window.innerWidth;
 
-    useEffect(() => {
-        if (props.visibleState) {
-            if (windowSize <= 1400) {
-                setUnitLimit(6);
-            } else if (windowSize <= 1500) {
-                setUnitLimit(7);
-            } else if (windowSize <= 1700) {
-                setUnitLimit(8);
+    useLayoutEffect(() => {
+        const updateIconLimit = () => {
+            const windowSize = window.innerWidth;
+            if (props.visibleState) {
+                if (windowSize < 1920) {
+                    const iconDiff = Math.ceil((1920 - windowSize) / 120);
+                    setUnitLimit(10 - iconDiff);
+                } else {
+                    setUnitLimit(10);
+                }
+            } else if (windowSize < 1920) {
+                const iconDiff = Math.ceil((1920 - windowSize) / 160);
+                setUnitLimit(12 - iconDiff);
             } else {
-                setUnitLimit(10);
+                setUnitLimit(12);
             }
-        } else {
-            setUnitLimit(14);
-        }
+        };
+        window.addEventListener('resize', updateIconLimit);
+        updateIconLimit();
+
+        return () => {
+            window.removeEventListener('resize', updateIconLimit);
+        };
     }, [props.visibleState]);
 
     const capitalize = str => (
@@ -51,6 +59,14 @@ const ObjectState = (props) => {
         // without start index it returns the object's state
         // if the object has no state it returns the unaltered name
 
+        const terranFlyingBuildings = [
+            'BarracksFlying',
+            'FactoryFlying',
+            'StarportFlying',
+            'CommandCenterFlying',
+            'OrbitalCommandFlying',
+        ];
+
         if (objectName.includes('Burrowed')) {
             return (
                 startIndex === 0
@@ -60,6 +76,13 @@ const ObjectState = (props) => {
         }
 
         if (objectName.includes('Flying')) {
+            const isTerran = terranFlyingBuildings.includes(objectName);
+            const flyingIndex = (isTerran && (startIndex === false)) ? -6 : null;
+
+            if (flyingIndex) {
+                return objectName.slice(flyingIndex);
+            }
+
             return (
                 startIndex === 0
                     ? objectName.slice(startIndex, -6)
@@ -92,13 +115,13 @@ const ObjectState = (props) => {
                     {capitalize(props.objectType)}s&nbsp;
                     {state === 'in_progress' ? 'In-progress' : capitalize(state)}
                 </h2>
-                {Object.keys(props.timelineState).map((playerId) => {
+                {props.playerOrder.map((playerId, index) => {
                     unitsRendered = 0;
 
                     return (
                         <div
-                            key={`timeline-state__building-info-player${playerId}`}
-                            className={`timeline-state__info-player${playerId}`}
+                            key={`timeline-state__building-info-player${index + 1}`}
+                            className={`timeline-state__info-player${index + 1}`}
                         >
                             {props.timelineState[playerId][props.objectType] &&
                                 Object.entries(props.timelineState[playerId][props.objectType]).map(([objectName, objectInfo]) => (

@@ -2,14 +2,14 @@
     cursor: pointer;
 }
 
+.TimelineArea {
+    margin: 40px 0 0;
+}
+
 .TimelineArea__chart-area {
-    /* display: flex;
-    justify-content: space-between; */
     display: grid;
-    grid-template: repeat(max-content, 4) / repeat(max-content, 3);
-    grid-template-areas:
-    'timeline timeline timeline chart-selector'
-    'collection-rate army-value resources-lost chart-selector';
+    grid-template: max-content / 1fr max-content;
+    grid-template-areas: 'timeline chart-selector';
     grid-row-gap: 10px;
     margin-bottom: 20px;
 }
@@ -23,7 +23,7 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 130px;
+    width: 150px;
 }
 
 .TimelineArea__chart-stat {
@@ -31,7 +31,7 @@
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
     font-size: 14px;
-    padding: 15px 10px;
+    padding: 8px;
     margin-bottom: 10px;
     display: grid;
     place-items: center;
@@ -54,11 +54,6 @@
 .TimelineArea__chart-stat--active {
     box-shadow: 0 0 0 2px var(--primary-blue) inset;
 }
-
-/* .TimelineArea__summary-metrics {
-    display: flex;
-    padding: 0 10px;
-} */
 
 .TimelineArea__metric {
     padding: 0 5px;
@@ -159,18 +154,12 @@
     justify-self: flex-end;
 }
 
-.timeline-state__player-info * {
-    display: block;
-}
-
-.timeline-state__player-mmr {
-    font-size: 16px;
-    color: var(--grey);
+.timeline-state__player-name {
+    margin: 0 10px;
 }
 
 .timeline-state__race-icon {
-    height: 50px;
-    width: 50px;
+    height: 30px;
 }
 
 #tooltip {

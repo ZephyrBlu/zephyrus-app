@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
-const TimelineTooltip = ({ payload, players, comparisonPlayer, gameloop, timeline }) => {
+const TimelineTooltip = ({ payload, players, playerOrder, comparisonPlayer, gameloop, timeline }) => {
     const [currentTimeout, setCurrentTimeout] = useState(false);
     const [prevGameloop, setPrevGameloop] = useState(0);
 
@@ -18,13 +18,13 @@ const TimelineTooltip = ({ payload, players, comparisonPlayer, gameloop, timelin
         'Workers Active': ['workers_active'],
         'Workers Lost': ['workers_killed'],
         'Unspent Resources': ['unspent_resources.minerals', 'unspent_resources.gas'],
-        'Resources Mined': ['resources_collected.minerals', 'resources_collected.gas'],
     };
 
     const selectedStat = {
         'Collection Rate': ['resource_collection_rate.minerals', 'resource_collection_rate.gas'],
         'Army Value': ['army_value.minerals', 'army_value.gas'],
         'Resources Lost': ['resources_lost.minerals', 'resources_lost.gas'],
+        'Resources Collected': ['resources_collected.minerals', 'resources_collected.gas'],
     };
 
     const checkSelectedStat = (stat) => {
@@ -38,6 +38,10 @@ const TimelineTooltip = ({ payload, players, comparisonPlayer, gameloop, timelin
 
         if (stat.includes('resources_lost')) {
             return 'Resources Lost';
+        }
+
+        if (stat.includes('resouces_collected')) {
+            return 'Resources Collected';
         }
         return false;
     };
@@ -88,8 +92,8 @@ const TimelineTooltip = ({ payload, players, comparisonPlayer, gameloop, timelin
                                         fill="hsl(0, 100%, 55%)"
                                     />
                                 </svg>
-                                {players[1].name}
-                                &nbsp;({players[1].race.slice(0, 1)})
+                                {players[playerOrder[0]].name}
+                                &nbsp;({players[playerOrder[0]].race.slice(0, 1)})
                             </td>
                             <td className="tooltip__player tooltip__player--player1">
                                 <svg
@@ -104,8 +108,8 @@ const TimelineTooltip = ({ payload, players, comparisonPlayer, gameloop, timelin
                                         fill="hsl(240, 80%, 55%)"
                                     />
                                 </svg>
-                                {players[2].name}
-                                &nbsp;({players[2].race.slice(0, 1)})
+                                {players[playerOrder[1]].name}
+                                &nbsp;({players[playerOrder[1]].race.slice(0, 1)})
                             </td>
                             {comparisonPlayer &&
                                 <td className="tooltip__player tooltip__player--comparison">
@@ -133,7 +137,7 @@ const TimelineTooltip = ({ payload, players, comparisonPlayer, gameloop, timelin
                                 <td key={`${statName}-values-1`} className="tooltip__stat-values">
                                     {statKeys.map((key, index) => (
                                         <span key={`${statName}-${key}-cell-1`} className="tooltip__value tooltip__value--player1">
-                                            {string2dot(timeline.state[1], key)}&nbsp;
+                                            {string2dot(timeline.state[playerOrder[0]], key)}&nbsp;
                                             {index === statKeys.length - 1 ? '' : '/ '}
                                         </span>
                                     ))}
@@ -141,7 +145,7 @@ const TimelineTooltip = ({ payload, players, comparisonPlayer, gameloop, timelin
                                 <td key={`${statName}-values-2`} className="tooltip__stat-values">
                                     {statKeys.map((key, index) => (
                                         <span key={`${statName}-${key}-cell-2`} className="tooltip__value tooltip__value--player2">
-                                            {string2dot(timeline.state[2], key)}&nbsp;
+                                            {string2dot(timeline.state[playerOrder[1]], key)}&nbsp;
                                             {index === statKeys.length - 1 ? '' : '/ '}
                                         </span>
                                     ))}
@@ -164,16 +168,16 @@ const TimelineTooltip = ({ payload, players, comparisonPlayer, gameloop, timelin
                                 </td>
                                 <td className="tooltip__stat-values">
                                     {selectedStat[checkSelectedStat(timeline.stat)].map((key, index) => (
-                                        <span className="tooltip__value tooltip__value--player1">
-                                            {string2dot(timeline.state[1], key)}&nbsp;
+                                        <span key={`${key}-${index}`} className="tooltip__value tooltip__value--player1">
+                                            {string2dot(timeline.state[playerOrder[0]], key)}&nbsp;
                                             {index === selectedStat[checkSelectedStat(timeline.stat)].length - 1 ? '' : '/ '}
                                         </span>
                                     ))}
                                 </td>
                                 <td className="tooltip__stat-values">
                                     {selectedStat[checkSelectedStat(timeline.stat)].map((key, index) => (
-                                        <span className="tooltip__value tooltip__value--player2">
-                                            {string2dot(timeline.state[2], key)}&nbsp;
+                                        <span key={`${key}-${index}`} className="tooltip__value tooltip__value--player2">
+                                            {string2dot(timeline.state[playerOrder[1]], key)}&nbsp;
                                             {index === selectedStat[checkSelectedStat(timeline.stat)].length - 1 ? '' : '/ '}
                                         </span>
                                     ))}

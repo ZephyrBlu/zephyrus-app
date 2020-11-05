@@ -1,0 +1,63 @@
+.ReplaySummary {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: var(--secondary-dark-3);
+    border-radius: 15px;
+    margin: 10px 0;
+    padding: 10px;
+}
+
+.ReplaySummary__summary-stat {
+    width: max-content;
+    display: inline-block;
+    text-align: center;
+    flex-grow: 1;
+    margin: 10px;
+    margin-right: 5px;
+    padding: 6px;
+    background-color: var(--primary-light-3);
+    border-radius: 25px;
+}
+
+.ReplaySummary__summary-stat--positive {
+    box-shadow: 0 0 0 2px var(--green-desat);
+    background-color: var(--green-background);
+}
+
+.ReplaySummary__summary-stat--negative {
+    box-shadow: 0 0 0 2px var(--red-desat);
+    background-color: var(--red-background);
+}
+
+.ReplaySummary__summary-stat--workersLostAt6.ReplaySummary__summary-stat--positive,
+.ReplaySummary__summary-stat--supplyBlocksAt6.ReplaySummary__summary-stat--positive,
+.ReplaySummary__summary-stat--resourcesLost.ReplaySummary__summary-stat--positive {
+    box-shadow: 0 0 0 2px var(--red-desat);
+    background-color: var(--red-background);
+}
+
+.ReplaySummary__summary-stat--workersLostAt6.ReplaySummary__summary-stat--negative,
+.ReplaySummary__summary-stat--supplyBlocksAt6.ReplaySummary__summary-stat--negative,
+.ReplaySummary__summary-stat--resourcesLost.ReplaySummary__summary-stat--negative {
+    box-shadow: 0 0 0 2px var(--green-desat);
+    background-color: var(--green-background);
+}
+
+.ReplaySummary__summary-stat-info {
+    display: inline-block;
+    margin: 0 5px;
+    font-size: 16px;
+}
+
+.ReplaySummary__summary-stat-info--name,
+.ReplaySummary__summary-stat-info--value {
+    font-size: 16px;
+    font-weight: 400;
+    margin-right: 15px;
+}
+
+.ReplaySummary__summary-stat-info--diff,
+.ReplaySummary__summary-stat-info--opp-value {
+    font-size: 14px;
+    margin-right: 0px;
+}

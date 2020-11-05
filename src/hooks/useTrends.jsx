@@ -7,6 +7,7 @@ import useFetch from './useFetch';
 const usePerformance = () => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.user);
+    const userData = useSelector(state => state.raceData);
     const urlPrefix = useContext(UrlContext);
 
     const defaultData = {
@@ -45,11 +46,17 @@ const usePerformance = () => {
         const races = ['protoss', 'zerg', 'terran'];
 
         races.forEach((race) => {
-            if (_cachedData[race].trends !== null) {
+            if (
+                _cachedData[race].trends !== null
+                && !userData[race].trends
+            ) {
                 updatedTrends[race] = { trends: JSON.parse(_cachedData[race].trends) };
             }
         });
-        dispatch(setTrends(updatedTrends));
+
+        if (Object.keys(updatedTrends).length > 0) {
+            dispatch(setTrends(updatedTrends));
+        }
     }, [_cachedData]);
 
     useEffect(() => {
