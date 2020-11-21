@@ -21,14 +21,14 @@ const Performance = () => {
     ), shallowEqual);
     const [trendsMatchup, setTrendsMatchup] = useState('all');
 
+    console.log(currentPerformance);
+
     const generalStats = [
         'mmr',
         'match_length',
         'apm',
         'spm',
         'sq',
-        'supply_block',
-        'workers_killed_lost_diff',
         'workers_produced',
         'workers_killed',
         'workers_lost',
@@ -69,8 +69,6 @@ const Performance = () => {
         sq: 'SQ',
         apm: 'APM',
         spm: 'SPM',
-        supply_block: 'Supply Block',
-        workers_killed_lost_diff: 'Workers K/L',
         workers_produced: 'Workers Produced',
         workers_killed: 'Workers Killed',
         workers_lost: 'Workers Lost',
@@ -82,8 +80,6 @@ const Performance = () => {
         sq: (<p className="Performance__season-stat-description">Spending Quotient (SQ) measures how well you spend resources.<br /><br />This shows your median SQ and the distribution of your SQ performance</p>),
         apm: (<p className="Performance__season-stat-description">This shows your median APM and the distribution of your APM performance</p>),
         spm: (<p className="Performance__season-stat-description">Screens Per Minute (SPM) measures how often you move your screen during a match.<br /><br />This shows your median SPM and the distribution of your SPM performance</p>),
-        supply_block: (<p className="Performance__season-stat-description">This shows your median Supply Block and the distribution of your Supply Block performance</p>),
-        workers_killed_lost_diff: (<p className="Performance__season-stat-description">Workers Killed/Lost is the difference between the number of workers you killed and the number of workers you lost in any given game.<br /><br />This shows your median Workers Killed/Lost difference and the distribution of your performance</p>),
         workers_produced: (<p className="Performance__season-stat-description">This shows your median Workers Produced and the distribution of your Workers Produced performance</p>),
         workers_killed: (<p className="Performance__season-stat-description">This shows your median Workers Produced and the distribution of your Workers Killed performance</p>),
         workers_lost: (<p className="Performance__season-stat-description">This shows your median Workers Produced and the distribution of your Workers Lost performance</p>),
