@@ -170,7 +170,7 @@ const StatCategory = ({ category, replay }) => {
                 return {
                     workers_produced: {
                         1: replay.info.workers_produced[1],
-                        2: replay.info.sq[2],
+                        2: replay.info.workers_produced[2],
                     },
                     workers_killed: {
                         1: replay.info.workers_killed[1],
