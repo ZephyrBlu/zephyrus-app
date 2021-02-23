@@ -2,6 +2,7 @@ import React, { Fragment } from 'react';
 import { useLoadingState } from '../../hooks';
 import ReplayInfo from './ReplayInfo';
 import ReplaySummary from './ReplaySummary';
+import QueueChart from './QueueChart';
 import TimelineArea from './TimelineArea';
 import StatCategory from '../shared/StatCategory';
 import LoadingAnimation from '../shared/LoadingAnimation';
@@ -48,6 +49,7 @@ const ReplayView = ({ replay, timeline, gameloop, clanTagIndex, visibleState }) 
                         replay={_replay}
                         timeline={_timeline}
                     />
+                    <QueueChart replay={_replay} />
                     <TimelineArea
                         metrics={_replay.metrics}
                         replay={_replay}
