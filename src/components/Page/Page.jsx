@@ -20,6 +20,7 @@ const Page = () => {
     const router = useRouter();
     const urlPrefix = useContext(UrlContext);
 
+    // can't extract into utils because of useDispatch hook
     const handleLogout = () => {
         const url = `${urlPrefix}api/logout/`;
         const opts = {

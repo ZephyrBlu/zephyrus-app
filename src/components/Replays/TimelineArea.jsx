@@ -13,13 +13,11 @@ import UpgradeState from './UpgradeState';
 import TimelineTooltip from './TimelineTooltip';
 import './CSS/TimelineArea.css';
 
-const TimelineArea = ({ replay, timeline, gameloop, players, visibleState }) => {
+const TimelineArea = ({ replay, timeline, players, visibleState }) => {
+    const [currentGameloop, setCurrentGameloop] = useState(0);
     const [isTimelineFrozen, setTimelineState] = useState(false);
     const [playerOrder, setPlayerOrder] = useState(null);
-    const currentTimelineState = timeline.cached[gameloop.current];
-    const currentComparisonTimelineState = timeline.comparison.cached
-        ? timeline.comparison.cached[gameloop.current]?.comparison
-        : null;
+    const currentTimelineState = timeline.cached[currentGameloop];
 
     useEffect(() => {
         const userId = replay.info.user_match_id;
@@ -96,13 +94,14 @@ const TimelineArea = ({ replay, timeline, gameloop, players, visibleState }) => 
                                     timeline={{
                                         stat: timeline.stat,
                                         state: currentTimelineState,
-                                        comparison: currentComparisonTimelineState,
                                         frozen: isTimelineFrozen,
                                     }}
-                                    gameloop={gameloop}
+                                    gameloop={{
+                                        current: currentGameloop,
+                                        set: setCurrentGameloop,
+                                    }}
                                     players={players}
                                     playerOrder={playerOrder}
-                                    comparisonPlayer={timeline.comparison.player}
                                 />
                             }
                             position={{ y: -10 }}
@@ -121,14 +120,6 @@ const TimelineArea = ({ replay, timeline, gameloop, players, visibleState }) => 
                             activeDot={{ stroke: 'hsl(240, 80%, 55%)', fill: 'hsl(240, 80%, 55%)' }}
                             dot={false}
                         />
-                        {timeline.comparison.player && timeline.comparison.player.id &&
-                            <Line
-                                type="monotone"
-                                dataKey={`comparison.${timeline.comparison.player.id}.${timeline.stat}`}
-                                stroke="hsl(0, 0%, 85%)"
-                                activeDot={{ stroke: 'hsl(0, 0%, 85%)', fill: 'hsl(0, 0%, 85%)' }}
-                                dot={false}
-                            />}
                     </LineChart>
                 </ResponsiveContainer>
                 <div className="TimelineArea__chart-selector">
@@ -145,45 +136,6 @@ const TimelineArea = ({ replay, timeline, gameloop, players, visibleState }) => 
                         </button>
                     ))}
                 </div>
-                {/* {metrics &&
-                    Object.entries(metrics).map(([statKey, values]) => { // eslint-disable-line arrow-body-style
-                        // const aheadOrBehind = values.summary.ahead - values.summary.behind >= 0 ? 'ahead' : 'behind';
-                        // const avgAheadOrBehind = values.summary.ahead - values.summary.behind >= 0 ? values.summary.avgAhead : values.summary.avgBehind;
-
-                        return (
-                            <div className={`TimelineArea__metric TimelineArea__metric--${statKey}`}>
-                                <h3 className="TimelineArea__metric-stat">
-                                    {timelineStatCategories[statKey][0]}
-                                </h3>
-                                <ResponsiveContainer className="TimelineArea__metric-chart" width="80%" height={50}>
-                                    <LineChart data={values.data} margin={{ top: 5, bottom: 5 }}>
-                                        <ReferenceLine y={0} stroke="hsl(0, 0%, 47%)" strokeWidth={0.5} />
-                                        <YAxis domain={[-1.05, 1.05]} allowDataOverflow hide />
-                                        <Line
-                                            type="monotone"
-                                            dataKey="value"
-                                            stroke="hsl(210, 68%, 47%)"
-                                            strokeWidth={2}
-                                            dot={false}
-                                        />
-                                    </LineChart>
-                                </ResponsiveContainer>
-                                <p className="TimelineArea__metric-value">
-                                    You were {aheadOrBehind} {values.summary[aheadOrBehind]}% of the time
-                                </p>
-                                <p className="TimelineArea__metric-value">
-                                    On average, {aheadOrBehind} by {avgAheadOrBehind[0]}
-                                    &nbsp;({aheadOrBehind === 'ahead' ? '' : '-'}{avgAheadOrBehind[1]}%)
-                                </p>
-                                <p className="TimelineArea__metric-value">
-                                    {values.summary.avgLeadLag[0] >= 0 ? 'Led' : 'Lagged'} by&nbsp;
-                                    {Math.abs(values.summary.avgLeadLag[0])}
-                                    &nbsp;({values.summary.avgLeadLag[0] >= 0 ? '+' : ''}
-                                    {values.summary.avgLeadLag[1]}%) on average
-                                </p>
-                            </div>
-                        );
-                    })} */}
             </div>
             <div className="timeline-state">
                 <div className="timeline-state__players">
@@ -198,7 +150,7 @@ const TimelineArea = ({ replay, timeline, gameloop, players, visibleState }) => 
                                 </div>
                             </div>
                             <span className="timeline-state__current-time">
-                                {formatCurrentTime(gameloop.current)}
+                                {formatCurrentTime(currentGameloop)}
                             </span>
                             <div className="timeline-state__player-supply timeline-state__player-supply--player2">
                                 <div className="timeline-state__supply-value">

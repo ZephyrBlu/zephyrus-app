@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { useState, Fragment } from 'react';
 import { useLoadingState } from '../../hooks';
 import ReplayInfo from './ReplayInfo';
 import ReplaySummary from './ReplaySummary';
@@ -7,7 +7,7 @@ import StatCategory from '../shared/StatCategory';
 import LoadingAnimation from '../shared/LoadingAnimation';
 import './CSS/ReplayView.css';
 
-const ReplayView = ({ replay, timeline, gameloop, clanTagIndex, visibleState }) => {
+const ReplayView = ({ replay, timeline, clanTagIndex, visibleState }) => {
     const getPlayers = _replay => ({
         1: {
             name: _replay.data.players[1].name.slice(clanTagIndex(replay.data.players[1].name)),
@@ -42,17 +42,15 @@ const ReplayView = ({ replay, timeline, gameloop, clanTagIndex, visibleState }) 
         timeline: {
             INITIAL: null,
             IN_PROGRESS: (<LoadingAnimation />),
-            SUCCESS: ({ _replay, _timeline, _gameloop, _getPlayers, _visibleState }) => (
+            SUCCESS: ({ _replay, _timeline, _getPlayers, _visibleState }) => (
                 <Fragment>
                     <ReplaySummary
                         replay={_replay}
                         timeline={_timeline}
                     />
                     <TimelineArea
-                        metrics={_replay.metrics}
                         replay={_replay}
                         timeline={_timeline}
-                        gameloop={_gameloop}
                         players={_getPlayers(_replay)}
                         visibleState={_visibleState}
                     />
@@ -78,7 +76,6 @@ const ReplayView = ({ replay, timeline, gameloop, clanTagIndex, visibleState }) 
         data: {
             _replay: replay,
             _timeline: timeline,
-            _gameloop: gameloop,
             _getPlayers: getPlayers,
             _visibleState: visibleState,
         },
