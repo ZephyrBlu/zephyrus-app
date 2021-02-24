@@ -17,7 +17,7 @@ const useRouter = () => {
         && !!user.battlenetAccounts
         && Object.keys(user.battlenetAccounts[0].profiles).length > 0)
         : null;
-    
+
     // must track waitingForUser since we allow users to choose to continue
     // rather than automatically rendering a new screen once they have linked an account
     const [waitingForUser, setWaitingForUser] = useState(!userState);

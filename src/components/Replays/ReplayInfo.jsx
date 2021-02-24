@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
+import { clanTagIndex } from '../../utils';
 import UrlContext from '../../index';
 import './CSS/ReplayInfo.css';
 
-const ReplayInfo = ({ replay, clanTagIndex }) => {
+const ReplayInfo = ({ replay }) => {
     const urlPrefix = useContext(UrlContext);
     const userId = replay.data.user_match_id;
     const oppId = userId === 1 ? 2 : 1;

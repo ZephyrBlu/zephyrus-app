@@ -59,6 +59,10 @@ export const updateUserAccount = async (user, dispatch, prefix) => {
     }
 };
 
+export const clanTagIndex = name => (
+    name.indexOf('>') === -1 ? 0 : name.indexOf('>') + 1
+);
+
 export const capitalize = str => (
     str.charAt(0).toUpperCase() + str.slice(1)
 );
