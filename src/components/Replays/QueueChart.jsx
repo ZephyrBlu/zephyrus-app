@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import {
     ResponsiveContainer,
     ComposedChart,
-    LineChart,
     XAxis,
     YAxis,
     Tooltip,
@@ -16,6 +15,7 @@ const QueueChart = ({ replay }) => {
     const [selectedChart, setSelectedChart] = useState('queueState');
     const [playerQueues, setPlayerQueues] = useState(null);
     const [maxProductionQueues, setMaxProductionQueues] = useState(null);
+    const [userRace] = useState(replay.data.players[replay.data.user_match_id].race);
 
     useEffect(() => {
         const fetchQueueData = async () => {
@@ -48,9 +48,9 @@ const QueueChart = ({ replay }) => {
     console.log(playerQueues);
 
     const queueChartTypes = {
-        queueState: 'Worker Production Uptime',
-        inactiveQueues: 'Inactive Worker Production Buildings',
-        cumulativeDowntime: 'Cumulative Worker Production Downtime',
+        queueState: `${userRace.current !== 'Zerg' ? 'Worker' : 'Larva'} Production Uptime`,
+        inactiveQueues: `Inactive ${userRace.current !== 'Zerg' ? 'Worker' : 'Larva'} Production Buildings`,
+        cumulativeDowntime: `Cumulative ${userRace.current !== 'Zerg' ? 'Worker' : 'Larva'} Production Downtime`,
     };
 
     return (
@@ -69,7 +69,7 @@ const QueueChart = ({ replay }) => {
                     />
                     <Tooltip
                         content={
-                            <QueueTooltip />
+                            <QueueTooltip race={userRace} />
                         }
                         position={{ y: -10 }}
                     />

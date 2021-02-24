@@ -1,0 +1,4098 @@
+{
+    "1": [
+        {
+            "gameloop": 0,
+            "supply_blocked": false,
+            "queues": [],
+            "downtime": {
+                "current": 0,
+                "total": 0
+            }
+        },
+        {
+            "gameloop": 18,
+            "supply_blocked": false,
+            "queues": [],
+            "downtime": {
+                "current": 0,
+                "total": 0
+            }
+        },
+        {
+            "gameloop": 39,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 0
+            }
+        },
+        {
+            "gameloop": 289,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 0
+            }
+        },
+        {
+            "gameloop": 310,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 0
+            }
+        },
+        {
+            "gameloop": 560,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 0
+            }
+        },
+        {
+            "gameloop": 581,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 0
+            }
+        },
+        {
+            "gameloop": 806,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 0
+            }
+        },
+        {
+            "gameloop": 831,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 0
+            }
+        },
+        {
+            "gameloop": 929,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 0
+            }
+        },
+        {
+            "gameloop": 996,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 0
+            }
+        },
+        {
+            "gameloop": 1185,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 0
+            }
+        },
+        {
+            "gameloop": 1200,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 0
+            }
+        },
+        {
+            "gameloop": 1456,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 0
+            }
+        },
+        {
+            "gameloop": 1471,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 0
+            }
+        },
+        {
+            "gameloop": 1727,
+            "supply_blocked": false,
+            "queues": [
+                false
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 0
+            }
+        },
+        {
+            "gameloop": 1742,
+            "supply_blocked": false,
+            "queues": [
+                false
+            ],
+            "downtime": {
+                "current": 15,
+                "total": 15
+            }
+        },
+        {
+            "gameloop": 1761,
+            "supply_blocked": false,
+            "queues": [
+                false
+            ],
+            "downtime": {
+                "current": 34,
+                "total": 34
+            }
+        },
+        {
+            "gameloop": 2030,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 303,
+                "total": 303
+            }
+        },
+        {
+            "gameloop": 2032,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 303
+            }
+        },
+        {
+            "gameloop": 2301,
+            "supply_blocked": false,
+            "queues": [
+                false
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 303
+            }
+        },
+        {
+            "gameloop": 2394,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 93,
+                "total": 396
+            }
+        },
+        {
+            "gameloop": 2665,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 396
+            }
+        },
+        {
+            "gameloop": 2714,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 396
+            }
+        },
+        {
+            "gameloop": 2936,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 396
+            }
+        },
+        {
+            "gameloop": 2985,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 396
+            }
+        },
+        {
+            "gameloop": 2997,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 396
+            }
+        },
+        {
+            "gameloop": 3207,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 396
+            }
+        },
+        {
+            "gameloop": 3268,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 396
+            }
+        },
+        {
+            "gameloop": 3301,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 396
+            }
+        },
+        {
+            "gameloop": 3478,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 396
+            }
+        },
+        {
+            "gameloop": 3572,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 396
+            }
+        },
+        {
+            "gameloop": 3706,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 396
+            }
+        },
+        {
+            "gameloop": 3749,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 396
+            }
+        },
+        {
+            "gameloop": 3779,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 396
+            }
+        },
+        {
+            "gameloop": 3947,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 396
+            }
+        },
+        {
+            "gameloop": 3977,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 396
+            }
+        },
+        {
+            "gameloop": 4050,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 396
+            }
+        },
+        {
+            "gameloop": 4128,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 396
+            }
+        },
+        {
+            "gameloop": 4185,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 396
+            }
+        },
+        {
+            "gameloop": 4248,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 396
+            }
+        },
+        {
+            "gameloop": 4365,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 396
+            }
+        },
+        {
+            "gameloop": 4456,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 396
+            }
+        },
+        {
+            "gameloop": 4519,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 396
+            }
+        },
+        {
+            "gameloop": 4636,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 396
+            }
+        },
+        {
+            "gameloop": 4790,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 396
+            }
+        },
+        {
+            "gameloop": 4808,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 396
+            }
+        },
+        {
+            "gameloop": 4811,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 396
+            }
+        },
+        {
+            "gameloop": 4907,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 396
+            }
+        },
+        {
+            "gameloop": 5061,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 396
+            }
+        },
+        {
+            "gameloop": 5079,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 396
+            }
+        },
+        {
+            "gameloop": 5082,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 396
+            }
+        },
+        {
+            "gameloop": 5095,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 396
+            }
+        },
+        {
+            "gameloop": 5178,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 396
+            }
+        },
+        {
+            "gameloop": 5332,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 396
+            }
+        },
+        {
+            "gameloop": 5366,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 396
+            }
+        },
+        {
+            "gameloop": 5377,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 396
+            }
+        },
+        {
+            "gameloop": 5403,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 396
+            }
+        },
+        {
+            "gameloop": 5449,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 396
+            }
+        },
+        {
+            "gameloop": 5603,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 396
+            }
+        },
+        {
+            "gameloop": 5648,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false
+            ],
+            "downtime": {
+                "current": 45,
+                "total": 441
+            }
+        },
+        {
+            "gameloop": 5652,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 49,
+                "total": 445
+            }
+        },
+        {
+            "gameloop": 5674,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 445
+            }
+        },
+        {
+            "gameloop": 5720,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 445
+            }
+        },
+        {
+            "gameloop": 5923,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 203,
+                "total": 648
+            }
+        },
+        {
+            "gameloop": 6015,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 387,
+                "total": 832
+            }
+        },
+        {
+            "gameloop": 6017,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 391,
+                "total": 836
+            }
+        },
+        {
+            "gameloop": 6160,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false
+            ],
+            "downtime": {
+                "current": 677,
+                "total": 1122
+            }
+        },
+        {
+            "gameloop": 6164,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 241,
+                "total": 1126
+            }
+        },
+        {
+            "gameloop": 6286,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 1126
+            }
+        },
+        {
+            "gameloop": 6288,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 1126
+            }
+        },
+        {
+            "gameloop": 6331,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 1126
+            }
+        },
+        {
+            "gameloop": 6431,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 1126
+            }
+        },
+        {
+            "gameloop": 6435,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 1126
+            }
+        },
+        {
+            "gameloop": 6526,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 1126
+            }
+        },
+        {
+            "gameloop": 6602,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 1126
+            }
+        },
+        {
+            "gameloop": 6702,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 1126
+            }
+        },
+        {
+            "gameloop": 6706,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 4,
+                "total": 1130
+            }
+        },
+        {
+            "gameloop": 6760,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 112,
+                "total": 1238
+            }
+        },
+        {
+            "gameloop": 6797,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 186,
+                "total": 1312
+            }
+        },
+        {
+            "gameloop": 6887,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false
+            ],
+            "downtime": {
+                "current": 366,
+                "total": 1492
+            }
+        },
+        {
+            "gameloop": 6891,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 185,
+                "total": 1496
+            }
+        },
+        {
+            "gameloop": 7031,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 1496
+            }
+        },
+        {
+            "gameloop": 7158,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 1496
+            }
+        },
+        {
+            "gameloop": 7162,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 4,
+                "total": 1500
+            }
+        },
+        {
+            "gameloop": 7222,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false
+            ],
+            "downtime": {
+                "current": 124,
+                "total": 1620
+            }
+        },
+        {
+            "gameloop": 7227,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 65,
+                "total": 1625
+            }
+        },
+        {
+            "gameloop": 7480,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 1625
+            }
+        },
+        {
+            "gameloop": 7481,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 1625
+            }
+        },
+        {
+            "gameloop": 7493,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 1625
+            }
+        },
+        {
+            "gameloop": 7498,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 1625
+            }
+        },
+        {
+            "gameloop": 7704,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 1625
+            }
+        },
+        {
+            "gameloop": 7751,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 1625
+            }
+        },
+        {
+            "gameloop": 7752,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 1625
+            }
+        },
+        {
+            "gameloop": 7764,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 1625
+            }
+        },
+        {
+            "gameloop": 7769,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false,
+                true
+            ],
+            "downtime": {
+                "current": 5,
+                "total": 1630
+            }
+        },
+        {
+            "gameloop": 7975,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 417,
+                "total": 2042
+            }
+        },
+        {
+            "gameloop": 8022,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 558,
+                "total": 2183
+            }
+        },
+        {
+            "gameloop": 8024,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 564,
+                "total": 2189
+            }
+        },
+        {
+            "gameloop": 8133,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                false
+            ],
+            "downtime": {
+                "current": 522,
+                "total": 2407
+            }
+        },
+        {
+            "gameloop": 8138,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 163,
+                "total": 2412
+            }
+        },
+        {
+            "gameloop": 8161,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 2412
+            }
+        },
+        {
+            "gameloop": 8192,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 2412
+            }
+        },
+        {
+            "gameloop": 8295,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 2412
+            }
+        },
+        {
+            "gameloop": 8404,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 2412
+            }
+        },
+        {
+            "gameloop": 8409,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 2412
+            }
+        },
+        {
+            "gameloop": 8432,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 2412
+            }
+        },
+        {
+            "gameloop": 8463,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 2412
+            }
+        },
+        {
+            "gameloop": 8479,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 2412
+            }
+        },
+        {
+            "gameloop": 8566,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 2412
+            }
+        },
+        {
+            "gameloop": 8675,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 2412
+            }
+        },
+        {
+            "gameloop": 8680,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 2412
+            }
+        },
+        {
+            "gameloop": 8750,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 2412
+            }
+        },
+        {
+            "gameloop": 8778,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 2412
+            }
+        },
+        {
+            "gameloop": 8837,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 2412
+            }
+        },
+        {
+            "gameloop": 8946,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 2412
+            }
+        },
+        {
+            "gameloop": 8951,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                false
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 2412
+            }
+        },
+        {
+            "gameloop": 9049,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                false
+            ],
+            "downtime": {
+                "current": 98,
+                "total": 2510
+            }
+        },
+        {
+            "gameloop": 9068,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 117,
+                "total": 2529
+            }
+        },
+        {
+            "gameloop": 9108,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 2529
+            }
+        },
+        {
+            "gameloop": 9217,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 2529
+            }
+        },
+        {
+            "gameloop": 9273,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false,
+                true
+            ],
+            "downtime": {
+                "current": 56,
+                "total": 2585
+            }
+        },
+        {
+            "gameloop": 9276,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false,
+                true
+            ],
+            "downtime": {
+                "current": 59,
+                "total": 2588
+            }
+        },
+        {
+            "gameloop": 9339,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 122,
+                "total": 2651
+            }
+        },
+        {
+            "gameloop": 9379,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 202,
+                "total": 2731
+            }
+        },
+        {
+            "gameloop": 9507,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 586,
+                "total": 3115
+            }
+        },
+        {
+            "gameloop": 9510,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                false
+            ],
+            "downtime": {
+                "current": 464,
+                "total": 3121
+            }
+        },
+        {
+            "gameloop": 9544,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                false
+            ],
+            "downtime": {
+                "current": 205,
+                "total": 3155
+            }
+        },
+        {
+            "gameloop": 9547,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                false
+            ],
+            "downtime": {
+                "current": 208,
+                "total": 3158
+            }
+        },
+        {
+            "gameloop": 9740,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                false
+            ],
+            "downtime": {
+                "current": 401,
+                "total": 3351
+            }
+        },
+        {
+            "gameloop": 9743,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                false
+            ],
+            "downtime": {
+                "current": 404,
+                "total": 3354
+            }
+        },
+        {
+            "gameloop": 9778,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                true,
+                false
+            ],
+            "downtime": {
+                "current": 439,
+                "total": 3389
+            }
+        },
+        {
+            "gameloop": 9781,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 445,
+                "total": 3395
+            }
+        },
+        {
+            "gameloop": 9833,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 601,
+                "total": 3551
+            }
+        },
+        {
+            "gameloop": 9838,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                false
+            ],
+            "downtime": {
+                "current": 556,
+                "total": 3561
+            }
+        },
+        {
+            "gameloop": 9950,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 611,
+                "total": 3673
+            }
+        },
+        {
+            "gameloop": 10011,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 3673
+            }
+        },
+        {
+            "gameloop": 10014,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 3673
+            }
+        },
+        {
+            "gameloop": 10104,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 3673
+            }
+        },
+        {
+            "gameloop": 10109,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 3673
+            }
+        },
+        {
+            "gameloop": 10113,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 4,
+                "total": 3677
+            }
+        },
+        {
+            "gameloop": 10190,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 3677
+            }
+        },
+        {
+            "gameloop": 10199,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 3677
+            }
+        },
+        {
+            "gameloop": 10221,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                false
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 3677
+            }
+        },
+        {
+            "gameloop": 10277,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 56,
+                "total": 3733
+            }
+        },
+        {
+            "gameloop": 10375,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 3733
+            }
+        },
+        {
+            "gameloop": 10384,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 3733
+            }
+        },
+        {
+            "gameloop": 10461,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false,
+                true
+            ],
+            "downtime": {
+                "current": 77,
+                "total": 3810
+            }
+        },
+        {
+            "gameloop": 10470,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false,
+                true
+            ],
+            "downtime": {
+                "current": 86,
+                "total": 3819
+            }
+        },
+        {
+            "gameloop": 10548,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 164,
+                "total": 3897
+            }
+        },
+        {
+            "gameloop": 10612,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 292,
+                "total": 4025
+            }
+        },
+        {
+            "gameloop": 10615,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 298,
+                "total": 4031
+            }
+        },
+        {
+            "gameloop": 10618,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 304,
+                "total": 4037
+            }
+        },
+        {
+            "gameloop": 10646,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 360,
+                "total": 4093
+            }
+        },
+        {
+            "gameloop": 10883,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 1071,
+                "total": 4804
+            }
+        },
+        {
+            "gameloop": 10886,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 1080,
+                "total": 4813
+            }
+        },
+        {
+            "gameloop": 10889,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 1089,
+                "total": 4822
+            }
+        },
+        {
+            "gameloop": 11018,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 1476,
+                "total": 5209
+            }
+        },
+        {
+            "gameloop": 11021,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 1485,
+                "total": 5218
+            }
+        },
+        {
+            "gameloop": 11289,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 2289,
+                "total": 6022
+            }
+        },
+        {
+            "gameloop": 11290,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 2292,
+                "total": 6025
+            }
+        },
+        {
+            "gameloop": 11292,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 1652,
+                "total": 6029
+            }
+        },
+        {
+            "gameloop": 11315,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 1698,
+                "total": 6075
+            }
+        },
+        {
+            "gameloop": 11319,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 1706,
+                "total": 6083
+            }
+        },
+        {
+            "gameloop": 11323,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 1714,
+                "total": 6091
+            }
+        },
+        {
+            "gameloop": 11561,
+            "supply_blocked": true,
+            "queues": [
+                false,
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 2190,
+                "total": 6567
+            }
+        },
+        {
+            "gameloop": 11586,
+            "supply_blocked": true,
+            "queues": [
+                false,
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 2265,
+                "total": 6642
+            }
+        },
+        {
+            "gameloop": 11590,
+            "supply_blocked": true,
+            "queues": [
+                false,
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 2277,
+                "total": 6654
+            }
+        },
+        {
+            "gameloop": 11594,
+            "supply_blocked": true,
+            "queues": [
+                false,
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 2289,
+                "total": 6666
+            }
+        },
+        {
+            "gameloop": 11857,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 3078,
+                "total": 7455
+            }
+        }
+    ],
+    "2": [
+        {
+            "gameloop": 0,
+            "supply_blocked": false,
+            "queues": [],
+            "downtime": {
+                "current": 0,
+                "total": 0
+            }
+        },
+        {
+            "gameloop": 18,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 0
+            }
+        },
+        {
+            "gameloop": 39,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 0
+            }
+        },
+        {
+            "gameloop": 289,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 0
+            }
+        },
+        {
+            "gameloop": 310,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 0
+            }
+        },
+        {
+            "gameloop": 560,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 0
+            }
+        },
+        {
+            "gameloop": 581,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 0
+            }
+        },
+        {
+            "gameloop": 806,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 0
+            }
+        },
+        {
+            "gameloop": 831,
+            "supply_blocked": false,
+            "queues": [
+                false
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 0
+            }
+        },
+        {
+            "gameloop": 929,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 98,
+                "total": 98
+            }
+        },
+        {
+            "gameloop": 996,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 98
+            }
+        },
+        {
+            "gameloop": 1185,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 98
+            }
+        },
+        {
+            "gameloop": 1200,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 98
+            }
+        },
+        {
+            "gameloop": 1456,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 98
+            }
+        },
+        {
+            "gameloop": 1471,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 98
+            }
+        },
+        {
+            "gameloop": 1727,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 98
+            }
+        },
+        {
+            "gameloop": 1742,
+            "supply_blocked": false,
+            "queues": [
+                false
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 98
+            }
+        },
+        {
+            "gameloop": 1761,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 19,
+                "total": 117
+            }
+        },
+        {
+            "gameloop": 2030,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 117
+            }
+        },
+        {
+            "gameloop": 2032,
+            "supply_blocked": false,
+            "queues": [
+                false
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 117
+            }
+        },
+        {
+            "gameloop": 2301,
+            "supply_blocked": false,
+            "queues": [
+                false
+            ],
+            "downtime": {
+                "current": 269,
+                "total": 386
+            }
+        },
+        {
+            "gameloop": 2394,
+            "supply_blocked": false,
+            "queues": [
+                false
+            ],
+            "downtime": {
+                "current": 362,
+                "total": 479
+            }
+        },
+        {
+            "gameloop": 2665,
+            "supply_blocked": false,
+            "queues": [
+                false
+            ],
+            "downtime": {
+                "current": 633,
+                "total": 750
+            }
+        },
+        {
+            "gameloop": 2714,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 682,
+                "total": 799
+            }
+        },
+        {
+            "gameloop": 2936,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 799
+            }
+        },
+        {
+            "gameloop": 2985,
+            "supply_blocked": false,
+            "queues": [
+                false
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 799
+            }
+        },
+        {
+            "gameloop": 2997,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 12,
+                "total": 811
+            }
+        },
+        {
+            "gameloop": 3207,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 811
+            }
+        },
+        {
+            "gameloop": 3268,
+            "supply_blocked": false,
+            "queues": [
+                false
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 811
+            }
+        },
+        {
+            "gameloop": 3301,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 33,
+                "total": 844
+            }
+        },
+        {
+            "gameloop": 3478,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 844
+            }
+        },
+        {
+            "gameloop": 3572,
+            "supply_blocked": false,
+            "queues": [
+                false
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 844
+            }
+        },
+        {
+            "gameloop": 3706,
+            "supply_blocked": false,
+            "queues": [
+                false
+            ],
+            "downtime": {
+                "current": 134,
+                "total": 978
+            }
+        },
+        {
+            "gameloop": 3749,
+            "supply_blocked": false,
+            "queues": [
+                false
+            ],
+            "downtime": {
+                "current": 177,
+                "total": 1021
+            }
+        },
+        {
+            "gameloop": 3779,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 207,
+                "total": 1051
+            }
+        },
+        {
+            "gameloop": 3947,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 1051
+            }
+        },
+        {
+            "gameloop": 3977,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 1051
+            }
+        },
+        {
+            "gameloop": 4050,
+            "supply_blocked": false,
+            "queues": [
+                false
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 1051
+            }
+        },
+        {
+            "gameloop": 4128,
+            "supply_blocked": false,
+            "queues": [
+                false
+            ],
+            "downtime": {
+                "current": 78,
+                "total": 1129
+            }
+        },
+        {
+            "gameloop": 4185,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 135,
+                "total": 1186
+            }
+        },
+        {
+            "gameloop": 4248,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 1186
+            }
+        },
+        {
+            "gameloop": 4365,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 1186
+            }
+        },
+        {
+            "gameloop": 4456,
+            "supply_blocked": false,
+            "queues": [
+                false
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 1186
+            }
+        },
+        {
+            "gameloop": 4519,
+            "supply_blocked": false,
+            "queues": [
+                false
+            ],
+            "downtime": {
+                "current": 63,
+                "total": 1249
+            }
+        },
+        {
+            "gameloop": 4636,
+            "supply_blocked": false,
+            "queues": [
+                false
+            ],
+            "downtime": {
+                "current": 180,
+                "total": 1366
+            }
+        },
+        {
+            "gameloop": 4790,
+            "supply_blocked": false,
+            "queues": [
+                false
+            ],
+            "downtime": {
+                "current": 334,
+                "total": 1520
+            }
+        },
+        {
+            "gameloop": 4808,
+            "supply_blocked": false,
+            "queues": [
+                true
+            ],
+            "downtime": {
+                "current": 352,
+                "total": 1538
+            }
+        },
+        {
+            "gameloop": 4811,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 1538
+            }
+        },
+        {
+            "gameloop": 4907,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 1538
+            }
+        },
+        {
+            "gameloop": 5061,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 1538
+            }
+        },
+        {
+            "gameloop": 5079,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 1538
+            }
+        },
+        {
+            "gameloop": 5082,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 3,
+                "total": 1541
+            }
+        },
+        {
+            "gameloop": 5095,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false
+            ],
+            "downtime": {
+                "current": 29,
+                "total": 1567
+            }
+        },
+        {
+            "gameloop": 5178,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false
+            ],
+            "downtime": {
+                "current": 96,
+                "total": 1650
+            }
+        },
+        {
+            "gameloop": 5332,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false
+            ],
+            "downtime": {
+                "current": 250,
+                "total": 1804
+            }
+        },
+        {
+            "gameloop": 5366,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 284,
+                "total": 1838
+            }
+        },
+        {
+            "gameloop": 5377,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false
+            ],
+            "downtime": {
+                "current": 306,
+                "total": 1860
+            }
+        },
+        {
+            "gameloop": 5403,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 321,
+                "total": 1886
+            }
+        },
+        {
+            "gameloop": 5449,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 1886
+            }
+        },
+        {
+            "gameloop": 5603,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 1886
+            }
+        },
+        {
+            "gameloop": 5648,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 1886
+            }
+        },
+        {
+            "gameloop": 5652,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                true
+            ],
+            "downtime": {
+                "current": 4,
+                "total": 1890
+            }
+        },
+        {
+            "gameloop": 5674,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 26,
+                "total": 1912
+            }
+        },
+        {
+            "gameloop": 5720,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 118,
+                "total": 2004
+            }
+        },
+        {
+            "gameloop": 5923,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 524,
+                "total": 2410
+            }
+        },
+        {
+            "gameloop": 6015,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false
+            ],
+            "downtime": {
+                "current": 708,
+                "total": 2594
+            }
+        },
+        {
+            "gameloop": 6017,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 343,
+                "total": 2596
+            }
+        },
+        {
+            "gameloop": 6160,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 2596
+            }
+        },
+        {
+            "gameloop": 6164,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 2596
+            }
+        },
+        {
+            "gameloop": 6286,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 2596
+            }
+        },
+        {
+            "gameloop": 6288,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 2,
+                "total": 2598
+            }
+        },
+        {
+            "gameloop": 6331,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false
+            ],
+            "downtime": {
+                "current": 88,
+                "total": 2684
+            }
+        },
+        {
+            "gameloop": 6431,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false
+            ],
+            "downtime": {
+                "current": 143,
+                "total": 2784
+            }
+        },
+        {
+            "gameloop": 6435,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false
+            ],
+            "downtime": {
+                "current": 147,
+                "total": 2788
+            }
+        },
+        {
+            "gameloop": 6526,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 238,
+                "total": 2879
+            }
+        },
+        {
+            "gameloop": 6602,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 2879
+            }
+        },
+        {
+            "gameloop": 6702,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                true
+            ],
+            "downtime": {
+                "current": 100,
+                "total": 2979
+            }
+        },
+        {
+            "gameloop": 6706,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                true
+            ],
+            "downtime": {
+                "current": 104,
+                "total": 2983
+            }
+        },
+        {
+            "gameloop": 6760,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 158,
+                "total": 3037
+            }
+        },
+        {
+            "gameloop": 6797,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 3037
+            }
+        },
+        {
+            "gameloop": 6887,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false
+            ],
+            "downtime": {
+                "current": 90,
+                "total": 3127
+            }
+        },
+        {
+            "gameloop": 6891,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false
+            ],
+            "downtime": {
+                "current": 94,
+                "total": 3131
+            }
+        },
+        {
+            "gameloop": 7031,
+            "supply_blocked": true,
+            "queues": [
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 234,
+                "total": 3271
+            }
+        },
+        {
+            "gameloop": 7158,
+            "supply_blocked": true,
+            "queues": [
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 488,
+                "total": 3525
+            }
+        },
+        {
+            "gameloop": 7162,
+            "supply_blocked": true,
+            "queues": [
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 496,
+                "total": 3533
+            }
+        },
+        {
+            "gameloop": 7222,
+            "supply_blocked": true,
+            "queues": [
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 616,
+                "total": 3653
+            }
+        },
+        {
+            "gameloop": 7227,
+            "supply_blocked": true,
+            "queues": [
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 626,
+                "total": 3663
+            }
+        },
+        {
+            "gameloop": 7480,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                true
+            ],
+            "downtime": {
+                "current": 1132,
+                "total": 4169
+            }
+        },
+        {
+            "gameloop": 7481,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 450,
+                "total": 4170
+            }
+        },
+        {
+            "gameloop": 7493,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 4170
+            }
+        },
+        {
+            "gameloop": 7498,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 4170
+            }
+        },
+        {
+            "gameloop": 7704,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 4170
+            }
+        },
+        {
+            "gameloop": 7751,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 4170
+            }
+        },
+        {
+            "gameloop": 7752,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 4170
+            }
+        },
+        {
+            "gameloop": 7764,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                true
+            ],
+            "downtime": {
+                "current": 12,
+                "total": 4182
+            }
+        },
+        {
+            "gameloop": 7769,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                true
+            ],
+            "downtime": {
+                "current": 17,
+                "total": 4187
+            }
+        },
+        {
+            "gameloop": 7975,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                true
+            ],
+            "downtime": {
+                "current": 223,
+                "total": 4393
+            }
+        },
+        {
+            "gameloop": 8022,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 270,
+                "total": 4440
+            }
+        },
+        {
+            "gameloop": 8024,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 274,
+                "total": 4444
+            }
+        },
+        {
+            "gameloop": 8133,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 492,
+                "total": 4662
+            }
+        },
+        {
+            "gameloop": 8138,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 502,
+                "total": 4672
+            }
+        },
+        {
+            "gameloop": 8161,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false
+            ],
+            "downtime": {
+                "current": 548,
+                "total": 4718
+            }
+        },
+        {
+            "gameloop": 8192,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 170,
+                "total": 4749
+            }
+        },
+        {
+            "gameloop": 8295,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 4749
+            }
+        },
+        {
+            "gameloop": 8404,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 4749
+            }
+        },
+        {
+            "gameloop": 8409,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 4749
+            }
+        },
+        {
+            "gameloop": 8432,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 4749
+            }
+        },
+        {
+            "gameloop": 8463,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 31,
+                "total": 4780
+            }
+        },
+        {
+            "gameloop": 8479,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false
+            ],
+            "downtime": {
+                "current": 63,
+                "total": 4812
+            }
+        },
+        {
+            "gameloop": 8566,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false
+            ],
+            "downtime": {
+                "current": 103,
+                "total": 4899
+            }
+        },
+        {
+            "gameloop": 8675,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false
+            ],
+            "downtime": {
+                "current": 212,
+                "total": 5008
+            }
+        },
+        {
+            "gameloop": 8680,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false
+            ],
+            "downtime": {
+                "current": 217,
+                "total": 5013
+            }
+        },
+        {
+            "gameloop": 8750,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 287,
+                "total": 5083
+            }
+        },
+        {
+            "gameloop": 8778,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false
+            ],
+            "downtime": {
+                "current": 343,
+                "total": 5139
+            }
+        },
+        {
+            "gameloop": 8837,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false
+            ],
+            "downtime": {
+                "current": 374,
+                "total": 5198
+            }
+        },
+        {
+            "gameloop": 8946,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false
+            ],
+            "downtime": {
+                "current": 483,
+                "total": 5307
+            }
+        },
+        {
+            "gameloop": 8951,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false
+            ],
+            "downtime": {
+                "current": 488,
+                "total": 5312
+            }
+        },
+        {
+            "gameloop": 9049,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 586,
+                "total": 5410
+            }
+        },
+        {
+            "gameloop": 9068,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 624,
+                "total": 5448
+            }
+        },
+        {
+            "gameloop": 9108,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 704,
+                "total": 5528
+            }
+        },
+        {
+            "gameloop": 9217,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 922,
+                "total": 5746
+            }
+        },
+        {
+            "gameloop": 9273,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false
+            ],
+            "downtime": {
+                "current": 1034,
+                "total": 5858
+            }
+        },
+        {
+            "gameloop": 9276,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 813,
+                "total": 5861
+            }
+        },
+        {
+            "gameloop": 9339,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 5861
+            }
+        },
+        {
+            "gameloop": 9379,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 5861
+            }
+        },
+        {
+            "gameloop": 9507,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 5861
+            }
+        },
+        {
+            "gameloop": 9510,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 5861
+            }
+        },
+        {
+            "gameloop": 9544,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 5861
+            }
+        },
+        {
+            "gameloop": 9547,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 3,
+                "total": 5864
+            }
+        },
+        {
+            "gameloop": 9740,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false
+            ],
+            "downtime": {
+                "current": 389,
+                "total": 6250
+            }
+        },
+        {
+            "gameloop": 9743,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 196,
+                "total": 6253
+            }
+        },
+        {
+            "gameloop": 9778,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 6253
+            }
+        },
+        {
+            "gameloop": 9781,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 6253
+            }
+        },
+        {
+            "gameloop": 9833,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 6253
+            }
+        },
+        {
+            "gameloop": 9838,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 6253
+            }
+        },
+        {
+            "gameloop": 9950,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 6253
+            }
+        },
+        {
+            "gameloop": 10011,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 6253
+            }
+        },
+        {
+            "gameloop": 10014,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 3,
+                "total": 6256
+            }
+        },
+        {
+            "gameloop": 10104,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 183,
+                "total": 6436
+            }
+        },
+        {
+            "gameloop": 10109,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 193,
+                "total": 6446
+            }
+        },
+        {
+            "gameloop": 10113,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 201,
+                "total": 6454
+            }
+        },
+        {
+            "gameloop": 10190,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false
+            ],
+            "downtime": {
+                "current": 355,
+                "total": 6608
+            }
+        },
+        {
+            "gameloop": 10199,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 185,
+                "total": 6617
+            }
+        },
+        {
+            "gameloop": 10221,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 6617
+            }
+        },
+        {
+            "gameloop": 10277,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 6617
+            }
+        },
+        {
+            "gameloop": 10375,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 6617
+            }
+        },
+        {
+            "gameloop": 10384,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 6617
+            }
+        },
+        {
+            "gameloop": 10461,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 6617
+            }
+        },
+        {
+            "gameloop": 10470,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 9,
+                "total": 6626
+            }
+        },
+        {
+            "gameloop": 10548,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 165,
+                "total": 6782
+            }
+        },
+        {
+            "gameloop": 10612,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false
+            ],
+            "downtime": {
+                "current": 293,
+                "total": 6910
+            }
+        },
+        {
+            "gameloop": 10615,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 145,
+                "total": 6913
+            }
+        },
+        {
+            "gameloop": 10618,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 6913
+            }
+        },
+        {
+            "gameloop": 10646,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 6913
+            }
+        },
+        {
+            "gameloop": 10883,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 6913
+            }
+        },
+        {
+            "gameloop": 10886,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false,
+                true
+            ],
+            "downtime": {
+                "current": 3,
+                "total": 6916
+            }
+        },
+        {
+            "gameloop": 10889,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 9,
+                "total": 6922
+            }
+        },
+        {
+            "gameloop": 11018,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 396,
+                "total": 7309
+            }
+        },
+        {
+            "gameloop": 11021,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                false
+            ],
+            "downtime": {
+                "current": 267,
+                "total": 7315
+            }
+        },
+        {
+            "gameloop": 11289,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                true,
+                false
+            ],
+            "downtime": {
+                "current": 400,
+                "total": 7583
+            }
+        },
+        {
+            "gameloop": 11290,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                true,
+                false
+            ],
+            "downtime": {
+                "current": 402,
+                "total": 7585
+            }
+        },
+        {
+            "gameloop": 11292,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 406,
+                "total": 7589
+            }
+        },
+        {
+            "gameloop": 11315,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 475,
+                "total": 7658
+            }
+        },
+        {
+            "gameloop": 11319,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                false
+            ],
+            "downtime": {
+                "current": 457,
+                "total": 7666
+            }
+        },
+        {
+            "gameloop": 11323,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 434,
+                "total": 7670
+            }
+        },
+        {
+            "gameloop": 11561,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 7670
+            }
+        },
+        {
+            "gameloop": 11586,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                true,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 7670
+            }
+        },
+        {
+            "gameloop": 11590,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false,
+                true
+            ],
+            "downtime": {
+                "current": 0,
+                "total": 7670
+            }
+        },
+        {
+            "gameloop": 11594,
+            "supply_blocked": false,
+            "queues": [
+                true,
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 4,
+                "total": 7674
+            }
+        },
+        {
+            "gameloop": 11857,
+            "supply_blocked": false,
+            "queues": [
+                false,
+                false,
+                false
+            ],
+            "downtime": {
+                "current": 530,
+                "total": 8200
+            }
+        }
+    ]
+}

@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
-const QueueTooltip = ({ payload }) => {
+const QueueTooltip = ({ payload, race }) => {
     const formatCurrentTime = (tickGameloop) => {
         const totalSeconds = Math.floor(tickGameloop / 22.4);
         const minutes = Math.floor(totalSeconds / 60);
@@ -10,26 +10,12 @@ const QueueTooltip = ({ payload }) => {
             : `${minutes}:${seconds}`;
     };
 
-    const queueChartTypes = {
-        queueState: 'Production Uptime',
-        inactiveQueues: 'Inactive Production',
-        cumulativeDowntime: 'Production Downtime',
-    };
-
     console.log(payload);
-    // switch (payload[0].dataKey) {
-    //     case 'queueState':
-
-    //     case 'inactiveQueues':
-
-    //     case 'cumulativeDowntime': 
-
-    //     default:
-    //         // nothing
-    // }
 
     let content;
     if (payload.length > 0) {
+        const currentDowntimeSec = Math.round(payload[0].payload.downtime.current / 22.4);
+        const totalDowntimeSec = Math.round(payload[0].payload.cumulativeDowntime / 22.4);
         content = (
             <div className="tooltip">
                 <table>
@@ -37,9 +23,6 @@ const QueueTooltip = ({ payload }) => {
                         <tr>
                             <td className="tooltip__current-time">
                                 {formatCurrentTime(payload[0].payload.gameloop)}&nbsp;
-                            </td>
-                            <td className="tooltip__player">
-                                {queueChartTypes[payload[0].dataKey] || 'Production Uptime'}
                             </td>
                         </tr>
                         <tr>
@@ -55,7 +38,9 @@ const QueueTooltip = ({ payload }) => {
                                 Current Downtime:
                             </td>
                             <td>
-                                {Math.round(payload[0].payload.downtime.current / 22.4)}s (~{Math.round(payload[0].payload.downtime.current / 22.4 / 12)} Workers)
+                                {currentDowntimeSec}s
+                                (~{Math.round(currentDowntimeSec / 12)}&nbsp;
+                                {race !== 'Zerg' ? 'Workers' : 'Larva'})
                             </td>
                         </tr>
                         <tr>
@@ -63,10 +48,11 @@ const QueueTooltip = ({ payload }) => {
                                 Total Downtime:
                             </td>
                             <td>
-                                {Math.round(payload[0].payload.cumulativeDowntime / 22.4)}s (~{Math.round(payload[0].payload.cumulativeDowntime / 22.4 / 12)} Workers)
+                                {totalDowntimeSec}s
+                                (~{Math.round(totalDowntimeSec / 12)}&nbsp;
+                                {race !== 'Zerg' ? 'Workers' : 'Larva'})
                             </td>
-                        </tr>    
-                            
+                        </tr>
                     </tbody>
                 </table>
             </div>
