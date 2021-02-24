@@ -58,3 +58,7 @@ export const updateUserAccount = async (user, dispatch, prefix) => {
         localStorage.user = JSON.stringify(updatedUser.data.user);
     }
 };
+
+export const capitalize = str => (
+    str.charAt(0).toUpperCase() + str.slice(1)
+);

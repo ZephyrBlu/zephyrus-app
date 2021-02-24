@@ -1,4 +1,5 @@
 import React, { useLayoutEffect, useState, Fragment } from 'react';
+import { capitalize } from '../../utils';
 import './CSS/TimelineState.css';
 
 const ObjectState = (props) => {
@@ -36,10 +37,6 @@ const ObjectState = (props) => {
             window.removeEventListener('resize', updateIconLimit);
         };
     }, [props.visibleState]);
-
-    const capitalize = str => (
-        str.charAt(0).toUpperCase() + str.slice(1)
-    );
 
     const insertBreak = () => {
         let isBreak;

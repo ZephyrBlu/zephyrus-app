@@ -8,24 +8,21 @@ import {
 import UrlContext from '../../index';
 import { handleFetch } from '../../utils';
 import PageNav from './PageNav';
+import { PAGES } from '../../constants';
 import './CSS/PageSidebar.css';
 
-const PageSidebar = ({ pages }) => {
+const PageSidebar = () => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.user);
     const isHoverStateFixed = useSelector(state => state.isHoverStateFixed);
     const urlPrefix = useContext(UrlContext);
 
     const defaultHoverState = { Logout: false };
-    pages.forEach((pageName) => {
-        defaultHoverState[pageName] = false;
-    });
-
     const fixedHoverState = { Logout: true };
-    pages.forEach((pageName) => {
+    Object.keys(PAGES).forEach((pageName) => {
+        defaultHoverState[pageName] = false;
         fixedHoverState[pageName] = true;
     });
-
     const [hoverState, setHoverState] = useState(isHoverStateFixed ? fixedHoverState : defaultHoverState);
 
     const handleLogout = () => {
@@ -74,7 +71,6 @@ const PageSidebar = ({ pages }) => {
                 />
             </button>
             <PageNav
-                pages={pages}
                 hoverState={{
                     state: hoverState,
                     fixed: isHoverStateFixed,

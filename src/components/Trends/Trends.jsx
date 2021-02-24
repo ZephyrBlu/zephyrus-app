@@ -11,6 +11,7 @@ import {
     Tooltip,
 } from 'recharts';
 import { jStat } from 'jstat';
+import { capitalize } from '../../utils';
 import { useLoadingState } from '../../hooks';
 import LoadingAnimation from '../shared/LoadingAnimation';
 import DefaultResponse from '../shared/DefaultResponse';
@@ -136,10 +137,6 @@ const Trends = () => {
             total_unspent_resources: 'Unspent Resources',
         },
     };
-
-    const capitalize = str => (
-        str.charAt(0).toUpperCase() + str.slice(1)
-    );
 
     const formatTick = (content) => {
         const totalSeconds = Math.floor(Number(content) / 22.4);

@@ -4,17 +4,17 @@ import UrlContext from '../../index';
 import SpinningRingAnimation from '../shared/SpinningRingAnimation';
 import './CSS/FeedbackForm.css';
 
-const FeedbackForm = ({ titleQuote, setShowFeedbackForm }) => {
+const FeedbackForm = ({ titleQuote, setIsFormVisible }) => {
     const user = useSelector(state => state.user);
     const [feedbackType, setFeedbackType] = useState(null);
     const [textInput, setTextInput] = useState('');
-    const [isFormSubmitted, setIsFormSubmitted] = useState(false);
+    const [isSubmitted, setIsSubmitted] = useState(false);
     const [feedbackResponse, setFeedbackResponse] = useState(null);
     const urlPrefix = useContext(UrlContext);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setIsFormSubmitted(true);
+        setIsSubmitted(true);
         setFeedbackResponse(null);
 
         const url = `${urlPrefix}api/feedback/`;
@@ -30,15 +30,15 @@ const FeedbackForm = ({ titleQuote, setShowFeedbackForm }) => {
         if (response && response.ok) {
             setFeedbackResponse(true);
             setTimeout(() => {
-                setShowFeedbackForm(false);
+                setIsFormVisible(false);
                 setFeedbackResponse(null);
                 setTextInput('');
                 setFeedbackType(null);
-                setIsFormSubmitted(false);
+                setIsSubmitted(false);
             }, 500);
         } else {
             setFeedbackResponse(false);
-            setIsFormSubmitted(false);
+            setIsSubmitted(false);
         }
     };
 
@@ -76,7 +76,7 @@ const FeedbackForm = ({ titleQuote, setShowFeedbackForm }) => {
                         ${feedbackType === 'issue' ? 'FeedbackForm__feedback-type--active' : ''}
                     `}
                     onClick={() => setFeedbackType('issue')}
-                    disabled={isFormSubmitted}
+                    disabled={isSubmitted}
                 >
                     Report an Issue
                 </button>
@@ -87,7 +87,7 @@ const FeedbackForm = ({ titleQuote, setShowFeedbackForm }) => {
                     ${feedbackType === 'suggestion' ? 'FeedbackForm__feedback-type--active' : ''}
                 `}
                     onClick={() => setFeedbackType('suggestion')}
-                    disabled={isFormSubmitted}
+                    disabled={isSubmitted}
                 >
                     Make a Suggestion
                 </button>
@@ -99,7 +99,7 @@ const FeedbackForm = ({ titleQuote, setShowFeedbackForm }) => {
                     placeholder={feedbackType === 'issue'
                         ? 'I\'m having trouble with...'
                         : 'It would be cool if...'}
-                    disabled={isFormSubmitted}
+                    disabled={isSubmitted}
                     value={textInput}
                     onChange={updateTextInput}
                     rows="9"
@@ -111,17 +111,17 @@ const FeedbackForm = ({ titleQuote, setShowFeedbackForm }) => {
                         type="submit"
                         disabled={
                             !feedbackType
-                            || isFormSubmitted
+                            || isSubmitted
                             || textInput.length < 10
                         }
                     >
-                        {feedbackResponse === null && !isFormSubmitted && (feedbackType
+                        {feedbackResponse === null && !isSubmitted && (feedbackType
                             ? `Send ${feedbackType.charAt(0).toUpperCase() + feedbackType.slice(1)}`
                             : '')}
                         {feedbackResponse === true && 'Submission Successful'}
                         {feedbackResponse === false && 'Failed. Click to try again'}
                     </button>
-                    {isFormSubmitted && feedbackResponse !== true &&
+                    {isSubmitted && feedbackResponse !== true &&
                         <SpinningRingAnimation
                             style={{
                                 position: 'absolute',
