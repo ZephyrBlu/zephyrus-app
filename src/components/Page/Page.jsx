@@ -1,5 +1,5 @@
 import { useSelector, useDispatch } from 'react-redux';
-import React, { useState, Fragment, useContext, useEffect } from 'react';
+import React, { useState, Fragment, useContext } from 'react';
 import UrlContext from '../../index';
 import { PAGES } from'../../constants';
 import { handleFetch, capitalize } from '../../utils';
@@ -14,10 +14,10 @@ import './CSS/Page.css';
 const Page = () => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.user);
+    const visibleState = useSelector(state => state.visibleState);
     const selectedRace = useSelector(state => state.selectedRace);
     const [currentPage, setCurrentPage] = useState(null);
-    const [visibleState, setVisibleState] = useState(true);
-    const router = useRouter(visibleState);
+    const router = useRouter();
     const urlPrefix = useContext(UrlContext);
 
     const handleLogout = () => {
@@ -57,7 +57,11 @@ const Page = () => {
                                 {visibleState ? 'Hide Replays' : ''}
                                 <button
                                     className="Page__hide-side-bar"
-                                    onClick={() => (visibleState ? setVisibleState(false) : setVisibleState(true))}
+                                    onClick={() => (
+                                        visibleState
+                                            ? dispatch(setVisibleState(false))
+                                            : dispatch(setVisibleState(true))
+                                    )}
                                 >
                                     <img
                                         className="Page__hide-icon"

@@ -3,6 +3,7 @@ import {
     SET_USER,
     SET_INITIAL_USER,
     SET_SELECTED_RACE,
+    SET_VISIBLE_STATE,
     SET_REPLAYS,
     SET_REPLAY_INFO,
     SET_STATS,
@@ -65,6 +66,16 @@ const selectedRace = (state = null, action) => {
 
         case LOGOUT_RESET:
             return null;
+
+        default:
+            return state;
+    }
+};
+
+const visibleState = (state = true, action) => {
+    switch(action.type) {
+        case SET_VISIBLE_STATE:
+            return action.visibleState;
 
         default:
             return state;
@@ -152,6 +163,7 @@ const isHoverStateFixed = (state = false, action) => {
 const profileInfo = combineReducers({
     user,
     selectedRace,
+    visibleState,
     raceData,
     replayInfo,
     selectedReplayHash,

@@ -25,6 +25,7 @@ const PageSidebar = () => {
     });
     const [hoverState, setHoverState] = useState(isHoverStateFixed ? fixedHoverState : defaultHoverState);
 
+    // can't extract into utils because of useDispatch hook
     const handleLogout = () => {
         const url = `${urlPrefix}api/logout/`;
         const opts = {

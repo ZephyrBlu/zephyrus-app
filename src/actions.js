@@ -1,6 +1,7 @@
 export const SET_USER = 'SET_USER';
 export const SET_INITIAL_USER = 'SET_INITIAL_USER';
 export const SET_SELECTED_RACE = 'SET_SELECTED_RACE';
+export const SET_VISIBLE_STATE = 'SET_VISIBLE_STATE';
 export const SET_REPLAYS = 'SET_REPLAYS';
 export const SET_STATS = 'SET_STATS';
 export const SET_TRENDS = 'SET_TRENDS';
@@ -20,6 +21,10 @@ export const setInitialUser = (user, selectedRace) => (
 
 export const setSelectedRace = selectedRace => (
     { type: SET_SELECTED_RACE, selectedRace }
+);
+
+export const setVisibleState = visibleState => (
+    { type: SET_VISIBLE_STATE, visibleState }
 );
 
 export const setReplays = data => (

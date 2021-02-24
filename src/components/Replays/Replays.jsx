@@ -19,9 +19,10 @@ const selectData = createSelector(
     ),
 );
 
-const Replays = ({ visibleState }) => {
+const Replays = () => {
     useAuthCode();
     const dispatch = useDispatch();
+    const visibleState = useSelector(state => state.visibleState);
     const urlPrefix = useContext(UrlContext);
     const [replayListState, setReplayListState] = useState({ loadingState: 'IN_PROGRESS' });
     const [selectedReplayState, setSelectedReplayState] = useState({

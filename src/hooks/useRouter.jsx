@@ -10,7 +10,7 @@ import Upload from '../components/Upload';
 import Settings from '../components/Settings';
 import AccountSetup from '../components/AccountSetup';
 
-const useRouter = (visibleState) => {
+const useRouter = () => {
     const user = useSelector(state => state.user);
     const userState = user /* eslint-disable-line no-nested-ternary */
         ? (user.verified
@@ -18,8 +18,16 @@ const useRouter = (visibleState) => {
         && Object.keys(user.battlenetAccounts[0].profiles).length > 0)
         : null;
     const [waitingForUser, setWaitingForUser] = useState(!userState);
-    let _router;
 
+    /*
+        can't use useEffect because it executes after the render. This is an issue because after the render,
+        the user's data has been flushed but the router has not been changed. This causes errors because components
+        expect the user data to exist.
+
+        Solution is to execute router choice logic on every render. This means the code is executed quite often,
+        but since it's only a few simple comparison it should not be a big deal.
+    */
+    let _router = null;
     if (!waitingForUser && userState) {
         _router = (
             <Router className="Router">
@@ -31,7 +39,6 @@ const useRouter = (visibleState) => {
                 />
                 <Replays
                     path="/replays"
-                    visibleState={visibleState}
                 />
                 <Winrate
                     path="/winrate"
@@ -63,6 +70,11 @@ const useRouter = (visibleState) => {
         );
     }
 
+    /*
+        must provide setCurrentPage function as an argument to returned function
+        since it creates a closure. Due to the closure there is no way for the function
+        to access the setCurrentPage function globally.
+    */
     const router = setCurrentPage => (
         <Location>
             {({ location }) => {
@@ -76,7 +88,6 @@ const useRouter = (visibleState) => {
             }}
         </Location>
     );
-
     return router;
 };
 
