@@ -74,8 +74,6 @@ const LoadingState = ({
             : (<LoadingAnimation />);
     }
 
-    console.log(spinner, componentState);
-
     return componentState;
 };
 
