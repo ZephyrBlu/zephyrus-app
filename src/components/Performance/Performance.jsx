@@ -135,8 +135,7 @@ const Performance = () => {
                 </h1>
                 <LoadingState
                     success={currentPerformance}
-                    error={currentPerformance === false}
-                    errorFallback={<DefaultResponse content="We couldn't find any replays" />}
+                    notFound={currentPerformance === false}
                 >
                     {(currentSeasonTrends || previousSeasonTrends) &&
                         <div className="Performance__title-stat">

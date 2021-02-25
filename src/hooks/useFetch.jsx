@@ -7,10 +7,8 @@ const useFetch = (url, dep = 'default', dataKey = null, opts = null) => {
 
     useEffect(() => {
         // reset on logout
-        if (!user) {
-            _setState(null);
-        }
-    }, [user]);
+        _setState(null);
+    }, [user, url, dep]);
 
     useEffect(() => {
         const controller = new AbortController();
@@ -43,7 +41,7 @@ const useFetch = (url, dep = 'default', dataKey = null, opts = null) => {
         */
         if (user && url && (dep || dep === 0)) {
             fetchData();
-        } else if (dep === false) {
+        } else if (url === false || dep === false) {
             _setState(false);
         }
 

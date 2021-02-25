@@ -112,8 +112,6 @@ const Replays = () => {
                     success={replayInfo && replayInfo.length > 0}
                     error={replayInfo === false}
                     notFound={replayInfo && replayInfo.length === 0}
-                    notFoundFallback={<DefaultResponse content="We couldn't find any replays" />}
-                    errorFallback={<DefaultResponse content="Something went wrong" />}
                 >
                     <ReplayList replays={replayInfo} />
                 </LoadingState>

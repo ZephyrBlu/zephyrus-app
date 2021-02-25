@@ -176,8 +176,7 @@ const Trends = () => {
                 </h1>
                 <LoadingState
                     success={currentTrends}
-                    error={currentTrends === false}
-                    errorFallback={<DefaultResponse content="We couldn't find any replays" />}
+                    notFound={currentTrends === false}
                     spinner={
                         <Fragment>
                             <div

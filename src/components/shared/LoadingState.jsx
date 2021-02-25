@@ -1,4 +1,5 @@
 import React, { useRef } from 'react';
+import DefaultResponse from './DefaultResponse';
 import LoadingAnimation from './LoadingAnimation';
 
 const LoadingState = ({
@@ -11,8 +12,8 @@ const LoadingState = ({
     success,
     error,
     notFound,
-    errorFallback = 'An error occurred',
-    notFoundFallback = 'Not found',
+    errorFallback = <DefaultResponse content="Something went wrong" />,
+    notFoundFallback = <DefaultResponse content="We couldn't find any replays" />,
     children,
 }) => {
     // the startNow prop indicates that we are current waiting for loading to begin
