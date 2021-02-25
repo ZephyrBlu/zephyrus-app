@@ -4,6 +4,7 @@ import LoadingAnimation from './LoadingAnimation';
 const LoadingState = ({
     startNow,
     noLoad,
+    state = null,
     initial,
     inProgress,
     success,
@@ -18,6 +19,23 @@ const LoadingState = ({
     // _started is used internally to track deferred initial loading
     const _started = useRef(startNow || noLoad || null);
 
+    // re-assign props if we're using hooks to declaratively manipulate state
+    // instead of using data flow
+    if (state !== null) {
+        ({
+            inProgress,
+            success,
+            error,
+            notFound,
+        } = {
+            inProgress,
+            success,
+            error,
+            notFound,
+            ...state,
+        });
+    }
+
     // otherwise, we delay loading until the inProgress prop indicates loading has started
     // once loading initially starts, we toggle _started to begin rendering the success/error/notFound/loading states
     if (inProgress && _started.current === null) {
@@ -30,10 +48,11 @@ const LoadingState = ({
     // return initial state early
     if (!_started.current) {
         return componentState;
+    }
 
     // loading started and succeeded
     // return child elements/components
-    } else if (success) {
+    if (success) {
         componentState = children;
 
     // loading started and an error occurred

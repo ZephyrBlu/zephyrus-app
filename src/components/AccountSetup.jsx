@@ -2,6 +2,7 @@ import React, { useState, useRef, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Tippy from '@tippy.js/react';
 import { useLoadingState, useAuthCode } from '../hooks';
+import useNewLoadingState from '../hooks/useNewLoadingState';
 import UrlContext from '../index';
 import { handleFetch, updateUserAccount } from '../utils';
 import SpinningRingAnimation from './shared/SpinningRingAnimation';
@@ -12,6 +13,7 @@ const AccountSetup = ({ setWaitingForUser }) => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.user);
     const profileInputRef = useRef();
+    const [emailLoadingState, setEmailLoadingState] = useNewLoadingState();
     const [emailState, setEmailState] = useState({ loadingState: 'INITIAL' });
     const [profileState, setProfileState] = useState({
         data: null,
@@ -59,14 +61,17 @@ const AccountSetup = ({ setWaitingForUser }) => {
             return;
         }
 
-        setEmailState({ loadingState: 'IN_PROGRESS' });
+        // setEmailState({ loadingState: 'IN_PROGRESS' });
+        setEmailLoadingState('inProgress');
         const url = `${urlPrefix}api/resend/`;
         const emailResponse = await handleFetch(url, opts);
 
         if (emailResponse.ok) {
-            setEmailState({ loadingState: 'SUCCESS' });
+            // setEmailState({ loadingState: 'SUCCESS' });
+            setEmailLoadingState('success');
         } else {
-            setEmailState({ loadingState: 'ERROR' });
+            // setEmailState({ loadingState: 'ERROR' });
+            setEmailLoadingState('error');
         }
     };
 
@@ -232,7 +237,18 @@ const AccountSetup = ({ setWaitingForUser }) => {
                         >
                             {user.verified ? 'Verification Complete' : 'Resend Email'}
                         </button>
-                        <EmailState />
+                        <LoadingState
+                            state={emailLoadingState}
+                            errorFallback={
+                                <span className="AccountSetup__info AccountSetup__info--completed">
+                                    Something went wrong
+                                </span>
+                            }
+                        >
+                            <span className="AccountSetup__info AccountSetup__info--completed">
+                                Email Sent
+                            </span>
+                        </LoadingState>
                     </div>
                 </li>
                 <li className="AccountSetup__link-battlenet  AccountSetup__task">

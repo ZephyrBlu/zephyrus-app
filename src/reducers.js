@@ -130,7 +130,7 @@ const replayInfo = (state = null, action) => {
             return action.replayInfo;
 
         case LOGOUT_RESET:
-            return [];
+            return null;
 
         default:
             return state;
