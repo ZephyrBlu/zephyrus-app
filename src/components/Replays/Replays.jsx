@@ -5,6 +5,7 @@ import { setReplayInfo } from '../../actions';
 import { useAuthCode } from '../../hooks';
 import { clanTagIndex } from '../../utils';
 import LoadingState from '../shared/LoadingState';
+import DefaultResponse from '../shared/DefaultResponse';
 import ReplayView from './ReplayView';
 import ReplayList from './ReplayList';
 import './CSS/Replays.css';
@@ -67,6 +68,8 @@ const Replays = () => {
 
         if (userReplays) {
             filterReplayInfo();
+        } else if (userReplays === false) {
+            dispatch(setReplayInfo(false));
         }
     }, [userReplays]);
 
@@ -109,6 +112,8 @@ const Replays = () => {
                     success={replayInfo && replayInfo.length > 0}
                     error={replayInfo === false}
                     notFound={replayInfo && replayInfo.length === 0}
+                    notFoundFallback={<DefaultResponse content="We couldn't find any replays" />}
+                    errorFallback={<DefaultResponse content="Something went wrong" />}
                 >
                     <ReplayList replays={replayInfo} />
                 </LoadingState>

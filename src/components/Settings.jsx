@@ -1,6 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import useNewLoadingState from '../hooks/useNewLoadingState';
+import { useLoadingState } from '../hooks';
 import UrlContext from '../index';
 import { handleFetch } from '../utils';
 import InfoTooltip from './shared/InfoTooltip';
@@ -14,7 +14,7 @@ const Settings = () => {
     const battlenetAccount = user.battlenetAccounts[0];
     const [replaySummary, setReplaySummary] = useState(null);
     const [linkCount, setLinkCount] = useState(null);
-    const [linkCountLoadingState, setLinkCountLoadingState] = useNewLoadingState();
+    const [linkCountLoadingState, setLinkCountLoadingState] = useLoadingState();
 
     const opts = {
         method: 'GET',

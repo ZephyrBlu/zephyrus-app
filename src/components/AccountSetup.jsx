@@ -1,8 +1,7 @@
 import React, { useState, useRef, useContext } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Tippy from '@tippy.js/react';
-import { useLoadingState, useAuthCode } from '../hooks';
-import useNewLoadingState from '../hooks/useNewLoadingState';
+import { useAuthCode, useLoadingState } from '../hooks';
 import UrlContext from '../index';
 import { handleFetch, updateUserAccount } from '../utils';
 import SpinningRingAnimation from './shared/SpinningRingAnimation';
@@ -13,12 +12,9 @@ const AccountSetup = ({ setWaitingForUser }) => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.user);
     const profileInputRef = useRef();
-    const [emailLoadingState, setEmailLoadingState] = useNewLoadingState();
-    const [emailState, setEmailState] = useState({ loadingState: 'INITIAL' });
-    const [profileState, setProfileState] = useState({
-        data: null,
-        loadingState: 'INITIAL',
-    });
+    const [emailState, setEmailState] = useLoadingState();
+    const [profileState, setProfileState] = useLoadingState();
+    const [profileErrorMessage, setprofileErrorMessage] = useState(null);
     const urlPrefix = useContext(UrlContext);
     const opts = {
         method: 'GET',
@@ -26,20 +22,6 @@ const AccountSetup = ({ setWaitingForUser }) => {
     };
 
     const dataStates = {
-        email: {
-            INITIAL: null,
-            IN_PROGRESS: (<SpinningRingAnimation />),
-            SUCCESS: (
-                <span className="AccountSetup__info AccountSetup__info--completed">
-                    Email Sent
-                </span>
-            ),
-            ERROR: (
-                <span className="AccountSetup__info AccountSetup__info--completed">
-                    Something went wrong
-                </span>
-            ),
-        },
         profile: {
             INITIAL: null,
             IN_PROGRESS: (<SpinningRingAnimation />),
@@ -61,17 +43,14 @@ const AccountSetup = ({ setWaitingForUser }) => {
             return;
         }
 
-        // setEmailState({ loadingState: 'IN_PROGRESS' });
-        setEmailLoadingState('inProgress');
+        setEmailState('inProgress');
         const url = `${urlPrefix}api/resend/`;
         const emailResponse = await handleFetch(url, opts);
 
         if (emailResponse.ok) {
-            // setEmailState({ loadingState: 'SUCCESS' });
-            setEmailLoadingState('success');
+            setEmailState('success');
         } else {
-            // setEmailState({ loadingState: 'ERROR' });
-            setEmailLoadingState('error');
+            setEmailState('error');
         }
     };
 
@@ -97,17 +76,13 @@ const AccountSetup = ({ setWaitingForUser }) => {
         // user needs to link a battlenet account first
         // so profile can be connected to battlenet account
         if (!user.battlenetAccounts) {
-            setProfileState({
-                data: 'Link your Battle.net Account before adding a Profile',
-                loadingState: 'ERROR',
-            });
+            setProfileState('error');
+            setprofileErrorMessage('Link your Battle.net Account before adding a Profile');
             return;
         }
 
-        setProfileState({
-            data: null,
-            loadingState: 'IN_PROGRESS',
-        });
+        setProfileState('inProgress');
+        setprofileErrorMessage(null);
         const url = `${urlPrefix}api/profile/`;
         const profileOpts = {
             method: 'POST',
@@ -118,26 +93,16 @@ const AccountSetup = ({ setWaitingForUser }) => {
 
         if (profileResponse.ok) {
             updateUserAccount(user, dispatch, urlPrefix);
-            setProfileState(prevState => ({
-                ...prevState,
-                loadingState: 'SUCCESS',
-            }));
+            setProfileState('success');
         } else if (profileResponse.status === 400) {
-            setProfileState({
-                data: 'Invalid URL',
-                loadingState: 'ERROR',
-            });
+            setProfileState('error');
+            setprofileErrorMessage('Invalid URL');
         } else {
-            setProfileState({
-                data: 'An error occurred during profile parsing',
-                loadingState: 'ERROR',
-            });
+            setProfileState('error');
+            setprofileErrorMessage('An error occurred during profile parsing');
         }
         profileInputRef.current.value = null;
     };
-
-    const EmailState = useLoadingState(emailState, dataStates.email);
-    const ProfileState = useLoadingState(profileState, dataStates.profile);
 
     return (
         <div className="AccountSetup">
@@ -239,7 +204,7 @@ const AccountSetup = ({ setWaitingForUser }) => {
                         </button>
                         <LoadingState
                             defer
-                            state={emailLoadingState}
+                            state={emailState}
                             errorFallback={
                                 <span className="AccountSetup__info AccountSetup__info--completed">
                                     Something went wrong
@@ -363,7 +328,19 @@ const AccountSetup = ({ setWaitingForUser }) => {
                                 className="AccountSetup__setup-action AccountSetup__save-profile"
                             />
                         </form>
-                        <ProfileState />
+                        <LoadingState
+                            state={profileState}
+                            errorFallback={
+                                <span className="AccountSetup__info AccountSetup__info--completed">
+                                    {profileErrorMessage}
+                                </span>
+                            }
+                            spinner={<SpinningRingAnimation />}
+                        >
+                            <span className="AccountSetup__info AccountSetup__info--completed">
+                                Profile Saved
+                            </span>
+                        </LoadingState>
                     </div>
                     {user.battlenetAccounts &&
                             Object.values(user.battlenetAccounts[0].profiles).map(profile => (

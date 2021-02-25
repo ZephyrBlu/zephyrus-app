@@ -1,6 +1,6 @@
 import { useSelector } from 'react-redux';
 import React, { useState, useContext } from 'react';
-import useNewLoadingState from '../hooks/useNewLoadingState';
+import { useLoadingState } from '../hooks';
 import UrlContext from '../index';
 import { handleFetch } from '../utils';
 import './Upload.css';
@@ -9,7 +9,7 @@ import LoadingState from './shared/LoadingState';
 const Upload = () => {
     const user = useSelector(state => state.user);
     const [upload, setUpload] = useState(null);
-    const [uploadState, setUploadState] = useNewLoadingState();
+    const [uploadState, setUploadState] = useLoadingState();
     const urlPrefix = useContext(UrlContext);
 
     const uploadFiles = async (event) => {
