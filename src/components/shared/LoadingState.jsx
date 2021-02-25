@@ -13,7 +13,8 @@ const LoadingState = ({
     notFoundFallback = 'Not found',
     children,
 }) => {
-    // the started prop indicates that loading has already started
+    // the startNow prop indicates that loading has already started
+    // the noLoad prop indicates that there is no async waiting state
     // _started is used internally to track deferred initial loading
     const _started = useRef(startNow || noLoad || null);
 
@@ -24,19 +25,33 @@ const LoadingState = ({
     }
 
     let componentState = initial || null;
+
+    // loading has not started yet
+    // return initial state early
+    if (!_started.current) {
+        return componentState;
+
     // loading started and succeeded
-    if (_started.current && success) {
+    // return child elements/components
+    } else if (success) {
         componentState = children;
-    // loading started and errored out
-    } else if (_started.current && error) {
+
+    // loading started and an error occurred
+    // return error fallback message/component
+    } else if (error) {
         componentState = errorFallback;
+
     // loading started and data was not found
-    } else if (_started.current && notFound) {
+    // return not found fallback message/component
+    } else if (notFound) {
         componentState = notFoundFallback;
+
     // loading started, but not completed yet
-    } else if (_started.current && !noLoad) {
+    // return a loading indicator
+    } else if (!noLoad) {
         componentState = (<LoadingAnimation />);
     }
+
     return componentState;
 };
 
