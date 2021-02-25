@@ -1,11 +1,10 @@
 import React, { useContext, useState, useEffect, Fragment } from 'react';
 import { useSelector } from 'react-redux';
 import { useFetch } from '../../hooks';
-import { clanTagIndex } from '../../utils';
 import UrlContext from '../../index';
 import ReplaySummary from './ReplaySummary';
 import ReplayTimeline from './ReplayTimeline';
-import LoadingAnimation from '../shared/LoadingAnimation';
+import LoadingState from '../shared/LoadingState';
 
 const TimelineArea = ({ replay }) => {
     const urlPrefix = useContext(UrlContext);
@@ -13,12 +12,21 @@ const TimelineArea = ({ replay }) => {
     const selectedReplayHash = useSelector(state => state.selectedReplayHash);
     const [timelineState, setTimelineState] = useState({
         data: null,
-        loadingState: 'INITIAL',
+        cached: null,
     });
 
     if (!localStorage.timelineStat) {
         localStorage.timelineStat = 'resource_collection_rate_all';
     }
+
+    useEffect(() => {
+        if (selectedReplayHash) {
+            setTimelineState({
+                data: null,
+                cached: null,
+            });
+        }
+    }, [selectedReplayHash]);
 
     const url = `${urlPrefix}api/replays/timeline/${selectedReplayHash}/`;
     const timelineUrl = useFetch(url, selectedReplayHash, 'timeline_url', {
@@ -38,48 +46,32 @@ const TimelineArea = ({ replay }) => {
             });
 
             setTimelineState({
-                data: {
-                    data: replayTimeline,
-                    cached: timeline,
-                },
-                loadingState: 'SUCCESS',
+                data: replayTimeline,
+                cached: timeline,
             });
         } else if (replayTimeline === false) {
-            setTimelineState(prevState => ({
-                ...prevState,
-                loadingState: 'ERROR',
-            }));
+            setTimelineState({
+                data: false,
+                cached: false,
+            });
         }
     }, [replayTimeline]);
 
-    const getPlayers = () => ({
-        1: {
-            name: replay.data.players[1].name.slice(clanTagIndex(replay.data.players[1].name)),
-            race: replay.data.players[1].race,
-            mmr: replay.data.match_data.mmr[1],
-        },
-        2: {
-            name: replay.data.players[2].name.slice(clanTagIndex(replay.data.players[2].name)),
-            race: replay.data.players[2].race,
-            mmr: replay.data.match_data.mmr[2],
-        },
-    });
-
     return (
-        replay.data && timelineState.data?.data
-        ? (
-            <Fragment>
-                <ReplaySummary
-                    replay={replay}
-                    timeline={timelineState.data}
-                />
-                <ReplayTimeline
-                    replay={replay}
-                    timeline={timelineState.data}
-                    players={getPlayers()}
-                />
-            </Fragment>
-        ) : null
+        <LoadingState
+            inProgress={selectedReplayHash && !timelineState.data}
+            success={replay.data && timelineState.data}
+            error={timelineState.data === false}
+        >
+            <ReplaySummary
+                replay={replay}
+                timeline={timelineState}
+            />
+            <ReplayTimeline
+                replay={replay}
+                timeline={timelineState}
+            />
+        </LoadingState>
     );
 };
 

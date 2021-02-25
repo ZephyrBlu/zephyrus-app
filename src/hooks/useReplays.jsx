@@ -74,7 +74,7 @@ const useReplays = (interval) => {
             // if the replays we're currently viewing are being changed then
             // clear displayed data and show loading indicator
             if (updatedReplays[selectedRace]) {
-                dispatch(setReplayInfo([]));
+                dispatch(setReplayInfo(null));
             }
             dispatch(setReplays(updatedReplays));
         }

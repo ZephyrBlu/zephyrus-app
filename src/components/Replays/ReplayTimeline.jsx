@@ -7,6 +7,7 @@ import {
 } from 'recharts';
 import React, { Fragment, useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
+import { clanTagIndex } from '../../utils';
 import RaceState from './RaceState';
 import ObjectState from './ObjectState';
 // import CurrentSelectionState from './CurrentSelectionState';
@@ -14,13 +15,27 @@ import UpgradeState from './UpgradeState';
 import TimelineTooltip from './TimelineTooltip';
 import './CSS/ReplayTimeline.css';
 
-const ReplayTimeline = ({ replay, timeline, players }) => {
+const ReplayTimeline = ({ replay, timeline }) => {
     const visibleState = useSelector(state => state.visibleState);
     const [currentGameloop, setCurrentGameloop] = useState(0);
     const [timelineStat, setTimelineStat] = useState(localStorage.timelineStat);
     const [isTimelineFrozen, setTimelineState] = useState(false);
     const [playerOrder, setPlayerOrder] = useState(null);
     const currentTimelineState = timeline.cached[currentGameloop];
+
+    const getPlayers = () => ({
+        1: {
+            name: replay.data.players[1].name.slice(clanTagIndex(replay.data.players[1].name)),
+            race: replay.data.players[1].race,
+            mmr: replay.data.match_data.mmr[1],
+        },
+        2: {
+            name: replay.data.players[2].name.slice(clanTagIndex(replay.data.players[2].name)),
+            race: replay.data.players[2].race,
+            mmr: replay.data.match_data.mmr[2],
+        },
+    });
+    const [players] = useState(getPlayers);
 
     useEffect(() => {
         const userId = replay.info.user_match_id;

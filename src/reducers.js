@@ -124,7 +124,7 @@ const raceData = (state = raceDataDefaultState, action) => {
     }
 };
 
-const replayInfo = (state = [], action) => {
+const replayInfo = (state = null, action) => {
     switch (action.type) {
         case SET_REPLAY_INFO:
             return action.replayInfo;

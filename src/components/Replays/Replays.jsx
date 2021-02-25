@@ -4,10 +4,9 @@ import React, { useState, useEffect, useContext } from 'react';
 import { setReplayInfo } from '../../actions';
 import { useAuthCode, useLoadingState } from '../../hooks';
 import { clanTagIndex } from '../../utils';
+import LoadingState from '../shared/LoadingState';
 import ReplayView from './ReplayView';
 import ReplayList from './ReplayList';
-import DefaultResponse from '../shared/DefaultResponse';
-import LoadingAnimation from '../shared/LoadingAnimation';
 import './CSS/Replays.css';
 
 const selectData = createSelector(
@@ -22,13 +21,9 @@ const Replays = () => {
     useAuthCode();
     const dispatch = useDispatch();
     const visibleState = useSelector(state => state.visibleState);
-    const [replayListState, setReplayListState] = useState({ loadingState: 'IN_PROGRESS' });
-    const [selectedReplayState, setSelectedReplayState] = useState({
-        data: {
-            data: null,
-            info: null,
-        },
-        loadingState: 'INITIAL',
+    const [selectedReplay, setSelectedReplay] = useState({
+        data: null,
+        info: null,
     });
     const [replayInfo, selectedReplayHash] = useSelector(selectData);
 
@@ -72,9 +67,6 @@ const Replays = () => {
 
         if (userReplays) {
             filterReplayInfo();
-            setReplayListState({ loadingState: userReplays.length > 0 ? 'SUCCESS' : 'NOT_FOUND' });
-        } else if (userReplays === false) {
-            setReplayListState({ loadingState: 'ERROR' });
         }
     }, [userReplays]);
 
@@ -86,12 +78,9 @@ const Replays = () => {
                     Object.entries(replay.match_data).forEach(([stat, values]) => {
                         infoList[stat] = values;
                     });
-                    setSelectedReplayState({
-                        data: {
-                            data: replay,
-                            info: infoList,
-                        },
-                        loadingState: 'SUCCESS',
+                    setSelectedReplay({
+                        data: replay,
+                        info: infoList,
                     });
                 }
             });
@@ -102,23 +91,6 @@ const Replays = () => {
         }
     }, [selectedReplayHash]);
 
-    const dataStates = {
-        replayList: {
-            IN_PROGRESS: (<LoadingAnimation />),
-            SUCCESS: ({ _replayInfo }) => (
-                <ReplayList replays={_replayInfo} />
-            ),
-            NOT_FOUND: (<DefaultResponse content="We couldn't find any replays" />),
-            ERROR: (<DefaultResponse content="Something went wrong" />),
-        },
-    };
-
-    const replayListData = {
-        data: { _replayInfo: replayInfo },
-        ...replayListState,
-    };
-    const ReplayListState = useLoadingState(replayListData, dataStates.replayList);
-
     return (
         <div
             className="Replays"
@@ -127,14 +99,20 @@ const Replays = () => {
             <div className="Replays__main-content">
                 <ReplayView
                     replay={{
-                        ...selectedReplayState.data,
-                        loading: selectedReplayState.loadingState,
+                        ...selectedReplay,
                         hash: selectedReplayHash,
                     }}
                 />
             </div>
             <div className="Replays__sidebar">
-                <ReplayListState />
+                <LoadingState
+                    startNow
+                    success={replayInfo && replayInfo.length > 0}
+                    error={replayInfo === false}
+                    notFound={replayInfo && replayInfo.length === 0}
+                >
+                    <ReplayList replays={replayInfo} />
+                </LoadingState>
             </div>
         </div>
     );

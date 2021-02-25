@@ -83,7 +83,7 @@ const ReplaySummary = ({ replay, timeline }) => {
         updatedSummaryStats.avgCollectionRate[2].push(p2MineralAvg, p2GasAvg);
 
         setSummaryStats(updatedSummaryStats);
-    }, [timeline.loading]);
+    }, [timeline]);
 
     const summaryStatNames = {
         workersAt6: 'Workers Active @6min',
