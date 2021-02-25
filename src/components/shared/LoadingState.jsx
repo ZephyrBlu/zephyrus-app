@@ -4,6 +4,7 @@ import LoadingAnimation from './LoadingAnimation';
 const LoadingState = ({
     startNow,
     noLoad,
+    spinner,
     state = null,
     initial,
     inProgress,
@@ -68,8 +69,12 @@ const LoadingState = ({
     // loading started, but not completed yet
     // return a loading indicator
     } else if (!noLoad) {
-        componentState = (<LoadingAnimation />);
+        componentState = (spinner || spinner === null)
+            ? spinner
+            : (<LoadingAnimation />);
     }
+
+    console.log(spinner, componentState);
 
     return componentState;
 };
