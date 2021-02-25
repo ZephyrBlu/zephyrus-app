@@ -8,10 +8,9 @@ import {
 import UrlContext from '../../index';
 import { handleFetch } from '../../utils';
 import PageNav from './PageNav';
-import { PAGES } from '../../constants';
 import './CSS/PageSidebar.css';
 
-const PageSidebar = () => {
+const PageSidebar = ({ pages }) => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.user);
     const isHoverStateFixed = useSelector(state => state.isHoverStateFixed);
@@ -19,7 +18,7 @@ const PageSidebar = () => {
 
     const defaultHoverState = { Logout: false };
     const fixedHoverState = { Logout: true };
-    Object.keys(PAGES).forEach((pageName) => {
+    Object.keys(pages).forEach((pageName) => {
         defaultHoverState[pageName] = false;
         fixedHoverState[pageName] = true;
     });

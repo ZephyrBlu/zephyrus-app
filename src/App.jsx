@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react';
-import { useAccount, useReplays, usePerformance, useTrends } from './hooks';
+import { useAccount, useReplays, usePerformance, useTrends, useWinrate, useRouter } from './hooks';
+import { PAGES } from './constants';
 import Page from './components/Page/Page';
+import Header from './components/Page/Header';
 import './components/Page/CSS/Page.css';
 import './App.css';
-import useWinrate from './hooks/useWinrate';
 
 const App = () => {
     useAccount();
@@ -11,6 +12,7 @@ const App = () => {
     usePerformance();
     useTrends();
     useWinrate();
+    const router = useRouter();
 
     // one time check for OAuth authorization code
     const urlParams = new URLSearchParams(window.location.search);
@@ -24,7 +26,11 @@ const App = () => {
 
     return (
         <div className="App">
-            <Page />
+            <Page
+                pages={PAGES}
+                header={renderProps => <Header {...renderProps} />}
+                content={renderProps => router(renderProps.setCurrentPage)}
+            />
         </div>
     );
 };
