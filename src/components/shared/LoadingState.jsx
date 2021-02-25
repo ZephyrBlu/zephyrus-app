@@ -5,7 +5,7 @@ const LoadingState = ({
     defer,
     noLoad,
     spinner,
-    state = null,
+    state,
     initial,
     inProgress,
     success,
