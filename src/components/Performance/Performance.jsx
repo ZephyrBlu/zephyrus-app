@@ -134,7 +134,6 @@ const Performance = () => {
                     <InfoTooltip content={seasonStatsDescription} />
                 </h1>
                 <LoadingState
-                    startNow
                     success={currentPerformance}
                     error={currentPerformance === false}
                     errorFallback={<DefaultResponse content="We couldn't find any replays" />}

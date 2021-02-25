@@ -59,6 +59,7 @@ const TimelineArea = ({ replay }) => {
 
     return (
         <LoadingState
+            defer
             inProgress={selectedReplayHash && !timelineState.data}
             success={replay.data && timelineState.data}
             error={timelineState.data === false}

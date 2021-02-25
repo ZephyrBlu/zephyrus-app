@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { createSelector } from 'reselect';
 import React, { useState, useEffect, useContext } from 'react';
 import { setReplayInfo } from '../../actions';
-import { useAuthCode, useLoadingState } from '../../hooks';
+import { useAuthCode } from '../../hooks';
 import { clanTagIndex } from '../../utils';
 import LoadingState from '../shared/LoadingState';
 import ReplayView from './ReplayView';
@@ -106,7 +106,6 @@ const Replays = () => {
             </div>
             <div className="Replays__sidebar">
                 <LoadingState
-                    startNow
                     success={replayInfo && replayInfo.length > 0}
                     error={replayInfo === false}
                     notFound={replayInfo && replayInfo.length === 0}

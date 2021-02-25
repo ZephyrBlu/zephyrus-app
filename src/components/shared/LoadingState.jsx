@@ -2,7 +2,7 @@ import React, { useRef } from 'react';
 import LoadingAnimation from './LoadingAnimation';
 
 const LoadingState = ({
-    startNow,
+    defer,
     noLoad,
     spinner,
     state = null,
@@ -15,10 +15,10 @@ const LoadingState = ({
     notFoundFallback = 'Not found',
     children,
 }) => {
-    // the startNow prop indicates that loading has already started
+    // the startNow prop indicates that we are current waiting for loading to begin
     // the noLoad prop indicates that there is no async waiting state
-    // _started is used internally to track deferred initial loading
-    const _started = useRef(startNow || noLoad || null);
+    // _started is used internally to track startNowred initial loading
+    const _started = useRef(!defer || noLoad || null);
 
     // re-assign props if we're using hooks to declaratively manipulate state
     // instead of using data flow
@@ -37,7 +37,7 @@ const LoadingState = ({
         });
     }
 
-    // otherwise, we delay loading until the inProgress prop indicates loading has started
+    // we delay loading until the inProgress prop indicates loading has started
     // once loading initially starts, we toggle _started to begin rendering the success/error/notFound/loading states
     if (inProgress && _started.current === null) {
         _started.current = true;

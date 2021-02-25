@@ -109,6 +109,7 @@ const Upload = () => {
                 </a>.
             </div>
             <LoadingState
+                defer
                 state={uploadState}
                 spinner={
                     <p className="Upload__status">

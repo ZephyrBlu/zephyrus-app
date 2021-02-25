@@ -12,12 +12,13 @@ import {
 } from 'recharts';
 import { jStat } from 'jstat';
 import { capitalize } from '../../utils';
-import { useLoadingState } from '../../hooks';
+import LoadingState from '../shared/LoadingState';
 import LoadingAnimation from '../shared/LoadingAnimation';
 import DefaultResponse from '../shared/DefaultResponse';
 import InfoTooltip from '../shared/InfoTooltip';
 import TrendsTooltip from './TrendsTooltip';
 import './CSS/Trends.css';
+
 
 const Trends = () => {
     const selectedRace = useSelector(state => state.selectedRace);
@@ -148,287 +149,6 @@ const Trends = () => {
         return `${minutes}:${seconds}`;
     };
 
-    const dataStates = {
-        trends: {
-            IN_PROGRESS: (
-                <Fragment>
-                    <div
-                        style={{
-                            display: 'block',
-                            width: '100%',
-                            textAlign: 'center',
-                            marginBottom: '-20px',
-                        }}
-                    >
-                        This might take a minute or so...
-                    </div>
-                    <LoadingAnimation />
-                </Fragment>
-            ),
-            SUCCESS: ({
-                _selectedTrends,
-                _trendsMatchup,
-                _setTrendsMatchup,
-                _selectedStat,
-                _setSelectedStat,
-                _selectedMatchType,
-                _setSelectedMatchType,
-                _selectedMatchLength,
-                _setSelectedMatchLength,
-                _statControls,
-                _selectedRace,
-            }) => (
-                <Fragment>
-                    <div className="Trends__title-stat">
-                        <div className="Trends__title-value Trends__title-value--first">
-                            {_selectedTrends.replays.winrate}%
-                        </div>
-                        <span className="Trends__title-text">
-                            winrate {(_trendsMatchup !== 'all' || _selectedMatchLength !== 'all') && 'in'}
-                        </span>
-                        {_selectedMatchLength !== 'all' &&
-                            <div className="Trends__title-value">
-                                {_selectedMatchLength !== 'all' ? `${capitalize(_selectedMatchLength)}-game ` : ''}
-                            </div>}
-                        {_trendsMatchup !== 'all' &&
-                            <div className="Trends__title-value">
-                                {`${_selectedRace.charAt(0).toUpperCase()}v${_trendsMatchup.charAt(0).toUpperCase()}`}
-                            </div>}
-                        <span className="Trends__title-text">
-                            over
-                        </span>
-                        <div className="Trends__title-value">
-                            {_selectedTrends.replays.count}
-                        </div>
-                        <span className="Trends__title-text">
-                            games
-                        </span>
-                    </div>
-                    <div className="Trends__season-stat-controls Trends__season-stat-controls--global">
-                        <span className="Trends__season-stat-options-wrapper">
-                            {Object.entries(_statControls.type).map(([controlKey, controlText]) => (
-                                <button
-                                    className={`
-                                        Trends__season-stat-option
-                                        Trends__season-stat-option--type
-                                        Trends__season-stat-option--${controlKey}
-                                        ${_selectedMatchType === controlKey ? 'Trends__season-stat-option--active' : ''}
-                                    `}
-                                    onClick={() => _setSelectedMatchType(controlKey)}
-                                >
-                                    {controlText}
-                                </button>
-                            ))}
-                        </span>
-                        <span className="Trends__season-stat-options-wrapper">
-                            {Object.entries(_statControls.matchup).map(([controlKey, controlText]) => (
-                                <button
-                                    className={`
-                                        Trends__season-stat-option
-                                        Trends__season-stat-option--matchup
-                                        Trends__season-stat-option--${controlKey}
-                                        ${_trendsMatchup === controlKey ? 'Trends__season-stat-option--active' : ''}
-                                    `}
-                                    onClick={() => _setTrendsMatchup(controlKey)}
-                                >
-                                    {controlText}
-                                </button>
-                            ))}
-                        </span>
-                        <span className="Trends__season-stat-options-wrapper">
-                            {Object.entries(_statControls.length).map(([controlKey, controlText]) => (
-                                <button
-                                    className={`
-                                        Trends__season-stat-option
-                                        Trends__season-stat-option--length
-                                        Trends__season-stat-option--${controlKey}
-                                        ${_selectedMatchLength === controlKey ? 'Trends__season-stat-option--active' : ''}
-                                    `}
-                                    onClick={() => _setSelectedMatchLength(controlKey)}
-                                >
-                                    {controlText}
-                                </button>
-                            ))}
-                        </span>
-                    </div>
-                    <div className="Trends__season-stat-controls Trends__season-stat-controls--stats">
-                        <span className="Trends__season-stat-options-wrapper">
-                            {Object.entries(_statControls.stats).map(([controlKey, controlText]) => (
-                                <button
-                                    className={`
-                                        Trends__season-stat-option
-                                        Trends__season-stat-option--stats
-                                        Trends__season-stat-option--${controlKey}
-                                        ${_selectedStat === controlKey ? 'Trends__season-stat-option--active' : ''}
-                                    `}
-                                    onClick={() => _setSelectedStat(controlKey)}
-                                >
-                                    {controlText}
-                                </button>
-                            ))}
-                        </span>
-                    </div>
-                    {_selectedTrends.trends && _selectedTrends.trends.length >= 10 &&
-                        <div className="Trends__season-stats">
-                            <ResponsiveContainer width="99%" height={600}>
-                                {_selectedMatchType === 'all' ?
-                                    <ComposedChart
-                                        data={_selectedTrends.trends}
-                                        className="Trends__season-stat-chart"
-                                        margin={{ left: -15, right: 2, top: 10, bottom: 10 }}
-                                    >
-                                        <XAxis dataKey="gameloop" tickFormatter={content => formatTick(content)} />
-                                        <YAxis type="number" />
-                                        <ReferenceLine y={0} stroke="hsl(0, 0%, 47%)" strokeWidth={1} />
-                                        <Tooltip
-                                            content={
-                                                <TrendsTooltip
-                                                    trends={{
-                                                        stat: _selectedStat,
-                                                        stage: _selectedMatchLength,
-                                                        matchup: `${_selectedRace.charAt(0).toUpperCase()}v${_trendsMatchup.charAt(0).toUpperCase()}`,
-                                                        type: _selectedMatchType,
-                                                    }}
-                                                />
-                                            }
-                                        />
-                                        <Line
-                                            type="monotone"
-                                            dataKey="all.median"
-                                            stroke="hsl(210, 68%, 47%)"
-                                            strokeWidth={2}
-                                            dot={false}
-                                            activeDot={{
-                                                stroke: 'hsl(210, 68%, 47%)',
-                                                fill: 'hsl(210, 68%, 47%)',
-                                            }}
-                                        />
-                                        <Area
-                                            type="monotone"
-                                            dataKey="all.quartile_range"
-                                            stroke="hsl(210, 85%, 60%)"
-                                            fill="hsla(210, 85%, 60%, 0.2)"
-                                            activeDot={false}
-                                        />
-                                        <Area
-                                            type="monotone"
-                                            dataKey="all.total_range"
-                                            stroke="hsla(210, 85%, 60%, 0.4)"
-                                            fill="hsla(210, 85%, 60%, 0.1)"
-                                            activeDot={false}
-                                        />
-                                    </ComposedChart>
-                                    :
-                                    <ComposedChart
-                                        data={_selectedTrends.trends}
-                                        className="Trends__season-stat-chart"
-                                        margin={{ left: -15, right: 2, top: 10, bottom: 10 }}
-                                    >
-                                        <XAxis dataKey="gameloop" tickFormatter={content => formatTick(content)} />
-                                        <YAxis type="number" />
-                                        <ReferenceLine y={0} stroke="hsl(0, 0%, 47%)" strokeWidth={1} />
-                                        <Tooltip
-                                            content={
-                                                <TrendsTooltip
-                                                    trends={{
-                                                        stat: _selectedStat,
-                                                        stage: _selectedMatchLength,
-                                                        matchup: `${_selectedRace.charAt(0).toUpperCase()}v${_trendsMatchup.charAt(0).toUpperCase()}`,
-                                                        type: _selectedMatchType,
-                                                    }}
-                                                />
-                                            }
-                                        />
-                                        {/* <Area
-                                            type="monotone"
-                                            dataKey="win.total_range"
-                                            stroke="hsla(120, 80%, 25%, 0.2)"
-                                            fill="hsla(120, 80%, 25%, 0.05)"
-                                        />
-                                        <Area
-                                            type="monotone"
-                                            dataKey="loss.total_range"
-                                            stroke="hsla(0, 70%, 25%, 0.2)"
-                                            fill="hsla(0, 70%, 25%, 0.05)"
-                                        /> */}
-                                        <Area
-                                            type="monotone"
-                                            dataKey="win.quartile_range"
-                                            stroke="hsla(120, 80%, 25%, 0.6)"
-                                            fill="hsla(120, 80%, 25%, 0.1)"
-                                            activeDot={false}
-                                        />
-                                        <Area
-                                            type="monotone"
-                                            dataKey="loss.quartile_range"
-                                            stroke="hsla(0, 70%, 25%, 0.6)"
-                                            fill="hsla(0, 70%, 25%, 0.1)"
-                                            activeDot={false}
-                                        />
-                                        <Line
-                                            type="monotone"
-                                            dataKey="win.median"
-                                            stroke="hsla(120, 80%, 25%, 1)"
-                                            strokeWidth={2}
-                                            dot={false}
-                                            activeDot={{
-                                                stroke: 'hsla(120, 80%, 25%, 1)',
-                                                fill: 'hsla(120, 80%, 25%, 1)',
-                                            }}
-                                        />
-                                        <Line
-                                            type="monotone"
-                                            dataKey="loss.median"
-                                            stroke="hsla(0, 70%, 25%, 1)"
-                                            strokeWidth={2}
-                                            dot={false}
-                                            activeDot={{
-                                                stroke: 'hsla(0, 70%, 25%, 1)',
-                                                fill: 'hsla(0, 70%, 25%, 1)',
-                                            }}
-                                        />
-                                    </ComposedChart>}
-                            </ResponsiveContainer>
-                        </div>}
-                    {(!_selectedTrends.trends || _selectedTrends.trends.length < 10) &&
-                        <div className="Trends__season-stats Trends__season-stats--default">
-                            Insufficient data for selected filters
-                        </div>}
-                </Fragment>
-            ),
-            ERROR: (<DefaultResponse content="We couldn't find any replays" />),
-        },
-    };
-
-    const checkTrendsLoadingState = () => {
-        if (currentTrends) {
-            return 'SUCCESS';
-        }
-
-        if (currentTrends === false) {
-            return 'ERROR';
-        }
-        return 'IN_PROGRESS';
-    };
-
-    const trendsLoadingData = {
-        data: {
-            _selectedTrends: selectedTrends,
-            _statControls: statControls,
-            _trendsMatchup: trendsMatchup,
-            _setTrendsMatchup: setTrendsMatchup,
-            _selectedStat: selectedStat,
-            _setSelectedStat: setSelectedStat,
-            _selectedMatchType: selectedMatchType,
-            _setSelectedMatchType: setSelectedMatchType,
-            _selectedMatchLength: selectedMatchLength,
-            _setSelectedMatchLength: setSelectedMatchLength,
-            _selectedRace: selectedRace,
-        },
-        loadingState: checkTrendsLoadingState(),
-    };
-    const TrendsState = useLoadingState(trendsLoadingData, dataStates.trends);
-
     const seasonStatsDescription = (
         <p className="Trends__season-stat-description">
             Recent Trends aggregates the timelines of all your recent games (Up to 500) and creates an average timeline of all your games
@@ -454,7 +174,248 @@ const Trends = () => {
                     Recent Trends
                     <InfoTooltip content={seasonStatsDescription} style={{ top: '3px' }} />
                 </h1>
-                <TrendsState />
+                <LoadingState
+                    success={currentTrends}
+                    error={currentTrends === false}
+                    errorFallback={<DefaultResponse content="We couldn't find any replays" />}
+                    spinner={
+                        <Fragment>
+                            <div
+                                style={{
+                                    display: 'block',
+                                    width: '100%',
+                                    textAlign: 'center',
+                                    marginBottom: '-20px',
+                                }}
+                            >
+                                This might take a minute or so...
+                            </div>
+                            <LoadingAnimation />
+                        </Fragment>
+                    }
+                >
+                    <Fragment>
+                        <div className="Trends__title-stat">
+                            <div className="Trends__title-value Trends__title-value--first">
+                                {selectedTrends.replays.winrate}%
+                            </div>
+                            <span className="Trends__title-text">
+                                winrate {(trendsMatchup !== 'all' || selectedMatchLength !== 'all') && 'in'}
+                            </span>
+                            {selectedMatchLength !== 'all' &&
+                                <div className="Trends__title-value">
+                                    {selectedMatchLength !== 'all' ? `${capitalize(selectedMatchLength)}-game ` : ''}
+                                </div>}
+                            {trendsMatchup !== 'all' &&
+                                <div className="Trends__title-value">
+                                    {`${selectedRace.charAt(0).toUpperCase()}v${trendsMatchup.charAt(0).toUpperCase()}`}
+                                </div>}
+                            <span className="Trends__title-text">
+                                over
+                            </span>
+                            <div className="Trends__title-value">
+                                {selectedTrends.replays.count}
+                            </div>
+                            <span className="Trends__title-text">
+                                games
+                            </span>
+                        </div>
+                        <div className="Trends__season-stat-controls Trends__season-stat-controls--global">
+                            <span className="Trends__season-stat-options-wrapper">
+                                {Object.entries(statControls.type).map(([controlKey, controlText]) => (
+                                    <button
+                                        key={controlKey}
+                                        className={`
+                                            Trends__season-stat-option
+                                            Trends__season-stat-option--type
+                                            Trends__season-stat-option--${controlKey}
+                                            ${selectedMatchType === controlKey ? 'Trends__season-stat-option--active' : ''}
+                                        `}
+                                        onClick={() => setSelectedMatchType(controlKey)}
+                                    >
+                                        {controlText}
+                                    </button>
+                                ))}
+                            </span>
+                            <span className="Trends__season-stat-options-wrapper">
+                                {Object.entries(statControls.matchup).map(([controlKey, controlText]) => (
+                                    <button
+                                        key={controlKey}
+                                        className={`
+                                            Trends__season-stat-option
+                                            Trends__season-stat-option--matchup
+                                            Trends__season-stat-option--${controlKey}
+                                            ${trendsMatchup === controlKey ? 'Trends__season-stat-option--active' : ''}
+                                        `}
+                                        onClick={() => setTrendsMatchup(controlKey)}
+                                    >
+                                        {controlText}
+                                    </button>
+                                ))}
+                            </span>
+                            <span className="Trends__season-stat-options-wrapper">
+                                {Object.entries(statControls.length).map(([controlKey, controlText]) => (
+                                    <button
+                                        key={controlKey}
+                                        className={`
+                                            Trends__season-stat-option
+                                            Trends__season-stat-option--length
+                                            Trends__season-stat-option--${controlKey}
+                                            ${selectedMatchLength === controlKey ? 'Trends__season-stat-option--active' : ''}
+                                        `}
+                                        onClick={() => setSelectedMatchLength(controlKey)}
+                                    >
+                                        {controlText}
+                                    </button>
+                                ))}
+                            </span>
+                        </div>
+                        <div className="Trends__season-stat-controls Trends__season-stat-controls--stats">
+                            <span className="Trends__season-stat-options-wrapper">
+                                {Object.entries(statControls.stats).map(([controlKey, controlText]) => (
+                                    <button
+                                        key={controlKey}
+                                        className={`
+                                            Trends__season-stat-option
+                                            Trends__season-stat-option--stats
+                                            Trends__season-stat-option--${controlKey}
+                                            ${selectedStat === controlKey ? 'Trends__season-stat-option--active' : ''}
+                                        `}
+                                        onClick={() => setSelectedStat(controlKey)}
+                                    >
+                                        {controlText}
+                                    </button>
+                                ))}
+                            </span>
+                        </div>
+                        {selectedTrends.trends && selectedTrends.trends.length >= 10 &&
+                            <div className="Trends__season-stats">
+                                <ResponsiveContainer width="99%" height={600}>
+                                    {selectedMatchType === 'all' ?
+                                        <ComposedChart
+                                            data={selectedTrends.trends}
+                                            className="Trends__season-stat-chart"
+                                            margin={{ left: -15, right: 2, top: 10, bottom: 10 }}
+                                        >
+                                            <XAxis dataKey="gameloop" tickFormatter={content => formatTick(content)} />
+                                            <YAxis type="number" />
+                                            <ReferenceLine y={0} stroke="hsl(0, 0%, 47%)" strokeWidth={1} />
+                                            <Tooltip
+                                                content={
+                                                    <TrendsTooltip
+                                                        trends={{
+                                                            stat: selectedStat,
+                                                            stage: selectedMatchLength,
+                                                            matchup: `${selectedRace.charAt(0).toUpperCase()}v${trendsMatchup.charAt(0).toUpperCase()}`,
+                                                            type: selectedMatchType,
+                                                        }}
+                                                    />
+                                                }
+                                            />
+                                            <Line
+                                                type="monotone"
+                                                dataKey="all.median"
+                                                stroke="hsl(210, 68%, 47%)"
+                                                strokeWidth={2}
+                                                dot={false}
+                                                activeDot={{
+                                                    stroke: 'hsl(210, 68%, 47%)',
+                                                    fill: 'hsl(210, 68%, 47%)',
+                                                }}
+                                            />
+                                            <Area
+                                                type="monotone"
+                                                dataKey="all.quartile_range"
+                                                stroke="hsl(210, 85%, 60%)"
+                                                fill="hsla(210, 85%, 60%, 0.2)"
+                                                activeDot={false}
+                                            />
+                                            <Area
+                                                type="monotone"
+                                                dataKey="all.total_range"
+                                                stroke="hsla(210, 85%, 60%, 0.4)"
+                                                fill="hsla(210, 85%, 60%, 0.1)"
+                                                activeDot={false}
+                                            />
+                                        </ComposedChart>
+                                        :
+                                        <ComposedChart
+                                            data={selectedTrends.trends}
+                                            className="Trends__season-stat-chart"
+                                            margin={{ left: -15, right: 2, top: 10, bottom: 10 }}
+                                        >
+                                            <XAxis dataKey="gameloop" tickFormatter={content => formatTick(content)} />
+                                            <YAxis type="number" />
+                                            <ReferenceLine y={0} stroke="hsl(0, 0%, 47%)" strokeWidth={1} />
+                                            <Tooltip
+                                                content={
+                                                    <TrendsTooltip
+                                                        trends={{
+                                                            stat: selectedStat,
+                                                            stage: selectedMatchLength,
+                                                            matchup: `${selectedRace.charAt(0).toUpperCase()}v${trendsMatchup.charAt(0).toUpperCase()}`,
+                                                            type: selectedMatchType,
+                                                        }}
+                                                    />
+                                                }
+                                            />
+                                            {/* <Area
+                                                type="monotone"
+                                                dataKey="win.total_range"
+                                                stroke="hsla(120, 80%, 25%, 0.2)"
+                                                fill="hsla(120, 80%, 25%, 0.05)"
+                                            />
+                                            <Area
+                                                type="monotone"
+                                                dataKey="loss.total_range"
+                                                stroke="hsla(0, 70%, 25%, 0.2)"
+                                                fill="hsla(0, 70%, 25%, 0.05)"
+                                            /> */}
+                                            <Area
+                                                type="monotone"
+                                                dataKey="win.quartile_range"
+                                                stroke="hsla(120, 80%, 25%, 0.6)"
+                                                fill="hsla(120, 80%, 25%, 0.1)"
+                                                activeDot={false}
+                                            />
+                                            <Area
+                                                type="monotone"
+                                                dataKey="loss.quartile_range"
+                                                stroke="hsla(0, 70%, 25%, 0.6)"
+                                                fill="hsla(0, 70%, 25%, 0.1)"
+                                                activeDot={false}
+                                            />
+                                            <Line
+                                                type="monotone"
+                                                dataKey="win.median"
+                                                stroke="hsla(120, 80%, 25%, 1)"
+                                                strokeWidth={2}
+                                                dot={false}
+                                                activeDot={{
+                                                    stroke: 'hsla(120, 80%, 25%, 1)',
+                                                    fill: 'hsla(120, 80%, 25%, 1)',
+                                                }}
+                                            />
+                                            <Line
+                                                type="monotone"
+                                                dataKey="loss.median"
+                                                stroke="hsla(0, 70%, 25%, 1)"
+                                                strokeWidth={2}
+                                                dot={false}
+                                                activeDot={{
+                                                    stroke: 'hsla(0, 70%, 25%, 1)',
+                                                    fill: 'hsla(0, 70%, 25%, 1)',
+                                                }}
+                                            />
+                                        </ComposedChart>}
+                                </ResponsiveContainer>
+                            </div>}
+                        {(!selectedTrends.trends || selectedTrends.trends.length < 10) &&
+                            <div className="Trends__season-stats Trends__season-stats--default">
+                                Insufficient data for selected filters
+                            </div>}
+                    </Fragment>
+                </LoadingState>
             </div>
         </div>
     );

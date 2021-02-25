@@ -134,7 +134,6 @@ const Settings = () => {
                     Account Replays
                 </h1>
                 <LoadingState
-                    startNow
                     success={replaySummary}
                     error={replaySummary === false}
                     errorFallback={
@@ -184,6 +183,7 @@ const Settings = () => {
                         Link Replays
                     </button>
                     <LoadingState
+                        defer
                         state={linkCountLoadingState}
                         spinner={<SpinningRingAnimation />}
                         errorFallback={null}
@@ -208,6 +208,7 @@ const Settings = () => {
                     />
                 </div>
                 <LoadingState
+                    defer
                     state={linkCountLoadingState}
                     spinner={null}
                     errorFallback={

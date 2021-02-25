@@ -238,6 +238,7 @@ const AccountSetup = ({ setWaitingForUser }) => {
                             {user.verified ? 'Verification Complete' : 'Resend Email'}
                         </button>
                         <LoadingState
+                            defer
                             state={emailLoadingState}
                             errorFallback={
                                 <span className="AccountSetup__info AccountSetup__info--completed">
