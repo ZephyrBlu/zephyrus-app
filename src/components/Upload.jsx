@@ -8,7 +8,7 @@ import LoadingState from './shared/LoadingState';
 
 const Upload = () => {
     const user = useSelector(state => state.user);
-    const [upload, setUpload] = useState(null);
+    const [uploadInfo, setUploadInfo] = useState(null);
     const [uploadState, setUploadState] = useLoadingState();
     const urlPrefix = useContext(UrlContext);
 
@@ -20,7 +20,7 @@ const Upload = () => {
             fileList.push(files[fileNum]);
         });
 
-        setUpload(null);
+        setUploadInfo(null);
         setUploadState('inProgress');
         const url = `${urlPrefix}api/upload/`;
 
@@ -38,7 +38,7 @@ const Upload = () => {
                 } else {
                     fail += 1;
                 }
-                setUpload({
+                setUploadInfo({
                     files: fileList.length,
                     success,
                     fail,
@@ -118,8 +118,8 @@ const Upload = () => {
                 }
             >
                 <p className="Upload__success">
-                    {upload &&
-                        `${upload.success}/${upload.files} uploaded, ${upload.fail} failed to process`}
+                    {uploadInfo &&
+                        `${uploadInfo.success}/${uploadInfo.files} uploaded, ${uploadInfo.fail} failed to process`}
                 </p>
             </LoadingState>
             <p className="Upload__message">

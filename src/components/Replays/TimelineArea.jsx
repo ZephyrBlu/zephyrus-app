@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, shallowEqual } from 'react-redux';
 import { useFetch } from '../../hooks';
 import UrlContext from '../../index';
 import ReplaySummary from './ReplaySummary';
@@ -8,8 +8,9 @@ import LoadingState from '../shared/LoadingState';
 
 const TimelineArea = ({ replay }) => {
     const urlPrefix = useContext(UrlContext);
-    const user = useSelector(state => state.user);
-    const selectedReplayHash = useSelector(state => state.selectedReplayHash);
+    const [token, selectedReplayHash] = useSelector(state => (
+        [state.user ? state.user.token : null, state.selectedReplayHash]
+    ), shallowEqual);
     const [timelineState, setTimelineState] = useState({
         data: null,
         cached: null,
@@ -32,7 +33,7 @@ const TimelineArea = ({ replay }) => {
     const timelineUrl = useFetch(url, selectedReplayHash, 'timeline_url', {
         method: 'GET',
         headers: {
-            Authorization: `Token ${user.token}`,
+            Authorization: `Token ${token}`,
             'Accept-Encoding': 'gzip',
         },
     });

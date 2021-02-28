@@ -8,7 +8,6 @@ export const SET_TRENDS = 'SET_TRENDS';
 export const SET_WINRATE = 'SET_WINRATE';
 export const SET_REPLAY_INFO = 'SET_REPLAY_INFO';
 export const SET_SELECTED_REPLAY_HASH = 'SET_SELECTED_REPLAY_HASH';
-export const SET_FIXED_HOVER_STATE = 'SET_FIXED_HOVER_STATE';
 export const LOGOUT_RESET = 'LOGOUT_RESET';
 
 export const setUser = user => (
@@ -49,10 +48,6 @@ export const setReplayInfo = replayInfo => (
 
 export const setSelectedReplayHash = replayHash => (
     { type: SET_SELECTED_REPLAY_HASH, replayHash }
-);
-
-export const setFixedHoverState = hoverState => (
-    { type: SET_FIXED_HOVER_STATE, hoverState }
 );
 
 export const logoutReset = () => (

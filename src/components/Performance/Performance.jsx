@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux';
+import { useSelector, shallowEqual } from 'react-redux';
 import React, { useState, Fragment } from 'react';
 import {
     BarChart,
@@ -17,8 +17,9 @@ import InfoTooltip from '../shared/InfoTooltip';
 import './CSS/Performance.css';
 
 const Performance = () => {
-    const selectedRace = useSelector(state => state.selectedRace);
-    const currentPerformance = useSelector(state => state.raceData[state.selectedRace].stats);
+    const [selectedRace, currentPerformance] = useSelector(state => (
+        [state.selectedRace, state.raceData[state.selectedRace].stats]
+    ), shallowEqual);
     const [trendsMatchup, setTrendsMatchup] = useState('all');
 
     const generalStats = [

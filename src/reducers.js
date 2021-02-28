@@ -10,7 +10,6 @@ import {
     SET_TRENDS,
     SET_WINRATE,
     SET_SELECTED_REPLAY_HASH,
-    SET_FIXED_HOVER_STATE,
     LOGOUT_RESET,
 } from './actions';
 
@@ -150,16 +149,6 @@ const selectedReplayHash = (state = null, action) => {
     }
 };
 
-const isHoverStateFixed = (state = false, action) => {
-    switch (action.type) {
-        case SET_FIXED_HOVER_STATE:
-            return action.hoverState;
-
-        default:
-            return state;
-    }
-};
-
 const profileInfo = combineReducers({
     user,
     selectedRace,
@@ -167,7 +156,6 @@ const profileInfo = combineReducers({
     raceData,
     replayInfo,
     selectedReplayHash,
-    isHoverStateFixed,
 });
 
 export default profileInfo;

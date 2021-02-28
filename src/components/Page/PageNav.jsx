@@ -1,10 +1,9 @@
 import React from 'react';
 import { Link } from '@reach/router';
-import { PAGES } from'../../constants';
 import NavIcon from './NavIcon';
 import './CSS/PageNav.css';
 
-const PageNav = ({ hoverState }) => {
+const PageNav = ({ pages, hoverState }) => {
     const isActive = ({ isCurrent }) => {
         if (isCurrent) {
             return { className: 'PageNav__link PageNav__link--active' };
@@ -46,7 +45,7 @@ const PageNav = ({ hoverState }) => {
                     });
                 }}
             >
-                {Object.keys(PAGES).map((pageName) => {
+                {Object.keys(pages).map((pageName) => {
                     let hoverTimeout;
                     hoverTimeouts.push(hoverTimeout);
 

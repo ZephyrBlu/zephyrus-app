@@ -1,5 +1,5 @@
-import { useSelector, useDispatch } from 'react-redux';
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useCallback } from 'react';
+import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import UrlContext from '../../index';
 import { handleFetch } from '../../utils';
 import { logoutReset } from '../../actions';
@@ -9,14 +9,17 @@ import './CSS/Page.css';
 
 const Page = ({ pages, header, content }) => {
     const dispatch = useDispatch();
-    const user = useSelector(state => state.user);
-    const visibleState = useSelector(state => state.visibleState);
+    const [user, visibleState] = useSelector(state => [state.user, state.visibleState], shallowEqual);
     const [currentPage, setCurrentPage] = useState(null);
-
     const urlPrefix = useContext(UrlContext);
 
-    // can't extract into utils because of useDispatch hook
-    const handleLogout = () => {
+    // creates a closure of current user state
+    // useCallback to memoize the function and create stable reference
+    const handleLogout = useCallback(() => {
+        if (!user) {
+            return;
+        }
+
         const url = `${urlPrefix}api/logout/`;
         const opts = {
             method: 'GET',
@@ -26,7 +29,7 @@ const Page = ({ pages, header, content }) => {
         handleFetch(url, opts);
         localStorage.clear();
         dispatch(logoutReset());
-    };
+    }, [user]);
 
     const pageProps = {
         currentPage,
@@ -40,12 +43,18 @@ const Page = ({ pages, header, content }) => {
                 <Title />
                 {header(pageProps)}
                 {currentPage === 'Setup' &&
-                    <button className="Page__logout" onClick={handleLogout}>
+                    <button
+                        className="Page__logout"
+                        onClick={handleLogout}
+                    >
                         Logout
                     </button>}
             </header>
             {currentPage !== 'Login' && currentPage !== 'Setup' &&
-                <PageSidebar pages={pages} />}
+                <PageSidebar
+                    pages={pages}
+                    handleLogout={handleLogout}
+                />}
             <section className={`Page__page-content Page__page-content--${currentPage}`}>
                 {content(pageProps)}
             </section>

@@ -41,15 +41,15 @@ export const handleFetch = async (url, opts = {}, timeoutMs = 60000) => { // esl
     return Promise.race([request, timeout]).catch(handleError);
 };
 
-export const updateUserAccount = async (user, dispatch, prefix) => {
-    if (!user.token) {
+export const updateUserAccount = async (token, prefix, dispatch) => {
+    if (!token) {
         return;
     }
 
     const url = `${prefix}api/authorize/check/`;
     const opts = {
         method: 'GET',
-        headers: { Authorization: `Token ${user.token}` },
+        headers: { Authorization: `Token ${token}` },
     };
     const updatedUser = await handleFetch(url, opts);
 

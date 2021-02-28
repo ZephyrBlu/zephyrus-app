@@ -11,7 +11,7 @@ const useLoadingState = () => {
 
     const setLoadingState = (state) => {
         if (!allowedStates.includes(state)) {
-            throw `${state} is an undefined loading state`;
+            throw new Error(`${state} is an undefined loading state`);
         }
         _setLoadingState({ [state]: true });
     };

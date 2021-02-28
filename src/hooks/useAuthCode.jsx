@@ -19,7 +19,7 @@ const useAuthCode = () => {
             const battlenetAccountResponse = await handleFetch(url, battlenetOpts);
 
             if (battlenetAccountResponse.ok) {
-                updateUserAccount(user, dispatch, urlPrefix);
+                updateUserAccount(user, urlPrefix, dispatch);
             }
         };
 

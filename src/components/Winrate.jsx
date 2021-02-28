@@ -1,12 +1,14 @@
 import React, { useState, useEffect, useRef, Fragment } from 'react';
-import { useSelector } from 'react-redux';
+import { useSelector, shallowEqual } from 'react-redux';
 import LoadingAnimation from './shared/LoadingAnimation';
 import DefaultResponse from './shared/DefaultResponse';
 import './Winrate.css';
 
 const Winrate = () => {
-    const selectedRace = useSelector(state => state.selectedRace);
-    const currentWinrate = useSelector(state => state.raceData[state.selectedRace].winrate);
+    const [selectedRace, currentWinrate] = useSelector(state => ([
+        state.selectedRace,
+        state.raceData[state.selectedRace].winrate,
+    ]), shallowEqual);
     const [formattedData, setFormattedData] = useState(null);
     const [sortBy, setSortBy] = useState('byMap');
     const prevSortBy = useRef(null);

@@ -16,9 +16,9 @@ const LoadingState = ({
     notFoundFallback = <DefaultResponse content="We couldn't find any replays" />,
     children,
 }) => {
-    // the startNow prop indicates that we are current waiting for loading to begin
+    // the defer prop indicates that we are currently waiting for loading to begin
     // the noLoad prop indicates that there is no async waiting state
-    // _started is used internally to track startNowred initial loading
+    // _started is used internally to track initial loading
     const _started = useRef(!defer || noLoad || null);
 
     // re-assign props if we're using hooks to declaratively manipulate state

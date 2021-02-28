@@ -10,7 +10,7 @@ const useAccount = () => {
 
     useEffect(() => {
         if (user && user.token) {
-            updateUserAccount(user, dispatch, urlPrefix);
+            updateUserAccount(user, urlPrefix, dispatch);
         }
     }, [user]);
 };

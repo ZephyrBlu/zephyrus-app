@@ -1,38 +1,29 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { createSelector } from 'reselect';
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { setReplayInfo } from '../../actions';
 import { useAuthCode } from '../../hooks';
 import { clanTagIndex } from '../../utils';
 import LoadingState from '../shared/LoadingState';
-import DefaultResponse from '../shared/DefaultResponse';
 import ReplayView from './ReplayView';
 import ReplayList from './ReplayList';
 import './CSS/Replays.css';
 
-const selectData = createSelector(
-    state => state.replayInfo,
-    state => state.selectedReplayHash,
-    (replayInfo, selectedReplayHash) => (
-        [replayInfo, selectedReplayHash]
-    ),
-);
-
 const Replays = () => {
     useAuthCode();
     const dispatch = useDispatch();
-    const visibleState = useSelector(state => state.visibleState);
+
+    // need to use shallowEqual as this returns an object which will execute on every re-render
+    // but we actually only care if the values inside the object change
+    const [userReplays, visibleState, replayInfo, selectedReplayHash] = useSelector(state => ([
+        state.selectedRace ? state.raceData[state.selectedRace].replays : null,
+        state.visibleState,
+        state.replayInfo,
+        state.selectedReplayHash,
+    ]), shallowEqual);
     const [selectedReplay, setSelectedReplay] = useState({
         data: null,
         info: null,
     });
-    const [replayInfo, selectedReplayHash] = useSelector(selectData);
-
-    const userReplays = useSelector(state => (
-        state.selectedRace
-            ? state.raceData[state.selectedRace].replays
-            : null
-    ));
 
     useEffect(() => {
         const filterReplayInfo = () => {
@@ -105,6 +96,7 @@ const Replays = () => {
                         ...selectedReplay,
                         hash: selectedReplayHash,
                     }}
+                    visibleState={visibleState}
                 />
             </div>
             <div className="Replays__sidebar">

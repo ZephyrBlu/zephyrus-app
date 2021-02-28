@@ -21,23 +21,6 @@ const AccountSetup = ({ setWaitingForUser }) => {
         headers: { Authorization: `Token ${user.token}` },
     };
 
-    const dataStates = {
-        profile: {
-            INITIAL: null,
-            IN_PROGRESS: (<SpinningRingAnimation />),
-            SUCCESS: (
-                <span className="AccountSetup__info AccountSetup__info--completed">
-                    Profile Saved
-                </span>
-            ),
-            ERROR: data => (
-                <span className="AccountSetup__info AccountSetup__info--completed">
-                    {data}
-                </span>
-            ),
-        },
-    };
-
     const resendEmail = async () => {
         if (user.verified) {
             return;
@@ -92,7 +75,7 @@ const AccountSetup = ({ setWaitingForUser }) => {
         const profileResponse = await handleFetch(url, profileOpts);
 
         if (profileResponse.ok) {
-            updateUserAccount(user, dispatch, urlPrefix);
+            updateUserAccount(user, urlPrefix, dispatch);
             setProfileState('success');
         } else if (profileResponse.status === 400) {
             setProfileState('error');
