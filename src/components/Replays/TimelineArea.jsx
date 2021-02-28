@@ -1,13 +1,12 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
 import { useFetch } from '../../hooks';
-import UrlContext from '../../index';
+import { URL_PREFIX } from '../../constants';
 import ReplaySummary from './ReplaySummary';
 import ReplayTimeline from './ReplayTimeline';
 import LoadingState from '../shared/LoadingState';
 
 const TimelineArea = ({ replay }) => {
-    const urlPrefix = useContext(UrlContext);
     const [token, selectedReplayHash] = useSelector(state => (
         [state.user ? state.user.token : null, state.selectedReplayHash]
     ), shallowEqual);
@@ -29,7 +28,7 @@ const TimelineArea = ({ replay }) => {
         }
     }, [selectedReplayHash]);
 
-    const url = `${urlPrefix}api/replays/timeline/${selectedReplayHash}/`;
+    const url = `${URL_PREFIX}api/replays/timeline/${selectedReplayHash}/`;
     const timelineUrl = useFetch(url, selectedReplayHash, 'timeline_url', {
         method: 'GET',
         headers: {

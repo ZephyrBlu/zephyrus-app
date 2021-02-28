@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { useLoadingState } from '../hooks';
-import UrlContext from '../index';
+import { URL_PREFIX } from '../constants';
 import { handleFetch } from '../utils';
 import './Upload.css';
 import LoadingState from './shared/LoadingState';
@@ -10,7 +10,6 @@ const Upload = () => {
     const user = useSelector(state => state.user);
     const [uploadInfo, setUploadInfo] = useState(null);
     const [uploadState, setUploadState] = useLoadingState();
-    const urlPrefix = useContext(UrlContext);
 
     const uploadFiles = async (event) => {
         const files = event.target.files;
@@ -22,7 +21,7 @@ const Upload = () => {
 
         setUploadInfo(null);
         setUploadState('inProgress');
-        const url = `${urlPrefix}api/upload/`;
+        const url = `${URL_PREFIX}api/upload/`;
 
         let success = 0;
         let fail = 0;

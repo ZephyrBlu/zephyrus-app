@@ -1,9 +1,9 @@
 import { useDispatch } from 'react-redux';
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { setInitialUser } from '../actions';
 import SpinningRingAnimation from './shared/SpinningRingAnimation';
 import './Login.css';
-import UrlContext from '../index';
+import { URL_PREFIX } from '../constants';
 import { handleFetch } from '../utils';
 
 const Login = ({ setWaitingForUser }) => {
@@ -14,7 +14,6 @@ const Login = ({ setWaitingForUser }) => {
         message: null,
         loadingState: 'initial',
     });
-    const urlPrefix = useContext(UrlContext);
 
     const handleUsernameInput = (event) => {
         setUsernameValue(event.target.value);
@@ -45,7 +44,7 @@ const Login = ({ setWaitingForUser }) => {
             },
             body: JSON.stringify(data),
         };
-        const loginResponse = await handleFetch(`${urlPrefix}api/login/`, loginOpts);
+        const loginResponse = await handleFetch(`${URL_PREFIX}api/login/`, loginOpts);
 
         if (loginResponse.ok) {
             if (loginResponse.data) {

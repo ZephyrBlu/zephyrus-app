@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from 'react-redux';
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { setReplayInfo, setReplays } from '../actions';
-import UrlContext from '../index';
+import { URL_PREFIX } from '../constants';
 import useFetch from './useFetch';
 
 const useReplays = (interval) => {
@@ -9,7 +9,6 @@ const useReplays = (interval) => {
     const user = useSelector(state => state.user);
     const selectedRace = useSelector(state => state.selectedRace);
     const userData = useSelector(state => state.raceData);
-    const urlPrefix = useContext(UrlContext);
 
     const defaultCount = { protoss: null, zerg: null, terran: null };
     const defaultData = {
@@ -22,13 +21,13 @@ const useReplays = (interval) => {
     const [_cachedData, _setCachedData] = useState(defaultData);
     const [intervalState, flipIntervalState] = useState('flip');
 
-    const protossCount = useFetch(`${urlPrefix}api/replays/protoss/count/`, intervalState);
-    const zergCount = useFetch(`${urlPrefix}api/replays/zerg/count/`, intervalState);
-    const terranCount = useFetch(`${urlPrefix}api/replays/terran/count/`, intervalState);
+    const protossCount = useFetch(`${URL_PREFIX}api/replays/protoss/count/`, intervalState);
+    const zergCount = useFetch(`${URL_PREFIX}api/replays/zerg/count/`, intervalState);
+    const terranCount = useFetch(`${URL_PREFIX}api/replays/terran/count/`, intervalState);
 
-    const protossReplays = useFetch(`${urlPrefix}api/replays/protoss/`, protossCount);
-    const zergReplays = useFetch(`${urlPrefix}api/replays/zerg/`, zergCount);
-    const terranReplays = useFetch(`${urlPrefix}api/replays/terran/`, terranCount);
+    const protossReplays = useFetch(`${URL_PREFIX}api/replays/protoss/`, protossCount);
+    const zergReplays = useFetch(`${URL_PREFIX}api/replays/zerg/`, zergCount);
+    const terranReplays = useFetch(`${URL_PREFIX}api/replays/terran/`, terranCount);
 
     // if count changes then replays must also change, therefore we only need to check replays
     // could make this more efficient by only setting data that has changed

@@ -1,7 +1,7 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useLoadingState } from '../hooks';
-import UrlContext from '../index';
+import { URL_PREFIX } from '../constants';
 import { handleFetch } from '../utils';
 import InfoTooltip from './shared/InfoTooltip';
 import LoadingState from './shared/LoadingState';
@@ -9,7 +9,6 @@ import SpinningRingAnimation from './shared/SpinningRingAnimation';
 import './Settings.css';
 
 const Settings = () => {
-    const urlPrefix = useContext(UrlContext);
     const user = useSelector(state => state.user);
     const battlenetAccount = user.battlenetAccounts[0];
     const [replaySummary, setReplaySummary] = useState(null);
@@ -22,7 +21,7 @@ const Settings = () => {
     };
 
     const authorizeBattlenetAccount = async () => {
-        const url = `${urlPrefix}api/authorize/url/`;
+        const url = `${URL_PREFIX}api/authorize/url/`;
         const authorizeBattlenetResponse = await handleFetch(url, opts);
 
         if (authorizeBattlenetResponse.ok) {
@@ -31,7 +30,7 @@ const Settings = () => {
     };
 
     const linkReplays = async () => {
-        const url = `${urlPrefix}api/replays/verify/`;
+        const url = `${URL_PREFIX}api/replays/verify/`;
         setLinkCount(null);
         setLinkCountLoadingState('inProgress');
         const linkCountResponse = await handleFetch(url, opts);
@@ -47,7 +46,7 @@ const Settings = () => {
 
     useEffect(() => {
         const fetchReplaySummary = async () => {
-            const url = `${urlPrefix}api/replays/summary/`;
+            const url = `${URL_PREFIX}api/replays/summary/`;
             setReplaySummary(null);
             const summary = await handleFetch(url, opts);
 

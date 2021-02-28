@@ -1,14 +1,13 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setWinrate } from '../actions';
-import UrlContext from '../index';
+import { URL_PREFIX } from '../constants';
 import useFetch from './useFetch';
 
 const useWinrate = () => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.user);
     const userData = useSelector(state => state.raceData);
-    const urlPrefix = useContext(UrlContext);
 
     const defaultData = {
         protoss: { winrate: null },
@@ -18,9 +17,9 @@ const useWinrate = () => {
 
     const [_cachedData, _setCachedData] = useState(defaultData);
 
-    const protossWinrate = useFetch(`${urlPrefix}api/winrate/protoss/`);
-    const zergWinrate = useFetch(`${urlPrefix}api/winrate/zerg/`);
-    const terranWinrate = useFetch(`${urlPrefix}api/winrate/terran/`);
+    const protossWinrate = useFetch(`${URL_PREFIX}api/winrate/protoss/`);
+    const zergWinrate = useFetch(`${URL_PREFIX}api/winrate/zerg/`);
+    const terranWinrate = useFetch(`${URL_PREFIX}api/winrate/terran/`);
 
     if (protossWinrate !== _cachedData.protoss.winrate) {
         _setCachedData(prevData => ({

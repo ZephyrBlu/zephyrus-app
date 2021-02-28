@@ -1,14 +1,13 @@
-import { useState, useEffect, useContext } from 'react';
+import { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { setTrends } from '../actions';
-import UrlContext from '../index';
+import { URL_PREFIX } from '../constants';
 import useFetch from './useFetch';
 
 const usePerformance = () => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.user);
     const userData = useSelector(state => state.raceData);
-    const urlPrefix = useContext(UrlContext);
 
     const defaultData = {
         protoss: { trends: null },
@@ -18,9 +17,9 @@ const usePerformance = () => {
 
     const [_cachedData, _setCachedData] = useState(defaultData);
 
-    const protossTrends = useFetch(`${urlPrefix}api/trends/protoss/`);
-    const zergTrends = useFetch(`${urlPrefix}api/trends/zerg/`);
-    const terranTrends = useFetch(`${urlPrefix}api/trends/terran/`);
+    const protossTrends = useFetch(`${URL_PREFIX}api/trends/protoss/`);
+    const zergTrends = useFetch(`${URL_PREFIX}api/trends/zerg/`);
+    const terranTrends = useFetch(`${URL_PREFIX}api/trends/terran/`);
 
     if (protossTrends !== _cachedData.protoss.trends) {
         _setCachedData(prevData => ({

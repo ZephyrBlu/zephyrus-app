@@ -1,6 +1,6 @@
-import React, { useState, useContext, useCallback } from 'react';
+import React, { useState, useCallback } from 'react';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
-import UrlContext from '../../index';
+import { URL_PREFIX } from '../../constants';
 import { handleFetch } from '../../utils';
 import { logoutReset } from '../../actions';
 import Title from './Title';
@@ -11,7 +11,6 @@ const Page = ({ pages, header, content }) => {
     const dispatch = useDispatch();
     const [user, visibleState] = useSelector(state => [state.user, state.visibleState], shallowEqual);
     const [currentPage, setCurrentPage] = useState(null);
-    const urlPrefix = useContext(UrlContext);
 
     // creates a closure of current user state
     // useCallback to memoize the function and create stable reference
@@ -20,7 +19,7 @@ const Page = ({ pages, header, content }) => {
             return;
         }
 
-        const url = `${urlPrefix}api/logout/`;
+        const url = `${URL_PREFIX}api/logout/`;
         const opts = {
             method: 'GET',
             headers: { Authorization: `Token ${user.token}` },

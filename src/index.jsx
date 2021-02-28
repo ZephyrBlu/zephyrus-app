@@ -1,4 +1,4 @@
-import React, { createContext } from 'react';
+import React from 'react';
 import { render } from 'react-dom';
 import { createStore } from 'redux';
 import { Provider } from 'react-redux';
@@ -11,15 +11,6 @@ if (process.env.NODE_ENV === 'production') {
     Sentry.init({ dsn: 'https://849d1f1cb4b0468d9a2b6a7e5fb4f8cd@sentry.io/1554514' });
 }
 
-let urlPrefix;
-if (process.env.NODE_ENV === 'production') {
-    urlPrefix = 'https://zephyrus.gg/';
-    // urlPrefix = 'https://testing-dot-reflected-codex-228006.uc.r.appspot.com/';
-} else {
-    urlPrefix = 'http://127.0.0.1:8000/';
-}
-const UrlContext = createContext();
-
 const store = createStore(profileInfo);
 
 if (localStorage.user) {
@@ -31,9 +22,7 @@ const root = document.getElementById('root');
 const load = () => render(
     (
         <Provider store={store}>
-            <UrlContext.Provider value={urlPrefix}>
-                <App />
-            </UrlContext.Provider>
+            <App />
         </Provider>
     ), root,
 );
@@ -42,7 +31,5 @@ const load = () => render(
 if (module.hot) {
     module.hot.accept('./App', load);
 }
-
-export default UrlContext;
 
 load();

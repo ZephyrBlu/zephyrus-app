@@ -1,8 +1,8 @@
-import React, { useState, useRef, useContext } from 'react';
+import React, { useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Tippy from '@tippy.js/react';
 import { useAuthCode, useLoadingState } from '../hooks';
-import UrlContext from '../index';
+import { URL_PREFIX } from '../constants';
 import { handleFetch, updateUserAccount } from '../utils';
 import SpinningRingAnimation from './shared/SpinningRingAnimation';
 import './AccountSetup.css';
@@ -15,7 +15,6 @@ const AccountSetup = ({ setWaitingForUser }) => {
     const [emailState, setEmailState] = useLoadingState();
     const [profileState, setProfileState] = useLoadingState();
     const [profileErrorMessage, setprofileErrorMessage] = useState(null);
-    const urlPrefix = useContext(UrlContext);
     const opts = {
         method: 'GET',
         headers: { Authorization: `Token ${user.token}` },
@@ -27,7 +26,7 @@ const AccountSetup = ({ setWaitingForUser }) => {
         }
 
         setEmailState('inProgress');
-        const url = `${urlPrefix}api/resend/`;
+        const url = `${URL_PREFIX}api/resend/`;
         const emailResponse = await handleFetch(url, opts);
 
         if (emailResponse.ok) {
@@ -41,7 +40,7 @@ const AccountSetup = ({ setWaitingForUser }) => {
         if (user.battlenetAccounts) {
             return;
         }
-        const url = `${urlPrefix}api/authorize/url/`;
+        const url = `${URL_PREFIX}api/authorize/url/`;
         const authorizeBattlenetResponse = await handleFetch(url, opts);
 
         if (authorizeBattlenetResponse.ok) {
@@ -66,7 +65,7 @@ const AccountSetup = ({ setWaitingForUser }) => {
 
         setProfileState('inProgress');
         setprofileErrorMessage(null);
-        const url = `${urlPrefix}api/profile/`;
+        const url = `${URL_PREFIX}api/profile/`;
         const profileOpts = {
             method: 'POST',
             headers: { Authorization: `Token ${user.token}` },
@@ -75,7 +74,7 @@ const AccountSetup = ({ setWaitingForUser }) => {
         const profileResponse = await handleFetch(url, profileOpts);
 
         if (profileResponse.ok) {
-            updateUserAccount(user, urlPrefix, dispatch);
+            updateUserAccount(user, URL_PREFIX, dispatch);
             setProfileState('success');
         } else if (profileResponse.status === 400) {
             setProfileState('error');

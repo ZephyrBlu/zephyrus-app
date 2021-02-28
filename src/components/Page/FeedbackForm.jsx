@@ -1,6 +1,6 @@
-import React, { useState, useContext, Fragment } from 'react';
+import React, { useState, Fragment } from 'react';
 import { useSelector } from 'react-redux';
-import UrlContext from '../../index';
+import { URL_PREFIX } from '../../constants';
 import SpinningRingAnimation from '../shared/SpinningRingAnimation';
 import './CSS/FeedbackForm.css';
 
@@ -10,14 +10,13 @@ const FeedbackForm = ({ titleQuote, setIsFormVisible }) => {
     const [textInput, setTextInput] = useState('');
     const [isSubmitted, setIsSubmitted] = useState(false);
     const [feedbackResponse, setFeedbackResponse] = useState(null);
-    const urlPrefix = useContext(UrlContext);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setIsSubmitted(true);
         setFeedbackResponse(null);
 
-        const url = `${urlPrefix}api/feedback/`;
+        const url = `${URL_PREFIX}api/feedback/`;
         const response = await fetch(url, {
             method: 'POST',
             headers: { Authorization: `Token ${user.token}` },
