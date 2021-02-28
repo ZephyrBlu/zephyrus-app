@@ -35,23 +35,21 @@ const useAccount = (token) => {
         const fetchData = async () => {
             const opts = { headers: { Authorization: `Token ${token}` } };
             await Promise.all(Object.entries(dataUrls).map(async ([field, urls]) => (
-                Promise.all(urls.map(raceUrlObj => (
-                    async () => {
-                        const res = await handleFetch(raceUrlObj.url, opts);
-                        const fieldData = res.ok ? res.data : false;
+                Promise.all(urls.map(async raceUrlObj => {
+                    const res = await handleFetch(raceUrlObj.url, opts);
+                    const fieldData = res.ok ? res.data : false;
 
-                        if (field === 'replays') {
-                            replayCount.current[raceUrlObj.race] = fieldData.length;
-                        }
-                        accountData.current[field][raceUrlObj.race] = fieldData;
-
-                        dispatch(setInitialData(
-                            accountData.current[field][raceUrlObj.race],
-                            field,
-                            raceUrlObj.race,
-                        ));
+                    if (field === 'replays') {
+                        replayCount.current[raceUrlObj.race] = fieldData.length;
                     }
-                )))
+                    accountData.current[field][raceUrlObj.race] = fieldData;
+
+                    dispatch(setInitialData(
+                        accountData.current[field][raceUrlObj.race],
+                        field,
+                        raceUrlObj.race,
+                    ));
+                }))
             )));
         };
         fetchData();
@@ -69,37 +67,35 @@ const useAccount = (token) => {
                 console.log('URLS', replayUrls);
                 const opts = { headers: { Authorization: `Token ${token}` } };
 
-                await Promise.all(replayUrls.map(url => (
-                    async () => {
-                        const res = await handleFetch(url, opts);
-                        const newReplayCount = res.ok ? res.data : false;
+                await Promise.all(replayUrls.map(async url => {
+                    const res = await handleFetch(url, opts);
+                    const newReplayCount = res.ok ? res.data : false;
 
-                        // indexOf('replays') give us index of start of 'replays/' in url
-                        // +8 from that offset gives us the start of race name
-                        // -7 offset from end removes 'count/' from the url
-                        const race = url.slice(url.indexOf('replays') + 8, -7);
+                    // indexOf('replays') give us index of start of 'replays/' in url
+                    // +8 from that offset gives us the start of race name
+                    // -7 offset from end removes 'count/' from the url
+                    const race = url.slice(url.indexOf('replays') + 8, -7);
 
-                        console.log('NEW REPLAY COUNT', newReplayCount);
+                    console.log('NEW REPLAY COUNT', newReplayCount);
 
-                        if (newReplayCount && newReplayCount !== replayCount.current[race]) {
-                            console.log('UPDATING REPLAYS');
-                            // slice(0, -6) remove 'count/' from the url
-                            const replayRes = await handleFetch(url.slice(0, -6), opts);
-                            const newReplays = replayRes.ok ? replayRes.data : false;
+                    if (newReplayCount && newReplayCount !== replayCount.current[race]) {
+                        console.log('UPDATING REPLAYS');
+                        // slice(0, -6) remove 'count/' from the url
+                        const replayRes = await handleFetch(url.slice(0, -6), opts);
+                        const newReplays = replayRes.ok ? replayRes.data : false;
 
-                            if (newReplays) {
-                                accountData.current.replays[race] = newReplays;
-                                replayCount.current[race] = newReplayCount;
-                                dispatch(updateReplays(
-                                    accountData.current.replays[race],
-                                    'replays',
-                                    race,
-                                ));
-                                console.log('REPLAYS UPDATED');
-                            }
+                        if (newReplays) {
+                            accountData.current.replays[race] = newReplays;
+                            replayCount.current[race] = newReplayCount;
+                            dispatch(updateReplays(
+                                accountData.current.replays[race],
+                                'replays',
+                                race,
+                            ));
+                            console.log('REPLAYS UPDATED');
                         }
                     }
-                )));
+                }));
                 setRefetch(prevState => !prevState);
             }, 30000);
         }
