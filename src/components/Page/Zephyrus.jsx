@@ -1,5 +1,5 @@
 import React, { memo, useState, useCallback } from 'react';
-import { useSelector, useDispatch, shallowEqual } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { URL_PREFIX } from '../../constants';
 import { handleFetch } from '../../utils';
 import { logoutReset } from '../../actions';

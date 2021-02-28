@@ -4,9 +4,8 @@ import { setInitialData, updateReplays } from '../actions';
 import { handleFetch } from '../utils';
 import { URL_PREFIX, RACES_LOWER } from '../constants';
 
-const useAccount = () => {
+const useAccount = (token) => {
     const dispatch = useDispatch();
-    const token = useSelector(state => state.user ? state.user.token : null);
     const accountData = useRef({});
 
     const defaultReplayCount = () => {

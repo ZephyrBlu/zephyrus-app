@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { setReplayInfo } from '../../actions';
-import { useAuthCode } from '../../hooks';
 import { clanTagIndex } from '../../utils';
 import LoadingState from '../shared/LoadingState';
 import ReplayView from './ReplayView';
@@ -9,7 +8,6 @@ import ReplayList from './ReplayList';
 import './CSS/Replays.css';
 
 const Replays = ({ isReplayListVisible }) => {
-    useAuthCode();
     const dispatch = useDispatch();
 
     // need to use shallowEqual as this returns an object which will execute on every re-render

@@ -1,14 +1,13 @@
 import React, { useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Tippy from '@tippy.js/react';
-import { useAuthCode, useLoadingState } from '../hooks';
+import { useLoadingState } from '../hooks';
 import { URL_PREFIX } from '../constants';
 import { handleFetch, updateUserAccount } from '../utils';
 import SpinningRingAnimation from './shared/SpinningRingAnimation';
 import './AccountSetup.css';
 
 const AccountSetup = ({ setWaitingForUser }) => {
-    useAuthCode();
     const dispatch = useDispatch();
     const user = useSelector(state => state.user);
     const profileInputRef = useRef();

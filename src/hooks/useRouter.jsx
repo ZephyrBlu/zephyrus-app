@@ -10,8 +10,7 @@ import Upload from '../components/Upload';
 import Settings from '../components/Settings';
 import AccountSetup from '../components/AccountSetup';
 
-const useRouter = () => {
-    const user = useSelector(state => state.user);
+const useRouter = (user) => {
     const userState = user /* eslint-disable-line no-nested-ternary */
         ? (user.verified
         && !!user.battlenetAccounts
