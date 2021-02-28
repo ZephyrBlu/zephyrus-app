@@ -7,6 +7,7 @@ import { URL_PREFIX, RACES_LOWER } from '../constants';
 const useAccount = (token) => {
     const dispatch = useDispatch();
     const accountData = useRef({});
+    const [refetch, setRefetch] = useState(true);
 
     const defaultReplayCount = () => {
         const defaultState = {};
@@ -35,7 +36,7 @@ const useAccount = (token) => {
         const fetchData = async () => {
             const opts = { headers: { Authorization: `Token ${token}` } };
             await Promise.all(Object.entries(dataUrls).map(async ([field, urls]) => (
-                Promise.all(urls.map(async raceUrlObj => {
+                Promise.all(urls.map(async (raceUrlObj) => {
                     const res = await handleFetch(raceUrlObj.url, opts);
                     const fieldData = res.ok ? res.data : false;
 
@@ -55,8 +56,6 @@ const useAccount = (token) => {
         fetchData();
     }, []);
 
-    const [refetch, setRefetch] = useState(true);
-
     useEffect(() => {
         console.log('CHECKING REPLAYS');
         console.log('CURRENT REPLAY COUNT', replayCount.current);
@@ -67,7 +66,7 @@ const useAccount = (token) => {
                 console.log('URLS', replayUrls);
                 const opts = { headers: { Authorization: `Token ${token}` } };
 
-                await Promise.all(replayUrls.map(async url => {
+                await Promise.all(replayUrls.map(async (url) => {
                     const res = await handleFetch(url, opts);
                     const newReplayCount = res.ok ? res.data : false;
 
