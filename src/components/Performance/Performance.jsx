@@ -12,7 +12,6 @@ import {
     Tooltip,
 } from 'recharts';
 import LoadingState from '../shared/LoadingState';
-import DefaultResponse from '../shared/DefaultResponse';
 import InfoTooltip from '../shared/InfoTooltip';
 import './CSS/Performance.css';
 

@@ -1,5 +1,5 @@
 import { useRef, useState, useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { setInitialData, updateReplays } from '../actions';
 import { handleFetch } from '../utils';
 import { URL_PREFIX, RACES_LOWER } from '../constants';
@@ -17,7 +17,7 @@ const useAccount = (token) => {
     };
     const replayCount = useRef(defaultReplayCount());
 
-    const constructUrls = (field) => (
+    const constructUrls = field => (
         RACES_LOWER.map(race => ({
             race,
             url: `${URL_PREFIX}api/${field}/${race}/`,
@@ -35,8 +35,8 @@ const useAccount = (token) => {
         const fetchData = async () => {
             const opts = { headers: { Authorization: `Token ${token}` } };
             await Promise.all(Object.entries(dataUrls).map(async ([field, urls]) => (
-                await Promise.all(urls.map(raceUrlObj => (
-                    new Promise(async (resolve) => {
+                Promise.all(urls.map(raceUrlObj => (
+                    async () => {
                         const res = await handleFetch(raceUrlObj.url, opts);
                         const fieldData = res.ok ? res.data : false;
 
@@ -50,11 +50,10 @@ const useAccount = (token) => {
                             field,
                             raceUrlObj.race,
                         ));
-                        resolve();
-                    })
+                    }
                 )))
             )));
-        }
+        };
         fetchData();
     }, []);
 
@@ -71,7 +70,7 @@ const useAccount = (token) => {
                 const opts = { headers: { Authorization: `Token ${token}` } };
 
                 await Promise.all(replayUrls.map(url => (
-                    new Promise(async (resolve) => {
+                    async () => {
                         const res = await handleFetch(url, opts);
                         const newReplayCount = res.ok ? res.data : false;
 
@@ -99,8 +98,7 @@ const useAccount = (token) => {
                                 console.log('REPLAYS UPDATED');
                             }
                         }
-                        resolve();
-                    })
+                    }
                 )));
                 setRefetch(prevState => !prevState);
             }, 30000);

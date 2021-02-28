@@ -9,7 +9,7 @@ import './CSS/Page.css';
 
 const Zephyrus = ({ pages, header, content }) => {
     const dispatch = useDispatch();
-    const token = useSelector(state => state.user ? state.user.token : null);
+    const token = useSelector(state => (state.user ? state.user.token : null));
     const [currentPage, setCurrentPage] = useState(null);
     const [isReplayListVisible, setIsReplayListVisible] = useState(true);
 

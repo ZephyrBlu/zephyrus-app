@@ -186,7 +186,6 @@ const Settings = () => {
                         state={linkCountLoadingState}
                         spinner={<SpinningRingAnimation />}
                         errorFallback={null}
-                        children={null}
                     />
                     <InfoTooltip
                         style={{ top: '8px', right: '-10px' }}

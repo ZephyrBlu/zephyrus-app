@@ -1,4 +1,4 @@
-import { setUser } from './actions';
+import { updateUser } from './actions';
 
 export const handleFetch = async (url, opts = {}, timeoutMs = 60000) => { // eslint-disable-line import/prefer-default-export
     const handleError = (err) => {
@@ -54,7 +54,7 @@ export const updateUserAccount = async (token, prefix, dispatch) => {
     const updatedUser = await handleFetch(url, opts);
 
     if (updatedUser.ok && localStorage.user !== JSON.stringify(updatedUser.data.user)) {
-        dispatch(setUser(updatedUser.data.user));
+        dispatch(updateUser(updatedUser.data.user));
         localStorage.user = JSON.stringify(updatedUser.data.user);
     }
 };

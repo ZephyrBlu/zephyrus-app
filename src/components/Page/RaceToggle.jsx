@@ -1,6 +1,6 @@
 import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { setSelectedRace, setSelectedReplayHash } from '../../actions';
+import { updateSelectedRace, setSelectedReplayHash } from '../../actions';
 import './CSS/RaceToggle.css';
 
 const RaceToggle = () => {
@@ -23,7 +23,7 @@ const RaceToggle = () => {
             <button
                 className="RaceToggle__toggle-button"
                 onClick={() => {
-                    dispatch(setSelectedRace('protoss'));
+                    dispatch(updateSelectedRace('protoss'));
                     dispatch(setSelectedReplayHash(null));
                 }}
             >
@@ -36,7 +36,7 @@ const RaceToggle = () => {
             <button
                 className="RaceToggle__toggle-button"
                 onClick={() => {
-                    dispatch(setSelectedRace('zerg'));
+                    dispatch(updateSelectedRace('zerg'));
                     dispatch(setSelectedReplayHash(null));
                 }}
             >
@@ -49,7 +49,7 @@ const RaceToggle = () => {
             <button
                 className="RaceToggle__toggle-button"
                 onClick={() => {
-                    dispatch(setSelectedRace('terran'));
+                    dispatch(updateSelectedRace('terran'));
                     dispatch(setSelectedReplayHash(null));
                 }}
             >

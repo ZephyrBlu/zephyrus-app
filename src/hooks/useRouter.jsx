@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
 import { Location, Router, Redirect } from '@reach/router';
 import Login from '../components/Login';
 import Replays from '../components/Replays/Replays';

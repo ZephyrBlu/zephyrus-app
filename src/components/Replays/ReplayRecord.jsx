@@ -7,7 +7,7 @@ const ReplayRecord = ({ hash, stats }) => {
     const dispatch = useDispatch();
     const selectedReplayHash = useSelector(state => state.selectedReplayHash);
 
-    const handleReplaySelection = (e) => {
+    const handleReplaySelection = () => {
         dispatch(setSelectedReplayHash(hash));
     };
 

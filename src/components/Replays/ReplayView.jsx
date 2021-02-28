@@ -1,5 +1,4 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
 import LoadingState from '../shared/LoadingState';
 import ReplayInfo from './ReplayInfo';
 import TimelineArea from './TimelineArea';

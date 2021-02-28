@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 
 const useFetch = (url, dep = 'default', dataKey = null, opts = null) => {
-    const token = useSelector(state => state.user ? state.user.token : null);
+    const token = useSelector(state => (state.user ? state.user.token : null));
     const [_state, _setState] = useState(null);
 
     useEffect(() => {

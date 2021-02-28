@@ -23,6 +23,7 @@ const LoadingState = ({
 
     // re-assign props if we're using hooks to declaratively manipulate state
     // instead of using data flow
+    /* eslint-disable no-param-reassign */
     if (state !== null) {
         ({
             inProgress,
@@ -54,8 +55,9 @@ const LoadingState = ({
 
     // loading started and succeeded
     // return child elements/components
+    // not sure if default value for children is undefined or null
     if (success) {
-        componentState = children;
+        componentState = children || null;
 
     // loading started and an error occurred
     // return error fallback message/component

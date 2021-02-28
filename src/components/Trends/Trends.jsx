@@ -14,11 +14,9 @@ import { jStat } from 'jstat';
 import { capitalize } from '../../utils';
 import LoadingState from '../shared/LoadingState';
 import LoadingAnimation from '../shared/LoadingAnimation';
-import DefaultResponse from '../shared/DefaultResponse';
 import InfoTooltip from '../shared/InfoTooltip';
 import TrendsTooltip from './TrendsTooltip';
 import './CSS/Trends.css';
-
 
 const Trends = () => {
     const selectedRace = useSelector(state => state.selectedRace);

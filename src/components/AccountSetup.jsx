@@ -4,6 +4,7 @@ import Tippy from '@tippy.js/react';
 import { useLoadingState } from '../hooks';
 import { URL_PREFIX } from '../constants';
 import { handleFetch, updateUserAccount } from '../utils';
+import LoadingState from './shared/LoadingState';
 import SpinningRingAnimation from './shared/SpinningRingAnimation';
 import './AccountSetup.css';
 
