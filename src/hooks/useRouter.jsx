@@ -32,7 +32,8 @@ const useRouter = () => {
     */
     let _router = null;
     if (!waitingForUser && userState) {
-        _router = (
+        // assigning this as a function is a hack to play nicely with the rules of hooks
+        _router = isReplayListVisible => (
             <Router className="Router">
                 <Redirect from="/login" to="/replays" noThrow />
                 <Redirect from="/setup" to="/replays" noThrow />
@@ -42,6 +43,7 @@ const useRouter = () => {
                 />
                 <Replays
                     path="/replays"
+                    isReplayListVisible={isReplayListVisible}
                 />
                 <Winrate
                     path="/winrate"
@@ -78,7 +80,7 @@ const useRouter = () => {
         since it creates a closure. Due to the closure there is no way for the function
         to access the setCurrentPage function globally.
     */
-    const router = setCurrentPage => (
+    const router = (setCurrentPage, isReplayListVisible) => (
         <Location>
             {({ location }) => {
                 let currentComponent = location.pathname.slice(1);
@@ -87,7 +89,10 @@ const useRouter = () => {
                     setCurrentPage(currentComponent);
                 }
 
-                return _router;
+                // hack to make it play nicely with rules of hooks
+                return typeof _router === 'function'
+                    ? _router(isReplayListVisible)
+                    : _router;
             }}
         </Location>
     );

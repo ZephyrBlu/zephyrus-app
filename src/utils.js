@@ -14,9 +14,9 @@ export const handleFetch = async (url, opts = {}, timeoutMs = 60000) => { // esl
 
     const request = fetch(url, opts).then(async (response) => {
         const { status, ok } = response;
-        let data;
+        let data = null;
 
-        if (response.ok) {
+        if (ok) {
             try {
                 data = await response.json();
             } catch (error) {

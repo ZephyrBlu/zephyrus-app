@@ -74,7 +74,7 @@ const AccountSetup = ({ setWaitingForUser }) => {
         const profileResponse = await handleFetch(url, profileOpts);
 
         if (profileResponse.ok) {
-            updateUserAccount(user, URL_PREFIX, dispatch);
+            updateUserAccount(user.token, URL_PREFIX, dispatch);
             setProfileState('success');
         } else if (profileResponse.status === 400) {
             setProfileState('error');

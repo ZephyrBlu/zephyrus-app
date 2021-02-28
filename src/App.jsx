@@ -1,18 +1,14 @@
-import React, { useEffect } from 'react';
-import { useAccount, useReplays, usePerformance, useTrends, useWinrate, useRouter } from './hooks';
+import React, { useEffect, useCallback } from 'react';
+import { useAccount, useRouter } from './hooks';
 import { PAGES } from './constants';
-import Page from './components/Page/Page';
+import Zephyrus from './components/Page/Zephyrus';
 import Header from './components/Page/Header';
 import './components/Page/CSS/Page.css';
 import './App.css';
 
 const App = () => {
-    useAccount();
-    useReplays(30000);
-    usePerformance();
-    useTrends();
-    useWinrate();
     const router = useRouter();
+    useAccount();
 
     // one time check for OAuth authorization code
     const urlParams = new URLSearchParams(window.location.search);
@@ -24,12 +20,19 @@ const App = () => {
         }
     }, []);
 
+    // useCallback used to preserve referential equality between renders
+    // this prevents <Zephyrus /> from re-rendering during background re-fetching
+    const renderHeader = useCallback(renderProps => <Header {...renderProps} />, []);
+    const renderContent = useCallback(({ isReplayListVisible, setCurrentPage }) => (
+        router(setCurrentPage, isReplayListVisible)
+    ), []);
+
     return (
         <div className="App">
-            <Page
+            <Zephyrus
                 pages={PAGES}
-                header={renderProps => <Header {...renderProps} />}
-                content={renderProps => router(renderProps.setCurrentPage)}
+                header={renderHeader}
+                content={renderContent}
             />
         </div>
     );

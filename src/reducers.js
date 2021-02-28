@@ -1,29 +1,19 @@
 import { combineReducers } from 'redux';
 import {
-    SET_USER,
-    SET_INITIAL_USER,
-    SET_SELECTED_RACE,
-    SET_VISIBLE_STATE,
-    SET_REPLAYS,
+    userUpdated,
+    initialLogin,
+    raceSelected,
+    initialFetch,
+    replaysUpdated,
     SET_REPLAY_INFO,
-    SET_STATS,
-    SET_TRENDS,
-    SET_WINRATE,
     SET_SELECTED_REPLAY_HASH,
-    LOGOUT_RESET,
+    userLogout,
 } from './actions';
+import { RACES_LOWER } from './constants';
 
-const races = ['protoss', 'terran', 'zerg'];
-const raceDefaultState = {
-    replays: null,
-    stats: null,
-    trends: null,
-    winrate: null,
-};
-const raceDataDefaultState = {};
-
-races.forEach((race) => {
-    raceDataDefaultState[race] = raceDefaultState;
+const defaultRaceState = {};
+RACES_LOWER.forEach((race) => {
+    defaultRaceState[race] = null;
 });
 
 const user = (state = null, action) => {
@@ -45,11 +35,11 @@ const user = (state = null, action) => {
     };
 
     switch (action.type) {
-        case SET_USER:
-        case SET_INITIAL_USER:
+        case userUpdated:
+        case initialLogin:
             return handleStateShape(action.user);
 
-        case LOGOUT_RESET:
+        case userLogout:
             return null;
 
         default:
@@ -59,11 +49,11 @@ const user = (state = null, action) => {
 
 const selectedRace = (state = null, action) => {
     switch (action.type) {
-        case SET_SELECTED_RACE:
-        case SET_INITIAL_USER:
+        case raceSelected:
+        case initialLogin:
             return action.selectedRace;
 
-        case LOGOUT_RESET:
+        case userLogout:
             return null;
 
         default:
@@ -71,52 +61,78 @@ const selectedRace = (state = null, action) => {
     }
 };
 
-const visibleState = (state = true, action) => {
-    switch(action.type) {
-        case SET_VISIBLE_STATE:
-            return action.visibleState;
+const replays = (state = defaultRaceState, action) => {
+    switch (action.type) {
+        case initialFetch:
+            if (action.field !== 'replays') {
+                return state;
+            }
+
+            if (action.race) {
+                return { ...state, [action.race]: action.data };
+            }
+
+            return action.data;
+
+        case replaysUpdated:
+            if (action.race) {
+                return { ...state, [action.race]: action.data };
+            }
+            return action.data;
 
         default:
             return state;
     }
 };
 
-const raceData = (state = raceDataDefaultState, action) => {
+const winrate = (state = defaultRaceState, action) => {
     switch (action.type) {
-        case SET_REPLAYS:
-            Object.entries(action.data).forEach(([race, info]) => {
-                info.stats = state[race].stats;
-                info.trends = state[race].trends;
-                info.winrate = state[race].winrate;
-            });
-            return { ...state, ...action.data };
+        case initialFetch:
+            if (action.field !== 'winrate') {
+                return state;
+            }
 
-        case SET_STATS:
-            Object.entries(action.data).forEach(([race, info]) => {
-                info.replays = state[race].replays;
-                info.trends = state[race].trends;
-                info.winrate = state[race].winrate;
-            });
-            return { ...state, ...action.data };
+            if (action.race) {
+                return { ...state, [action.race]: action.data };
+            }
 
-        case SET_TRENDS:
-            Object.entries(action.data).forEach(([race, info]) => {
-                info.replays = state[race].replays;
-                info.stats = state[race].stats;
-                info.winrate = state[race].winrate;
-            });
-            return { ...state, ...action.data };
+            return action.data;
 
-        case SET_WINRATE:
-            Object.entries(action.data).forEach(([race, info]) => {
-                info.replays = state[race].replays;
-                info.stats = state[race].stats;
-                info.trends = state[race].trends;
-            });
-            return { ...state, ...action.data };
+        default:
+            return state;
+    }
+};
 
-        case LOGOUT_RESET:
-            return raceDataDefaultState;
+const stats = (state = defaultRaceState, action) => {
+    switch (action.type) {
+        case initialFetch:
+            if (action.field !== 'stats') {
+                return state;
+            }
+
+            if (action.race) {
+                return { ...state, [action.race]: action.data };
+            }
+
+            return action.data;
+
+        default:
+            return state;
+    }
+};
+
+const trends = (state = defaultRaceState, action) => {
+    switch (action.type) {
+        case initialFetch:
+            if (action.field !== 'trends') {
+                return state;
+            }
+
+            if (action.race) {
+                return { ...state, [action.race]: action.data };
+            }
+
+            return action.data;
 
         default:
             return state;
@@ -128,7 +144,7 @@ const replayInfo = (state = null, action) => {
         case SET_REPLAY_INFO:
             return action.replayInfo;
 
-        case LOGOUT_RESET:
+        case userLogout:
             return null;
 
         default:
@@ -141,7 +157,7 @@ const selectedReplayHash = (state = null, action) => {
         case SET_SELECTED_REPLAY_HASH:
             return action.replayHash;
 
-        case LOGOUT_RESET:
+        case userLogout:
             return null;
 
         default:
@@ -152,8 +168,10 @@ const selectedReplayHash = (state = null, action) => {
 const profileInfo = combineReducers({
     user,
     selectedRace,
-    visibleState,
-    raceData,
+    replays,
+    winrate,
+    stats,
+    trends,
     replayInfo,
     selectedReplayHash,
 });

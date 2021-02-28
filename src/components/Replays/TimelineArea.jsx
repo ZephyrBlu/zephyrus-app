@@ -6,7 +6,7 @@ import ReplaySummary from './ReplaySummary';
 import ReplayTimeline from './ReplayTimeline';
 import LoadingState from '../shared/LoadingState';
 
-const TimelineArea = ({ replay }) => {
+const TimelineArea = ({ replay, isReplayListVisible }) => {
     const [token, selectedReplayHash] = useSelector(state => (
         [state.user ? state.user.token : null, state.selectedReplayHash]
     ), shallowEqual);
@@ -71,6 +71,7 @@ const TimelineArea = ({ replay }) => {
             <ReplayTimeline
                 replay={replay}
                 timeline={timelineState}
+                isReplayListVisible={isReplayListVisible}
             />
         </LoadingState>
     );

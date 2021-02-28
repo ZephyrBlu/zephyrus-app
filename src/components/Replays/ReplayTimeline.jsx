@@ -6,7 +6,6 @@ import {
     Line,
 } from 'recharts';
 import React, { Fragment, useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import { clanTagIndex } from '../../utils';
 import RaceState from './RaceState';
 import ObjectState from './ObjectState';
@@ -15,8 +14,7 @@ import UpgradeState from './UpgradeState';
 import TimelineTooltip from './TimelineTooltip';
 import './CSS/ReplayTimeline.css';
 
-const ReplayTimeline = ({ replay, timeline }) => {
-    const visibleState = useSelector(state => state.visibleState);
+const ReplayTimeline = ({ replay, timeline, isReplayListVisible }) => {
     const [currentGameloop, setCurrentGameloop] = useState(0);
     const [timelineStat, setTimelineStat] = useState(localStorage.timelineStat);
     const [isTimelineFrozen, setTimelineState] = useState(false);
@@ -248,7 +246,7 @@ const ReplayTimeline = ({ replay, timeline }) => {
                             timelineState={currentTimelineState}
                             players={players}
                             playerOrder={playerOrder}
-                            visibleState={visibleState}
+                            isReplayListVisible={isReplayListVisible}
                             objectStates={objectStates.unit}
                             ignoreObjects={ignoreObjects.unit}
                         />
@@ -257,7 +255,7 @@ const ReplayTimeline = ({ replay, timeline }) => {
                             timelineState={currentTimelineState}
                             players={players}
                             playerOrder={playerOrder}
-                            visibleState={visibleState}
+                            isReplayListVisible={isReplayListVisible}
                             objectStates={objectStates.building}
                             ignoreObjects={ignoreObjects.building}
                         />

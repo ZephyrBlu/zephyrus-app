@@ -16,7 +16,7 @@ const ObjectState = (props) => {
     useLayoutEffect(() => {
         const updateIconLimit = () => {
             const windowSize = window.innerWidth;
-            if (props.visibleState) {
+            if (props.isReplayListVisible) {
                 if (windowSize < 1920) {
                     const iconDiff = Math.ceil((1920 - windowSize) / 120);
                     setUnitLimit(10 - iconDiff);
@@ -36,7 +36,7 @@ const ObjectState = (props) => {
         return () => {
             window.removeEventListener('resize', updateIconLimit);
         };
-    }, [props.visibleState]);
+    }, [props.isReplayListVisible]);
 
     const insertBreak = () => {
         let isBreak;

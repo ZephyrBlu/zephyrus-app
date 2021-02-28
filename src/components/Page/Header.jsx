@@ -1,13 +1,11 @@
 import React, { Fragment } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { setVisibleState } from '../../actions';
+import { useSelector } from 'react-redux';
 import { capitalize } from '../../utils';
 import RaceToggle from './RaceToggle';
 import FeedbackModal from './FeedbackModal';
 import { PAGES } from '../../constants';
 
-const Header = ({ currentPage, visibleState }) => {
-    const dispatch = useDispatch();
+const Header = ({ currentPage, isReplayListVisible, setIsReplayListVisible }) => {
     const selectedRace = useSelector(state => state.selectedRace);
 
     return (
@@ -29,20 +27,16 @@ const Header = ({ currentPage, visibleState }) => {
                     </Fragment>}
                 {currentPage === 'Replays' &&
                     <span className="Page__hide-wrapper">
-                        {visibleState ? 'Hide Replays' : ''}
+                        {isReplayListVisible ? 'Hide Replays' : ''}
                         <button
                             className="Page__hide-side-bar"
-                            onClick={() => (
-                                visibleState
-                                    ? dispatch(setVisibleState(false))
-                                    : dispatch(setVisibleState(true))
-                            )}
+                            onClick={() => setIsReplayListVisible(prevState => !prevState)}
                         >
                             <img
                                 className="Page__hide-icon"
                                 src="../../icons/arrow-right.svg"
                                 alt="hide-button"
-                                style={visibleState ? {} : { transform: 'rotate(180deg)' }}
+                                style={isReplayListVisible ? {} : { transform: 'rotate(180deg)' }}
                             />
                         </button>
                     </span>}

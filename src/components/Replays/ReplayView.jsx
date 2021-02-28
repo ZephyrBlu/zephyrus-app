@@ -6,8 +6,8 @@ import TimelineArea from './TimelineArea';
 import StatCategory from '../shared/StatCategory';
 import './CSS/ReplayView.css';
 
-const ReplayView = ({ replay, visibleState }) => (
-    <div className={`ReplayView ReplayView--${visibleState ? 'replays' : 'no-replays'}`}>
+const ReplayView = ({ replay, isReplayListVisible }) => (
+    <div className={`ReplayView ReplayView--${isReplayListVisible ? 'replays' : 'no-replays'}`}>
         <LoadingState
             noLoad
             initial={
@@ -18,7 +18,7 @@ const ReplayView = ({ replay, visibleState }) => (
             success={replay.data}
         >
             <ReplayInfo replay={replay} />
-            <TimelineArea replay={replay} />
+            <TimelineArea replay={replay} isReplayListVisible={isReplayListVisible} />
         </LoadingState>
         <div className="ReplayView__summary-stats">
             {replay.info &&

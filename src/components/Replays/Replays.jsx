@@ -8,15 +8,14 @@ import ReplayView from './ReplayView';
 import ReplayList from './ReplayList';
 import './CSS/Replays.css';
 
-const Replays = () => {
+const Replays = ({ isReplayListVisible }) => {
     useAuthCode();
     const dispatch = useDispatch();
 
     // need to use shallowEqual as this returns an object which will execute on every re-render
     // but we actually only care if the values inside the object change
-    const [userReplays, visibleState, replayInfo, selectedReplayHash] = useSelector(state => ([
-        state.selectedRace ? state.raceData[state.selectedRace].replays : null,
-        state.visibleState,
+    const [userReplays, replayInfo, selectedReplayHash] = useSelector(state => ([
+        state.selectedRace ? state.replays[state.selectedRace] : null,
         state.replayInfo,
         state.selectedReplayHash,
     ]), shallowEqual);
@@ -88,7 +87,7 @@ const Replays = () => {
     return (
         <div
             className="Replays"
-            style={visibleState ? {} : { gridTemplateColumns: '1fr 0px' }}
+            style={isReplayListVisible ? {} : { gridTemplateColumns: '1fr 0px' }}
         >
             <div className="Replays__main-content">
                 <ReplayView
@@ -96,7 +95,7 @@ const Replays = () => {
                         ...selectedReplay,
                         hash: selectedReplayHash,
                     }}
-                    visibleState={visibleState}
+                    isReplayListVisible={isReplayListVisible}
                 />
             </div>
             <div className="Replays__sidebar">

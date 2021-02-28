@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { memo, useState, useCallback } from 'react';
 import { useSelector, useDispatch, shallowEqual } from 'react-redux';
 import { URL_PREFIX } from '../../constants';
 import { handleFetch } from '../../utils';
@@ -7,40 +7,42 @@ import Title from './Title';
 import PageSidebar from './PageSidebar';
 import './CSS/Page.css';
 
-const Page = ({ pages, header, content }) => {
+const Zephyrus = ({ pages, header, content }) => {
     const dispatch = useDispatch();
-    const [user, visibleState] = useSelector(state => [state.user, state.visibleState], shallowEqual);
+    const token = useSelector(state => state.user ? state.user.token : null);
     const [currentPage, setCurrentPage] = useState(null);
+    const [isReplayListVisible, setIsReplayListVisible] = useState(true);
 
     // creates a closure of current user state
     // useCallback to memoize the function and create stable reference
     const handleLogout = useCallback(() => {
-        if (!user) {
+        if (!token) {
             return;
         }
 
         const url = `${URL_PREFIX}api/logout/`;
         const opts = {
             method: 'GET',
-            headers: { Authorization: `Token ${user.token}` },
+            headers: { Authorization: `Token ${token}` },
         };
 
         handleFetch(url, opts);
         localStorage.clear();
         dispatch(logoutReset());
-    }, [user]);
+    }, [token]);
 
     const pageProps = {
         currentPage,
         setCurrentPage,
-        visibleState,
+        isReplayListVisible,
+        setIsReplayListVisible,
     };
 
     return (
         <div className="Page">
             <header className="Page__header">
                 <Title />
-                {header(pageProps)}
+                {header && header(pageProps)}
                 {currentPage === 'Setup' &&
                     <button
                         className="Page__logout"
@@ -55,10 +57,10 @@ const Page = ({ pages, header, content }) => {
                     handleLogout={handleLogout}
                 />}
             <section className={`Page__page-content Page__page-content--${currentPage}`}>
-                {content(pageProps)}
+                {content && content(pageProps)}
             </section>
         </div>
     );
 };
 
-export default Page;
+export default memo(Zephyrus);

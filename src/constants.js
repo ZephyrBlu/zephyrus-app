@@ -8,3 +8,5 @@ export const PAGES = {
     Trends: 'Trends',
     Upload: 'Upload Replays',
 };
+
+export const RACES_LOWER = ['protoss', 'terran', 'zerg'];
