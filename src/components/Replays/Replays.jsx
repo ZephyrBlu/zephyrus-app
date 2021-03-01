@@ -88,22 +88,26 @@ const Replays = ({ isReplayListVisible }) => {
             style={isReplayListVisible ? {} : { gridTemplateColumns: '1fr 0px' }}
         >
             <div className="Replays__main-content">
-                <ReplayView
-                    replay={{
-                        ...selectedReplay,
-                        hash: selectedReplayHash,
-                    }}
-                    isReplayListVisible={isReplayListVisible}
-                />
+                <ErrorBoundary>
+                    <ReplayView
+                        replay={{
+                            ...selectedReplay,
+                            hash: selectedReplayHash,
+                        }}
+                        isReplayListVisible={isReplayListVisible}
+                    />
+                </ErrorBoundary>
             </div>
             <div className="Replays__sidebar">
-                <LoadingState
-                    success={replayInfo && replayInfo.length > 0}
-                    error={replayInfo === false}
-                    notFound={replayInfo && replayInfo.length === 0}
-                >
-                    <ReplayList replays={replayInfo} />
-                </LoadingState>
+                <ErrorBoundary>
+                    <LoadingState
+                        success={replayInfo && replayInfo.length > 0}
+                        error={replayInfo === false}
+                        notFound={replayInfo && replayInfo.length === 0}
+                    >
+                        <ReplayList replays={replayInfo} />
+                    </LoadingState>
+                </ErrorBoundary>
             </div>
         </div>
     );

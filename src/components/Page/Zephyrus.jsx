@@ -5,6 +5,7 @@ import { handleFetch } from '../../utils';
 import { logoutReset } from '../../actions';
 import Title from './Title';
 import PageSidebar from './PageSidebar';
+import ErrorBoundary from '../shared/ErrorBoundary';
 import './CSS/Page.css';
 
 const Zephyrus = ({ pages, header, content }) => {
@@ -57,7 +58,9 @@ const Zephyrus = ({ pages, header, content }) => {
                     handleLogout={handleLogout}
                 />}
             <section className={`Page__page-content Page__page-content--${currentPage}`}>
-                {content && content(pageProps)}
+                <ErrorBoundary>
+                    {content && content(pageProps)}
+                </ErrorBoundary>
             </section>
         </div>
     );
