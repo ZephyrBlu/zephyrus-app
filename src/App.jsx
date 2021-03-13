@@ -46,7 +46,7 @@ const App = () => {
     const renderHeader = useCallback(renderProps => <Header {...renderProps} />, []); // eslint-disable-line react/jsx-props-no-spreading
     const renderContent = useCallback(({ isReplayListVisible, setCurrentPage }) => (
         router(setCurrentPage, isReplayListVisible)
-    ), []);
+    ), [router]);
 
     return (
         <div className="App">

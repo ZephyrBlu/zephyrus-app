@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { setReplayInfo } from '../../actions';
 import { clanTagIndex } from '../../utils';
+import ErrorBoundary from '../shared/ErrorBoundary';
 import LoadingState from '../shared/LoadingState';
 import ReplayView from './ReplayView';
 import ReplayList from './ReplayList';

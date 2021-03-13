@@ -80,6 +80,9 @@ const replays = (state = defaultRaceState, action) => {
             }
             return action.data;
 
+        case userLogout:
+            return defaultRaceState;
+
         default:
             return state;
     }
@@ -97,6 +100,9 @@ const winrate = (state = defaultRaceState, action) => {
             }
 
             return action.data;
+
+        case userLogout:
+            return defaultRaceState;
 
         default:
             return state;
@@ -116,6 +122,9 @@ const stats = (state = defaultRaceState, action) => {
 
             return action.data;
 
+        case userLogout:
+            return defaultRaceState;
+
         default:
             return state;
     }
@@ -133,6 +142,9 @@ const trends = (state = defaultRaceState, action) => {
             }
 
             return action.data;
+
+        case userLogout:
+            return defaultRaceState;
 
         default:
             return state;

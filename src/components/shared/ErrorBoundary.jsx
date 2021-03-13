@@ -4,13 +4,13 @@ import DefaultResponse from './DefaultResponse';
 class ErrorBoundary extends Component {
     constructor(props) {
         super(props);
-        this.state = { error: null, errorInfo: null };
+        this.state = { error: null, errorInfo: null }; // eslint-disable-line react/state-in-constructor
     }
 
     componentDidCatch(error, info) {
         console.error(error);
         this.setState({
-            error: error,
+            error,
             errorInfo: info,
         });
     }
@@ -31,6 +31,6 @@ class ErrorBoundary extends Component {
         }
         return this.props.children;
     }
-};
+}
 
 export default ErrorBoundary;

@@ -53,8 +53,11 @@ const useAccount = (token) => {
                 }))
             )));
         };
-        fetchData();
-    }, []);
+
+        if (token) {
+            fetchData();
+        }
+    }, [token]);
 
     useEffect(() => {
         console.log('CHECKING REPLAYS');
