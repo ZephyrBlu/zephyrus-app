@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useCallback, useMemo } from 'react';
 import { Location, Router, Redirect } from '@reach/router';
 import Login from '../components/Login';
 import Replays from '../components/Replays/Replays';
@@ -19,6 +19,48 @@ const useRouter = (user) => {
     // must track waitingForUser since we allow users to choose to continue
     // rather than automatically rendering a new screen once they have linked an account
     const [waitingForUser, setWaitingForUser] = useState(!userState);
+    const _router = useRef(null);
+
+    const app = useCallback(isReplayListVisible => (
+        <Router className="Router">
+            <Redirect from="/login" to="/replays" noThrow />
+            <Redirect from="/setup" to="/replays" noThrow />
+            <Redirect from="/" to="/replays" noThrow />
+            <Upload
+                path="/upload"
+            />
+            <Replays
+                path="/replays"
+                isReplayListVisible={isReplayListVisible}
+            />
+            <Winrate
+                path="/winrate"
+            />
+            <Performance
+                path="/performance"
+            />
+            <Trends
+                path="/trends"
+            />
+            <Settings
+                path="/settings"
+            />
+        </Router>
+    ), []);
+
+    const initialSetup = useMemo(() => (
+        <Router className="Router">
+            <Redirect from="/*" to="/setup" noThrow />
+            <AccountSetup path="/setup" setWaitingForUser={setWaitingForUser} />
+        </Router>
+    ), []);
+
+    const login = useMemo(() => (
+        <Router className="Router">
+            <Redirect from="/*" to="/login" noThrow />
+            <Login path="/login" setWaitingForUser={setWaitingForUser} />
+        </Router>
+    ), []);
 
     /*
         can't use useEffect because it executes after the render. This is an issue because after the render,
@@ -28,49 +70,13 @@ const useRouter = (user) => {
         Solution is to execute router choice logic on every render. This means the code is executed quite often,
         but since it's only a few simple comparison it should not be a big deal.
     */
-    let _router = null;
     if (!waitingForUser && userState) {
         // assigning this as a function is a hack to play nicely with the rules of hooks
-        _router = isReplayListVisible => (
-            <Router className="Router">
-                <Redirect from="/login" to="/replays" noThrow />
-                <Redirect from="/setup" to="/replays" noThrow />
-                <Redirect from="/" to="/replays" noThrow />
-                <Upload
-                    path="/upload"
-                />
-                <Replays
-                    path="/replays"
-                    isReplayListVisible={isReplayListVisible}
-                />
-                <Winrate
-                    path="/winrate"
-                />
-                <Performance
-                    path="/performance"
-                />
-                <Trends
-                    path="/trends"
-                />
-                <Settings
-                    path="/settings"
-                />
-            </Router>
-        );
+        _router.current = app;
     } else if (userState === false || (waitingForUser && userState)) {
-        _router = (
-            <Router className="Router">
-                <Redirect from="/*" to="/setup" noThrow />
-                <AccountSetup path="/setup" setWaitingForUser={setWaitingForUser} />
-            </Router>
-        );
+        _router.current = initialSetup;
     } else {
-        _router = (
-            <Router className="Router">
-                <Redirect from="/*" to="/login" noThrow />
-                <Login path="/login" setWaitingForUser={setWaitingForUser} />
-            </Router>
-        );
+        _router.current = login;
     }
 
     /*
@@ -78,7 +84,7 @@ const useRouter = (user) => {
         since it creates a closure. Due to the closure there is no way for the function
         to access the setCurrentPage function globally.
     */
-    const router = (setCurrentPage, isReplayListVisible) => (
+    const router = useCallback((setCurrentPage, isReplayListVisible) => (
         <Location>
             {({ location }) => {
                 let currentComponent = location.pathname.slice(1);
@@ -88,12 +94,12 @@ const useRouter = (user) => {
                 }
 
                 // hack to make it play nicely with rules of hooks
-                return typeof _router === 'function'
-                    ? _router(isReplayListVisible)
-                    : _router;
+                return typeof _router.current === 'function'
+                    ? _router.current(isReplayListVisible)
+                    : _router.current;
             }}
         </Location>
-    );
+    ), [_router.current]);
     return router;
 };
 
