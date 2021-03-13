@@ -1,10 +1,10 @@
 import { useRef, useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { setInitialData, updateReplays } from '../actions';
-import { handleFetch } from '../utils';
+import { handleFetch, updateUserAccount } from '../utils';
 import { URL_PREFIX, RACES_LOWER } from '../constants';
 
-const useAccount = (token) => {
+const useAccount = (user) => {
     const dispatch = useDispatch();
     const accountData = useRef({});
     const [refetch, setRefetch] = useState(true);
@@ -34,7 +34,7 @@ const useAccount = (token) => {
         });
 
         const fetchData = async () => {
-            const opts = { headers: { Authorization: `Token ${token}` } };
+            const opts = { headers: { Authorization: `Token ${user.token}` } };
             await Promise.all(Object.entries(dataUrls).map(async ([field, urls]) => (
                 Promise.all(urls.map(async (raceUrlObj) => {
                     const res = await handleFetch(raceUrlObj.url, opts);
@@ -54,20 +54,18 @@ const useAccount = (token) => {
             )));
         };
 
-        if (token) {
+        if (user && user.token) {
+            updateUserAccount(user.token, URL_PREFIX, dispatch);
             fetchData();
         }
-    }, [token]);
+    }, [user]);
 
     useEffect(() => {
-        console.log('CHECKING REPLAYS');
-        console.log('CURRENT REPLAY COUNT', replayCount.current);
         let pollInterval;
-        if (token) {
+        if (user && user.token) {
             pollInterval = setInterval(async () => {
                 const replayUrls = constructUrls('replays').map(raceUrlObj => `${raceUrlObj.url}count/`);
-                console.log('URLS', replayUrls);
-                const opts = { headers: { Authorization: `Token ${token}` } };
+                const opts = { headers: { Authorization: `Token ${user.token}` } };
 
                 await Promise.all(replayUrls.map(async (url) => {
                     const res = await handleFetch(url, opts);
@@ -78,10 +76,7 @@ const useAccount = (token) => {
                     // -7 offset from end removes 'count/' from the url
                     const race = url.slice(url.indexOf('replays') + 8, -7);
 
-                    console.log('NEW REPLAY COUNT', newReplayCount);
-
                     if (newReplayCount && newReplayCount !== replayCount.current[race]) {
-                        console.log('UPDATING REPLAYS');
                         // slice(0, -6) remove 'count/' from the url
                         const replayRes = await handleFetch(url.slice(0, -6), opts);
                         const newReplays = replayRes.ok ? replayRes.data : false;
@@ -94,7 +89,6 @@ const useAccount = (token) => {
                                 'replays',
                                 race,
                             ));
-                            console.log('REPLAYS UPDATED');
                         }
                     }
                 }));
@@ -102,7 +96,7 @@ const useAccount = (token) => {
             }, 30000);
         }
         return () => clearInterval(pollInterval);
-    }, [refetch, token]);
+    }, [refetch, user]);
 };
 
 export default useAccount;

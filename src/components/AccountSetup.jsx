@@ -14,7 +14,7 @@ const AccountSetup = ({ setWaitingForUser }) => {
     const profileInputRef = useRef();
     const [emailState, setEmailState] = useLoadingState();
     const [profileState, setProfileState] = useLoadingState();
-    const [profileErrorMessage, setprofileErrorMessage] = useState(null);
+    const [profileErrorMessage, setProfileErrorMessage] = useState(null);
     const opts = {
         method: 'GET',
         headers: { Authorization: `Token ${user.token}` },
@@ -54,17 +54,19 @@ const AccountSetup = ({ setWaitingForUser }) => {
 
     const handleProfile = async (event) => {
         event.preventDefault();
+        setProfileState('inProgress');
+        setProfileErrorMessage(null);
 
         // user needs to link a battlenet account first
         // so profile can be connected to battlenet account
         if (!user.battlenetAccounts) {
-            setProfileState('error');
-            setprofileErrorMessage('Link your Battle.net Account before adding a Profile');
+            setTimeout(() => {
+                setProfileState('error');
+                setProfileErrorMessage('Link your Battle.net Account before adding a Profile');
+            }, 100);
             return;
         }
 
-        setProfileState('inProgress');
-        setprofileErrorMessage(null);
         const url = `${URL_PREFIX}api/profile/`;
         const profileOpts = {
             method: 'POST',
@@ -78,10 +80,10 @@ const AccountSetup = ({ setWaitingForUser }) => {
             setProfileState('success');
         } else if (profileResponse.status === 400) {
             setProfileState('error');
-            setprofileErrorMessage('Invalid URL');
+            setProfileErrorMessage('Invalid URL');
         } else {
             setProfileState('error');
-            setprofileErrorMessage('An error occurred during profile parsing');
+            setProfileErrorMessage('An error occurred during profile parsing');
         }
         profileInputRef.current.value = null;
     };
@@ -192,6 +194,7 @@ const AccountSetup = ({ setWaitingForUser }) => {
                                     Something went wrong
                                 </span>
                             }
+                            spinner={<SpinningRingAnimation />}
                         >
                             <span className="AccountSetup__info AccountSetup__info--completed">
                                 Email Sent
@@ -311,6 +314,7 @@ const AccountSetup = ({ setWaitingForUser }) => {
                             />
                         </form>
                         <LoadingState
+                            defer
                             state={profileState}
                             errorFallback={
                                 <span className="AccountSetup__info AccountSetup__info--completed">

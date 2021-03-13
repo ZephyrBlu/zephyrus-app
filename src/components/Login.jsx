@@ -65,9 +65,14 @@ const Login = ({ setWaitingForUser }) => {
                     loadingState: 'error',
                 });
             }
-        } else {
+        } else if (loginResponse.status === 400) {
             setLoginState({
                 message: 'Incorrect details',
+                loadingState: 'error',
+            });
+        } else {
+            setLoginState({
+                message: 'Something went wrong',
                 loadingState: 'error',
             });
         }

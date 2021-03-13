@@ -12,7 +12,7 @@ const App = () => {
     const dispatch = useDispatch();
     const user = useSelector(state => state.user);
     const router = useRouter(user);
-    useAccount(user ? user.token : null);
+    useAccount(user);
 
     // one time check for OAuth authorization code
     const urlParams = new URLSearchParams(window.location.search);
