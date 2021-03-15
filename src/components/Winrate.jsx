@@ -305,7 +305,7 @@ const Winrate = () => {
                             </div>
                             <div className="Winrate__data-container Winrate__data-container--map">
                                 {formattedData.maps.map((values, index) => (
-                                    <div key={`${values.winrate}`} className="Winrate__values-container Winrate__values-container--map">
+                                    <div key={`${values.winrate}-${values.matchup}-${values.map}`} className="Winrate__values-container Winrate__values-container--map">
                                         <h2 className="Winrate__values-name Winrate__values-name--map">
                                             {values.map.charAt(0).toUpperCase() + values.map.slice(1)}
                                         </h2>
@@ -369,10 +369,10 @@ const Winrate = () => {
                                 </div>
                                 {sortBy === 'byMap' &&
                                     <div className="Winrate__order-groups">
-                                        {formattedData.byMap.map(matchupData => (
-                                            <div className="Winrate__group-container">
+                                        {formattedData.byMap.map((matchupData, i) => (
+                                            <div key={`byMap-${i}`} className="Winrate__group-container">
                                                 {matchupData.map((values, index) => (
-                                                    <div key={`${values.winrate}`} className="Winrate__values-container Winrate__values-container--order-by">
+                                                    <div key={`${values.winrate}-${values.matchup}-${values.map}`} className="Winrate__values-container Winrate__values-container--order-by">
                                                         <h2 className={`Winrate__values-name ${index === 0 ? 'Winrate__values-name--title' : ''}`}>
                                                             {index === 0
                                                                 ? values.map

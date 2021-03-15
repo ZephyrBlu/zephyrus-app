@@ -96,10 +96,10 @@ const winrate = (state = defaultRaceState, action) => {
             }
 
             if (action.race) {
-                return { ...state, [action.race]: action.data };
+                return { ...state, [action.race]: JSON.parse(action.data) };
             }
 
-            return action.data;
+            return JSON.parse(action.data);
 
         case userLogout:
             return defaultRaceState;
