@@ -60,6 +60,9 @@ const AccountSetup = ({ setWaitingForUser }) => {
         // user needs to link a battlenet account first
         // so profile can be connected to battlenet account
         if (!user.battlenetAccounts) {
+            // need to use a timeout because otherwise React batches
+            // setProfileState('inProgress') with setProfileState('error')
+            // these need to be separate state updates to trigger the LoadingState
             setTimeout(() => {
                 setProfileState('error');
                 setProfileErrorMessage('Link your Battle.net Account before adding a Profile');
