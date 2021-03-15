@@ -28,8 +28,10 @@ const useFetch = (url, dep = 'default', dataKey = null, opts = null) => {
                     _setState(false);
                 }
             } catch (error) {
-                console.error(error);
-                _setState(false);
+                console.error(error.toString());
+                if (error.name !== 'AbortError') {
+                    _setState(false);
+                }
             }
         };
 
