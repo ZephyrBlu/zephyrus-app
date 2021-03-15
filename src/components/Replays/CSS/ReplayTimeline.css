@@ -2,11 +2,11 @@
     cursor: pointer;
 }
 
-.TimelineArea {
+.ReplayTimeline {
     margin: 40px 0 0;
 }
 
-.TimelineArea__chart-area {
+.ReplayTimeline__chart-area {
     display: grid;
     grid-template: max-content / 1fr max-content;
     grid-template-areas: 'timeline chart-selector';
@@ -14,11 +14,11 @@
     margin-bottom: 20px;
 }
 
-.TimelineArea__timeline {
+.ReplayTimeline__timeline {
     grid-area: timeline;
 }
 
-.TimelineArea__chart-selector {
+.ReplayTimeline__chart-selector {
     grid-area: chart-selector;
     display: flex;
     flex-direction: column;
@@ -26,7 +26,7 @@
     width: 150px;
 }
 
-.TimelineArea__chart-stat {
+.ReplayTimeline__chart-stat {
     color: var(--text);
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
@@ -40,58 +40,58 @@
     border: none;
 }
 
-.TimelineArea__chart-stat:last-child {
+.ReplayTimeline__chart-stat:last-child {
     margin: 0;
 }
 
-.TimelineArea__chart-stat:hover,
-.TimelineArea__chart-stat:focus {
+.ReplayTimeline__chart-stat:hover,
+.ReplayTimeline__chart-stat:focus {
     cursor: pointer;
     outline: none;
     box-shadow: 0 0 0 2px var(--primary-blue) inset;
 }
 
-.TimelineArea__chart-stat--active {
+.ReplayTimeline__chart-stat--active {
     box-shadow: 0 0 0 2px var(--primary-blue) inset;
 }
 
-.TimelineArea__metric {
+.ReplayTimeline__metric {
     padding: 0 5px;
 }
 
-.TimelineArea__metric-chart {
+.ReplayTimeline__metric-chart {
     margin: 0 auto;
 }
 
-.TimelineArea__metric--resource_collection_rate_all {
+.ReplayTimeline__metric--resource_collection_rate_all {
     grid-area: collection-rate;
 }
 
-.TimelineArea__metric--total_army_value {
+.ReplayTimeline__metric--total_army_value {
     grid-area: army-value;
 }
 
-.TimelineArea__metric--_resources_lost {
+.ReplayTimeline__metric--_resources_lost {
     grid-area: resources-lost;
 }
 
-.TimelineArea__metric-stat {
+.ReplayTimeline__metric-stat {
     margin: 0 0 5px;
     font-size: 18px;
     font-weight: 400;
     text-align: center;
 }
 
-.TimelineArea__metric-value {
+.ReplayTimeline__metric-value {
     margin: 10px 0;
     font-size: 14px;
 }
 
-.TimelineArea__metric-value:first-of-type {
+.ReplayTimeline__metric-value:first-of-type {
     margin-top: 0;
 }
 
-.TimelineArea__metric-value:last-of-type {
+.ReplayTimeline__metric-value:last-of-type {
     margin-bottom: 0;
 }
 
@@ -171,7 +171,7 @@
 }
 
 /* putting rendered charts at the back */
-.TimelineArea__metric-chart .recharts-wrapper {
+.ReplayTimeline__metric-chart .recharts-wrapper {
     z-index: -1;
 }
 

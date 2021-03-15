@@ -1,44 +1,22 @@
-import React, { useState, useContext } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React, { useState, useMemo } from 'react';
 import { Link } from '@reach/router';
-import {
-    logoutReset,
-    setFixedHoverState,
-} from '../../actions';
-import UrlContext from '../../index';
-import { handleFetch } from '../../utils';
 import PageNav from './PageNav';
 import './CSS/PageSidebar.css';
 
-const PageSidebar = ({ pages }) => {
-    const dispatch = useDispatch();
-    const user = useSelector(state => state.user);
-    const isHoverStateFixed = useSelector(state => state.isHoverStateFixed);
-    const urlPrefix = useContext(UrlContext);
-
-    const defaultHoverState = { Logout: false };
-    pages.forEach((pageName) => {
-        defaultHoverState[pageName] = false;
-    });
-
-    const fixedHoverState = { Logout: true };
-    pages.forEach((pageName) => {
-        fixedHoverState[pageName] = true;
-    });
-
+const PageSidebar = ({ pages, handleLogout }) => {
+    // minor optimization
+    // only generate default states once and memoize the result
+    const [defaultHoverState, fixedHoverState] = useMemo(() => {
+        const _defaultHoverState = { Logout: false };
+        const _fixedHoverState = { Logout: true };
+        Object.keys(pages).forEach((pageName) => {
+            _defaultHoverState[pageName] = false;
+            _fixedHoverState[pageName] = true;
+        });
+        return [_defaultHoverState, _fixedHoverState];
+    }, []);
+    const [isHoverStateFixed, setIsHoverStateFixed] = useState(false);
     const [hoverState, setHoverState] = useState(isHoverStateFixed ? fixedHoverState : defaultHoverState);
-
-    const handleLogout = () => {
-        const url = `${urlPrefix}api/logout/`;
-        const opts = {
-            method: 'GET',
-            headers: { Authorization: `Token ${user.token}` },
-        };
-
-        handleFetch(url, opts);
-        localStorage.clear();
-        dispatch(logoutReset());
-    };
 
     const handleHoverStateReset = () => {
         setHoverState(defaultHoverState);
@@ -57,10 +35,10 @@ const PageSidebar = ({ pages }) => {
                 className="PageSidebar__show-hide"
                 onClick={() => {
                     if (isHoverStateFixed) {
-                        dispatch(setFixedHoverState(false));
+                        setIsHoverStateFixed(false);
                         setHoverState(defaultHoverState);
                     } else {
-                        dispatch(setFixedHoverState(true));
+                        setIsHoverStateFixed(true);
                         setHoverState(fixedHoverState);
                     }
                 }}
@@ -96,15 +74,16 @@ const PageSidebar = ({ pages }) => {
             <button
                 className="PageSidebar__logout"
                 onMouseEnter={() => setHoverState(prevState => ({ ...prevState, Logout: true }))}
-                onMouseLeave={() => (isHoverStateFixed ?
-                    null : setHoverState(prevState => ({ ...prevState, Logout: false })))}
-                // onMouseMove={() => (hoverState ? null : setHoverState(true))}
+                onMouseLeave={() => (isHoverStateFixed
+                    ? null
+                    : setHoverState(prevState => ({ ...prevState, Logout: false })))}
                 onFocus={() => setHoverState(prevState => ({ ...prevState, Logout: true }))}
-                onBlur={() => (isHoverStateFixed ?
-                    null : setHoverState(prevState => ({ ...prevState, Logout: false })))}
+                onBlur={() => (isHoverStateFixed
+                    ? null
+                    : setHoverState(prevState => ({ ...prevState, Logout: false })))}
                 onClick={handleLogout}
-                style={hoverState.Logout ?
-                    {
+                style={hoverState.Logout
+                    ? {
                         marginRight: '11px',
                         width: '130px',
                         borderRadius: '25px',

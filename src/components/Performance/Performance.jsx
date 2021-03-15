@@ -1,4 +1,4 @@
-import { useSelector } from 'react-redux';
+import { useSelector, shallowEqual } from 'react-redux';
 import React, { useState, Fragment } from 'react';
 import {
     BarChart,
@@ -11,15 +11,14 @@ import {
     ResponsiveContainer,
     Tooltip,
 } from 'recharts';
-import { useLoadingState } from '../../hooks';
-import LoadingAnimation from '../shared/LoadingAnimation';
-import DefaultResponse from '../shared/DefaultResponse';
+import LoadingState from '../shared/LoadingState';
 import InfoTooltip from '../shared/InfoTooltip';
 import './CSS/Performance.css';
 
 const Performance = () => {
-    const selectedRace = useSelector(state => state.selectedRace);
-    const currentPerformance = useSelector(state => state.raceData[state.selectedRace].stats);
+    const [selectedRace, currentPerformance] = useSelector(state => (
+        [state.selectedRace, state.stats[state.selectedRace]]
+    ), shallowEqual);
     const [trendsMatchup, setTrendsMatchup] = useState('all');
 
     const generalStats = [
@@ -103,265 +102,17 @@ const Performance = () => {
         },
     };
 
-    const dataStates = {
-        trends: {
-            IN_PROGRESS: (<LoadingAnimation />),
-            SUCCESS: ({
-                _mmrTrends,
-                _currentSeasonTrends,
-                _previousSeasonTrends,
-                _trendsMatchup,
-                _setTrendsMatchup,
-                _trendOptions,
-                _setTrendOptions,
-                _statControls,
-                _selectedRace,
-            }) => {
-                const selectTrends = (type = false) => (
-                    type === 'mmr' ? _mmrTrends : (_currentSeasonTrends || _previousSeasonTrends)
-                );
+    const selectTrends = (type = false) => (
+        type === 'mmr' ? mmrTrends : (currentSeasonTrends || previousSeasonTrends)
+    );
 
-                const calcStatDiff = (stat) => {
-                    const currentStat = _currentSeasonTrends[stat].avg;
-                    const previousStat = _previousSeasonTrends[stat].avg;
+    const calcStatDiff = (stat) => {
+        const currentStat = currentSeasonTrends[stat].avg;
+        const previousStat = previousSeasonTrends[stat].avg;
 
-                    const seasonDiff = currentStat - previousStat;
-                    return `${seasonDiff >= 0 ? '+' : ''}${stat === 'mmr' ? seasonDiff : `${Number(((seasonDiff / previousStat) * 100).toFixed(1))}%`}`;
-                };
-
-                return (
-                    <Fragment>
-                        {(_currentSeasonTrends || _previousSeasonTrends) &&
-                            <div className="Performance__title-stat">
-                                <span className="Performance__title-text">
-                                    {_currentSeasonTrends ? 'Currently at' : 'Finished at'}
-                                </span>
-                                <div className="Performance__title-value">
-                                    {selectTrends('mmr').mmr.end}
-                                </div>
-                                <span className="Performance__title-text">
-                                    MMR
-                                    {` (${selectTrends('mmr').mmr.values.slice(-1)[0].value - selectTrends('mmr').mmr.values[0].value >= 0 ? '+' : ''}${selectTrends('mmr').mmr.values.slice(-1)[0].value - selectTrends('mmr').mmr.values[0].value} this season)`}
-                                    &nbsp;with a
-                                </span>
-                                <div className="Performance__title-value">
-                                    {selectTrends().winrate}%
-                                </div>
-                                <span className="Performance__title-text">
-                                    winrate over&nbsp;
-                                    {selectTrends().count}
-                                </span>
-                                {_trendsMatchup !== 'all' &&
-                                    <Fragment>
-                                        <div className="Performance__title-value">
-                                            {`${_selectedRace.charAt(0).toUpperCase()}v${_trendsMatchup.charAt(0).toUpperCase()}`}
-                                        </div>
-                                    </Fragment>}
-                                <span className="Performance__title-text">
-                                    {_trendsMatchup === 'all' && ' '}games
-                                </span>
-                            </div>}
-                        <div className="Performance__season-stat-controls Performance__season-stat-controls--global">
-                            <span className="Performance__season-stat-options-wrapper">
-                                {Object.entries(statControls.type).map(([controlKey, controlText]) => (
-                                    <button
-                                        className={`
-                                            Performance__season-stat-option
-                                            Performance__season-stat-option--type
-                                            Performance__season-stat-option--${controlKey}
-                                            ${_trendOptions.global === controlKey ? 'Performance__season-stat-option--active' : ''}
-                                        `}
-                                        onClick={() => {
-                                            const newOptions = { global: controlKey };
-                                            generalStats.forEach((stat) => {
-                                                newOptions[stat] = controlKey;
-                                            });
-                                            _setTrendOptions(newOptions);
-                                        }}
-                                    >
-                                        {controlText}
-                                    </button>
-                                ))}
-                            </span>
-                            <span className="Performance__season-stat-options-wrapper">
-                                {Object.entries(_statControls.matchup).map(([controlKey, controlText]) => (
-                                    <button
-                                        className={`
-                                            Performance__season-stat-option
-                                            Performance__season-stat-option--matchup
-                                            Performance__season-stat-option--${controlKey}
-                                            ${_trendsMatchup === controlKey ? 'Performance__season-stat-option--active' : ''}
-                                        `}
-                                        onClick={() => _setTrendsMatchup(controlKey)}
-                                    >
-                                        {controlText}
-                                    </button>
-                                ))}
-                            </span>
-                        </div>
-                        {(_currentSeasonTrends || _previousSeasonTrends) &&
-                            <div className="Performance__season-stats">
-                                {generalStats.map(stat => (
-                                    <div className={`Performance__season-stat-wrapper Performance__season-stat-wrapper--${stat}`}>
-                                        <div className="Performance__season-stat">
-                                            <div className="Performance__season-stat-data">
-                                                <h2 className="Performance__season-stat-name">
-                                                    {statNames[stat]}
-                                                    <InfoTooltip
-                                                        content={statDescriptions[stat]}
-                                                        style={{ top: 0 }}
-                                                    />
-                                                </h2>
-                                                <p className="Performance__season-stat-value">
-                                                    Med: {selectTrends()[stat].avg}
-                                                    {_currentSeasonTrends && _previousSeasonTrends && ` (${calcStatDiff(stat)})`}
-                                                </p>
-                                            </div>
-                                            {stat !== 'mmr' &&
-                                                <div className="Performance__season-stat-controls">
-                                                    {Object.entries(statControls.type).map(([controlKey, controlText]) => (
-                                                        <button
-                                                            className={`
-                                                                Performance__season-stat-option
-                                                                Performance__season-stat-option--stat
-                                                                Performance__season-stat-option--type
-                                                                Performance__season-stat-option--${controlKey}
-                                                                ${_trendOptions[stat] === controlKey ? 'Performance__season-stat-option--active' : ''}
-                                                            `}
-                                                            onClick={() => _setTrendOptions(prevState => ({
-                                                                ...prevState,
-                                                                [stat]: controlKey,
-                                                            }))}
-                                                        >
-                                                            {controlText}
-                                                        </button>
-                                                    ))}
-                                                </div>}
-                                        </div>
-                                        <ResponsiveContainer width="99%" height={125}>
-                                            {stat === 'mmr' ?
-                                                <LineChart
-                                                    data={selectTrends('mmr')[stat].values}
-                                                    className="Performance__season-stat-chart"
-                                                    margin={{ left: -15, right: 2, top: 10, bottom: 10 }}
-                                                >
-                                                    <YAxis type="number" domain={['auto', 'auto']} interval={0} />
-                                                    <ReferenceLine y={selectTrends('mmr')[stat].values[0].value} stroke="hsl(0, 0%, 47%)" strokeWidth={0.5} />
-                                                    <Line
-                                                        type="monotone"
-                                                        dataKey="value"
-                                                        stroke="hsl(210, 68%, 47%)"
-                                                        strokeWidth={2}
-                                                        dot={false}
-                                                    />
-                                                </LineChart>
-                                                :
-                                                <BarChart
-                                                    data={selectTrends()[stat].values[_trendOptions[stat]]}
-                                                    className="Performance__season-stat-chart"
-                                                    margin={{ bottom: -10 }}
-                                                >
-                                                    <XAxis
-                                                        dataKey="bin"
-                                                        interval={0}
-                                                        style={stat === 'match_length' ? { fontSize: '14px' } : {}}
-                                                    />
-                                                    <Tooltip
-                                                        cursor={false}
-                                                        separator=" "
-                                                        formatter={(value, name, props) => {
-                                                            let formattedName;
-                                                            let formattedValue;
-                                                            switch (name) {
-                                                                case 'win':
-                                                                    formattedName = `${name.charAt(0).toUpperCase() + name.slice(1)}s`;
-                                                                    formattedValue = `${value} (${Math.round((props.payload.loss / (props.payload.win + props.payload.loss)) * 100)}%)`;
-                                                                    break;
-
-                                                                case 'loss':
-                                                                    formattedName = `${name.charAt(0).toUpperCase() + name.slice(1)}es`;
-                                                                    formattedValue = `${value} (${Math.round((props.payload.win / (props.payload.win + props.payload.loss)) * 100)}%)`;
-                                                                    break;
-
-                                                                default:
-                                                                    formattedName = 'Games';
-                                                                    formattedValue = value;
-                                                            }
-                                                            return [formattedValue, formattedName, props];
-                                                        }}
-                                                        itemStyle={{ color: 'hsl(0, 0%, 85%)' }}
-                                                        contentStyle={{
-                                                            margin: '0 30px',
-                                                            padding: '10px',
-                                                            border: 'none',
-                                                            borderRadius: '15px',
-                                                            backgroundColor: 'hsla(209, 77%, 14%, 0.9)',
-                                                        }}
-                                                    />
-                                                    {_trendOptions[stat] === 'all' &&
-                                                        <Bar
-                                                            type="monotone"
-                                                            dataKey="value"
-                                                            fill="hsl(210, 68%, 47%)"
-                                                            radius={[8, 8, 0, 0]}
-                                                        />}
-                                                    {_trendOptions[stat] === 'win_loss' &&
-                                                        <Bar
-                                                            type="monotone"
-                                                            dataKey="win"
-                                                            stackId="wl"
-                                                            fill="hsla(120, 80%, 25%, 0.9)"
-                                                        />}
-                                                    {_trendOptions[stat] === 'win_loss' &&
-                                                        <Bar
-                                                            type="monotone"
-                                                            dataKey="loss"
-                                                            stackId="wl"
-                                                            fill="hsla(0, 70%, 25%, 0.9)"
-                                                            radius={[8, 8, 0, 0]}
-                                                        />}
-                                                </BarChart>}
-                                        </ResponsiveContainer>
-                                    </div>
-                                ))}
-                            </div>}
-                        {!(_currentSeasonTrends || _previousSeasonTrends) &&
-                            <div className="Performance__season-stats Performance__season-stats--default">
-                                No {`${_selectedRace.charAt(0).toUpperCase()}v${_trendsMatchup.charAt(0).toUpperCase()}`} replays found
-                            </div>}
-                    </Fragment>
-                );
-            },
-            ERROR: (<DefaultResponse content="We couldn't find any replays" />),
-        },
+        const seasonDiff = currentStat - previousStat;
+        return `${seasonDiff >= 0 ? '+' : ''}${stat === 'mmr' ? seasonDiff : `${Number(((seasonDiff / previousStat) * 100).toFixed(1))}%`}`;
     };
-
-    const checkTrendsLoadingState = () => {
-        if (currentPerformance) {
-            return 'SUCCESS';
-        }
-
-        if (currentPerformance === false) {
-            return 'ERROR';
-        }
-        return 'IN_PROGRESS';
-    };
-
-    const trendsLoadingData = {
-        data: {
-            _mmrTrends: mmrTrends,
-            _currentSeasonTrends: currentSeasonTrends,
-            _previousSeasonTrends: previousSeasonTrends,
-            _statControls: statControls,
-            _trendsMatchup: trendsMatchup,
-            _setTrendsMatchup: setTrendsMatchup,
-            _trendOptions: trendOptions,
-            _setTrendOptions: setTrendOptions,
-            _selectedRace: selectedRace,
-        },
-        loadingState: checkTrendsLoadingState(),
-    };
-    const PerformanceState = useLoadingState(trendsLoadingData, dataStates.trends);
 
     const seasonStatsDescription = (
         <p className="Performance__season-stat-description">
@@ -382,7 +133,211 @@ const Performance = () => {
                     Season Stats{!currentSeasonTrends && previousSeasonTrends && ' (Previous)'}
                     <InfoTooltip content={seasonStatsDescription} />
                 </h1>
-                <PerformanceState />
+                <LoadingState
+                    success={currentPerformance}
+                    notFound={currentPerformance === false}
+                >
+                    {(currentSeasonTrends || previousSeasonTrends) &&
+                        <div className="Performance__title-stat">
+                            <span className="Performance__title-text">
+                                {currentSeasonTrends ? 'Currently at' : 'Finished at'}
+                            </span>
+                            <div className="Performance__title-value">
+                                {selectTrends('mmr').mmr.end}
+                            </div>
+                            <span className="Performance__title-text">
+                                MMR
+                                {` (${selectTrends('mmr').mmr.values.slice(-1)[0].value - selectTrends('mmr').mmr.values[0].value >= 0 ? '+' : ''}${selectTrends('mmr').mmr.values.slice(-1)[0].value - selectTrends('mmr').mmr.values[0].value} this season)`}
+                                &nbsp;with a
+                            </span>
+                            <div className="Performance__title-value">
+                                {selectTrends().winrate}%
+                            </div>
+                            <span className="Performance__title-text">
+                                winrate over&nbsp;
+                                {selectTrends().count}
+                            </span>
+                            {trendsMatchup !== 'all' &&
+                                <Fragment>
+                                    <div className="Performance__title-value">
+                                        {`${selectedRace.charAt(0).toUpperCase()}v${trendsMatchup.charAt(0).toUpperCase()}`}
+                                    </div>
+                                </Fragment>}
+                            <span className="Performance__title-text">
+                                {trendsMatchup === 'all' && ' '}games
+                            </span>
+                        </div>}
+                    <div className="Performance__season-stat-controls Performance__season-stat-controls--global">
+                        <span className="Performance__season-stat-options-wrapper">
+                            {Object.entries(statControls.type).map(([controlKey, controlText]) => (
+                                <button
+                                    key={controlKey}
+                                    className={`
+                                        Performance__season-stat-option
+                                        Performance__season-stat-option--type
+                                        Performance__season-stat-option--${controlKey}
+                                        ${trendOptions.global === controlKey ? 'Performance__season-stat-option--active' : ''}
+                                    `}
+                                    onClick={() => {
+                                        const newOptions = { global: controlKey };
+                                        generalStats.forEach((stat) => {
+                                            newOptions[stat] = controlKey;
+                                        });
+                                        setTrendOptions(newOptions);
+                                    }}
+                                >
+                                    {controlText}
+                                </button>
+                            ))}
+                        </span>
+                        <span className="Performance__season-stat-options-wrapper">
+                            {Object.entries(statControls.matchup).map(([controlKey, controlText]) => (
+                                <button
+                                    key={controlKey}
+                                    className={`
+                                        Performance__season-stat-option
+                                        Performance__season-stat-option--matchup
+                                        Performance__season-stat-option--${controlKey}
+                                        ${trendsMatchup === controlKey ? 'Performance__season-stat-option--active' : ''}
+                                    `}
+                                    onClick={() => setTrendsMatchup(controlKey)}
+                                >
+                                    {controlText}
+                                </button>
+                            ))}
+                        </span>
+                    </div>
+                    {(currentSeasonTrends || previousSeasonTrends) &&
+                        <div className="Performance__season-stats">
+                            {generalStats.map(stat => (
+                                <div className={`Performance__season-stat-wrapper Performance__season-stat-wrapper--${stat}`}>
+                                    <div className="Performance__season-stat">
+                                        <div className="Performance__season-stat-data">
+                                            <h2 className="Performance__season-stat-name">
+                                                {statNames[stat]}
+                                                <InfoTooltip
+                                                    content={statDescriptions[stat]}
+                                                    style={{ top: 0 }}
+                                                />
+                                            </h2>
+                                            <p className="Performance__season-stat-value">
+                                                Med: {selectTrends()[stat].avg}
+                                                {currentSeasonTrends && previousSeasonTrends && ` (${calcStatDiff(stat)})`}
+                                            </p>
+                                        </div>
+                                        {stat !== 'mmr' &&
+                                            <div className="Performance__season-stat-controls">
+                                                {Object.entries(statControls.type).map(([controlKey, controlText]) => (
+                                                    <button
+                                                        className={`
+                                                            Performance__season-stat-option
+                                                            Performance__season-stat-option--stat
+                                                            Performance__season-stat-option--type
+                                                            Performance__season-stat-option--${controlKey}
+                                                            ${trendOptions[stat] === controlKey ? 'Performance__season-stat-option--active' : ''}
+                                                        `}
+                                                        onClick={() => setTrendOptions(prevState => ({
+                                                            ...prevState,
+                                                            [stat]: controlKey,
+                                                        }))}
+                                                    >
+                                                        {controlText}
+                                                    </button>
+                                                ))}
+                                            </div>}
+                                    </div>
+                                    <ResponsiveContainer width="99%" height={125}>
+                                        {stat === 'mmr' ?
+                                            <LineChart
+                                                data={selectTrends('mmr')[stat].values}
+                                                className="Performance__season-stat-chart"
+                                                margin={{ left: -15, right: 2, top: 10, bottom: 10 }}
+                                            >
+                                                <YAxis type="number" domain={['auto', 'auto']} interval={0} />
+                                                <ReferenceLine y={selectTrends('mmr')[stat].values[0].value} stroke="hsl(0, 0%, 47%)" strokeWidth={0.5} />
+                                                <Line
+                                                    type="monotone"
+                                                    dataKey="value"
+                                                    stroke="hsl(210, 68%, 47%)"
+                                                    strokeWidth={2}
+                                                    dot={false}
+                                                />
+                                            </LineChart>
+                                            :
+                                            <BarChart
+                                                data={selectTrends()[stat].values[trendOptions[stat]]}
+                                                className="Performance__season-stat-chart"
+                                                margin={{ bottom: -10 }}
+                                            >
+                                                <XAxis
+                                                    dataKey="bin"
+                                                    interval={0}
+                                                    style={stat === 'match_length' ? { fontSize: '14px' } : {}}
+                                                />
+                                                <Tooltip
+                                                    cursor={false}
+                                                    separator=" "
+                                                    formatter={(value, name, props) => {
+                                                        let formattedName;
+                                                        let formattedValue;
+                                                        switch (name) {
+                                                            case 'win':
+                                                                formattedName = `${name.charAt(0).toUpperCase() + name.slice(1)}s`;
+                                                                formattedValue = `${value} (${Math.round((props.payload.loss / (props.payload.win + props.payload.loss)) * 100)}%)`;
+                                                                break;
+
+                                                            case 'loss':
+                                                                formattedName = `${name.charAt(0).toUpperCase() + name.slice(1)}es`;
+                                                                formattedValue = `${value} (${Math.round((props.payload.win / (props.payload.win + props.payload.loss)) * 100)}%)`;
+                                                                break;
+
+                                                            default:
+                                                                formattedName = 'Games';
+                                                                formattedValue = value;
+                                                        }
+                                                        return [formattedValue, formattedName, props];
+                                                    }}
+                                                    itemStyle={{ color: 'hsl(0, 0%, 85%)' }}
+                                                    contentStyle={{
+                                                        margin: '0 30px',
+                                                        padding: '10px',
+                                                        border: 'none',
+                                                        borderRadius: '15px',
+                                                        backgroundColor: 'hsla(209, 77%, 14%, 0.9)',
+                                                    }}
+                                                />
+                                                {trendOptions[stat] === 'all' &&
+                                                    <Bar
+                                                        type="monotone"
+                                                        dataKey="value"
+                                                        fill="hsl(210, 68%, 47%)"
+                                                        radius={[8, 8, 0, 0]}
+                                                    />}
+                                                {trendOptions[stat] === 'win_loss' &&
+                                                    <Bar
+                                                        type="monotone"
+                                                        dataKey="win"
+                                                        stackId="wl"
+                                                        fill="hsla(120, 80%, 25%, 0.9)"
+                                                    />}
+                                                {trendOptions[stat] === 'win_loss' &&
+                                                    <Bar
+                                                        type="monotone"
+                                                        dataKey="loss"
+                                                        stackId="wl"
+                                                        fill="hsla(0, 70%, 25%, 0.9)"
+                                                        radius={[8, 8, 0, 0]}
+                                                    />}
+                                            </BarChart>}
+                                    </ResponsiveContainer>
+                                </div>
+                            ))}
+                        </div>}
+                    {!(currentSeasonTrends || previousSeasonTrends) &&
+                        <div className="Performance__season-stats Performance__season-stats--default">
+                            No {`${selectedRace.charAt(0).toUpperCase()}v${trendsMatchup.charAt(0).toUpperCase()}`} replays found
+                        </div>}
+                </LoadingState>
             </div>
         </div>
     );

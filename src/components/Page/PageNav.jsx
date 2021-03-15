@@ -45,7 +45,7 @@ const PageNav = ({ pages, hoverState }) => {
                     });
                 }}
             >
-                {pages.map((pageName) => {
+                {Object.keys(pages).map((pageName) => {
                     let hoverTimeout;
                     hoverTimeouts.push(hoverTimeout);
 

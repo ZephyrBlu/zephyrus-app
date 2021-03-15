@@ -1,33 +1,15 @@
 import { useSelector } from 'react-redux';
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import { useLoadingState } from '../hooks';
-import UrlContext from '../index';
+import { URL_PREFIX } from '../constants';
 import { handleFetch } from '../utils';
 import './Upload.css';
+import LoadingState from './shared/LoadingState';
 
 const Upload = () => {
     const user = useSelector(state => state.user);
-    const [uploadState, setUploadState] = useState({
-        data: null,
-        loadingState: 'INITIAL',
-    });
-    const urlPrefix = useContext(UrlContext);
-
-    const dataStates = {
-        upload: {
-            INITIAL: null,
-            IN_PROGRESS: (
-                <p className="Upload__status">
-                    Uploading your replays now...
-                </p>
-            ),
-            SUCCESS: ({ files, success, fail }) => (
-                <p className="Upload__success">
-                    {`${success}/${files} uploaded, ${fail} failed to process`}
-                </p>
-            ),
-        },
-    };
+    const [uploadInfo, setUploadInfo] = useState(null);
+    const [uploadState, setUploadState] = useLoadingState();
 
     const uploadFiles = async (event) => {
         const files = event.target.files;
@@ -37,12 +19,9 @@ const Upload = () => {
             fileList.push(files[fileNum]);
         });
 
-        setUploadState(prevState => ({
-            ...prevState,
-            loadingState: 'IN_PROGRESS',
-        }));
-
-        const url = `${urlPrefix}api/upload/`;
+        setUploadInfo(null);
+        setUploadState('inProgress');
+        const url = `${URL_PREFIX}api/upload/`;
 
         let success = 0;
         let fail = 0;
@@ -58,14 +37,12 @@ const Upload = () => {
                 } else {
                     fail += 1;
                 }
-                setUploadState({
-                    data: {
-                        files: fileList.length,
-                        success,
-                        fail,
-                    },
-                    loadingState: 'SUCCESS',
+                setUploadInfo({
+                    files: fileList.length,
+                    success,
+                    fail,
                 });
+                setUploadState('success');
             });
 
             if ((index + 1) % 10 === 0) {
@@ -76,8 +53,6 @@ const Upload = () => {
             }
         });
     };
-
-    const UploadState = useLoadingState(uploadState, dataStates.upload);
 
     return (
         <div className="Upload">
@@ -132,7 +107,20 @@ const Upload = () => {
                     on GitHub
                 </a>.
             </div>
-            <UploadState />
+            <LoadingState
+                defer
+                state={uploadState}
+                spinner={
+                    <p className="Upload__status">
+                        Uploading your replays now...
+                    </p>
+                }
+            >
+                <p className="Upload__success">
+                    {uploadInfo &&
+                        `${uploadInfo.success}/${uploadInfo.files} uploaded, ${uploadInfo.fail} failed to process`}
+                </p>
+            </LoadingState>
             <p className="Upload__message">
                 <a
                     href="https://news.blizzard.com/en-us/starcraft2/23572858/starcraft-ii-5-0-5-patch-notes"

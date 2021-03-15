@@ -3,15 +3,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setSelectedReplayHash } from '../../actions';
 import './CSS/ReplayRecord.css';
 
-const ReplayRecord = ({ hash, comparisonHash, stats }) => {
+const ReplayRecord = ({ hash, stats }) => {
     const dispatch = useDispatch();
     const selectedReplayHash = useSelector(state => state.selectedReplayHash);
 
-    const handleReplaySelection = (e) => {
-        // return when we just want to compare a replay
-        if (e.target.classList.contains('ReplayRecord__compare-replay')) {
-            return;
-        }
+    const handleReplaySelection = () => {
         dispatch(setSelectedReplayHash(hash));
     };
 
@@ -77,7 +73,6 @@ const ReplayRecord = ({ hash, comparisonHash, stats }) => {
                 ReplayRecord
                 ReplayRecord--${stats.result.toLowerCase().split(',')[0]}
                 ${selectedReplayHash && selectedReplayHash === hash ? 'ReplayRecord--selected' : ''}
-                ${comparisonHash && comparisonHash === hash ? 'ReplayRecord--comparison' : ''}
             `}
             onClick={handleReplaySelection}
             onKeyDown={e => handleKeyDown(e.key)}
@@ -137,15 +132,6 @@ const ReplayRecord = ({ hash, comparisonHash, stats }) => {
                     </span>
                 </div>
             </div>
-            {/* {selectedReplayHash && hash !== selectedReplayHash &&
-                <Fragment>
-                    <button onClick={() => compareReplay(hash, 1)} className="ReplayRecord__compare-replay ReplayRecord__compare-replay--player1">
-                        &#43;
-                    </button>
-                    <button onClick={() => compareReplay(hash, 2)} className="ReplayRecord__compare-replay ReplayRecord__compare-replay--player2">
-                        &#43;
-                    </button>
-                </Fragment>} */}
         </div>
     );
 };

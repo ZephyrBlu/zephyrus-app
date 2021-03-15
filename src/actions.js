@@ -1,41 +1,30 @@
-export const SET_USER = 'SET_USER';
-export const SET_INITIAL_USER = 'SET_INITIAL_USER';
-export const SET_SELECTED_RACE = 'SET_SELECTED_RACE';
-export const SET_REPLAYS = 'SET_REPLAYS';
-export const SET_STATS = 'SET_STATS';
-export const SET_TRENDS = 'SET_TRENDS';
-export const SET_WINRATE = 'SET_WINRATE';
+export const userUpdated = 'userUpdated';
+export const initialLogin = 'initialLogin';
+export const raceSelected = 'raceSelected';
+export const initialFetch = 'initialFetch';
+export const replaysUpdated = 'replaysUpdated';
 export const SET_REPLAY_INFO = 'SET_REPLAY_INFO';
 export const SET_SELECTED_REPLAY_HASH = 'SET_SELECTED_REPLAY_HASH';
-export const SET_FIXED_HOVER_STATE = 'SET_FIXED_HOVER_STATE';
-export const LOGOUT_RESET = 'LOGOUT_RESET';
+export const userLogout = 'userLogout';
 
-export const setUser = user => (
-    { type: SET_USER, user }
+export const updateUser = user => (
+    { type: userUpdated, user }
 );
 
 export const setInitialUser = (user, selectedRace) => (
-    { type: SET_INITIAL_USER, user, selectedRace }
+    { type: initialLogin, user, selectedRace }
 );
 
-export const setSelectedRace = selectedRace => (
-    { type: SET_SELECTED_RACE, selectedRace }
+export const updateSelectedRace = selectedRace => (
+    { type: raceSelected, selectedRace }
 );
 
-export const setReplays = data => (
-    { type: SET_REPLAYS, data }
+export const setInitialData = (data, field, race) => (
+    { type: initialFetch, data, field, race }
 );
 
-export const setStats = data => (
-    { type: SET_STATS, data }
-);
-
-export const setTrends = data => (
-    { type: SET_TRENDS, data }
-);
-
-export const setWinrate = data => (
-    { type: SET_WINRATE, data }
+export const updateReplays = (data, field, race) => (
+    { type: replaysUpdated, data, field, race }
 );
 
 export const setReplayInfo = replayInfo => (
@@ -46,10 +35,6 @@ export const setSelectedReplayHash = replayHash => (
     { type: SET_SELECTED_REPLAY_HASH, replayHash }
 );
 
-export const setFixedHoverState = hoverState => (
-    { type: SET_FIXED_HOVER_STATE, hoverState }
-);
-
 export const logoutReset = () => (
-    { type: LOGOUT_RESET }
+    { type: userLogout }
 );

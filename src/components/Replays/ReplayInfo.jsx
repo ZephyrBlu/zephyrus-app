@@ -1,9 +1,9 @@
-import React, { useContext } from 'react';
-import UrlContext from '../../index';
+import React from 'react';
+import { clanTagIndex } from '../../utils';
+import { URL_PREFIX } from '../../constants';
 import './CSS/ReplayInfo.css';
 
-const ReplayInfo = ({ replay, clanTagIndex }) => {
-    const urlPrefix = useContext(UrlContext);
+const ReplayInfo = ({ replay }) => {
     const userId = replay.data.user_match_id;
     const oppId = userId === 1 ? 2 : 1;
 
@@ -104,7 +104,7 @@ const ReplayInfo = ({ replay, clanTagIndex }) => {
             </div>
             <a
                 className="ReplayInfo__replay-download"
-                href={`${urlPrefix}api/download/${replay.data.file_hash}/`}
+                href={`${URL_PREFIX}api/download/${replay.data.file_hash}/`}
                 download
             >
                 Download Replay
@@ -119,7 +119,7 @@ const ReplayInfo = ({ replay, clanTagIndex }) => {
                     type="text"
                     onClick={e => e.target.select()}
                     onFocus={e => e.target.select()}
-                    value={`${urlPrefix}replay/${replay.data.url}`}
+                    value={`${URL_PREFIX}replay/${replay.data.url}`}
                     readOnly
                 />
             </span>

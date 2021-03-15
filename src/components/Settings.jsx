@@ -1,92 +1,27 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { useLoadingState } from '../hooks';
-import UrlContext from '../index';
+import { URL_PREFIX } from '../constants';
 import { handleFetch } from '../utils';
 import InfoTooltip from './shared/InfoTooltip';
-import LoadingAnimation from './shared/LoadingAnimation';
+import LoadingState from './shared/LoadingState';
 import SpinningRingAnimation from './shared/SpinningRingAnimation';
 import './Settings.css';
 
 const Settings = () => {
-    const urlPrefix = useContext(UrlContext);
     const user = useSelector(state => state.user);
     const battlenetAccount = user.battlenetAccounts[0];
-    const [replaySummary, setReplaySummary] = useState({
-        data: null,
-        loadingState: 'INITIAL',
-    });
-    const [linkCount, setLinkCount] = useState({
-        data: null,
-        loadingState: 'INITIAL',
-    });
+    const [replaySummary, setReplaySummary] = useState(null);
+    const [linkCount, setLinkCount] = useState(null);
+    const [linkCountLoadingState, setLinkCountLoadingState] = useLoadingState();
 
     const opts = {
         method: 'GET',
         headers: { Authorization: `Token ${user.token}` },
     };
 
-    const dataStates = {
-        replaySummary: {
-            INITIAL: null,
-            IN_PROGRESS: (<LoadingAnimation />),
-            SUCCESS: ({ linked, unlinked, other }) => (
-                <div className="Settings__replay-summary">
-                    <div className="Settings__replay-count-wrapper">
-                        <div className="Settings__replay-count">
-                            {linked + unlinked + other}
-                        </div>
-                        replays uploaded
-                    </div>
-                    <div className="Settings__replay-count-wrapper">
-                        <div className="Settings__replay-count">
-                            {linked}
-                        </div>
-                        replays linked to&nbsp;
-                        <span style={{ textDecoration: 'underline', fontWeight: 400 }}>
-                            {battlenetAccount.battletag}
-                        </span>
-                    </div>
-                    {other !== 0 &&
-                        <div className="Settings__replay-count-wrapper">
-                            <div className="Settings__replay-count">
-                                {other}
-                            </div>
-                            replays linked to another account
-                        </div>}
-                    <div className="Settings__replay-count-wrapper">
-                        <div className="Settings__replay-count">
-                            {unlinked}
-                        </div>
-                        replays unlinked
-                    </div>
-                </div>
-            ),
-            ERROR: (
-                <p className="Settings__replay-summary">
-                    Something went wrong.
-                </p>
-            ),
-        },
-        linkCount: {
-            INITIAL: null,
-            IN_PROGRESS: (<SpinningRingAnimation />),
-            SUCCESS: data => (
-                <p className="Settings__link-count">
-                    Trying to link {data} replays.
-                    Reload this page in a couple of minutes.
-                </p>
-            ),
-            ERROR: (
-                <p className="Settings__link-count">
-                    Something went wrong.
-                </p>
-            ),
-        },
-    };
-
     const authorizeBattlenetAccount = async () => {
-        const url = `${urlPrefix}api/authorize/url/`;
+        const url = `${URL_PREFIX}api/authorize/url/`;
         const authorizeBattlenetResponse = await handleFetch(url, opts);
 
         if (authorizeBattlenetResponse.ok) {
@@ -95,52 +30,34 @@ const Settings = () => {
     };
 
     const linkReplays = async () => {
-        const url = `${urlPrefix}api/replays/verify/`;
-        setLinkCount(prevState => ({
-            ...prevState,
-            loadingState: 'IN_PROGRESS',
-        }));
+        const url = `${URL_PREFIX}api/replays/verify/`;
+        setLinkCount(null);
+        setLinkCountLoadingState('inProgress');
         const linkCountResponse = await handleFetch(url, opts);
 
         if (linkCountResponse.ok) {
-            setLinkCount({
-                data: linkCountResponse.data.count,
-                loadingState: 'SUCCESS',
-            });
+            setLinkCount(linkCountResponse.data.count);
+            setLinkCountLoadingState('success');
         } else {
-            setLinkCount({
-                data: false,
-                loadingState: 'ERROR',
-            });
+            setLinkCount(false);
+            setLinkCountLoadingState('error');
         }
     };
 
     useEffect(() => {
         const fetchReplaySummary = async () => {
-            const url = `${urlPrefix}api/replays/summary/`;
-            setReplaySummary(prevState => ({
-                ...prevState,
-                loadingState: 'IN_PROGRESS',
-            }));
+            const url = `${URL_PREFIX}api/replays/summary/`;
+            setReplaySummary(null);
             const summary = await handleFetch(url, opts);
 
             if (summary.ok) {
-                setReplaySummary({
-                    data: summary.data,
-                    loadingState: 'SUCCESS',
-                });
+                setReplaySummary(summary.data);
             } else {
-                setReplaySummary({
-                    data: false,
-                    loadingState: 'ERROR',
-                });
+                setReplaySummary(false);
             }
         };
         fetchReplaySummary();
     }, []);
-
-    const ReplaySummaryState = useLoadingState(replaySummary, dataStates.replaySummary);
-    const LinkCountState = useLoadingState(linkCount, dataStates.linkCount);
 
     return (
         <div className="Settings">
@@ -215,16 +132,61 @@ const Settings = () => {
                 <h1 className="Settings__section-title">
                     Account Replays
                 </h1>
-                <ReplaySummaryState />
+                <LoadingState
+                    success={replaySummary}
+                    error={replaySummary === false}
+                    errorFallback={
+                        <p className="Settings__replay-summary">
+                            Something went wrong.
+                        </p>
+                    }
+                >
+                    <div className="Settings__replay-summary">
+                        <div className="Settings__replay-count-wrapper">
+                            <div className="Settings__replay-count">
+                                {replaySummary &&
+                                    replaySummary.linked + replaySummary.unlinked + replaySummary.other}
+                            </div>
+                            replays uploaded
+                        </div>
+                        <div className="Settings__replay-count-wrapper">
+                            <div className="Settings__replay-count">
+                                {replaySummary && replaySummary.linked}
+                            </div>
+                            replays linked to&nbsp;
+                            <span style={{ textDecoration: 'underline', fontWeight: 400 }}>
+                                {battlenetAccount.battletag}
+                            </span>
+                        </div>
+                        {replaySummary && replaySummary.other !== 0 &&
+                            <div className="Settings__replay-count-wrapper">
+                                <div className="Settings__replay-count">
+                                    {replaySummary.other}
+                                </div>
+                                replays linked to another account
+                            </div>}
+                        <div className="Settings__replay-count-wrapper">
+                            <div className="Settings__replay-count">
+                                {replaySummary && replaySummary.unlinked}
+                            </div>
+                            replays unlinked
+                        </div>
+                    </div>
+                </LoadingState>
                 <div className="Settings__link-replays">
                     <button
                         className="Settings__settings-action"
-                        disabled={linkCount.loadingState === 'IN_PROGRESS'}
+                        disabled={linkCountLoadingState === 'inProgress'}
                         onClick={linkReplays}
                     >
                         Link Replays
                     </button>
-                    <LinkCountState specifiedState="IN_PROGRESS" />
+                    <LoadingState
+                        defer
+                        state={linkCountLoadingState}
+                        spinner={<SpinningRingAnimation />}
+                        errorFallback={null}
+                    />
                     <InfoTooltip
                         style={{ top: '8px', right: '-10px' }}
                         content={
@@ -243,7 +205,21 @@ const Settings = () => {
                         }
                     />
                 </div>
-                <LinkCountState specifiedState={['SUCCESS', 'ERROR']} />
+                <LoadingState
+                    defer
+                    state={linkCountLoadingState}
+                    spinner={null}
+                    errorFallback={
+                        <p className="Settings__link-count">
+                            Something went wrong.
+                        </p>
+                    }
+                >
+                    <p className="Settings__link-count">
+                        Trying to link {linkCount} replays.
+                        Reload this page in a couple of minutes.
+                    </p>
+                </LoadingState>
             </div>
         </div>
     );

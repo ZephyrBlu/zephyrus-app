@@ -1,10 +1,9 @@
 import { useDispatch } from 'react-redux';
-import React, { useState, useContext } from 'react';
-import { useLoadingState } from '../hooks';
+import React, { useState } from 'react';
 import { setInitialUser } from '../actions';
 import SpinningRingAnimation from './shared/SpinningRingAnimation';
 import './Login.css';
-import UrlContext from '../index';
+import { URL_PREFIX } from '../constants';
 import { handleFetch } from '../utils';
 
 const Login = ({ setWaitingForUser }) => {
@@ -12,22 +11,9 @@ const Login = ({ setWaitingForUser }) => {
     const [usernameValue, setUsernameValue] = useState('');
     const [passwordValue, setPasswordValue] = useState('');
     const [loginState, setLoginState] = useState({
-        data: null,
-        loadingState: 'INITIAL',
+        message: null,
+        loadingState: 'initial',
     });
-    const urlPrefix = useContext(UrlContext);
-
-    const dataStates = {
-        login: {
-            INITIAL: null,
-            IN_PROGRESS: (<SpinningRingAnimation style={{ top: '20px' }} />),
-            ERROR: data => (
-                <p className="login-form__error">
-                    {data}
-                </p>
-            ),
-        },
-    };
 
     const handleUsernameInput = (event) => {
         setUsernameValue(event.target.value);
@@ -40,10 +26,10 @@ const Login = ({ setWaitingForUser }) => {
     const handleSubmit = async (event) => {
         // prevents form action to reload page
         event.preventDefault();
-        setLoginState(prevState => ({
-            ...prevState,
-            loadingState: 'IN_PROGRESS',
-        }));
+        setLoginState({
+            message: null,
+            loadingState: 'inProgress',
+        });
 
         const data = {
             username: usernameValue,
@@ -58,7 +44,7 @@ const Login = ({ setWaitingForUser }) => {
             },
             body: JSON.stringify(data),
         };
-        const loginResponse = await handleFetch(`${urlPrefix}api/login/`, loginOpts);
+        const loginResponse = await handleFetch(`${URL_PREFIX}api/login/`, loginOpts);
 
         if (loginResponse.ok) {
             if (loginResponse.data) {
@@ -75,19 +61,22 @@ const Login = ({ setWaitingForUser }) => {
                 dispatch(setInitialUser(user, user.main_race));
             } else {
                 setLoginState({
-                    data: 'Something went wrong. Please try again',
-                    loadingState: 'ERROR',
+                    message: 'Something went wrong. Please try again',
+                    loadingState: 'error',
                 });
             }
+        } else if (loginResponse.status === 400) {
+            setLoginState({
+                message: 'Incorrect details',
+                loadingState: 'error',
+            });
         } else {
             setLoginState({
-                data: 'Incorrect details',
-                loadingState: 'ERROR',
+                message: 'Something went wrong',
+                loadingState: 'error',
             });
         }
     };
-
-    const LoginState = useLoadingState(loginState, dataStates.login);
 
     return (
         <div className="Login">
@@ -123,11 +112,14 @@ const Login = ({ setWaitingForUser }) => {
                             className="login-form__submit"
                             type="submit"
                             value="LOG IN"
-                            disabled={loginState.loadingState === 'IN_PROGRESS'}
+                            disabled={loginState.loadingState === 'inProgress'}
                         />
-                        <LoginState specifiedState="IN_PROGRESS" />
+                        {loginState.loadingState === 'inProgress' && <SpinningRingAnimation style={{ top: '20px' }} />}
                     </span>
-                    <LoginState specifiedState="ERROR" />
+                    {loginState.loadingState === 'error' &&
+                        <p className="login-form__error">
+                            {loginState.message}
+                        </p>}
                 </form>
                 <img
                     className="login-image"

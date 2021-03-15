@@ -34,10 +34,6 @@
     background-color: var(--primary-light-1);
 }
 
-.ReplayRecord--comparison {
-    box-shadow: 0 0 0 2px var(--primary-blue) inset;
-}
-
 .ReplayRecord__matchup {
     grid-area: opponent-race;
     display: flex;
