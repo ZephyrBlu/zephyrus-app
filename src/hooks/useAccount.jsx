@@ -38,7 +38,7 @@ const useAccount = (user) => {
             await Promise.all(Object.entries(dataUrls).map(async ([field, urls]) => (
                 Promise.all(urls.map(async (raceUrlObj) => {
                     const res = await handleFetch(raceUrlObj.url, opts);
-                    const fieldData = res.ok ? res.data : false;
+                    const fieldData = (res.ok && res.data) ? res.data : false;
 
                     if (field === 'replays') {
                         replayCount.current[raceUrlObj.race] = fieldData.length;

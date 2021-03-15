@@ -20,7 +20,7 @@ import './CSS/Trends.css';
 
 const Trends = () => {
     const selectedRace = useSelector(state => state.selectedRace);
-    const currentTrends = useSelector(state => state.raceData[state.selectedRace].trends);
+    const currentTrends = useSelector(state => state.trends[state.selectedRace]);
     const [selectedTrends, setSelectedTrends] = useState({
         replays: {
             winrate: null,

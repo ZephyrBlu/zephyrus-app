@@ -1,4 +1,4 @@
-import { Component, Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
 import DefaultResponse from './DefaultResponse';
 
 class ErrorBoundary extends Component {
@@ -20,12 +20,18 @@ class ErrorBoundary extends Component {
             return (
                 <Fragment>
                     <DefaultResponse content="Something went wrong" />
-                    {this.state.error
-                        ? this.state.error.toString()
-                        : <DefaultResponse content="Can't display error" />}
-                    {this.state.errorInfo
-                        ? this.state.errorInfo.componentStack
-                        : <DefaultResponse content="Can't display stack trace" />}
+                    <DefaultResponse
+                        style={{ whiteSpace: 'pre-wrap' }}
+                        content={this.state.error
+                            ? this.state.error.stack || this.state.error.toString()
+                            : "Can't display error"}
+                    />
+                    <DefaultResponse
+                        style={{ whiteSpace: 'pre-wrap' }}
+                        content={this.state.errorInfo
+                            ? this.state.errorInfo.componentStack
+                            : "Can't display stack trace"}
+                    />
                 </Fragment>
             );
         }

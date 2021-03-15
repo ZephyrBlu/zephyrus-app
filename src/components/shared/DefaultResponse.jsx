@@ -1,7 +1,7 @@
 import React from 'react';
 
-const DefaultResponse = ({ content }) => (
-    <p style={{ textAlign: 'center' }}>
+const DefaultResponse = ({ style, content }) => (
+    <p style={{ textAlign: 'center', ...style }}>
         {content}
     </p>
 );

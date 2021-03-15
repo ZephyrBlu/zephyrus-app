@@ -17,7 +17,7 @@ import './CSS/Performance.css';
 
 const Performance = () => {
     const [selectedRace, currentPerformance] = useSelector(state => (
-        [state.selectedRace, state.raceData[state.selectedRace].stats]
+        [state.selectedRace, state.stats[state.selectedRace]]
     ), shallowEqual);
     const [trendsMatchup, setTrendsMatchup] = useState('all');
 
