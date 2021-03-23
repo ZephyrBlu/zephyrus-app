@@ -24,15 +24,17 @@ const FeedbackModal = () => {
     };
 
     useEffect(() => {
+        let timeout;
         if (!isFormVisible) {
             const debounce = isFormVisible ? 0 : 200;
-            setTimeout(() => {
+            timeout = setTimeout(() => {
                 const quoteKeys = Object.keys(HELP_QUOTES);
                 const selectedQuote = quoteKeys[Math.floor(Math.random() * quoteKeys.length)];
                 const selectedQuoteUnit = HELP_QUOTES[selectedQuote];
                 setHelpQuote({ quote: selectedQuote, unit: selectedQuoteUnit });
             }, debounce);
         }
+        return () => clearTimeout(timeout);
     }, [isFormVisible]);
 
     return (

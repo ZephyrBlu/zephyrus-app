@@ -9,7 +9,7 @@ const Header = ({ currentPage, isReplayListVisible, setIsReplayListVisible }) =>
     const selectedRace = useSelector(state => state.selectedRace);
 
     return (
-        currentPage && currentPage !== 'Login' && currentPage !== 'Settings' &&
+        !['Login', 'PasswordReset', 'Setup'].includes(currentPage) &&
             <Fragment>
                 <div className={`Page__page-info Page__page-info--${currentPage}`}>
                     <h1 className="Page__page-name">

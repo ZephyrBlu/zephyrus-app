@@ -8,6 +8,7 @@ import Trends from '../components/Trends/Trends';
 import Upload from '../components/Upload';
 import Settings from '../components/Settings';
 import AccountSetup from '../components/AccountSetup';
+import PasswordReset from '../components/PasswordReset';
 
 const useRouter = (user) => {
     const userState = user /* eslint-disable-line no-nested-ternary */
@@ -25,7 +26,7 @@ const useRouter = (user) => {
         <Router className="Router">
             <Redirect from="/login" to="/replays" noThrow />
             <Redirect from="/setup" to="/replays" noThrow />
-            <Redirect from="/" to="/replays" noThrow />
+            <Redirect from="/*" to="/replays" noThrow />
             <Upload
                 path="/upload"
             />
@@ -59,6 +60,7 @@ const useRouter = (user) => {
         <Router className="Router">
             <Redirect from="/*" to="/login" noThrow />
             <Login path="/login" setWaitingForUser={setWaitingForUser} />
+            <PasswordReset path="/password-reset/:resetKey" />
         </Router>
     ), []);
 
@@ -87,8 +89,12 @@ const useRouter = (user) => {
     const router = useCallback((setCurrentPage, isReplayListVisible) => (
         <Location>
             {({ location }) => {
-                let currentComponent = location.pathname.slice(1);
-                currentComponent = currentComponent.charAt(0).toUpperCase() + currentComponent.slice(1);
+                let currentComponent = location.pathname.slice(1).split('/')[0];
+                if (currentComponent !== 'password-reset') {
+                    currentComponent = currentComponent.charAt(0).toUpperCase() + currentComponent.slice(1);
+                } else {
+                    currentComponent = 'PasswordReset';
+                }
                 if (currentComponent) {
                     setCurrentPage(currentComponent);
                 }

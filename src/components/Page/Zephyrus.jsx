@@ -52,7 +52,7 @@ const Zephyrus = ({ pages, header, content }) => {
                         Logout
                     </button>}
             </header>
-            {currentPage !== 'Login' && currentPage !== 'Setup' &&
+            {!['Login', 'PasswordReset', 'Setup'].includes(currentPage) &&
                 <PageSidebar
                     pages={pages}
                     handleLogout={handleLogout}
