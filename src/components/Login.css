@@ -169,7 +169,16 @@
 }
 
 .login-form__error--password-reset {
-    margin-top: 30px;
+    margin: 30px 0 0;
+    width:max-content;
+}
+
+.login-form__success--password-reset {
+    position: absolute;
+    margin: 30px 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
 }
 
 @media (max-width: 1400px) {

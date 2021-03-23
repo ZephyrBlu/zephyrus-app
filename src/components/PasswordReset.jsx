@@ -1,11 +1,12 @@
 import React, { useState } from 'react';
-import { useLocation } from '@reach/router';
+import { useLocation, navigate } from '@reach/router';
 import { handleFetch } from '../utils';
 import { URL_PREFIX } from '../constants';
+import SpinningRingAnimation from './shared/SpinningRingAnimation';
 import './PasswordReset.css';
 
 const PasswordReset = ({ resetKey }) => {
-    const [password1, setPassword1] = useState('');    
+    const [password1, setPassword1] = useState('');
     const [password2, setPassword2] = useState('');
     const [passwordState, setPasswordState] = useState({
         message: null,
@@ -13,7 +14,6 @@ const PasswordReset = ({ resetKey }) => {
     });
 
     const sessionKey = new URLSearchParams(useLocation().search).get('session');
-    console.log(resetKey, sessionKey);
 
     const handlePassword1Input = (event) => {
         setPassword1(event.target.value);
@@ -26,22 +26,59 @@ const PasswordReset = ({ resetKey }) => {
     const handleSubmit = async (event) => {
         event.preventDefault();
 
+        if (password1 !== password2) {
+            setPasswordState({
+                message: 'Passwords do not match',
+                loadingState: 'error',
+            });
+            return;
+        }
+
+        setPasswordState({
+            message: null,
+            loadingState: 'inProgress',
+        });
+
         const data = {
             password1,
             password2,
             sessionKey,
         };
+
         const opts = {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data),
         };
         const response = await handleFetch(
             `${URL_PREFIX}api/password/reset/key/${resetKey}/`,
             opts,
         );
+
+        if (response.ok) {
+            setPasswordState({
+                message: 'Successfully reset password. Redirecting to Login page',
+                loadingState: 'success',
+            });
+            setTimeout(() => {
+                navigate('/login');
+            }, 2000);
+        } else if (response.status === 400) {
+            setPasswordState({
+                message: 'Please enter your password twice',
+                loadingState: 'error',
+            });
+        } else if (response.status === 401) {
+            setPasswordState({
+                message: 'Invalid reset. Try resetting your password again',
+                loadingState: 'error',
+            });
+        } else {
+            setPasswordState({
+                message: 'Something went wrong',
+                loadingState: 'error',
+            });
+        }
     };
 
     return (
@@ -92,7 +129,11 @@ const PasswordReset = ({ resetKey }) => {
                         {passwordState.loadingState === 'inProgress' && <SpinningRingAnimation style={{ top: '20px' }} />}
                     </span>
                     {passwordState.loadingState === 'error' &&
-                        <p className="login-form__error">
+                        <p className="PasswordReset__error">
+                            {passwordState.message}
+                        </p>}
+                    {passwordState.loadingState === 'success' &&
+                        <p className="PasswordReset__success">
                             {passwordState.message}
                         </p>}
                 </form>

@@ -26,7 +26,7 @@ const useRouter = (user) => {
         <Router className="Router">
             <Redirect from="/login" to="/replays" noThrow />
             <Redirect from="/setup" to="/replays" noThrow />
-            <Redirect from="/" to="/replays" noThrow />
+            <Redirect from="/*" to="/replays" noThrow />
             <Upload
                 path="/upload"
             />

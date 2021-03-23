@@ -26,16 +26,40 @@ const Login = ({ setWaitingForUser }) => {
 
     const handlePasswordReset = async (event) => {
         event.preventDefault();
+        setLoginState({
+            message: null,
+            loadingState: 'inProgress',
+        });
 
         const data = { username: usernameValue };
         const opts = {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data),
         };
         const response = await handleFetch(`${URL_PREFIX}api/password/reset/`, opts);
+
+        if (response.ok) {
+            setLoginState({
+                message: 'Password reset link sent. Please check your email',
+                loadingState: 'success',
+            });
+        } else if (response.status === 404) {
+            setLoginState({
+                message: 'No account registered with this email',
+                loadingState: 'error',
+            });
+        } else if (response.status === 403) {
+            setLoginState({
+                message: 'This email address is not verified',
+                loadingState: 'error',
+            });
+        } else {
+            setLoginState({
+                message: 'Something went wrong',
+                loadingState: 'error',
+            });
+        }
     };
 
     const handleSubmit = async (event) => {
@@ -128,6 +152,10 @@ const Login = ({ setWaitingForUser }) => {
                                 <p className="login-form__error login-form__error--password-reset">
                                     {loginState.message}
                                 </p>}
+                            {loginState.loadingState === 'success' &&
+                                <p className="login-form__success--password-reset">
+                                    {loginState.message}
+                                </p>}
                         </form>
                     </div>
                 ) : (
@@ -151,12 +179,21 @@ const Login = ({ setWaitingForUser }) => {
                                     <label className="login-form__label">
                                         Password
                                     </label>
-                                    <button
+                                    <a
                                         className="login-form__label login-form__forgot-password"
-                                        onClick={() => setResetPassword(true)}
+                                        role="button"
+                                        tabIndex={0}
+                                        onClick={() => {
+                                            setLoginState({
+                                                message: null,
+                                                loadingState: 'initial',
+                                            });
+                                            setResetPassword(true);
+                                        }}
+                                        onKeyDown={e => e.key === 'Enter' && setResetPassword(true)}
                                     >
                                         Forgot password
-                                    </button>
+                                    </a>
                                 </span>
                                 <input
                                     className="login-form__input login-form__input--password"
