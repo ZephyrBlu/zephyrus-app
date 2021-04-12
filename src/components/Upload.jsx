@@ -123,11 +123,11 @@ const Upload = () => {
             </LoadingState>
             <p className="Upload__message">
                 <a
-                    href="https://news.blizzard.com/en-us/starcraft2/23572858/starcraft-ii-5-0-5-patch-notes"
+                    href="https://news.blizzard.com/en-us/starcraft2/23657318/starcraft-ii-5-0-7-patch-notes"
                     target="_blank"
                     rel="noopener noreferrer"
                 >
-                    Patch 5.0.6
+                    Patch 5.0.7
                 </a> is supported
                 <br />
                 <br />
