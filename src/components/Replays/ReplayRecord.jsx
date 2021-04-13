@@ -62,6 +62,14 @@ const ReplayRecord = ({ hash, stats }) => {
         if (date.slice(1, 2) === 'd') {
             return `${date.slice(0, 1)} Days Ago`;
         }
+
+        if (date.slice(1, 2) === 'h') {
+            return `${date.slice(0, 1)} Hours Ago`;
+        }
+
+        if (date.slice(2, 3) === 'h') {
+            return `${date.slice(0, 2)} Hours Ago`;
+        }
         return date;
     };
 
