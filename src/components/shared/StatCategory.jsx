@@ -68,10 +68,10 @@ const StatCategory = ({ category, replay }) => {
                 <br />
                 <br />
                 <span style={{ textDecoration: 'underline' }}>
-                    Avg PAC Action Latency
+                    Avg Action Latency
                 </span>
                 <br />
-                Avg PAC Action Latency measures the lag time between the initial camera move and the initial action over all PAC&#39;s in a game
+                Avg Action Latency measures the lag time between the initial camera move and the initial action over all PAC&#39;s in a game
                 <br />
                 <br />
                 <span style={{ textDecoration: 'underline' }}>
@@ -118,6 +118,8 @@ const StatCategory = ({ category, replay }) => {
             </p>),
     };
 
+    console.log(replay);
+
     const statOrder = {
         general: {
             sq: 'Spending Quotient',
@@ -134,7 +136,7 @@ const StatCategory = ({ category, replay }) => {
         },
         PAC: {
             avg_pac_actions: 'Avg PAC Actions',
-            avg_pac_action_latency: 'Avg PAC Action Latency (s)',
+            avg_pac_action_latency: 'Avg Action Latency (s)',
             avg_pac_per_min: 'Avg PAC Per Minute',
             avg_pac_gap: 'Avg PAC Gap (s)',
         },
@@ -289,6 +291,7 @@ const StatCategory = ({ category, replay }) => {
                             stat={stat}
                             statName={statOrder[category][stat]}
                             statInfo={generatedStats[stat]}
+                            percentile={replay.data.percentile[stat]}
                             category={category}
                             modifier={
                                 index === Object.keys(statOrder[category]).length - 1 ?
