@@ -1,8 +1,6 @@
 import { useSelector, shallowEqual } from 'react-redux';
 import React, { useState, Fragment } from 'react';
 import {
-    BarChart,
-    Bar,
     LineChart,
     XAxis,
     YAxis,
@@ -12,6 +10,7 @@ import {
     Tooltip,
 } from 'recharts';
 import LoadingState from '../shared/LoadingState';
+import PerformanceTooltip from './PerformanceTooltip';
 import InfoTooltip from '../shared/InfoTooltip';
 import './CSS/Performance.css';
 
@@ -101,6 +100,8 @@ const Performance = () => {
     const selectTrends = (type = false) => (
         type === 'mmr' ? mmrTrends : (currentSeasonTrends || previousSeasonTrends)
     );
+
+    console.log(selectTrends());
 
     const calcStatDiff = (stat) => {
         const currentStat = currentSeasonTrends[stat].avg;
@@ -242,14 +243,14 @@ const Performance = () => {
                                                 ))}
                                             </div>}
                                     </div>
-                                    <ResponsiveContainer width="99%" height={125}>
+                                    <ResponsiveContainer width="99%" height={250}>
                                         {stat === 'mmr' ?
                                             <LineChart
                                                 data={selectTrends('mmr')[stat].values}
                                                 className="Performance__season-stat-chart"
                                                 margin={{ left: -15, right: 2, top: 10, bottom: 10 }}
                                             >
-                                                <YAxis type="number" domain={['auto', 'auto']} interval={0} />
+                                                <YAxis type="number" domain={['dataMin', 'dataMax']} interval={0} />
                                                 <ReferenceLine y={selectTrends('mmr')[stat].values[0].value} stroke="hsl(0, 0%, 47%)" strokeWidth={0.5} />
                                                 <Line
                                                     type="monotone"
@@ -260,39 +261,33 @@ const Performance = () => {
                                                 />
                                             </LineChart>
                                             :
-                                            <BarChart
+                                            <LineChart
                                                 data={selectTrends()[stat].values[trendOptions[stat]]}
                                                 className="Performance__season-stat-chart"
-                                                margin={{ bottom: -10 }}
+                                                margin={{ top: 10, bottom: -10, left: -10, right: 20 }}
                                             >
                                                 <XAxis
-                                                    dataKey="bin"
+                                                    dataKey="percentile"
+                                                    label="Percentile"
+                                                    type="number"
                                                     interval={0}
+                                                    tickCount={5}
+                                                    minTickGap={0}
+                                                    domain={[0, 100]}
+                                                    tickFormatter={tick => `${tick}%`}
                                                     style={stat === 'match_length' ? { fontSize: '14px' } : {}}
+                                                />
+                                                <YAxis
+                                                    type="number"
+                                                    domain={['dataMin', 'dataMax']}
+                                                    tickCount={5}
+                                                    minTickGap={0}
+                                                    interval={0}
                                                 />
                                                 <Tooltip
                                                     cursor={false}
                                                     separator=" "
-                                                    formatter={(value, name, props) => {
-                                                        let formattedName;
-                                                        let formattedValue;
-                                                        switch (name) {
-                                                            case 'win':
-                                                                formattedName = `${name.charAt(0).toUpperCase() + name.slice(1)}s`;
-                                                                formattedValue = `${value} (${Math.round((props.payload.loss / (props.payload.win + props.payload.loss)) * 100)}%)`;
-                                                                break;
-
-                                                            case 'loss':
-                                                                formattedName = `${name.charAt(0).toUpperCase() + name.slice(1)}es`;
-                                                                formattedValue = `${value} (${Math.round((props.payload.win / (props.payload.win + props.payload.loss)) * 100)}%)`;
-                                                                break;
-
-                                                            default:
-                                                                formattedName = 'Games';
-                                                                formattedValue = value;
-                                                        }
-                                                        return [formattedValue, formattedName, props];
-                                                    }}
+                                                    content={<PerformanceTooltip />}
                                                     itemStyle={{ color: 'hsl(0, 0%, 85%)' }}
                                                     contentStyle={{
                                                         margin: '0 30px',
@@ -303,28 +298,39 @@ const Performance = () => {
                                                     }}
                                                 />
                                                 {trendOptions[stat] === 'all' &&
-                                                    <Bar
+                                                    <Line
                                                         type="monotone"
+                                                        data={selectTrends()[stat].values[trendOptions[stat]]}
                                                         dataKey="value"
-                                                        fill="hsl(210, 68%, 47%)"
-                                                        radius={[8, 8, 0, 0]}
+                                                        stroke="hsl(210, 68%, 47%)"
+                                                        strokeWidth={2}
+                                                        dot={{ fill: 'hsl(210, 68%, 47%)', stroke: 'hsl(210, 68%, 47%)', strokeWidth: 2 }}
+                                                        activeDot={{ fill: 'hsl(210, 68%, 47%)', stroke: 'hsl(210, 68%, 47%)', strokeWidth: 2 }}
                                                     />}
                                                 {trendOptions[stat] === 'win_loss' &&
-                                                    <Bar
+                                                    <Line
                                                         type="monotone"
-                                                        dataKey="win"
-                                                        stackId="wl"
-                                                        fill="hsla(120, 80%, 25%, 0.9)"
+                                                        data={selectTrends()[stat].values.win}
+                                                        dataKey="value"
+                                                        stroke="hsla(120, 80%, 25%, 0.9)"
+                                                        strokeWidth={2}
+                                                        dot={{ fill: 'hsla(120, 80%, 25%, 0.9)', stroke: 'hsla(120, 80%, 25%, 0.9)', strokeWidth: 2 }}
+                                                        activeDot={{ fill: 'hsla(120, 80%, 25%, 0.9)', stroke: 'hsla(120, 80%, 25%, 0.9)', strokeWidth: 2 }}
                                                     />}
                                                 {trendOptions[stat] === 'win_loss' &&
-                                                    <Bar
+                                                    <Line
                                                         type="monotone"
-                                                        dataKey="loss"
-                                                        stackId="wl"
-                                                        fill="hsla(0, 70%, 25%, 0.9)"
-                                                        radius={[8, 8, 0, 0]}
+                                                        data={selectTrends()[stat].values.loss}
+                                                        dataKey="value"
+                                                        stroke="hsla(0, 70%, 25%, 0.9)"
+                                                        strokeWidth={2}
+                                                        dot={{ fill: 'hsla(0, 70%, 25%, 0.9)', stroke: 'hsla(0, 70%, 25%, 0.9)', strokeWidth: 2 }}
+                                                        activeDot={{ fill: 'hsla(0, 70%, 25%, 0.9)', stroke: 'hsla(0, 70%, 25%, 0.9)', strokeWidth: 2 }}
                                                     />}
-                                            </BarChart>}
+                                                <ReferenceLine x={25} stroke="hsl(0, 0%, 47%)" strokeWidth={0.5} />
+                                                <ReferenceLine x={50} stroke="hsl(0, 0%, 47%)" strokeWidth={0.5} />
+                                                <ReferenceLine x={75} stroke="hsl(0, 0%, 47%)" strokeWidth={0.5} />
+                                            </LineChart>}
                                     </ResponsiveContainer>
                                 </div>
                             ))}
