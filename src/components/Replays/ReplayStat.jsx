@@ -1,7 +1,7 @@
 import React from 'react';
 import './CSS/ReplayStat.css';
 
-const ReplayStat = ({ userId, stat, statName, statInfo, modifier }) => {
+const ReplayStat = ({ userId, stat, statName, statInfo, percentile, modifier }) => {
     const oppId = userId === 1 ? 2 : 1;
     let player1Highlight;
     let player2Highlight;
@@ -71,7 +71,23 @@ const ReplayStat = ({ userId, stat, statName, statInfo, modifier }) => {
                 ${modifier ? `ReplayStat__stat--${modifier}` : ''}
             `}
         >
-            <td className="ReplayStat__stat-title">{statName}</td>
+            <td className="ReplayStat__stat-title">
+                <span className="ReplayStat__flex-wrapper">
+                    <span>
+                        {statName}
+                    </span>
+                    <span
+                        className={`
+                            ReplayStat__stat-percentile
+                            ReplayStat__stat-percentile--${percentile >= 50 ? 'top' : 'bottom'}
+                        `}
+                    >
+                        {percentile >= 50
+                            ? `Top ${100 - percentile}%`
+                            : `Bottom ${percentile}%`}
+                    </span>
+                </span>
+            </td>
             <td className="ReplayStat__stat-value">
                 <div
                     className={`
