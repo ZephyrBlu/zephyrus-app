@@ -29,7 +29,7 @@
     "autoprefixer": "^9.8.6",
     "eslint": "7.7.0",
     "neutrino": "^9.4.0",
-    "postcss": "^7.0.32",
+    "postcss": "^8.2.10",
     "postcss-loader": "^3.0.0",
     "webpack": "^4.44.1",
     "webpack-cli": "^3.3.12",
