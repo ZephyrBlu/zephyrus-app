@@ -4,7 +4,6 @@ export const URL_PREFIX = process.env.NODE_ENV === 'production' ? 'https://zephy
 export const PAGES = {
     Replays: 'Replays',
     Winrate: 'Winrate',
-    Trends: 'Trends',
     Upload: 'Upload Replays',
 };
 
