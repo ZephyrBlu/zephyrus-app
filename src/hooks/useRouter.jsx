@@ -2,7 +2,6 @@ import React, { useState, useRef, useCallback, useMemo } from 'react';
 import { Location, Router, Redirect } from '@reach/router';
 import Login from '../components/Login';
 import Replays from '../components/Replays/Replays';
-import Winrate from '../components/Winrate';
 import Upload from '../components/Upload';
 import Settings from '../components/Settings';
 import AccountSetup from '../components/AccountSetup';
@@ -31,9 +30,6 @@ const useRouter = (user) => {
             <Replays
                 path="/replays"
                 isReplayListVisible={isReplayListVisible}
-            />
-            <Winrate
-                path="/winrate"
             />
             <Settings
                 path="/settings"
