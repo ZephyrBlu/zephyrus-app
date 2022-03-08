@@ -3,7 +3,6 @@ import { Location, Router, Redirect } from '@reach/router';
 import Login from '../components/Login';
 import Replays from '../components/Replays/Replays';
 import Winrate from '../components/Winrate';
-import Performance from '../components/Performance/Performance';
 import Trends from '../components/Trends/Trends';
 import Upload from '../components/Upload';
 import Settings from '../components/Settings';
@@ -36,9 +35,6 @@ const useRouter = (user) => {
             />
             <Winrate
                 path="/winrate"
-            />
-            <Performance
-                path="/performance"
             />
             <Trends
                 path="/trends"
