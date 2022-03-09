@@ -12,6 +12,7 @@ const ReplayNav = () => {
         <div className="ReplayNav">
             {replayPages.map((pageName) => (
                 <a
+                    key={pageName}
                     class={`ReplayNav__page ${pageName === currentPage ? 'ReplayNav__page--current' : ''}`}
                     onClick={() => setCurrentPage(pageName)}
                 >
