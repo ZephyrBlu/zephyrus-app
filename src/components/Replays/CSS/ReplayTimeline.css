@@ -173,6 +173,7 @@
     padding: 10px;
     border-radius: 15px;
     background-color: hsla(209, 77%, 14%, 0.9);
+    border: 1px solid var(--primary-light-3);
 }
 
 /* putting rendered charts at the back */

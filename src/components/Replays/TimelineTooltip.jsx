@@ -43,6 +43,7 @@ const TimelineTooltip = ({ payload, players, playerOrder, gameloop, timeline }) 
         if (stat.includes('resouces_collected')) {
             return 'Resources Collected';
         }
+
         return false;
     };
 

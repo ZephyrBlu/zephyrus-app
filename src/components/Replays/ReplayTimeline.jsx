@@ -65,6 +65,8 @@ const ReplayTimeline = ({ replay, timeline, isReplayListVisible }) => {
     const timelineStatCategories = {
         resource_collection_rate_all: ['Collection Rate', 'resource_collection_rate'],
         total_army_value: ['Army Value', 'army_value'],
+        workers_active: 'Workers Active',
+        workers_killed: 'Workers Lost',
         'resources_lost.minerals': 'Minerals Lost',
         'resources_lost.gas': 'Gas Lost',
         total_resources_lost: ['Resources Lost', 'resources_lost'],
@@ -72,8 +74,6 @@ const ReplayTimeline = ({ replay, timeline, isReplayListVisible }) => {
         'unspent_resources.gas': 'Unspent Gas',
         total_unspent_resources: 'Unspent Resources',
         total_resouces_collected: ['Resources Collected', 'resources_collected'],
-        workers_active: 'Workers Active',
-        workers_killed: 'Workers Lost',
     };
 
     const objectStates = {
