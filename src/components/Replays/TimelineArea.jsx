@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
 import { useFetch } from '../../hooks';
 import { URL_PREFIX } from '../../constants';
-import ReplaySummary from './ReplaySummary';
 import ReplayTimeline from './ReplayTimeline';
 import LoadingState from '../shared/LoadingState';
 
@@ -68,10 +67,6 @@ const TimelineArea = ({ replay, isReplayListVisible }) => {
             success={replay.data && timelineState.data}
             error={timelineState.data === false}
         >
-            <ReplaySummary
-                replay={replay}
-                timeline={timelineState}
-            />
             <ReplayTimeline
                 replay={replay}
                 timeline={timelineState}
