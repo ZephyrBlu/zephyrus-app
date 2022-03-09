@@ -42,6 +42,10 @@ const TimelineArea = ({ replay, isReplayListVisible }) => {
         if (replayTimeline) {
             const timeline = {};
             replayTimeline.forEach((gamestate) => {
+                Object.values(gamestate).forEach((playerState) => {
+                    const unspentResources = playerState.unspent_resources;
+                    playerState.total_unspent_resources = unspentResources.minerals + unspentResources.gas;
+                });
                 timeline[gamestate[1].gameloop] = gamestate;
             });
 

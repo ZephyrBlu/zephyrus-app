@@ -1,10 +1,5 @@
 .ReplayView {
-    width: 90%;
-    margin: 30px auto 0;
-}
-
-.ReplayView--no-replays {
-    width: 80%;
+    margin: 30px 20px 0;
 }
 
 .ReplayView__default {
