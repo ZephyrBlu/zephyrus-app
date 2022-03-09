@@ -110,14 +110,6 @@
     margin: 0 20px;
 }
 
-.ReplayInfo__date {
-    grid-area: replay-date;
-    font-size: 18px;
-    align-self: center;
-    justify-self: flex-end;
-    color: var(--grey);
-}
-
 .ReplayInfo__players {
     grid-area: replay-players;
     display: flex;
@@ -195,10 +187,6 @@
 
     .ReplayInfo--replays .ReplayInfo__map {
         margin: 0 10px;
-    }
-
-    .ReplayInfo--replays .ReplayInfo__date {
-        display: none;
     }
 
     .ReplayInfo--replays .ReplayInfo__players {

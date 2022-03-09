@@ -11,6 +11,13 @@
     padding: 8px 20px;
     border-radius: 20px;
     font-weight: 500;
+    font-size: 14px;
+    width: 150px;
+    text-align: center;
+}
+
+.ReplayNav__page:hover {
+    cursor: pointer;
 }
 
 .ReplayNav__page--current {

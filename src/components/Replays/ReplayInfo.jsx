@@ -7,54 +7,6 @@ const ReplayInfo = ({ replay, isReplayListVisible }) => {
     const userId = replay.data.user_match_id;
     const oppId = userId === 1 ? 2 : 1;
 
-    const formatDate = (date) => {
-        const formatString = () => {
-            const strPieces = date.split('*');
-            const [start] = strPieces;
-            let fraction;
-
-            switch (strPieces[userId].slice(0, 1)) {
-                case '1':
-                    fraction = '\xBC';
-                    break;
-
-                case '2':
-                    fraction = '\xBD';
-                    break;
-
-                case '3':
-                    fraction = '\xBE';
-                    break;
-
-                default:
-                    break;
-            }
-            return [start, fraction];
-        };
-
-        if (date.indexOf('*') !== -1) {
-            const [start, fraction] = formatString();
-            return `${start.trim()}${fraction} Months ago`;
-        }
-
-        if (date.slice(1, 2) === 'm') {
-            return `${date.slice(0, 1)} Months ago`;
-        }
-
-        if (date.slice(2, 3) === 'm') {
-            return `${date.slice(0, 2)} Months ago`;
-        }
-
-        if (date.slice(1, 2) === 'w') {
-            return `${date.slice(0, 1)} Weeks Ago`;
-        }
-
-        if (date.slice(1, 2) === 'd') {
-            return `${date.slice(0, 1)} Days Ago`;
-        }
-        return date;
-    };
-
     return (
         <div className={`ReplayInfo ${isReplayListVisible ? 'ReplayInfo--replays' : ''}`}>
             <span className={`ReplayInfo__result ReplayInfo__result--${replay.data.win ? 'win' : 'loss'}`}>
@@ -71,9 +23,6 @@ const ReplayInfo = ({ replay, isReplayListVisible }) => {
                     {Math.ceil(replay.data.match_length / 60)} min
                 </span>
             </div>
-            <span className="ReplayInfo__date">
-                {formatDate(replay.data.played_at)}
-            </span>
             <div className="ReplayInfo__players">
                 <div className="ReplayInfo__player">
                     <img
