@@ -91,7 +91,7 @@ const ObjectState = (props) => {
             return (
                 startIndex === 0
                     ? objectName.slice(startIndex, -3)
-                    : objectName.slice(-6)
+                    : objectName.slice(-3)
             );
         }
 
