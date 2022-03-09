@@ -1,5 +1,10 @@
 .ReplayView {
-    margin: 30px 20px 0;
+    margin: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 15px;
+    padding-left: 25px;
+    grid-area: replay-view;
 }
 
 .ReplayView__default {

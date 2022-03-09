@@ -1,17 +1,12 @@
 .Replays {
     height: 100%;
     display: grid;
+    grid-template-rows: max-content 1fr;
     grid-template-columns: 1fr 530px;
-    grid-template-areas: 'main-content sidebar';
+    grid-template-areas:
+    'replay-info sidebar'
+    'replay-view sidebar';
     overflow: hidden;
-}
-
-.Replays__main-content {
-    grid-area: main-content;
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding: 5px;
-    padding-left: 10px;
 }
 
 .Replays__sidebar {

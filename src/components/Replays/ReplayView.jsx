@@ -1,6 +1,5 @@
 import React from 'react';
 import LoadingState from '../shared/LoadingState';
-import ReplayInfo from './ReplayInfo';
 import TimelineArea from './TimelineArea';
 import StatCategory from '../shared/StatCategory';
 import './CSS/ReplayView.css';
@@ -16,7 +15,6 @@ const ReplayView = ({ replay, isReplayListVisible }) => (
             }
             success={replay.data}
         >
-            <ReplayInfo replay={replay} />
             <TimelineArea replay={replay} isReplayListVisible={isReplayListVisible} />
         </LoadingState>
         <div className="ReplayView__summary-stats">

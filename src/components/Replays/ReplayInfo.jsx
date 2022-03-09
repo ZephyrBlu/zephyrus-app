@@ -3,7 +3,7 @@ import { clanTagIndex } from '../../utils';
 import { URL_PREFIX } from '../../constants';
 import './CSS/ReplayInfo.css';
 
-const ReplayInfo = ({ replay }) => {
+const ReplayInfo = ({ replay, isReplayListVisible }) => {
     const userId = replay.data.user_match_id;
     const oppId = userId === 1 ? 2 : 1;
 
@@ -56,7 +56,7 @@ const ReplayInfo = ({ replay }) => {
     };
 
     return (
-        <div className="ReplayInfo">
+        <div className={`ReplayInfo ${isReplayListVisible ? 'ReplayInfo--replays' : ''}`}>
             <span className={`ReplayInfo__result ReplayInfo__result--${replay.data.win ? 'win' : 'loss'}`}>
                 {replay.data.win ? 'Win' : 'Loss'}
             </span>
@@ -107,7 +107,7 @@ const ReplayInfo = ({ replay }) => {
                 href={`${URL_PREFIX}api/download/${replay.data.file_hash}/`}
                 download
             >
-                Download Replay
+                Download
             </a>
             <span className="ReplayInfo__share-replay">
                 <label htmlFor="share-replay" className="ReplayInfo__replay-label">

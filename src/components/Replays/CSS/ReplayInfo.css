@@ -3,15 +3,16 @@
 .ReplayInfo {
     position: relative;
     display: grid;
+    grid-area: replay-info;
     grid-template: max-content min-content / 80px 300px 1fr;
     grid-template-areas:
     'replay-result replay-match-info replay-players'
     'download share-replay replay-date';
     grid-gap: 15px 20px;
-    margin: 0 0 30px;
-    padding: 15px 20px;
-    border-radius: 15px;
+    margin: 0;
+    padding: 15px;
     background-color: var(--secondary-dark-3);
+    border-bottom: 1px solid var(--primary-light-3);
 }
 
 .ReplayInfo__replay-download {
@@ -172,57 +173,60 @@
 
 /* only apply if the replays panel is active */
 @media (max-width: 1600px) {
-    .ReplayView--replays .ReplayInfo {
+    .ReplayInfo--replays {
         position: relative;
         display: grid;
-        grid-template: max-content min-content / 70px 235px 1fr;
+        grid-template: max-content min-content / min-content 1fr 1fr;
         grid-template-areas:
         'replay-result replay-match-info replay-players'
-        'download share-replay replay-date';
+        'download share-replay share-replay';
         grid-gap: 15px;
     }
 
-    .ReplayView--replays .ReplayInfo__result {
+    .ReplayInfo--replays .ReplayInfo__result {
         width: 46px;
         font-size: 18px;
     }
 
-    .ReplayView--replays .ReplayInfo__match-info {
+    .ReplayInfo--replays .ReplayInfo__match-info {
         font-size: 16px;
+        justify-self: center;
     }
 
-    .ReplayView--replays .ReplayInfo__map {
+    .ReplayInfo--replays .ReplayInfo__map {
         margin: 0 10px;
     }
 
-    .ReplayView--replays .ReplayInfo__date {
-        font-size: 14px;
+    .ReplayInfo--replays .ReplayInfo__date {
+        display: none;
     }
 
-    .ReplayView--replays .ReplayInfo__players {
+    .ReplayInfo--replays .ReplayInfo__players {
         font-size: 16px;
+        justify-self: center;
     }
 
-    .ReplayView--replays .ReplayInfo__player:first-child {
+    .ReplayInfo--replays .ReplayInfo__player:first-child {
         margin-right: 15px;
     }
 
-    .ReplayView--replays .ReplayInfo__match-info-field--mmr {
+    .ReplayInfo--replays .ReplayInfo__match-info-field--mmr {
         font-size: 14px;
     }
 
-    .ReplayView--replays .ReplayInfo__player-race-icon {
+    .ReplayInfo--replays .ReplayInfo__player-race-icon {
         height: 25px;
         margin-top: -2px;
         margin-right: 2px;
     }
 
-    .ReplayView--replays .ReplayInfo__replay-download {
+    .ReplayInfo--replays .ReplayInfo__replay-download {
         padding: 6px 8px;
         font-size: 16px;
     }
 
-    .ReplayView--replays .ReplayInfo__share-replay {
-        left: 90px;
+    .ReplayInfo--replays .ReplayInfo__share-replay {
+        left: 0;
+        justify-self: end;
     }
 }

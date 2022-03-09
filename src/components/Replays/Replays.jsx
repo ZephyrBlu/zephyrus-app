@@ -4,6 +4,8 @@ import { setReplayInfo } from '../../actions';
 import { clanTagIndex } from '../../utils';
 import ErrorBoundary from '../shared/ErrorBoundary';
 import LoadingState from '../shared/LoadingState';
+import ReplayInfo from './ReplayInfo';
+import ReplayNav from './ReplayNav';
 import ReplayView from './ReplayView';
 import ReplayList from './ReplayList';
 import './CSS/Replays.css';
@@ -88,17 +90,23 @@ const Replays = ({ isReplayListVisible }) => {
             className="Replays"
             style={isReplayListVisible ? {} : { gridTemplateColumns: '1fr 0px' }}
         >
-            <div className="Replays__main-content">
-                <ErrorBoundary>
-                    <ReplayView
-                        replay={{
-                            ...selectedReplay,
-                            hash: selectedReplayHash,
-                        }}
-                        isReplayListVisible={isReplayListVisible}
-                    />
-                </ErrorBoundary>
-            </div>
+            <ErrorBoundary>
+                {selectedReplay.data &&
+                    <div class="ReplayHeader">
+                        <ReplayInfo
+                            replay={selectedReplay}
+                            isReplayListVisible={isReplayListVisible}
+                        />
+                        <ReplayNav />
+                    </div>}
+                <ReplayView
+                    replay={{
+                        ...selectedReplay,
+                        hash: selectedReplayHash,
+                    }}
+                    isReplayListVisible={isReplayListVisible}
+                />
+            </ErrorBoundary>
             <div className="Replays__sidebar">
                 <ErrorBoundary>
                     <LoadingState
