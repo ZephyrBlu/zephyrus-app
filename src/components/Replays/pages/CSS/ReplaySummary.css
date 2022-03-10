@@ -9,6 +9,7 @@
     justify-items: center;
     margin: 40px 0 20px;
     border-radius: 15px;
+    height: 100%;
 }
 
 @media (max-width: 1800px) {

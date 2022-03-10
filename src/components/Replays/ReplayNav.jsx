@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import './CSS/ReplayNav.css';
 
-const ReplayNav = () => {
-    const [currentPage, setCurrentPage] = useState('Summary');
+const ReplayNav = ({ page, setPage }) => {
     const replayPages = [
         'Summary',
         'Timeline',
@@ -13,8 +12,8 @@ const ReplayNav = () => {
             {replayPages.map(pageName => (
                 <a
                     key={pageName}
-                    className={`ReplayNav__page ${pageName === currentPage ? 'ReplayNav__page--current' : ''}`}
-                    onClick={() => setCurrentPage(pageName)}
+                    className={`ReplayNav__page ${pageName === page ? 'ReplayNav__page--current' : ''}`}
+                    onClick={() => setPage(pageName)}
                 >
                     {pageName}
                 </a>
