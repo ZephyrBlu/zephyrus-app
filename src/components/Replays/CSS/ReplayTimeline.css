@@ -3,45 +3,50 @@
 }
 
 .ReplayTimeline {
-    margin: 40px 0 0;
+    margin: 10px 0 0;
 }
 
 .ReplayTimeline__chart-area {
     display: grid;
-    grid-template: max-content / 1fr max-content;
-    grid-template-areas: 'timeline chart-selector';
+    grid-template: 200px max-content / 1fr;
+    grid-template-areas:
+    'timeline'
+    'chart-selector';
     grid-row-gap: 10px;
     margin-bottom: 20px;
 }
 
 .ReplayTimeline__timeline {
     grid-area: timeline;
+    background-color: var(--secondary-dark-3);
+    border-radius: 20px;
 }
 
 .ReplayTimeline__chart-selector {
     grid-area: chart-selector;
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     justify-content: space-between;
-    width: 150px;
 }
 
 .ReplayTimeline__chart-stat {
     color: var(--text);
+    flex-grow: 1;
+    flex-basis: 15%;
     font-family: 'Roboto', sans-serif;
     font-weight: 300;
     font-size: 14px;
     padding: 8px;
+    min-width: 145px;
     margin-bottom: 10px;
-    display: grid;
-    place-items: center;
+    margin-right: 5px;
     background-color: var(--primary-light-1);
     border-radius: 20px;
     border: none;
 }
 
 .ReplayTimeline__chart-stat:last-child {
-    margin: 0;
+    margin-right: 0;
 }
 
 .ReplayTimeline__chart-stat:hover,
@@ -168,6 +173,7 @@
     padding: 10px;
     border-radius: 15px;
     background-color: hsla(209, 77%, 14%, 0.9);
+    border: 1px solid var(--primary-light-3);
 }
 
 /* putting rendered charts at the back */

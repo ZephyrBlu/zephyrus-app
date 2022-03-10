@@ -1,0 +1,35 @@
+.ReplaySummary {
+    display: grid;
+    grid-template: repeat(2, max-content) / repeat(2, 1fr);
+    grid-template-areas:
+    'general economic'
+    'PAC efficiency';
+    grid-gap: 40px 0;
+    justify-self: center;
+    justify-items: center;
+    margin: 40px 0 20px;
+    border-radius: 15px;
+    height: 100%;
+}
+
+@media (max-width: 1800px) {
+    .ReplayView:not(.ReplaySummary--no-replays) .ReplaySummary {
+        grid-template: repeat(4, max-content) / 1fr;
+        grid-template-areas:
+        'general'
+        'economic'
+        'PAC'
+        'efficiency';
+    }
+}
+
+@media (max-width: 1400px) {
+    .ReplayView--no-replays .ReplaySummary {
+        grid-template: repeat(4, max-content) / 1fr;
+        grid-template-areas:
+        'general'
+        'economic'
+        'PAC'
+        'efficiency';
+    }
+}

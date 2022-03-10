@@ -1,37 +1,52 @@
-import React from 'react';
+import React, { useState } from 'react';
 import LoadingState from '../shared/LoadingState';
-import ReplayInfo from './ReplayInfo';
+import ErrorBoundary from '../shared/ErrorBoundary';
 import TimelineArea from './TimelineArea';
-import StatCategory from '../shared/StatCategory';
+import ReplayInfo from './ReplayInfo';
+import ReplayNav from './ReplayNav';
+import ReplaySummary from './pages/ReplaySummary';
 import './CSS/ReplayView.css';
 
-const ReplayView = ({ replay, isReplayListVisible }) => (
-    <div className={`ReplayView ReplayView--${isReplayListVisible ? 'replays' : 'no-replays'}`}>
-        <LoadingState
-            noLoad
-            initial={
-                <h2 className="ReplayView__default">
-                    Select a replay to view
-                </h2>
-            }
-            success={replay.data}
-        >
-            <ReplayInfo replay={replay} />
-            <TimelineArea replay={replay} isReplayListVisible={isReplayListVisible} />
-        </LoadingState>
-        <div className="ReplayView__summary-stats">
-            {replay.info &&
-                <div className="ReplayView__stats">
-                    {['general', 'economic', 'PAC', 'efficiency'].map(category => (
-                        <StatCategory
-                            key={category}
-                            category={category}
-                            replay={replay}
-                        />
-                    ))}
-                </div>}
-        </div>
-    </div>
-);
+const ReplayView = ({ replay, isReplayListVisible }) => {
+    const [currentPage, setCurrentPage] = useState('Summary');
+
+    const renderPage = () => {
+        switch (currentPage) {
+            case 'Summary':
+                return <ReplaySummary replay={replay} />;
+
+            case 'Timeline':
+                return <TimelineArea replay={replay} isReplayListVisible={isReplayListVisible} />;
+
+            default:
+                return null;
+        }
+    };
+
+    return (
+        <section className={`ReplayView ReplayView--${isReplayListVisible ? 'replays' : 'no-replays'}`}>
+            <ErrorBoundary>
+                <LoadingState
+                    noLoad
+                    initial={
+                        <h2 className="ReplayView__default">
+                            Select a replay to view
+                        </h2>
+                    }
+                    success={replay.data}
+                >
+                    <ReplayInfo
+                        replay={replay}
+                        isReplayListVisible={isReplayListVisible}
+                    />
+                    <ReplayNav page={currentPage} setPage={setCurrentPage} />
+                    <div className="ReplayView__page">
+                        {renderPage()}
+                    </div>
+                </LoadingState>
+            </ErrorBoundary>
+        </section>
+    );
+};
 
 export default ReplayView;

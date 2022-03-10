@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useSelector, shallowEqual } from 'react-redux';
 import { useFetch } from '../../hooks';
 import { URL_PREFIX } from '../../constants';
-import ReplaySummary from './ReplaySummary';
 import ReplayTimeline from './ReplayTimeline';
 import LoadingState from '../shared/LoadingState';
 
@@ -42,6 +41,10 @@ const TimelineArea = ({ replay, isReplayListVisible }) => {
         if (replayTimeline) {
             const timeline = {};
             replayTimeline.forEach((gamestate) => {
+                Object.values(gamestate).forEach((playerState) => {
+                    const unspentResources = playerState.unspent_resources;
+                    playerState.total_unspent_resources = unspentResources.minerals + unspentResources.gas;
+                });
                 timeline[gamestate[1].gameloop] = gamestate;
             });
 
@@ -64,10 +67,6 @@ const TimelineArea = ({ replay, isReplayListVisible }) => {
             success={replay.data && timelineState.data}
             error={timelineState.data === false}
         >
-            <ReplaySummary
-                replay={replay}
-                timeline={timelineState}
-            />
             <ReplayTimeline
                 replay={replay}
                 timeline={timelineState}

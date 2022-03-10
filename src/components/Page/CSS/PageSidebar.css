@@ -11,6 +11,7 @@
     height: 100%;
     width: max-content;
     background-color: var(--secondary-dark-1);
+    border-right: 1px solid var(--primary-light-3);
 }
 
 .PageSidebar__show-hide {

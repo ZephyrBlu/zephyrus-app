@@ -1,10 +1,10 @@
 .ReplayView {
-    width: 90%;
-    margin: 30px auto 0;
-}
-
-.ReplayView--no-replays {
-    width: 80%;
+    margin: 0;
+    overflow:hidden;
+    grid-area: replay-view;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .ReplayView__default {
@@ -12,41 +12,10 @@
     margin: 20px auto;
 }
 
-.ReplayView__summary-stats {
-    margin: 40px 0 20px;
-}
-
-.ReplayView__stats {
-    display: grid;
-    grid-template: repeat(2, max-content) / repeat(2, 1fr);
-    grid-template-areas:
-    'general economic'
-    'PAC efficiency';
-    grid-gap: 40px 0;
-    justify-self: center;
-    justify-items: center;
-    margin: 0 auto;
-    border-radius: 15px;
-}
-
-@media (max-width: 1800px) {
-    .ReplayView:not(.ReplayView--no-replays) .ReplayView__stats {
-        grid-template: repeat(4, max-content) / 1fr;
-        grid-template-areas:
-        'general'
-        'economic'
-        'PAC'
-        'efficiency';
-    }
-}
-
-@media (max-width: 1400px) {
-    .ReplayView--no-replays .ReplayView__stats {
-        grid-template: repeat(4, max-content) / 1fr;
-        grid-template-areas:
-        'general'
-        'economic'
-        'PAC'
-        'efficiency';
-    }
+.ReplayView__page {
+    padding: 15px;
+    padding-left: 25px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+    flex-grow: 1;
 }

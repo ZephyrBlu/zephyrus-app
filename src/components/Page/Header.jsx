@@ -1,4 +1,4 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { capitalize } from '../../utils';
 import RaceToggle from './RaceToggle';
@@ -6,7 +6,16 @@ import FeedbackModal from './FeedbackModal';
 import { PAGES } from '../../constants';
 
 const Header = ({ currentPage, isReplayListVisible, setIsReplayListVisible }) => {
-    const selectedRace = useSelector(state => state.selectedRace);
+    const [selectedRace, selectedReplayHash] = useSelector(state => (
+        [state.selectedRace, state.selectedReplayHash]
+    ));
+
+    useEffect(() => {
+        const windowSize = window.innerWidth;
+        if ((windowSize < 1250) && selectedReplayHash) {
+            setIsReplayListVisible(prevState => !prevState);
+        }
+    }, [selectedReplayHash]);
 
     return (
         !['Login', 'PasswordReset', 'Setup'].includes(currentPage) &&

@@ -52,7 +52,15 @@ const ReplayRecord = ({ hash, stats }) => {
         }
 
         if (date.slice(2, 3) === 'm') {
-            return `${date.slice(0, 2)} Months ago`;
+            const dateValue = parseInt(date.slice(0, 2));
+            if (dateValue > 12) {
+                if (dateValue < 24) {
+                    return '1 Year ago';
+                }
+                const yearsAgo = Math.floor(dateValue / 12);
+                return `${yearsAgo} Years ago`;
+            }
+            return `${dateValue} Months ago`;
         }
 
         if (date.slice(1, 2) === 'w') {

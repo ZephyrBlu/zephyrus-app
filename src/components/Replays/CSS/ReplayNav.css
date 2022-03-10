@@ -1,0 +1,26 @@
+.ReplayNav {
+    background-color: var(--secondary-dark-1);
+    padding: 10px 0;
+    border-bottom: 1px solid var(--primary-light-3);
+    display: flex;
+    justify-content: flex-start;
+}
+
+.ReplayNav__page {
+    background-color: var(--primary-light-1);
+    padding: 8px 20px;
+    margin-right: 15px;
+    border-radius: 20px;
+    font-weight: 500;
+    font-size: 14px;
+    width: 150px;
+    text-align: center;
+}
+
+.ReplayNav__page:hover {
+    cursor: pointer;
+}
+
+.ReplayNav__page--current {
+    box-shadow: 0 0 0 2px var(--primary-blue) inset;
+}

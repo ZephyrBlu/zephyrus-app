@@ -2,6 +2,7 @@ import {
     ResponsiveContainer,
     LineChart,
     XAxis,
+    YAxis,
     Tooltip,
     Line,
 } from 'recharts';
@@ -64,7 +65,14 @@ const ReplayTimeline = ({ replay, timeline, isReplayListVisible }) => {
     const timelineStatCategories = {
         resource_collection_rate_all: ['Collection Rate', 'resource_collection_rate'],
         total_army_value: ['Army Value', 'army_value'],
+        workers_active: 'Workers Active',
+        workers_killed: 'Workers Lost',
+        'resources_lost.minerals': 'Minerals Lost',
+        'resources_lost.gas': 'Gas Lost',
         total_resources_lost: ['Resources Lost', 'resources_lost'],
+        'unspent_resources.minerals': 'Unspent Minerals',
+        'unspent_resources.gas': 'Unspent Gas',
+        total_unspent_resources: 'Unspent Resources',
         total_resouces_collected: ['Resources Collected', 'resources_collected'],
     };
 
@@ -84,8 +92,8 @@ const ReplayTimeline = ({ replay, timeline, isReplayListVisible }) => {
             <div className="ReplayTimeline__chart-area">
                 <ResponsiveContainer className="ReplayTimeline__timeline" width="99%" height="99%">
                     <LineChart
-                        data={timeline.spliced || timeline.data}
-                        margin={{ left: 30, right: 20 }}
+                        data={timeline.data}
+                        margin={{ top: 20, right: 20, bottom: 20, left: 20 }}
                         onClick={
                             () => (
                                 isTimelineFrozen ?
@@ -98,6 +106,7 @@ const ReplayTimeline = ({ replay, timeline, isReplayListVisible }) => {
                             tickFormatter={content => formatTick(content)}
                             hide
                         />
+                        <YAxis mirror />
                         <Tooltip
                             content={
                                 <TimelineTooltip
@@ -142,7 +151,7 @@ const ReplayTimeline = ({ replay, timeline, isReplayListVisible }) => {
                                 localStorage.timelineStat = statKey;
                             }}
                         >
-                            {statNames[0]}
+                            {Array.isArray(statNames) ? statNames[0] : statNames}
                         </button>
                     ))}
                 </div>
