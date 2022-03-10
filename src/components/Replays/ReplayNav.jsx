@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import './CSS/ReplayNav.css';
 
 const ReplayNav = () => {
@@ -10,10 +10,10 @@ const ReplayNav = () => {
 
     return (
         <div className="ReplayNav">
-            {replayPages.map((pageName) => (
+            {replayPages.map(pageName => (
                 <a
                     key={pageName}
-                    class={`ReplayNav__page ${pageName === currentPage ? 'ReplayNav__page--current' : ''}`}
+                    className={`ReplayNav__page ${pageName === currentPage ? 'ReplayNav__page--current' : ''}`}
                     onClick={() => setCurrentPage(pageName)}
                 >
                     {pageName}

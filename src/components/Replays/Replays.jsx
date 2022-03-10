@@ -2,10 +2,6 @@ import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector, shallowEqual } from 'react-redux';
 import { setReplayInfo } from '../../actions';
 import { clanTagIndex } from '../../utils';
-import ErrorBoundary from '../shared/ErrorBoundary';
-import LoadingState from '../shared/LoadingState';
-import ReplayInfo from './ReplayInfo';
-import ReplayNav from './ReplayNav';
 import ReplayView from './ReplayView';
 import ReplayList from './ReplayList';
 import './CSS/Replays.css';
@@ -90,34 +86,14 @@ const Replays = ({ isReplayListVisible }) => {
             className="Replays"
             style={isReplayListVisible ? {} : { gridTemplateColumns: '1fr 0px' }}
         >
-            <ErrorBoundary>
-                {selectedReplay.data &&
-                    <div class="ReplayHeader">
-                        <ReplayInfo
-                            replay={selectedReplay}
-                            isReplayListVisible={isReplayListVisible}
-                        />
-                        <ReplayNav />
-                    </div>}
-                <ReplayView
-                    replay={{
-                        ...selectedReplay,
-                        hash: selectedReplayHash,
-                    }}
-                    isReplayListVisible={isReplayListVisible}
-                />
-            </ErrorBoundary>
-            <div className="Replays__sidebar">
-                <ErrorBoundary>
-                    <LoadingState
-                        success={replayInfo && replayInfo.length > 0}
-                        error={replayInfo === false}
-                        notFound={replayInfo && replayInfo.length === 0}
-                    >
-                        <ReplayList replays={replayInfo} />
-                    </LoadingState>
-                </ErrorBoundary>
-            </div>
+            <ReplayView
+                replay={{
+                    ...selectedReplay,
+                    hash: selectedReplayHash,
+                }}
+                isReplayListVisible={isReplayListVisible}
+            />
+            <ReplayList replays={replayInfo} />
         </div>
     );
 };

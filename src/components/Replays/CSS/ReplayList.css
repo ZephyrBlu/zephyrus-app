@@ -2,5 +2,6 @@
     grid-area: replay-list;
     height: 100%;
     overflow-y: scroll;
-    overflow-x: hidden;
+    border-left: 1px solid var(--primary-light-3);
+    background-color: var(--primary-dark-2);
 }
