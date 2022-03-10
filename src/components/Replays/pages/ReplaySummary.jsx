@@ -6,7 +6,7 @@ const ReplaySummary = ({ replay }) => {
     return (
         <div className="ReplaySummary">
             {replay.info &&
-                ['general', 'economic', 'PAC', 'efficiency'].map(category => (
+                ['general', 'economic', 'efficiency'].map(category => (
                     <StatCategory
                         key={category}
                         category={category}
